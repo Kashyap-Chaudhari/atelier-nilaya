@@ -1,0 +1,225 @@
+<!-- ========================================================================
+     FEATURED EDIT: FADED PHOTO BAND (REF A) + 12-COLUMN EDITORIAL GRID (REF B)
+     Placed strictly before "Four Master Chapters of The Atelier"
+     Scroll Anchor: id="edit"
+     ======================================================================== -->
+{% if featured_edit and featured_edit.active %}
+<section id="edit" class="featured-edit-section" aria-label="Featured Edit">
+
+  <!-- ========================================================================
+       PART 1: FADED PHOTO BAND (REFERENCE A)
+       ~70vh desktop, ~55vh mobile.
+       Lifestyle background with pure CSS mask-image & plum overlay.
+       Left: Title, Copy, Outlined Button (AA contrast >= 4.5:1).
+       Right: 3 Hexagon photos with 14px offset champagne outlines.
+       ======================================================================== -->
+  <div class="fe-band" style="--fe-bg-image: url('{{ featured_edit.bg_image_path }}');">
+    <div class="fe-band-container">
+      
+      <!-- Text on the left -->
+      <div class="fe-band-text">
+        <span class="fe-band-kicker">Curatorial Edit &bull; Autumn 2026</span>
+        <h2 class="fe-band-title">{{ featured_edit.title }}</h2>
+        <p class="fe-band-copy">{{ featured_edit.body }}</p>
+        <div class="fe-band-actions">
+          <a href="{{ featured_edit.button_link }}" class="fe-btn-outline">
+            <span>{{ featured_edit.button_text }}</span>
+            <span class="fe-btn-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right side: 3 Hexagon photos in loose triangle with offset outlines -->
+      <div class="fe-hexagons" aria-hidden="true">
+        <!-- Hexagon 1: Ring -->
+        <div class="fe-hex-item fe-hex-item--1">
+          <div class="fe-hex-outline" aria-hidden="true"></div>
+          <div class="fe-hex-frame">
+            <img src="{{ featured_edit.hex_1_path }}" 
+                 alt="{{ featured_edit.hex_1_alt }}" 
+                 width="220" 
+                 height="254" 
+                 loading="lazy"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fe-missing-image-fallback" style="display:none;">
+              <span>Atelier Solitaire</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hexagon 2: Earrings -->
+        <div class="fe-hex-item fe-hex-item--2">
+          <div class="fe-hex-outline" aria-hidden="true"></div>
+          <div class="fe-hex-frame">
+            <img src="{{ featured_edit.hex_2_path }}" 
+                 alt="{{ featured_edit.hex_2_alt }}" 
+                 width="200" 
+                 height="231" 
+                 loading="lazy"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fe-missing-image-fallback" style="display:none;">
+              <span>Diamond Suite</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hexagon 3: Necklace -->
+        <div class="fe-hex-item fe-hex-item--3">
+          <div class="fe-hex-outline" aria-hidden="true"></div>
+          <div class="fe-hex-frame">
+            <img src="{{ featured_edit.hex_3_path }}" 
+                 alt="{{ featured_edit.hex_3_alt }}" 
+                 width="210" 
+                 height="242" 
+                 loading="lazy"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fe-missing-image-fallback" style="display:none;">
+              <span>Polki Heritage</span>
+            </div>
+          </div>
+        </div>
+      </div> <!-- /.fe-hexagons -->
+
+    </div> <!-- /.fe-band-container -->
+  </div> <!-- /.fe-band -->
+
+  <!-- ========================================================================
+       PART 2: EDITORIAL GRID (REFERENCE B)
+       12 columns, 6px gaps, no card borders or shadows.
+       Edge-to-edge magazine tiles with single subtle hover effect (scale 1.04).
+       ======================================================================== -->
+  <div class="featured-editorial-grid-wrap">
+    <div class="featured-editorial-grid">
+
+      {% for tile in featured_edit.tiles %}
+        
+        {# Tile 1: Full-Bleed Lifestyle Photo (Span 5 on Desktop) #}
+        {% if tile.kind == 'photo' and loop.index == 1 %}
+        <div class="editorial-tile editorial-tile--photo-full editorial-tile--order-photo">
+          <a href="{{ tile.link or '/c/necklaces' }}" class="editorial-tile-link" aria-label="{{ tile.title or 'View Collection' }}">
+            <div class="editorial-tile-media-wrap">
+              <img src="{{ tile.image_path }}" 
+                   srcset="{{ tile.image_path }} 600w, {{ tile.image_path }} 1200w"
+                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 42vw"
+                   alt="{{ tile.image_alt or 'Editorial jewellery styling' }}" 
+                   class="editorial-tile-img" 
+                   width="600"
+                   height="600"
+                   loading="lazy"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="fe-missing-image-fallback" style="display:none;">
+                <span>{{ tile.title or 'Atelier Nilaya Collection' }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        {# Tile 2: 2x2 Product Tiles on Light Grey #f6f6f6 (Span 7 on Desktop) #}
+        {% elif tile.kind == 'product_group' %}
+        <div class="editorial-tile editorial-tile--product-group editorial-tile--order-prod">
+          <div class="editorial-product-grid-2x2">
+            {% for p in tile.products %}
+            <a href="/p/{{ p.slug }}" class="editorial-product-tile" title="{{ p.name }}">
+              <div class="editorial-prod-img-wrap">
+                <img src="{{ p.resolved_image }}" 
+                     alt="{{ p.name }}" 
+                     class="editorial-prod-img" 
+                     width="280"
+                     height="280"
+                     loading="lazy"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="fe-missing-image-fallback fe-missing-image-fallback--prod" style="display:none;">
+                  <span>{{ p.name }}</span>
+                </div>
+              </div>
+              <div class="editorial-prod-info">
+                <span class="editorial-prod-metal">{{ p.metal or '18K Gold & Solitaire' }}</span>
+                <h4 class="editorial-prod-name">{{ p.name }}</h4>
+                <div class="editorial-prod-price">₹{{ "{:,.0f}".format(p.price) }}</div>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+
+        {# Tile 3: Taupe Text Block #7d6b57 (Span 4 on Desktop) #}
+        {% elif tile.kind == 'text_block' and tile.bg_color == '#7d6b57' %}
+        <div class="editorial-tile editorial-tile--text editorial-tile--taupe editorial-tile--order-text">
+          <div class="editorial-text-inner">
+            <h3 class="editorial-text-title">{{ tile.title }}</h3>
+            <p class="editorial-text-body">{{ tile.body }}</p>
+            {% if tile.button_text %}
+            <a href="{{ tile.link or '/#craftsmanship' }}" class="editorial-text-btn editorial-text-btn--taupe">
+              <span>{{ tile.button_text }}</span>
+              <span class="editorial-btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+
+        {# Tile 4: Cream Text Block #efeae4 (Span 4 on Desktop) #}
+        {% elif tile.kind == 'text_block' and tile.bg_color == '#efeae4' %}
+        <div class="editorial-tile editorial-tile--text editorial-tile--cream editorial-tile--order-text">
+          <div class="editorial-text-inner">
+            <h3 class="editorial-text-title">{{ tile.title }}</h3>
+            <p class="editorial-text-body">{{ tile.body }}</p>
+            {% if tile.button_text %}
+            <a href="{{ tile.link or '#private-appointment' }}" data-open-appointment class="editorial-text-btn editorial-text-btn--cream">
+              <span>{{ tile.button_text }}</span>
+              <span class="editorial-btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+
+        {# Tile 6: Large Lifestyle Photo Spanning 7 Columns (Span 7 on Desktop) #}
+        {% elif tile.kind == 'photo' and loop.index == 6 %}
+        <div class="editorial-tile editorial-tile--photo-large-7 editorial-tile--order-photo">
+          <a href="{{ tile.link or '/c/rings' }}" class="editorial-tile-link" aria-label="{{ tile.title or 'View Masterpieces' }}">
+            <div class="editorial-tile-media-wrap">
+              <img src="{{ tile.image_path }}" 
+                   srcset="{{ tile.image_path }} 600w, {{ tile.image_path }} 1200w"
+                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 58vw"
+                   alt="{{ tile.image_alt or 'Large editorial jewellery photography' }}" 
+                   class="editorial-tile-img" 
+                   width="600"
+                   height="600"
+                   loading="lazy"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="fe-missing-image-fallback" style="display:none;">
+                <span>{{ tile.title or 'Masterpiece Gallery' }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        {# Other Lifestyle Photos (Span 4 or Span 5 on Desktop) #}
+        {% elif tile.kind == 'photo' %}
+        <div class="editorial-tile {% if loop.index == 5 %}editorial-tile--photo-4{% else %}editorial-tile--photo-5{% endif %} editorial-tile--order-photo">
+          <a href="{{ tile.link or '/c/jewellery' }}" class="editorial-tile-link" aria-label="{{ tile.title or 'Explore Atelier' }}">
+            <div class="editorial-tile-media-wrap">
+              <img src="{{ tile.image_path }}" 
+                   srcset="{{ tile.image_path }} 600w, {{ tile.image_path }} 1200w"
+                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                   alt="{{ tile.image_alt or 'Editorial jewellery showcase' }}" 
+                   class="editorial-tile-img" 
+                   width="600"
+                   height="600"
+                   loading="lazy"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="fe-missing-image-fallback" style="display:none;">
+                <span>{{ tile.title or 'Fine Jewellery Archive' }}</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        {% endif %}
+
+      {% endfor %}
+
+    </div> <!-- /.featured-editorial-grid -->
+  </div> <!-- /.featured-editorial-grid-wrap -->
+
+</section>
+{% endif %}

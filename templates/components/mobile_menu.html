@@ -1,0 +1,391 @@
+{% load static %}
+<!-- ========================================================================
+     AARANYA — MOBILE & TABLET NAVIGATION DRAWER
+     Slide-in panel with accessible collapsible accordions & thumbnails
+     ======================================================================== -->
+
+<div class="aaranya-mobile-backdrop" id="aaranya-mobile-backdrop" aria-hidden="true"></div>
+
+<aside 
+  class="aaranya-mobile-drawer" 
+  id="aaranya-mobile-drawer" 
+  role="dialog" 
+  aria-modal="true" 
+  aria-label="Mobile Navigation Menu"
+  aria-hidden="true"
+>
+  <!-- Drawer Header -->
+  <div class="aaranya-mobile-header">
+    <div class="aaranya-mobile-brand">
+      <span class="aaranya-mobile-monogram" aria-hidden="true">✦</span>
+      <span class="aaranya-mobile-brand-name">AARANYA</span>
+    </div>
+    <button type="button" class="aaranya-mobile-close" id="aaranya-mobile-close-btn" aria-label="Close navigation menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="aaranya-mobile-search">
+    <form action="{% url 'campaigns:vault' %}" method="get" class="aaranya-mobile-search-form" role="search">
+      <svg class="aaranya-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="search" placeholder="Search gold, diamonds, bridal..." name="q" class="aaranya-mobile-input" aria-label="Search jewellery">
+    </form>
+  </div>
+
+  <!-- Scrollable Accordion Body -->
+  <div class="aaranya-mobile-body">
+    <ul class="aaranya-accordion-list" role="list">
+      
+      <!-- Home Navigation Link -->
+      <li class="aaranya-accordion-item" style="border-bottom: 1px solid rgba(48,37,34,0.08);">
+        <a href="{% url 'campaigns:hero' %}" class="aaranya-accordion-trigger" style="text-decoration: none; font-weight: 600; color: var(--aaranya-burgundy, #682D3C);">
+          <span>Home (The Atelier)</span>
+          <span style="font-size: 15px;">&rarr;</span>
+        </a>
+      </li>
+
+      <!-- Accordion 1: New & Featured -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>New &amp; Featured</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:vault' %}?filter=new" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/new-in.jpg' %}" alt="New Arrivals"></span>
+                <span>New Arrivals</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?filter=bestseller" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/bestsellers.jpg' %}" alt="Bestsellers"></span>
+                <span>Bestsellers</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?style=festive" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/festive.jpg' %}" alt="Festive"></span>
+                <span>Festive Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/wedding.jpg' %}" alt="Wedding"></span>
+                <span>Wedding Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-col.jpg' %}" alt="Bridal"></span>
+                <span>Bridal Collection</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 2: Necklaces -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Necklaces</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/neck-all.jpg' %}" alt="All Necklaces"></span>
+                <span>All Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=gold" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/neck-gold.jpg' %}" alt="Gold Necklaces"></span>
+                <span>Gold Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=diamond" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/neck-diamond.jpg' %}" alt="Diamond Necklaces"></span>
+                <span>Diamond Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=choker" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/neck-choker.jpg' %}" alt="Chokers"></span>
+                <span>Choker Sets</span>
+              </a>
+            </li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=temple" class="aaranya-mobile-link text-sublink">Temple Necklaces</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=haar" class="aaranya-mobile-link text-sublink">Long Necklaces</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 3: Earrings -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Earrings</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ear-all.jpg' %}" alt="All Earrings"></span>
+                <span>All Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=jhumka" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ear-jhumka.jpg' %}" alt="Jhumkas"></span>
+                <span>Jhumkas</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=stud" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ear-stud.jpg' %}" alt="Studs"></span>
+                <span>Stud Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=chandbali" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ear-chandbali.jpg' %}" alt="Chandbalis"></span>
+                <span>Chandbalis</span>
+              </a>
+            </li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=drop" class="aaranya-mobile-link text-sublink">Drop Earrings</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 4: Rings -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Rings</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ring-all.jpg' %}" alt="All Rings"></span>
+                <span>All Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=engagement" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ring-engage.jpg' %}" alt="Engagement Rings"></span>
+                <span>Engagement Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=diamond" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ring-diamond.jpg' %}" alt="Diamond Rings"></span>
+                <span>Diamond Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=cocktail" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/ring-cocktail.jpg' %}" alt="Cocktail Rings"></span>
+                <span>Cocktail Rings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 5: Bangles -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Bangles</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-all.jpg' %}" alt="All Bangles"></span>
+                <span>All Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=kada" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-kadas.jpg' %}" alt="Kadas"></span>
+                <span>Heritage Kadas</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=gold" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-gold.jpg' %}" alt="Gold Bangles"></span>
+                <span>Gold Bangles</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 6: Bridal Jewellery -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Bridal Jewellery</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-sets.jpg' %}" alt="Bridal Sets"></span>
+                <span>Complete Bridal Sets</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-neck.jpg' %}" alt="Bridal Necklaces"></span>
+                <span>Bridal Necklaces</span>
+              </a>
+            </li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-mobile-link text-sublink">Kundan Bridal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-mobile-link text-sublink">Polki Bridal</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 7: Temple Jewellery -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Temple Jewellery</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/temple-all.jpg' %}" alt="All Temple"></span>
+                <span>All Temple Jewellery</span>
+              </a>
+            </li>
+            <li><a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-mobile-link text-sublink">Antique Finish</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-mobile-link text-sublink">Goddess Lakshmi Designs</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 8: Diamond Jewellery -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Diamond Jewellery</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/dia-neck.jpg' %}" alt="Diamond Necklaces"></span>
+                <span>Diamond Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}" class="aaranya-mobile-link">
+                <span class="aaranya-mthumb"><img src="{% static 'campaigns/img/menu/thumbnails/dia-ring.jpg' %}" alt="Diamond Rings"></span>
+                <span>Diamond Rings</span>
+              </a>
+            </li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}" class="aaranya-mobile-link text-sublink">Solitaires</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 9: Men's Jewellery -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Men's Jewellery</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li><a href="{% url 'campaigns:vault' %}?sub=men" class="aaranya-mobile-link text-sublink">Gold &amp; Platinum Kadas</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?sub=men" class="aaranya-mobile-link text-sublink">Imperial Gold Chains</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?sub=men" class="aaranya-mobile-link text-sublink">Signet &amp; Solitaire Rings</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Accordion 10: Gifts -->
+      <li class="aaranya-accordion-item">
+        <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">
+          <span>Gifts</span>
+          <span class="aaranya-accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="aaranya-accordion-content" hidden>
+          <ul class="aaranya-accordion-sublinks">
+            <li><a href="{% url 'campaigns:vault' %}?style=gift" class="aaranya-mobile-link text-sublink">Birthday &amp; Anniversary Gifts</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?style=gift" class="aaranya-mobile-link text-sublink">Wedding Gifts</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?style=gift" class="aaranya-mobile-link text-sublink">Gifts Under ₹10,000</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?style=gift" class="aaranya-mobile-link text-sublink">Premium Heirloom Gift Sets</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <!-- Direct Links: Patron Account Menu -->
+      {% if user.is_authenticated %}
+      <li class="aaranya-accordion-item direct">
+        <a href="{% url 'orders:history' %}" class="aaranya-mobile-direct-link">
+          <span>My Orders</span>
+          <span class="aaranya-direct-badge">&rarr;</span>
+        </a>
+      </li>
+      <li class="aaranya-accordion-item direct">
+        <a href="{% url 'campaigns:account_addresses' %}" class="aaranya-mobile-direct-link">
+          <span>Saved Addresses</span>
+          <span class="aaranya-direct-badge">&rarr;</span>
+        </a>
+      </li>
+      <li class="aaranya-accordion-item direct">
+        <a href="{% url 'campaigns:wishlist' %}" class="aaranya-mobile-direct-link">
+          <span>Wishlist</span>
+          <span class="aaranya-direct-badge">&rarr;</span>
+        </a>
+      </li>
+      <li class="aaranya-accordion-item direct">
+        <a href="{% url 'campaigns:account_profile' %}" class="aaranya-mobile-direct-link">
+          <span>Profile ({{ user.first_name|default:user.username }})</span>
+          <span class="aaranya-direct-badge">&rarr;</span>
+        </a>
+      </li>
+      <li class="aaranya-accordion-item direct">
+        <a href="{% url 'campaigns:logout' %}" class="aaranya-mobile-direct-link" style="color: #682D3C; font-weight: 700;">
+          <span>Log out</span>
+          <span class="aaranya-direct-badge">&rarr;</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="aaranya-accordion-item direct">
+        <a href="{% url 'campaigns:login' %}" class="aaranya-mobile-direct-link" style="color: #682D3C; font-weight: 700;">
+          <span>Login / Sign In</span>
+          <span class="aaranya-direct-badge">&rarr;</span>
+        </a>
+      </li>
+      {% endif %}
+
+    </ul>
+
+    <!-- Mobile Footer Actions -->
+    <div class="aaranya-mobile-footer-actions">
+      <button type="button" data-open-bag class="aaranya-mobile-cta" style="margin-bottom: 8px; background: #642D3B; border-color: #AD9161; color: #F8F5F0;">
+        Open Bag (<span id="mobile-bag-count">0</span>)
+      </button>
+      <a href="#private-appointment" data-open-appointment class="aaranya-mobile-cta">Book Showroom Viewing</a>
+    </div>
+
+  </div>
+</aside>

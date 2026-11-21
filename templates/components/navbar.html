@@ -1,0 +1,76 @@
+{% load static %}
+<!-- ========================================================================
+     AARANYA — HORIZONTAL LUXURY CATEGORY NAVIGATION BAR
+     ======================================================================== -->
+<nav class="aaranya-navbar" id="aaranya-category-navbar" role="navigation" aria-label="Aaranya Jewellery Navigation">
+  <div class="aaranya-navbar-container">
+    
+    <ul class="aaranya-nav-list" role="menubar">
+      <!-- 0. Home Button (Redirects to Hero Page) -->
+      <li class="aaranya-nav-item" role="none">
+        <a href="{% url 'campaigns:hero' %}" class="aaranya-nav-btn aaranya-nav-home-btn" role="menuitem">
+          Home
+        </a>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="new-and-featured">
+          New &amp; Featured
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="necklaces">
+          Necklaces
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="earrings">
+          Earrings
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="rings">
+          Rings
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="bangles">
+          Bangles
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="bridal-jewellery">
+          Bridal Jewellery
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="temple-jewellery">
+          Temple Jewellery
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="diamond-jewellery">
+          Diamond Jewellery
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="mens-jewellery">
+          Men's Jewellery
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="gifts">
+          Gifts
+        </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <button type="button" class="aaranya-nav-btn aaranya-nav-more" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="more">
+          More <span class="aaranya-caret" aria-hidden="true">&#x25BE;</span>
+        </button>
+      </li>
+    </ul>
+
+    <!-- Gliding Active Indicator Line -->
+    <div class="aaranya-nav-indicator" id="aaranya-nav-indicator" aria-hidden="true"></div>
+
+  </div>
+</nav>

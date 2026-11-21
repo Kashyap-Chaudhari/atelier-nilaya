@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ product.name }} &bull; Atelier Nilaya &bull; Surat</title>
+  <meta name="description" content="{{ product.description }}">
+
+  <!-- Fonts: Cormorant Garamond & Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <!-- ========================================================================
+       GLOBAL HEADER
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-block">
+        <a href="{{ url_for('index') }}" class="brand-title">Atelier Nilaya</a>
+        <span class="brand-location">Surat &bull; Est. 1954</span>
+      </div>
+
+      <nav class="header-nav" aria-label="Main Navigation">
+        {% for cat in all_categories %}
+        <a href="{{ url_for('category', category_slug=cat.slug) }}" 
+           class="nav-link {% if cat.slug == product.category_slug %}is-active{% endif %}">
+          {{ cat.name }}
+        </a>
+        {% endfor %}
+        <a href="{{ url_for('index') }}#visit" class="nav-link">Private Viewing</a>
+
+        <a href="{{ url_for('wishlist') }}" class="header-icon-link" aria-label="View saved pieces in wishlist">
+          <svg class="header-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="header-badge" id="header-wishlist-count">{{ wishlist_count }}</span>
+        </a>
+
+        <a href="{{ url_for('bag') }}" class="bag-link" aria-label="Shopping Bag containing {{ bag_count }} pieces">
+          <span>Bag</span>
+          <span class="bag-count" id="header-bag-count">{{ bag_count }}</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    
+    <!-- Breadcrumbs -->
+    <div style="padding: 20px var(--page-pad) 0 var(--page-pad); font-size: 0.78rem; color: var(--c-text-muted);">
+      <a href="{{ url_for('index') }}" style="text-decoration: underline;">Atelier</a> &nbsp;&bull;&nbsp;
+      <a href="{{ url_for('category', category_slug=product.category_slug) }}" style="text-decoration: underline;">{{ product.category_name }}</a> &nbsp;&bull;&nbsp;
+      <span>{{ product.name }}</span>
+    </div>
+
+    <!-- Product Experience Grid -->
+    <div 
+      class="product-page-container" 
+      id="product-detail-root"
+      data-product-id="{{ product.id }}"
+      data-product-slug="{{ product.slug }}"
+      data-base-metal="{{ product.base_metal }}"
+      data-selected-metal="{{ selected_metal }}"
+      data-metals='{{ metals|tojson }}'
+      data-old-price="{{ product.old_price or '' }}"
+    >
+      <!-- LEFT: Large Photographic Spin Viewer & Angle Thumbnail Strip -->
+      <div class="product-gallery-column">
+        
+        <!-- Large Interactive Stage (1:1 Aspect Ratio) -->
+        <div 
+          class="product-viewer-stage" 
+          id="viewer-stage" 
+          tabindex="0" 
+          role="region" 
+          aria-label="High-resolution interactive 360° view of {{ product.name }}. Drag or use arrow keys to rotate."
+        >
+          <!-- 360 Spin Active Image -->
+          <img 
+            id="product-spin-img"
+            src="/static/products/{{ product.slug }}/{{ selected_metal }}/spin/001.webp" 
+            alt="{{ product.name }} 360° turntable view in {{ selected_metal|replace('_', ' ') }}" 
+            class="spin-active-img" 
+            width="800" 
+            height="800"
+          >
+
+          <!-- Still Angle Image (Front, Side, Top, Lifestyle) -->
+          <img 
+            id="product-still-img"
+            src="/static/products/{{ product.slug }}/{{ selected_metal }}/front.webp" 
+            alt="{{ product.name }}" 
+            class="spin-active-img" 
+            style="display: none;"
+            width="800" 
+            height="800"
+          >
+
+          <!-- 360 Degree Indicator Badge -->
+          <div class="spin-360-badge" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+            </svg>
+            <span>360&deg; DRAG TO ROTATE</span>
+          </div>
+
+          <div class="viewer-hint">Drag horizontally to scrub 360&deg; &bull; Arrow keys step 1 frame</div>
+        </div>
+
+        <!-- Thumbnail Strip: 360 Spin, Front, Side, Top, Lifestyle -->
+        <div class="product-thumbnails-strip" role="tablist" aria-label="Select angle or 360 spin view">
+          
+          <!-- 360 Spin Thumbnail Button -->
+          <button 
+            type="button" 
+            class="thumb-btn is-active" 
+            data-view="spin" 
+            role="tab" 
+            aria-selected="true" 
+            aria-label="Interactive 360 degree turntable spin"
+          >
+            <img 
+              src="/static/products/{{ product.slug }}/{{ selected_metal }}/spin/001.webp" 
+              alt="360 view" 
+              class="thumb-img"
+            >
+            <span class="thumb-label">360&deg; Spin</span>
+          </button>
+
+          <!-- Front Angle Thumbnail -->
+          <button 
+            type="button" 
+            class="thumb-btn" 
+            data-view="front" 
+            role="tab" 
+            aria-selected="false" 
+            aria-label="Front high jewellery angle"
+          >
+            <img 
+              src="/static/products/{{ product.slug }}/{{ selected_metal }}/front.webp" 
+              alt="Front view" 
+              class="thumb-img"
+            >
+            <span class="thumb-label">Front</span>
+          </button>
+
+          <!-- Side Profile Thumbnail -->
+          <button 
+            type="button" 
+            class="thumb-btn" 
+            data-view="side" 
+            role="tab" 
+            aria-selected="false" 
+            aria-label="Side profile architectural view"
+          >
+            <img 
+              src="/static/products/{{ product.slug }}/{{ selected_metal }}/side.webp" 
+              alt="Side profile" 
+              class="thumb-img"
+            >
+            <span class="thumb-label">Side</span>
+          </button>
+
+          <!-- Top View Thumbnail -->
+          <button 
+            type="button" 
+            class="thumb-btn" 
+            data-view="top" 
+            role="tab" 
+            aria-selected="false" 
+            aria-label="Top perspective view"
+          >
+            <img 
+              src="/static/products/{{ product.slug }}/{{ selected_metal }}/top.webp" 
+              alt="Top view" 
+              class="thumb-img"
+            >
+            <span class="thumb-label">Top</span>
+          </button>
+
+          <!-- Lifestyle / Worn View Thumbnail -->
+          <button 
+            type="button" 
+            class="thumb-btn" 
+            data-view="lifestyle" 
+            role="tab" 
+            aria-selected="false" 
+            aria-label="Lifestyle presentation worn on {{ product.lifestyle_body_part or 'hand' }}"
+          >
+            <img 
+              src="{{ lifestyle_img }}" 
+              alt="Worn view" 
+              class="thumb-img"
+            >
+            <span class="thumb-label">Worn</span>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Information, Metal Dots, Specs, Delivery & CTAs -->
+      <div class="product-info-panel">
+        
+        {% if product.tag %}
+        <span class="tile-tag-badge" style="position: static; display: inline-block; width: fit-content; margin-bottom: 12px;">{{ product.tag }}</span>
+        {% endif %}
+
+        <h1 class="product-page-title">{{ product.name }}</h1>
+
+        <!-- Metal Swatches Row (Yellow Gold, Rose Gold, Platinum, Silver) -->
+        <div style="margin-bottom: 8px;">
+          <span style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-text-muted); display: block; margin-bottom: 8px;">
+            Select Metal Finish:
+          </span>
+          <div class="swatches-row" role="group" aria-label="Metal choices for {{ product.name }}">
+            {% set m_types = [
+              ('yellow_gold', 'Yellow gold', '#E6C687'), 
+              ('rose_gold', 'Rose gold', '#E2A794'), 
+              ('platinum', 'Platinum', '#E5E8EC'), 
+              ('silver', 'Silver', '#D8DCE0')
+            ] %}
+            {% for metal_key, metal_label, metal_color in m_types %}
+            {% set metal_info = metals.get(metal_key) %}
+            {% if metal_info and metal_info.in_stock %}
+            <button 
+              type="button" 
+              class="swatch-btn swatch-{{ metal_key }} {% if metal_key == selected_metal %}is-selected{% endif %}"
+              data-metal="{{ metal_key }}" 
+              data-price="{{ metal_info.price }}"
+              aria-label="{{ metal_label }} - ₹{{ '{:,.0f}'.format(metal_info.price) }}"
+              style="--metal-color: {{ metal_color }}; width: 22px; height: 22px;"
+              {% if metal_key == selected_metal %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
+            ></button>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Dynamic Price Line with Old Price and "Save N%" -->
+        <div class="product-page-price-row">
+          <span class="product-page-price" id="page-price-display">
+            ₹{{ '{:,.0f}'.format(current_price) }}
+          </span>
+
+          {% if product.old_price and product.old_price > current_price %}
+          <span class="tile-old-price" id="page-old-price-display" style="font-size: 1.05rem;">
+            ₹{{ '{:,.0f}'.format(product.old_price) }}
+          </span>
+          <span class="tile-discount-badge" id="page-discount-display" style="font-size: 0.82rem;">
+            Save {{ save_percent }}%
+          </span>
+          {% else %}
+          <span class="tile-old-price" id="page-old-price-display" style="display:none; font-size: 1.05rem;"></span>
+          <span class="tile-discount-badge" id="page-discount-display" style="display:none; font-size: 0.82rem;"></span>
+          {% endif %}
+        </div>
+
+        <!-- Story Line -->
+        <p style="font-size: 0.95rem; line-height: 1.7; color: var(--c-text-secondary); margin-bottom: 24px;">
+          {{ product.description }}
+        </p>
+
+        <!-- Specifications Grid -->
+        <div class="specs-grid">
+          <div class="spec-item">
+            <span class="spec-key">Purity &amp; Metal</span>
+            <span class="spec-val" id="spec-metal-val">{{ product.purity }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-key">Approx. Weight</span>
+            <span class="spec-val">{{ product.approx_weight }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-key">Gemstone Details</span>
+            <span class="spec-val">{{ product.stone }}</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-key">Authentication</span>
+            <span class="spec-val">{{ product.certificate }}</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons: "Add to Bag" and "Book a Viewing" -->
+        <div class="product-ctas-row">
+          <button type="button" class="btn-primary" id="page-add-to-bag-btn">
+            Add to Bag
+          </button>
+          
+          <!-- Book a viewing button: opens /#visit with piece and metal preselected -->
+          <a 
+            href="/#visit?piece={{ product.slug }}&metal={{ selected_metal }}" 
+            class="btn-secondary" 
+            id="book-viewing-btn"
+          >
+            Book a Viewing
+          </a>
+        </div>
+
+        <!-- Delivery and Returns Box -->
+        <div class="delivery-returns-box">
+          <strong style="display:block; margin-bottom: 4px; color: var(--c-text-primary);">Atelier Assurance &bull; Delivery &amp; Returns</strong>
+          Complimentary insured white-glove delivery across India within 3–5 business days. International delivery available via FedEx Secure Vault. Sealed tamper-evident hallmark presentation box. 15-day exchange privilege and lifetime atelier ultrasonic inspection &amp; prong tightening.
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-copy">
+        &copy; 1954&ndash;2026 Atelier Nilaya. Master Goldsmiths, Mugalisara, Surat, Gujarat.
+      </div>
+      <div class="footer-links">
+        <a href="{{ url_for('index') }}" class="footer-link">Atelier</a>
+        <a href="{{ url_for('wishlist') }}" class="footer-link">Wishlist</a>
+        <a href="{{ url_for('index') }}#visit" class="footer-link">Private Viewing</a>
+        <a href="{{ url_for('bag') }}" class="footer-link">Bag (<span id="footer-bag-count">{{ bag_count }}</span>)</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Product Page Large Spin Viewer & Angle Thumbnail Interactivity (Vanilla JS) -->
+  <script src="{{ url_for('static', filename='product.js') }}"></script>
+</body>
+
+</html>

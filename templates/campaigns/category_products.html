@@ -1,0 +1,367 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name|default:'The Curated Vault' }} &bull; Atelier Nilaya &bull; Surat{% endblock %}
+
+{% block extra_head %}
+<!-- Light Gallery Grid Design System & Fonts -->
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="aaranya-cat-gallery-page" style="background-color: var(--c-white, #ffffff); min-height: 80vh;">
+
+  <!-- ========================================================================
+       2. CATEGORY INTRO: Title, plain-language sentence
+       ======================================================================== -->
+  <section class="category-intro">
+    <h1 class="category-heading">{{ category.name|default:'All Jewellery Artworks' }}</h1>
+    <p class="category-sentence">
+      {% if category.description %}
+        {{ category.description }}
+      {% elif category.sentence %}
+        {{ category.sentence }}
+      {% else %}
+        Priceless royal adornments forged in certified 24K and 22K gold, syndicate polki diamonds, and sacred gemstones sculpted in Surat.
+      {% endif %}
+    </p>
+  </section>
+
+  <!-- ========================================================================
+       3. TOP BAR: Product count, filter button, divider, plain text category row
+       ======================================================================== -->
+  <section class="top-bar-section">
+    <div class="top-bar-container">
+      
+      <!-- Product count -->
+      <div class="piece-count" id="piece-count-text">
+        Showing <span id="top-bar-count">{{ products|length }}</span> of {{ total_products }} pieces
+      </div>
+
+      <!-- Filter & Sort Toggle Button -->
+      <button type="button" class="filter-toggle-btn" id="filter-toggle-btn" aria-expanded="false" aria-controls="filter-panel">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="7" y1="12" x2="17" y2="12"></line>
+          <line x1="10" y1="18" x2="14" y2="18"></line>
+        </svg>
+        <span>Filter &amp; Sort</span>
+        {% if active_filters|length > 0 %}
+        <span class="active-filter-badge">{{ active_filters|length }}</span>
+        {% endif %}
+      </button>
+
+      <!-- Divider -->
+      <div class="top-bar-divider" aria-hidden="true"></div>
+
+      <!-- Plain text category row (current underlined) -->
+      <nav class="category-nav-row" aria-label="Jewellery Categories">
+        <a href="{% url 'campaigns:vault' %}" class="cat-text-link {% if is_vault_all %}is-active{% endif %}">
+          All Vault
+        </a>
+        {% for cat in all_categories %}
+        <a href="{% url 'campaigns:category_products' slug=cat.slug %}"
+          class="cat-text-link {% if cat.slug == category.slug %}is-active{% endif %}" 
+          {% if cat.slug == category.slug %}aria-current="page"{% endif %}>
+          {{ cat.name }}
+        </a>
+        {% endfor %}
+      </nav>
+
+    </div>
+
+    <!-- ====================================================================
+         EXPANDABLE FILTER PANEL: Metal, Price, Stone, Occasion & Sort
+         ==================================================================== -->
+    <div class="filter-panel" id="filter-panel" hidden aria-label="Filter and sort jewellery">
+      <form id="filter-form" class="filter-panel-grid" method="GET">
+        
+        <!-- Metal Filter -->
+        <div class="filter-group">
+          <label for="filter-metal" class="filter-group-label">Metal</label>
+          <select id="filter-metal" name="metal" class="filter-select">
+            <option value="all" {% if metal_filter == 'all' %}selected{% endif %}>All metals</option>
+            <option value="yellow_gold" {% if metal_filter == 'yellow_gold' or metal_filter == 'gold' %}selected{% endif %}>Yellow gold (22K/24K)</option>
+            <option value="rose_gold" {% if metal_filter == 'rose_gold' %}selected{% endif %}>Rose gold (18K)</option>
+            <option value="platinum" {% if metal_filter == 'platinum' %}selected{% endif %}>Platinum (950)</option>
+            <option value="silver" {% if metal_filter == 'silver' %}selected{% endif %}>Silver (925)</option>
+          </select>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="filter-group">
+          <label for="filter-price" class="filter-group-label">Price Range</label>
+          <select id="filter-price" name="price" class="filter-select">
+            <option value="all" {% if price_filter == 'all' %}selected{% endif %}>All price ranges</option>
+            <option value="under_100k" {% if price_filter == 'under_100k' %}selected{% endif %}>Under ₹1,00,000</option>
+            <option value="100k_250k" {% if price_filter == '100k_250k' %}selected{% endif %}>₹1,00,000 – ₹2,50,000</option>
+            <option value="250k_500k" {% if price_filter == '250k_500k' %}selected{% endif %}>₹2,50,000 – ₹5,00,000</option>
+            <option value="above_500k" {% if price_filter == 'above_500k' %}selected{% endif %}>Above ₹5,00,000</option>
+          </select>
+        </div>
+
+        <!-- Gemstone Filter -->
+        <div class="filter-group">
+          <label for="filter-stone" class="filter-group-label">Gemstone</label>
+          <select id="filter-stone" name="stone" class="filter-select">
+            <option value="all" {% if stone_filter == 'all' %}selected{% endif %}>All gemstones</option>
+            <option value="polki" {% if stone_filter == 'polki' %}selected{% endif %}>Uncut Polki</option>
+            <option value="solitaire" {% if stone_filter == 'solitaire' %}selected{% endif %}>Solitaire Diamond</option>
+            <option value="diamond" {% if stone_filter == 'diamond' %}selected{% endif %}>Round Brilliant Diamond</option>
+            <option value="emerald" {% if stone_filter == 'emerald' %}selected{% endif %}>Colombian / Zambian Emerald</option>
+            <option value="sapphire" {% if stone_filter == 'sapphire' %}selected{% endif %}>Pink Sapphire</option>
+            <option value="pearl" {% if stone_filter == 'pearl' %}selected{% endif %}>Natural Basra Pearl</option>
+            <option value="navratna" {% if stone_filter == 'navratna' %}selected{% endif %}>Sacred Navratna</option>
+          </select>
+        </div>
+
+        <!-- Occasion Filter -->
+        <div class="filter-group">
+          <label for="filter-occasion" class="filter-group-label">Occasion</label>
+          <select id="filter-occasion" name="occasion" class="filter-select">
+            <option value="all" {% if occasion_filter == 'all' %}selected{% endif %}>All occasions</option>
+            <option value="bridal" {% if occasion_filter == 'bridal' %}selected{% endif %}>Bridal Trousseau</option>
+            <option value="ceremony" {% if occasion_filter == 'ceremony' %}selected{% endif %}>Royal Ceremony</option>
+            <option value="heritage" {% if occasion_filter == 'heritage' %}selected{% endif %}>Heritage Collection</option>
+            <option value="everyday" {% if occasion_filter == 'everyday' %}selected{% endif %}>Everyday Solitaire</option>
+          </select>
+        </div>
+
+        <!-- Sort Order -->
+        <div class="filter-group">
+          <label for="filter-sort" class="filter-group-label">Sort By</label>
+          <select id="filter-sort" name="sort" class="filter-select">
+            <option value="featured" {% if sort_order == 'featured' %}selected{% endif %}>Curator's Choice</option>
+            <option value="price_low" {% if sort_order == 'price_low' or sort_order == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_high" {% if sort_order == 'price_high' or sort_order == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+            <option value="newest" {% if sort_order == 'newest' %}selected{% endif %}>Newest Acquisitions</option>
+          </select>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Active Filters Plain Text Bar with Clear All link -->
+    <div class="active-filters-bar" id="active-filters-bar" {% if active_filters|length == 0 %}style="display:none;"{% endif %}>
+      <span class="active-filters-title">Active Filters:</span>
+      <div class="active-filter-chips" id="active-filter-chips">
+        {% for f in active_filters %}
+        <button type="button" class="filter-chip" data-filter-key="{{ f.key }}" aria-label="Remove filter {{ f.label }}">
+          <span>{{ f.label }}</span>
+          <span class="chip-remove-icon">&times;</span>
+        </button>
+        {% endfor %}
+      </div>
+      <a href="?" class="clear-all-link" id="active-clear-all-link">Clear all</a>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================
+       4. GALLERY-STYLE GRID: 4 columns desktop, 3 laptop, 2 phone, 8px gaps
+       Tiles: light grey (#f6f6f6) on white page
+       ======================================================================== -->
+  <section class="products-section">
+    <div class="products-grid" id="products-grid">
+      {% if products %}
+      {% for product in products %}
+      <!-- Product Tile: Photographic 360 Spin, Lifestyle Hover, Metal Swatches, Price & Add to Bag -->
+      <article 
+        class="product-tile" 
+        data-product-id="{{ product.id }}" 
+        data-product-slug="{{ product.slug }}"
+        data-base-metal="{{ product.base_metal|default:'yellow_gold' }}"
+        data-current-metal="{{ product.base_metal|default:'yellow_gold' }}"
+        data-spin-frames="36"
+        data-metals='{{ product.metals_json|safe }}'
+        data-old-price="{{ product.old_price|default:'' }}"
+      >
+        <!-- Tile Visual Stage: Photographic 360 Spin Viewer (Fixed 1:1 Aspect Ratio) -->
+        <div 
+          class="tile-stage" 
+          data-spin-viewer
+          data-product-slug="{{ product.slug }}"
+          data-current-metal="{{ product.base_metal|default:'yellow_gold' }}"
+          data-spin-frames="36"
+          tabindex="0" 
+          role="region" 
+          aria-label="Interactive 360° view of {{ product.name }}. Drag or use arrow keys to rotate. Hover to view worn."
+        >
+          
+          <!-- Optional Tag (NEW, BEST SELLER) -->
+          {% if product.tag %}
+          <span class="tile-tag-badge">{{ product.tag }}</span>
+          {% endif %}
+
+          <!-- Wishlist Heart Button (Top Right) -->
+          <button 
+            type="button" 
+            class="tile-wishlist-btn" 
+            data-wishlist-btn 
+            data-product-id="{{ product.id }}"
+            aria-label="Save {{ product.name }} to wishlist"
+            aria-pressed="false"
+          >
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </button>
+
+          <!-- 360 Active Photographic Spin Image -->
+          <img 
+            src="/static/products/{{ product.slug }}/{{ product.base_metal|default:'yellow_gold' }}/spin/001.webp" 
+            alt="{{ product.name }} 360 photographic view in {{ product.base_metal|default:'yellow_gold' }}" 
+            class="spin-active-img" 
+            width="600" 
+            height="600"
+            loading="lazy"
+          >
+
+          <!-- Second View on Hover (Desktop) / Tap (Mobile): Lifestyle Photo -->
+          <img 
+            src="/static/products/{{ product.slug }}/lifestyle-1.webp" 
+            alt="{{ product.name }} worn on {{ product.lifestyle_body_part|default:'hand' }}" 
+            class="spin-lifestyle-img" 
+            width="600" 
+            height="600"
+            loading="lazy"
+          >
+
+          <!-- Neutral Fallback Tile ("Photo coming soon" in identical frame) -->
+          <div class="spin-fallback-tile" hidden aria-hidden="true">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            <span class="fallback-atelier-title">Atelier Nilaya &bull; Surat</span>
+            <span class="fallback-note">Photographic Archive in Preparation</span>
+          </div>
+
+          <!-- Unobtrusive 360 Degree Indicator Badge -->
+          <div class="spin-360-badge" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+            </svg>
+            <span>360&deg;</span>
+          </div>
+
+        </div>
+
+        <!-- Tile Information Area Below Stage -->
+        <div class="tile-meta-block">
+          
+          <!-- Metal Dots: Yellow gold, Rose gold, Platinum, Silver -->
+          <div class="swatches-row" role="group" aria-label="Metal options for {{ product.name }}">
+            <button 
+              type="button" 
+              class="swatch-btn swatch-yellow_gold {% if product.base_metal == 'yellow_gold' %}is-selected{% endif %}"
+              data-metal="yellow_gold" 
+              data-price="{{ product.price }}"
+              aria-label="Yellow gold - ₹{{ product.price|floatformat:0 }}"
+              style="--metal-color: #E6C687;"
+              {% if product.base_metal == 'yellow_gold' %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
+            ></button>
+            <button 
+              type="button" 
+              class="swatch-btn swatch-rose_gold {% if product.base_metal == 'rose_gold' %}is-selected{% endif %}"
+              data-metal="rose_gold" 
+              data-price="{{ product.price }}"
+              aria-label="Rose gold - ₹{{ product.price|floatformat:0 }}"
+              style="--metal-color: #E2A794;"
+              {% if product.base_metal == 'rose_gold' %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
+            ></button>
+            <button 
+              type="button" 
+              class="swatch-btn swatch-platinum {% if product.base_metal == 'platinum' %}is-selected{% endif %}"
+              data-metal="platinum" 
+              data-price="{{ product.price }}"
+              aria-label="Platinum - ₹{{ product.price|floatformat:0 }}"
+              style="--metal-color: #E5E8EC;"
+              {% if product.base_metal == 'platinum' %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
+            ></button>
+            <button 
+              type="button" 
+              class="swatch-btn swatch-silver {% if product.price > 200000 %}is-disabled{% endif %}"
+              data-metal="silver" 
+              data-price="{{ product.price }}"
+              {% if product.price > 200000 %}disabled aria-label="Silver (Not offered for this piece)"{% else %}aria-label="Silver - ₹{{ product.price|floatformat:0 }}" aria-pressed="false"{% endif %}
+              style="--metal-color: #D8DCE0;"
+            ></button>
+          </div>
+
+          <!-- Product Name Link -->
+          <a href="{% url 'campaigns:product_detail' pk=product.id %}" class="tile-name-link">
+            <h2 class="tile-name">{{ product.name }}</h2>
+          </a>
+
+          <!-- Metal and Stone Line -->
+          <div class="tile-materials">
+            {{ product.metal_purity }} &bull; {{ product.gemstone_details|default:'Uncut Diamonds' }}
+          </div>
+
+          <!-- Price with Old Price and "Save N%" Discount Badge -->
+          <div class="tile-price-row">
+            <span class="tile-current-price" data-price-display>
+              {{ product.formatted_price }}
+            </span>
+
+            {% if product.old_price %}
+            <span class="tile-old-price" data-old-price-display>
+              ₹{{ product.old_price|floatformat:0 }}
+            </span>
+            <span class="tile-discount-badge" data-discount-badge>
+              Save {{ product.save_percent }}%
+            </span>
+            {% else %}
+            <span class="tile-old-price" data-old-price-display style="display:none;"></span>
+            <span class="tile-discount-badge" data-discount-badge style="display:none;"></span>
+            {% endif %}
+          </div>
+
+          <!-- "Add to Bag" Text Link -->
+          <button 
+            type="button" 
+            class="tile-add-to-bag-btn" 
+            data-add-to-bag 
+            data-product-id="{{ product.id }}"
+            aria-label="Add {{ product.name }} to bag"
+          >
+            Add to Bag
+          </button>
+
+        </div>
+      </article>
+      {% endfor %}
+      {% else %}
+      <div class="empty-state-tile">
+        <p class="empty-state-headline">No jewellery matches your selected filter criteria.</p>
+        <p class="empty-state-subtext">Clear your filters or choose another metal to explore our complete handcrafted inventory.</p>
+        <a href="?" class="empty-state-reset-btn">Reset All Filters</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- "LOAD MORE" BATCH BUTTON -->
+    {% if products|length > 8 %}
+    <div class="load-more-section" id="load-more-section">
+      <p class="load-more-counter" id="load-more-counter">
+        Showing <span id="visible-count">8</span> of {{ products|length }} pieces
+      </p>
+      <button type="button" class="load-more-btn" id="load-more-btn">
+        Load More Pieces
+      </button>
+    </div>
+    {% endif %}
+
+  </section>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Atelier Nilaya Vanilla JS Spin Viewer Engine -->
+<script src="{% static 'spin-viewer.js' %}"></script>
+<!-- Category Page Interactions -->
+<script src="{% static 'category.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% load static %}
+<!-- ========================================================================
+     THE SKETCHBOOK: FROM PENCIL TO JEWEL (Single Perfect Masterpiece Example)
+     Directly after Shop by Category section.
+     ======================================================================== -->
+<section id="sketchbook-section" class="sketchbook-section" aria-labelledby="sketchbook-heading">
+  <div class="sketchbook-header">
+    <span class="sketchbook-kicker">The Sketchbook &bull; From Pencil to Jewel</span>
+    <h2 id="sketchbook-heading" class="sketchbook-headline">
+      &ldquo;Every ring in our vault began as a pencil line on this bench.&rdquo;
+    </h2>
+  </div>
+
+  <!-- Medium-Sized Curated Stage (640px wide) -->
+  <div class="sketchbook-stage-wrap">
+    <div class="sketchbook-page" id="sketchbook-page" style="--slider-pos: 50%;" tabindex="0"
+      aria-label="Interactive sketchbook comparison: drag to reveal the finished jewel">
+
+      <!-- 1. LEFT LAYER: Original hand-drawn pencil design on cream paper (#efe4cc) -->
+      <div class="sketchbook-layer sketchbook-layer--sketch" aria-hidden="false">
+        <img id="sketchbook-sketch-img" class="sketchbook-img"
+          src="{% static 'sketches/the-empress-cushion-solitaire.webp' %}"
+          alt="Original 1987 hand-drawn pencil sketch on cream paper of the Empress Cushion Solitaire" width="640"
+          height="425" loading="eager" fetchpriority="high">
+      </div>
+
+      <!-- 2. RIGHT LAYER: Real finished jewel (clipped via clip-path: polygon) -->
+      <div class="sketchbook-layer sketchbook-layer--finished" id="sketchbook-finished-layer" aria-hidden="false">
+        <div class="sketchbook-finished-inner" id="sketchbook-finished-container">
+          <img id="sketchbook-finished-img" class="sketchbook-img"
+            src="{% static 'products/the-empress-cushion-solitaire-2-2ct/platinum/front.webp' %}"
+            alt="Finished The Empress Cushion Solitaire hand-set in Platinum" width="640" height="425" loading="eager">
+
+          <div id="sketchbook-fallback" class="sketchbook-fallback" style="display: none;" aria-hidden="true">
+            <span class="sketchbook-fallback-mark">&#9671;</span>
+            <span class="sketchbook-fallback-text">Photo coming soon</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. DRAGGABLE DIVIDER LINE & 44px TOUCH HANDLE -->
+      <div class="sketchbook-divider" id="sketchbook-divider" style="left: var(--slider-pos, 50%);" aria-hidden="true">
+        <div class="sketchbook-divider-line"></div>
+        <div class="sketchbook-handle" id="sketchbook-handle" role="slider" tabindex="0" aria-valuemin="0"
+          aria-valuemax="100" aria-valuenow="50" aria-label="Compare sketch and finished piece"
+          title="Drag left or right to compare">
+          <svg class="sketchbook-handle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+            <polyline points="9 18 15 12 9 6" transform="translate(6, 0)"></polyline>
+          </svg>
+        </div>
+      </div>
+
+    </div> <!-- /.sketchbook-page -->
+
+    <!-- Metal selector dots under the page -->
+    <div class="sketchbook-metal-dots-row" id="sketchbook-metal-dots" aria-label="Select metal variant">
+      <button type="button" class="sketchbook-metal-dot metal-dot-platinum is-active" data-metal="platinum"
+        aria-label="Platinum" title="Platinum"></button>
+      <button type="button" class="sketchbook-metal-dot metal-dot-rose_gold" data-metal="rose_gold"
+        aria-label="Rose Gold" title="Rose Gold"></button>
+      <button type="button" class="sketchbook-metal-dot metal-dot-yellow_gold" data-metal="yellow_gold"
+        aria-label="Yellow Gold" title="Yellow Gold"></button>
+    </div>
+
+    <!-- Design Story, Year, Title (High Contrast & Clear Readability) -->
+    <div class="sketchbook-caption">
+      <div class="sketchbook-meta">
+        <span class="sketchbook-year" id="sketchbook-year">1987</span>
+        <span class="sketchbook-meta-divider" aria-hidden="true">&bull;</span>
+        <a href="/p/the-empress-cushion-solitaire-2-2ct" class="sketchbook-piece-title-link">
+          <h3 class="sketchbook-piece-title" id="sketchbook-title">The Empress Cushion Solitaire (2.2ct)</h3>
+        </a>
+      </div>
+      <p class="sketchbook-story" id="sketchbook-story">
+        Drawn in 1987. Hand-forged in solid platinum and 18K gold with a 2.2ct cushion diamond. Still our most requested
+        bespoke ring.
+      </p>
+
+      <!-- Action CTAs (Ultra-High Contrast, WCAG AAA Compliant & Bold Typography) -->
+      <div class="sketchbook-actions">
+        <a href="/p/the-empress-cushion-solitaire-2-2ct" class="sketchbook-btn sketchbook-btn--primary">
+          <span>VIEW THIS PIECE</span>
+          <span class="sketchbook-btn-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="#private-appointment" data-open-appointment data-custom-design="true" class="sketchbook-btn sketchbook-btn--outline" title="Commission a bespoke custom jewellery design">
+          <span>ASK FOR A CUSTOM DESIGN</span>
+          <span class="sketchbook-btn-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+  </div> <!-- /.sketchbook-stage-wrap -->
+
+  <script type="application/json" id="sketchbook-data">
+    [
+      {
+        "id": 1,
+        "product_id": 1,
+        "product_slug": "the-empress-cushion-solitaire-2-2ct",
+        "year": 1987,
+        "title": "The Empress Cushion Solitaire (2.2ct)",
+        "story": "Drawn in 1987. Hand-forged in solid platinum and 18K gold with a 2.2ct cushion diamond. Still our most requested bespoke ring.",
+        "sketch_path": "/static/sketches/the-empress-cushion-solitaire.webp",
+        "sketch_alt": "Original 1987 hand-drawn pencil sketch on cream paper of the Empress Cushion Solitaire",
+        "metals": ["platinum", "rose_gold", "yellow_gold"],
+        "default_metal": "platinum",
+        "finished_photo": "/static/products/the-empress-cushion-solitaire-2-2ct/platinum/front.webp",
+        "images_by_metal": {
+          "platinum": {
+            "front": "/static/products/the-empress-cushion-solitaire-2-2ct/platinum/front.webp",
+            "spin": ["/static/products/the-empress-cushion-solitaire-2-2ct/platinum/spin/001.webp"]
+          },
+          "rose_gold": {
+            "front": "/static/products/the-empress-cushion-solitaire-2-2ct/rose_gold/front.webp",
+            "spin": ["/static/products/the-empress-cushion-solitaire-2-2ct/rose_gold/spin/001.webp"]
+          },
+          "yellow_gold": {
+            "front": "/static/products/the-empress-cushion-solitaire-2-2ct/yellow_gold/front.webp",
+            "spin": ["/static/products/the-empress-cushion-solitaire-2-2ct/yellow_gold/spin/001.webp"]
+          }
+        }
+      }
+    ]
+  </script>
+</section>

@@ -1,0 +1,781 @@
+/* ==========================================================================
+   THE UNVEILING ATELIER — CINEMATIC HERO EXPERIENCE
+   Ivory × Deep Burgundy Architectural Composition
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ATELIER HEADER
+   -------------------------------------------------------------------------- */
+.atelier-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(24px, 4vw, 64px);
+  background: linear-gradient(180deg, rgba(248, 245, 240, 0.94) 0%, rgba(248, 245, 240, 0) 100%);
+  border-bottom: 1px solid rgba(100, 45, 59, 0.08);
+}
+
+.atelier-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.atelier-logo-monogram {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--c-burgundy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif-display);
+  font-size: 1.1rem;
+  color: var(--c-burgundy);
+  background: var(--c-blush-soft);
+  box-shadow: 0 0 16px rgba(100, 45, 59, 0.15);
+  transition: transform 0.6s var(--ease-editorial);
+}
+
+.atelier-brand:hover .atelier-logo-monogram {
+  transform: rotate(45deg);
+}
+
+.atelier-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.atelier-brand-title {
+  font-family: var(--font-serif-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: var(--c-text-primary);
+  text-transform: uppercase;
+}
+
+.atelier-brand-sub {
+  font-size: 0.6rem;
+  letter-spacing: 0.32em;
+  color: var(--c-burgundy);
+  text-transform: uppercase;
+}
+
+.atelier-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.atelier-nav-link {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-text-secondary);
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.3s;
+}
+
+.atelier-nav-link:hover,
+.atelier-nav-link.active {
+  color: var(--c-burgundy);
+}
+
+.atelier-nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: var(--c-burgundy);
+  transition: width 0.3s var(--ease-soft);
+}
+
+.atelier-nav-link:hover::after,
+.atelier-nav-link.active::after {
+  width: 100%;
+}
+
+.atelier-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.atelier-status-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--c-burgundy);
+  padding: 6px 14px;
+  border: var(--border-burgundy-hairline);
+  background: var(--c-white);
+  box-shadow: 0 2px 8px rgba(100, 45, 59, 0.06);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--c-burgundy);
+  box-shadow: 0 0 8px var(--c-burgundy);
+  animation: pulseBurgundy 2.5s infinite;
+}
+
+@keyframes pulseBurgundy {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+/* --------------------------------------------------------------------------
+   HERO CONTAINER — ASYMMETRIC 12-COLUMN EDITORIAL GRID
+   -------------------------------------------------------------------------- */
+.atelier-hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: 100vh;
+  max-height: 1080px;
+  background-color: var(--c-ivory);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--header-height) 0 32px 0;
+}
+
+/* Ambient Refraction Glow keyed to campaign on Warm Ivory */
+.hero-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 1;
+  transition: background 1.5s var(--ease-editorial);
+  background: radial-gradient(circle, var(--c-burgundy) 0%, var(--c-blush) 40%, transparent 70%);
+}
+
+.atelier-hero-section[data-active-theme="gold"] .hero-ambient-glow {
+  background: radial-gradient(circle, rgba(100, 45, 59, 0.2) 0%, rgba(173, 145, 97, 0.15) 35%, transparent 70%);
+}
+.atelier-hero-section[data-active-theme="champagne"] .hero-ambient-glow {
+  background: radial-gradient(circle, rgba(212, 178, 185, 0.35) 0%, rgba(100, 45, 59, 0.12) 40%, transparent 70%);
+}
+.atelier-hero-section[data-active-theme="burgundy"] .hero-ambient-glow {
+  background: radial-gradient(circle, rgba(100, 45, 59, 0.28) 0%, rgba(81, 44, 49, 0.18) 45%, transparent 70%);
+}
+.atelier-hero-section[data-active-theme="charcoal"] .hero-ambient-glow {
+  background: radial-gradient(circle, rgba(53, 31, 39, 0.2) 0%, rgba(212, 178, 185, 0.18) 40%, transparent 70%);
+}
+
+/* Main 12-Column Grid */
+.hero-editorial-grid {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 3.5vw, 56px);
+  display: grid;
+  grid-template-columns: minmax(320px, 3.8fr) minmax(460px, 6.2fr) minmax(200px, 2fr);
+  gap: clamp(24px, 3vw, 48px);
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   ZONE A — EDITORIAL STORY RAIL
+   -------------------------------------------------------------------------- */
+.zone-story-rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0;
+  z-index: 20;
+}
+
+.zone-story-rail-content {
+  position: relative;
+}
+
+/* Exhibition Archive Coordinate Badge */
+.story-catalogue-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--c-burgundy);
+  margin-bottom: 14px;
+}
+
+.catalogue-icon {
+  font-size: 0.72rem;
+  color: var(--c-burgundy);
+}
+
+/* Large Collection Odometer Number */
+.collection-counter-lockup {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.collection-number-odometer {
+  display: inline-block;
+  overflow: hidden;
+  height: 3.5rem;
+  line-height: 3.5rem;
+}
+
+.odometer-digit {
+  display: block;
+  font-family: var(--font-serif-display);
+  font-size: 3.4rem;
+  font-weight: 500;
+  color: var(--c-burgundy);
+  transition: transform 0.8s var(--ease-editorial), opacity 0.8s;
+  letter-spacing: 0.02em;
+}
+
+.collection-total-count {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--c-text-muted);
+}
+
+/* Category Eyebrow */
+.story-eyebrow-wrapper {
+  margin-bottom: 14px;
+}
+
+.story-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.6s var(--ease-soft), transform 0.6s var(--ease-soft);
+}
+
+.story-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 1px;
+  background: var(--c-burgundy);
+}
+
+/* Monumental Serif Headline — Cormorant Garamond, 72–100px, Weight 500 */
+.story-headline {
+  font-family: var(--font-serif-display);
+  font-size: clamp(4.5rem, 5.5vw, 6.25rem); /* 72px – 100px */
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  color: var(--c-text-primary);
+  margin-bottom: 18px;
+  text-wrap: balance;
+  transition: opacity 0.7s var(--ease-editorial), transform 0.7s var(--ease-editorial);
+}
+
+/* Italic Highlights / Sub-headline — Cormorant Garamond, Weight 400 Italic */
+.story-headline-sub {
+  font-family: var(--font-editorial);
+  font-size: clamp(1.4rem, 1.8vw, 1.85rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--c-burgundy);
+  margin-bottom: 22px;
+  transition: opacity 0.7s var(--ease-editorial) 0.05s, transform 0.7s var(--ease-editorial) 0.05s;
+}
+
+/* Brand Storytelling Description — Manrope, 14–16px */
+.story-description {
+  font-family: var(--font-body);
+  font-size: 15px; /* 14–16px */
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--c-text-secondary);
+  max-width: 440px;
+  margin-bottom: 28px;
+  transition: opacity 0.7s var(--ease-editorial) 0.1s, transform 0.7s var(--ease-editorial) 0.1s;
+}
+
+/* Provenance & Curator Tag */
+.story-provenance-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
+  transition: opacity 0.7s var(--ease-editorial) 0.15s, transform 0.7s var(--ease-editorial) 0.15s;
+}
+
+.story-curator-row {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-burgundy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   ZONE B — CINEMATIC VIDEO STAGE
+   -------------------------------------------------------------------------- */
+.zone-video-stage {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 68vh, 720px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+}
+
+/* Architectural Outer Frame with Metallic Accents */
+.sculptural-frame-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  transition: transform 0.8s var(--ease-editorial);
+}
+
+/* Corner Architectural Wireframe Accents */
+.corner-accent {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 30;
+  transition: all 0.6s var(--ease-soft);
+}
+
+.corner-top-left {
+  top: 0; left: 0;
+  border-top: 1.5px solid var(--c-burgundy);
+  border-left: 1.5px solid var(--c-burgundy);
+}
+
+.corner-top-right {
+  top: 0; right: 0;
+  border-top: 1.5px solid var(--c-burgundy);
+  border-right: 1.5px solid var(--c-burgundy);
+}
+
+.corner-bottom-left {
+  bottom: 0; left: 0;
+  border-bottom: 1.5px solid var(--c-burgundy);
+  border-left: 1.5px solid var(--c-burgundy);
+}
+
+.corner-bottom-right {
+  bottom: 0; right: 0;
+  border-bottom: 1.5px solid var(--c-burgundy);
+  border-right: 1.5px solid var(--c-burgundy);
+}
+
+/* Video Stage Viewport & Asymmetric Clipping */
+.stage-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--c-ivory-surface);
+  box-shadow: 
+    0 25px 60px rgba(53, 31, 39, 0.14),
+    0 0 1px 1px rgba(100, 45, 59, 0.22);
+  transition: clip-path 1000ms var(--ease-unveil), transform 1000ms var(--ease-editorial);
+}
+
+/* Architectural Crop Styles */
+.stage-viewport[data-composition="sculptural-bevel"] {
+  clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 36px 100%, 0 calc(100% - 36px));
+}
+
+.stage-viewport[data-composition="geometric-arch"] {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%);
+}
+
+.stage-viewport[data-composition="angled-facet"] {
+  clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);
+}
+
+.stage-viewport[data-composition="editorial-monolith"] {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Fallback for browsers that do not support clip-path polygon */
+@supports not (clip-path: polygon(0 0)) {
+  .stage-viewport {
+    clip-path: none !important;
+    border: 1px solid var(--c-burgundy);
+  }
+}
+
+/* Active Video Screen & Fallback Poster Layer */
+.stage-media-layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-editorial), opacity 0.8s var(--ease-soft), filter 0.8s;
+  will-change: transform, opacity;
+}
+
+.stage-poster {
+  z-index: 2;
+  opacity: 1;
+}
+
+.stage-poster.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage-video {
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage-video.playing {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Unveiling Transition Overlay Layer — Regal Deep Burgundy Mask Sweep! */
+.unveil-mask-layer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 5;
+  background-color: var(--c-burgundy);
+  transform: translateX(-101%);
+  pointer-events: none;
+}
+
+.unveil-mask-layer.unveiling-forward {
+  animation: veilSweepForward 1100ms var(--ease-unveil) forwards;
+}
+
+.unveil-mask-layer.unveiling-backward {
+  animation: veilSweepBackward 1100ms var(--ease-unveil) forwards;
+}
+
+@keyframes veilSweepForward {
+  0% { transform: translateX(-100%); }
+  45% { transform: translateX(0%); }
+  55% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes veilSweepBackward {
+  0% { transform: translateX(100%); }
+  45% { transform: translateX(0%); }
+  55% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Floating Hallmark Seal / Medallion */
+.stage-hallmark-seal {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(248, 245, 240, 0.94);
+  backdrop-filter: blur(12px);
+  border: var(--border-burgundy-hairline);
+  box-shadow: 0 10px 30px rgba(53, 31, 39, 0.18);
+  pointer-events: none;
+  transform: translateY(0);
+  transition: all 0.5s var(--ease-soft);
+}
+
+.hallmark-insignia {
+  width: 20px;
+  height: 20px;
+  fill: var(--c-burgundy);
+}
+
+.hallmark-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--c-burgundy);
+  text-transform: uppercase;
+}
+
+/* Subtle Vignette on Video */
+.stage-viewport::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(53, 31, 39, 0.12) 0%, rgba(53, 31, 39, 0) 40%, rgba(53, 31, 39, 0.35) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   ZONE C — NEXT COLLECTION PREVIEW & CONTROLS
+   -------------------------------------------------------------------------- */
+.zone-next-preview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 20;
+}
+
+.preview-interactive-card {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  padding: 14px;
+  background: var(--c-white);
+  border: 1px solid rgba(100, 45, 59, 0.16);
+  box-shadow: 0 12px 32px rgba(53, 31, 39, 0.06);
+  transition: all 0.4s var(--ease-editorial);
+}
+
+.preview-interactive-card:hover {
+  border-color: var(--c-burgundy);
+  background: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(100, 45, 59, 0.14);
+}
+
+.preview-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.preview-status-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-burgundy);
+}
+
+.preview-next-order {
+  font-family: var(--font-serif-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--c-burgundy);
+}
+
+/* Preview Poster Frame */
+.preview-poster-box {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  background-color: var(--c-ivory-surface);
+  border: 1px solid rgba(100, 45, 59, 0.1);
+}
+
+.preview-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-editorial);
+}
+
+.preview-interactive-card:hover .preview-poster-img {
+  transform: scale(1.06);
+}
+
+.preview-click-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(100, 45, 59, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.preview-interactive-card:hover .preview-click-overlay {
+  opacity: 1;
+}
+
+.preview-unveil-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-white);
+  padding: 6px 12px;
+  background: var(--c-burgundy);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+/* Preview Title & Category */
+.preview-card-footer {
+  margin-top: 12px;
+}
+
+.preview-upcoming-eyebrow {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Upcoming Collection Title — Cormorant Garamond, 26–32px, Weight 500 */
+.preview-upcoming-title {
+  font-family: var(--font-serif-display);
+  font-size: clamp(1.625rem, 1.8vw, 2rem); /* 26px – 32px */
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--c-text-primary);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   NAVIGATION & PROGRESS CONTROLS (ZONE C)
+   -------------------------------------------------------------------------- */
+.atelier-nav-controls {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Linear Timeline Progress Bar */
+.atelier-timeline-bar {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: rgba(100, 45, 59, 0.14);
+  overflow: hidden;
+}
+
+.timeline-progress-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--c-burgundy), var(--c-burgundy-light));
+  transition: width 0.1s linear;
+}
+
+/* Arrow Navigation & Play/Pause */
+.atelier-control-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-arrow-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.atelier-icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c-white);
+  border: var(--border-burgundy-hairline);
+  color: var(--c-burgundy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-soft);
+  position: relative;
+  box-shadow: 0 4px 12px rgba(53, 31, 39, 0.05);
+}
+
+.atelier-icon-btn:hover {
+  background: var(--c-burgundy);
+  border-color: var(--c-burgundy);
+  color: var(--c-white);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(100, 45, 59, 0.25);
+}
+
+.atelier-icon-btn:active {
+  transform: scale(0.96);
+}
+
+.atelier-icon-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  fill: none;
+}
+
+/* Direct Slide Indicator Pills */
+.direct-slide-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.slide-pill-dot {
+  width: 24px;
+  height: 3px;
+  background: rgba(100, 45, 59, 0.18);
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-editorial);
+  position: relative;
+}
+
+.slide-pill-dot.active {
+  width: 42px;
+  background: var(--c-burgundy);
+}
+
+.slide-pill-dot:hover:not(.active) {
+  background: rgba(100, 45, 59, 0.45);
+}

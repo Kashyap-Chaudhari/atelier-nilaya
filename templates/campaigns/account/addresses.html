@@ -1,0 +1,107 @@
+{% extends 'campaigns/account/base_account.html' %}
+
+{% block title %}Saved Addresses &bull; Atelier Nilaya{% endblock %}
+
+{% block account_content %}
+<div class="nilaya-account-card">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px;">
+    <div>
+      <h2 class="nilaya-card-section-title" style="margin: 0 0 6px;">Saved Shipping Addresses</h2>
+      <p class="nilaya-card-section-desc" style="margin: 0;">Manage your verified delivery locations for insured white-glove transit.</p>
+    </div>
+    <button type="button" class="nilaya-auth-btn" onclick="document.getElementById('addAddressForm').style.display = document.getElementById('addAddressForm').style.display === 'none' ? 'block' : 'none';">
+      + Add New Address
+    </button>
+  </div>
+
+  {% if success_msg %}
+    <div class="nilaya-alert-success">{{ success_msg }}</div>
+  {% endif %}
+
+  {% if error_msg %}
+    <div class="nilaya-alert-error">{{ error_msg }}</div>
+  {% endif %}
+
+  <!-- Add New Address Form (collapsible) -->
+  <div id="addAddressForm" style="display: none; background: rgba(28, 11, 19, 0.6); border: 1px solid rgba(217, 181, 107, 0.3); border-radius: 6px; padding: 24px; margin-bottom: 32px;">
+    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; color: #F8F5F0; margin: 0 0 16px;">
+      Add Verified Delivery Address
+    </h3>
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="add_address">
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="nilaya-form-group">
+          <label class="nilaya-form-label">Recipient Full Name</label>
+          <input type="text" name="full_name" class="nilaya-form-input" required value="{{ user.first_name }}">
+        </div>
+        <div class="nilaya-form-group">
+          <label class="nilaya-form-label">Contact Phone</label>
+          <input type="tel" name="phone" class="nilaya-form-input" required value="{{ user.profile.mobile_number }}">
+        </div>
+      </div>
+
+      <div class="nilaya-form-group">
+        <label class="nilaya-form-label">Address Line 1</label>
+        <input type="text" name="address_line1" class="nilaya-form-input" placeholder="Building, Villa, or Flat Number and Street" required>
+      </div>
+
+      <div class="nilaya-form-group">
+        <label class="nilaya-form-label">Address Line 2 (Optional)</label>
+        <input type="text" name="address_line2" class="nilaya-form-input" placeholder="Landmark or Area">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+        <div class="nilaya-form-group">
+          <label class="nilaya-form-label">City</label>
+          <input type="text" name="city" class="nilaya-form-input" value="Surat" required>
+        </div>
+        <div class="nilaya-form-group">
+          <label class="nilaya-form-label">State</label>
+          <input type="text" name="state" class="nilaya-form-input" value="Gujarat" required>
+        </div>
+        <div class="nilaya-form-group">
+          <label class="nilaya-form-label">Pincode</label>
+          <input type="text" name="pincode" class="nilaya-form-input" placeholder="6 digits" maxlength="6" required>
+        </div>
+      </div>
+
+      <button type="submit" class="nilaya-auth-btn">
+        Save Address &rarr;
+      </button>
+    </form>
+  </div>
+
+  <!-- Address List -->
+  {% if addresses %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+      {% for addr in addresses %}
+        <div style="background: #1c0b13; border: 1px solid rgba(217, 181, 107, 0.25); border-radius: 6px; padding: 20px; position: relative;">
+          <strong style="color: #F8F5F0; font-size: 0.95rem; display: block; margin-bottom: 6px;">{{ addr.full_name }}</strong>
+          <p style="font-size: 0.85rem; color: rgba(248, 245, 240, 0.7); line-height: 1.5; margin: 0 0 12px;">
+            {{ addr.address_line1 }}{% if addr.address_line2 %}, {{ addr.address_line2 }}{% endif %}<br>
+            {{ addr.city }}, {{ addr.state }} &bull; {{ addr.pincode }}<br>
+            <span style="color: #d9b56b;">Phone:</span> {{ addr.phone }}
+          </p>
+          <form method="POST" onsubmit="return confirm('Remove this saved delivery location?');" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_address">
+            <input type="hidden" name="address_id" value="{{ addr.id }}">
+            <button type="submit" style="background: none; border: none; color: #fca5a5; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; padding: 0;">
+              Remove Address
+            </button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div style="text-align: center; padding: 40px 20px; border: 1px dashed rgba(217, 181, 107, 0.25); border-radius: 6px;">
+      <p style="color: rgba(248, 245, 240, 0.65); font-size: 0.9rem; margin: 0 0 16px;">No saved delivery addresses yet in your folio.</p>
+      <button type="button" class="nilaya-auth-btn" onclick="document.getElementById('addAddressForm').style.display = 'block';">
+        + Add Delivery Address
+      </button>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

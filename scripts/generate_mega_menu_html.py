@@ -1,0 +1,1210 @@
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUTPUT_FILE = os.path.join(BASE_DIR, 'templates', 'components', 'mega_menu.html')
+
+template_content = """{% load static %}
+<!-- ========================================================================
+     AARANYA — HAUTE JOAILLERIE FULL-WIDTH MEGA MENU SYSTEM
+     Pandora-Inspired Multi-Column Architecture with Real Jewellery Imagery
+     Every category, subcategory and filter link routes to dedicated views
+     ======================================================================== -->
+
+<div 
+  class="aaranya-mega-menu-overlay" 
+  id="aaranya-mega-menu-container" 
+  role="region" 
+  aria-label="Jewellery Category Showcase"
+  aria-hidden="true"
+>
+  <div class="aaranya-mega-menu-inner">
+
+    <!-- ====================================================================
+         PANE 1: NEW & FEATURED
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="new-and-featured" role="tabpanel" aria-label="New &amp; Featured Collection">
+      <div class="aaranya-menu-grid cols-3-promo-2">
+        
+        <!-- Column 1: Category -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:vault' %}?filter=new" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/new-in.jpg' %}" alt="New Arrivals" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">New Arrivals</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?filter=bestseller" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bestsellers.jpg' %}" alt="Bestsellers" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bestsellers</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?style=festive" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/festive.jpg' %}" alt="Festive Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Festive Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/wedding.jpg' %}" alt="Wedding Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Wedding Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?style=everyday" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/everyday.jpg' %}" alt="Everyday Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Everyday Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/exclusive.jpg' %}" alt="Exclusive Designs" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Exclusive Designs</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?sub=gift" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/gift-sets.jpg' %}" alt="Gift Sets" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Gift Sets</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/latest.jpg' %}" alt="Latest Collections" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Latest Collections</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Featured -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">FEATURED</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-col.jpg' %}" alt="Bridal Collection" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bridal Collection</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/heritage-col.jpg' %}" alt="Heritage Collection" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Heritage Collection</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/diamond-col.jpg' %}" alt="Diamond Collection" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Collection</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-col.jpg' %}" alt="Temple Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?filter=bestseller" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/customer-fav.jpg' %}" alt="Customer Favourites" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Customer Favourites</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/designer.jpg' %}" alt="Designer Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Designer Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/trending.jpg' %}" alt="Trending Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Trending Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/special-occ.jpg' %}" alt="Special Occasion" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Special Occasion Jewellery</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Personalised Jewellery -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">PERSONALISED JEWELLERY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=pendant" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/custom-necklace.jpg' %}" alt="Custom Name Necklace" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Custom Name Necklace</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=pendant" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/initial-pendant.jpg' %}" alt="Initial Pendants" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Initial Pendants</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=band" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/pers-rings.jpg' %}" alt="Personalised Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Personalised Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=kada" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-kadas.jpg' %}" alt="Engraved Bracelets &amp; Kadas" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Engraved Bracelets &amp; Kadas</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/custom-bridal.jpg' %}" alt="Custom Bridal Sets" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Custom Bridal Sets</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/design-own.jpg' %}" alt="Design Your Own Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Design Your Own Jewellery</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Two Promotional Banners -->
+        <div class="aaranya-promo-group cols-2">
+          <a href="{% url 'campaigns:vault' %}?filter=new" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-new-collection.jpg' %}" alt="Discover the New Collection" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Discover the New Collection</h5>
+              <span class="aaranya-promo-cta">Shop the Unveiling &rarr;</span>
+            </div>
+          </a>
+
+          <a href="{% url 'campaigns:vault' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-generations.jpg' %}" alt="Jewellery Made for Generations" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Jewellery Made for Generations</h5>
+              <span class="aaranya-promo-cta">Explore Heirlooms &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 2: NECKLACES
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="necklaces" role="tabpanel" aria-label="Necklaces Collection">
+      <div class="aaranya-menu-grid cols-4-promo-1">
+        
+        <!-- Column 1: Category with circular thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-all.jpg' %}" alt="All Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">All Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=gold" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-gold.jpg' %}" alt="Gold Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Gold Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=diamond" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-diamond.jpg' %}" alt="Diamond Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=bridal" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-bridal.jpg' %}" alt="Bridal Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bridal Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=temple" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-temple.jpg' %}" alt="Temple Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=choker" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-choker.jpg' %}" alt="Choker Sets" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Choker Sets</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=haar" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-long.jpg' %}" alt="Long Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Long Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=pendant" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-pendant.jpg' %}" alt="Pendant Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Pendant Necklaces</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Style with thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">STYLE</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=traditional" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-trad.jpg' %}" alt="Traditional" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Traditional</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=contemporary" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-contemp.jpg' %}" alt="Contemporary" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Contemporary</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=antique" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-antique.jpg' %}" alt="Antique" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Antique</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=minimal" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-minimal.jpg' %}" alt="Minimal" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Minimal</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=kundan" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-kundan.jpg' %}" alt="Kundan" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Kundan</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=polki" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-polki.jpg' %}" alt="Polki" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Polki</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=pearl" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-pearl.jpg' %}" alt="Pearl" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Pearl</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=statement" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-statement.jpg' %}" alt="Statement" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Statement</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Occasion (Clean text links) -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">OCCASION</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=wedding" class="aaranya-menu-link">Wedding</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=engagement" class="aaranya-menu-link">Engagement</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=festive" class="aaranya-menu-link">Festive</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=everyday" class="aaranya-menu-link">Daily Wear</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=statement" class="aaranya-menu-link">Party Wear</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=gift" class="aaranya-menu-link">Gifting</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Material (Clean text links) -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">MATERIAL</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=gold" class="aaranya-menu-link">Gold</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=diamond" class="aaranya-menu-link">Diamond</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=platinum" class="aaranya-menu-link">Platinum</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=silver" class="aaranya-menu-link">Silver</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=pearl" class="aaranya-menu-link">Pearl</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=gemstone" class="aaranya-menu-link">Gemstone</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Promotional Banner -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:category_products' slug='necklaces' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-royal-chokers.jpg' %}" alt="Royal Heritage Chokers" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Royal Heritage Chokers</h5>
+              <p class="aaranya-promo-desc">Handcrafted in 22K &amp; 24K pure imperial gold.</p>
+              <span class="aaranya-promo-cta">View Masterpieces &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 3: EARRINGS
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="earrings" role="tabpanel" aria-label="Earrings Collection">
+      <div class="aaranya-menu-grid cols-4-promo-1">
+        
+        <!-- Column 1: Category with authentic earring thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-all.jpg' %}" alt="All Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">All Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=jhumka" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-jhumka.jpg' %}" alt="Jhumkas" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Jhumkas</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=stud" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-stud.jpg' %}" alt="Stud Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Stud Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=hoop" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-hoop.jpg' %}" alt="Hoop Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Hoop Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=chandbali" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-chandbali.jpg' %}" alt="Chandbalis" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Chandbalis</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=drop" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-drop.jpg' %}" alt="Drop Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Drop Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=traditional" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-trad.jpg' %}" alt="Traditional Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Traditional Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?sub=diamond" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-diamond.jpg' %}" alt="Diamond Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Earrings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Style with authentic earring photography (no rings/couples) -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">STYLE</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?style=antique" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-trad.jpg' %}" alt="Antique" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Antique</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?style=temple" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-ear.jpg' %}" alt="Temple" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?style=kundan" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-chandbali.jpg' %}" alt="Kundan" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Kundan</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?style=polki" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-diamond.jpg' %}" alt="Polki" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Polki</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?style=pearl" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-drop.jpg' %}" alt="Pearl" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Pearl</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?style=minimal" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-stud.jpg' %}" alt="Minimal" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Minimal</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='earrings' %}?style=contemporary" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ear-hoop.jpg' %}" alt="Contemporary" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Contemporary</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Occasion -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">OCCASION</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?style=bridal" class="aaranya-menu-link">Bridal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?style=festive" class="aaranya-menu-link">Festive</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?style=everyday" class="aaranya-menu-link">Everyday</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?style=statement" class="aaranya-menu-link">Party Wear</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?style=gift" class="aaranya-menu-link">Gifting</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Material -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">MATERIAL</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?metal=gold" class="aaranya-menu-link">Gold</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?metal=diamond" class="aaranya-menu-link">Diamond</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?metal=silver" class="aaranya-menu-link">Silver</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?metal=platinum" class="aaranya-menu-link">Platinum</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='earrings' %}?metal=gemstone" class="aaranya-menu-link">Gemstone</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Promotional Banner -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:category_products' slug='earrings' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-chandbalis.jpg' %}" alt="Imperial Chandbalis &amp; Jhumkas" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Imperial Chandbalis &amp; Jhumkas</h5>
+              <p class="aaranya-promo-desc">Timeless Indian brilliance set in luminous pearls.</p>
+              <span class="aaranya-promo-cta">Shop Earrings &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 4: RINGS
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="rings" role="tabpanel" aria-label="Rings Collection">
+      <div class="aaranya-menu-grid cols-4-promo-2">
+        
+        <!-- Column 1: Category with authentic ring thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-all.jpg' %}" alt="All Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">All Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=engagement" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-engage.jpg' %}" alt="Engagement Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Engagement Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=band" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-bands.jpg' %}" alt="Wedding Bands" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Wedding Bands</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=diamond" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-diamond.jpg' %}" alt="Diamond Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=gold" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-gold.jpg' %}" alt="Gold Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Gold Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=cocktail" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-cocktail.jpg' %}" alt="Cocktail Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Cocktail Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=couple" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-couple.jpg' %}" alt="Couple Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Couple Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=men" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-mens.jpg' %}" alt="Men's Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Men's Rings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Style -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">STYLE</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?style=solitaire" class="aaranya-menu-link">Solitaire</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?style=floral" class="aaranya-menu-link">Floral</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?style=traditional" class="aaranya-menu-link">Traditional</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?style=minimal" class="aaranya-menu-link">Minimal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?style=cocktail" class="aaranya-menu-link">Statement</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?metal=gemstone" class="aaranya-menu-link">Gemstone</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Price -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">PRICE</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?max_price=10000" class="aaranya-menu-link">Under ₹10,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?max_price=25000" class="aaranya-menu-link">₹10,000–₹25,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?max_price=50000" class="aaranya-menu-link">₹25,000–₹50,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?max_price=100000" class="aaranya-menu-link">₹50,000–₹1,00,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}" class="aaranya-menu-link">Above ₹1,00,000</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Material -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">MATERIAL</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?metal=gold" class="aaranya-menu-link">Gold</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?metal=diamond" class="aaranya-menu-link">Diamond</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?metal=platinum" class="aaranya-menu-link">Platinum</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?metal=silver" class="aaranya-menu-link">Silver</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?metal=gemstone" class="aaranya-menu-link">Gemstone</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Two Promotional Banners -->
+        <div class="aaranya-promo-group cols-2">
+          <a href="{% url 'campaigns:category_products' slug='rings' %}?style=solitaire" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-solitaire-rings.jpg' %}" alt="Solitaire Promise Rings" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Solitaire Promise Rings</h5>
+              <span class="aaranya-promo-cta">Discover Solitaires &rarr;</span>
+            </div>
+          </a>
+
+          <a href="{% url 'campaigns:category_products' slug='rings' %}?style=cocktail" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-cocktail-rings.jpg' %}" alt="Cocktail Statement Rings" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Cocktail Statement Rings</h5>
+              <span class="aaranya-promo-cta">Shop Statement &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 5: BANGLES
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="bangles" role="tabpanel" aria-label="Bangles Collection">
+      <div class="aaranya-menu-grid cols-4-promo-1">
+        
+        <!-- Column 1: Category with authentic bangle & kada thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-all.jpg' %}" alt="All Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">All Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=gold" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-gold.jpg' %}" alt="Gold Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Gold Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=diamond" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-diamond.jpg' %}" alt="Diamond Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=bridal" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-bridal.jpg' %}" alt="Bridal Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bridal Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=kada" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-kadas.jpg' %}" alt="Kadas" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Kadas</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=temple" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-temple.jpg' %}" alt="Temple Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=daily" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-daily.jpg' %}" alt="Daily Wear Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Daily Wear Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=antique" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-antique.jpg' %}" alt="Antique Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Antique Bangles</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Style -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">STYLE</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?style=traditional" class="aaranya-menu-link">Traditional</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?style=contemporary" class="aaranya-menu-link">Contemporary</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?style=minimal" class="aaranya-menu-link">Minimal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?style=designer" class="aaranya-menu-link">Designer</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=gemstone" class="aaranya-menu-link">Stone Studded</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?style=nakashi" class="aaranya-menu-link">Engraved</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Price -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">PRICE</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?max_price=10000" class="aaranya-menu-link">Under ₹10,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?max_price=25000" class="aaranya-menu-link">₹10,000–₹25,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?max_price=50000" class="aaranya-menu-link">₹25,000–₹50,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?max_price=100000" class="aaranya-menu-link">₹50,000–₹1,00,000</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}" class="aaranya-menu-link">Above ₹1,00,000</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Material -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">MATERIAL</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=gold" class="aaranya-menu-link">Gold</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=diamond" class="aaranya-menu-link">Diamond</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=platinum" class="aaranya-menu-link">Platinum</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bangles' %}?metal=silver" class="aaranya-menu-link">Silver</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Promotional Banner -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:category_products' slug='bangles' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-heritage-kadas.jpg' %}" alt="Handcrafted Heritage Kadas" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Handcrafted Heritage Kadas</h5>
+              <p class="aaranya-promo-desc">Sculptural 22K bangles cast with hereditary precision.</p>
+              <span class="aaranya-promo-cta">Discover Kadas &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 6: BRIDAL JEWELLERY
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="bridal-jewellery" role="tabpanel" aria-label="Bridal Jewellery Collection">
+      <div class="aaranya-menu-grid cols-3-promo-1">
+        
+        <!-- Column 1: Category with authentic bridal ornaments thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-sets.jpg' %}" alt="Complete Bridal Sets" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Complete Bridal Sets</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?sub=necklace" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-neck.jpg' %}" alt="Bridal Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bridal Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?sub=earring" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-ear.jpg' %}" alt="Bridal Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bridal Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?sub=bangle" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-bangle.jpg' %}" alt="Bridal Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bridal Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?sub=tikka" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-tikka.jpg' %}" alt="Maang Tikka" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Maang Tikka</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?sub=nath" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-nath.jpg' %}" alt="Nath" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Nath</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?sub=ring" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bridal-rings.jpg' %}" alt="Bridal Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Bridal Rings</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Collection -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">COLLECTION</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=kundan" class="aaranya-menu-link">Kundan Bridal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=polki" class="aaranya-menu-link">Polki Bridal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=temple" class="aaranya-menu-link">Temple Bridal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=antique" class="aaranya-menu-link">Antique Bridal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?metal=diamond" class="aaranya-menu-link">Diamond Bridal</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=traditional" class="aaranya-menu-link">Traditional Bridal</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Occasion -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">OCCASION</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=engagement" class="aaranya-menu-link">Engagement</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=wedding" class="aaranya-menu-link">Wedding</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=reception" class="aaranya-menu-link">Reception</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=mehendi" class="aaranya-menu-link">Mehendi</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}?style=sangeet" class="aaranya-menu-link">Sangeet</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Bridal Campaign Banner -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-bridal-edit.jpg' %}" alt="The Royal Bridal Edit" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">The Royal Bridal Edit</h5>
+              <p class="aaranya-promo-desc">Priceless heirlooms designed for the imperial Indian bride.</p>
+              <span class="aaranya-promo-cta">Shop Bridal Vault &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 7: TEMPLE JEWELLERY
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="temple-jewellery" role="tabpanel" aria-label="Temple Jewellery Collection">
+      <div class="aaranya-menu-grid cols-2-promo-1">
+        
+        <!-- Column 1: Category with authentic temple jewellery thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-all.jpg' %}" alt="All Temple Jewellery" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">All Temple Jewellery</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?sub=necklace" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-neck.jpg' %}" alt="Temple Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?sub=earring" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-ear.jpg' %}" alt="Temple Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?sub=bangle" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-bangle.jpg' %}" alt="Temple Bangles" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Bangles</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?sub=pendant" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-pendant.jpg' %}" alt="Temple Pendants" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Pendants</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?sub=bridal" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/temple-bridal.jpg' %}" alt="Temple Bridal Sets" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Temple Bridal Sets</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Motifs & Heritage -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">HERITAGE MOTIFS</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?style=antique" class="aaranya-menu-link">Antique Finish</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?sub=lakshmi" class="aaranya-menu-link">Goddess Lakshmi Designs</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?sub=peacock" class="aaranya-menu-link">Traditional Peacock &amp; Floral Motifs</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?style=south" class="aaranya-menu-link">South Indian Royal Collection</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}?style=heritage" class="aaranya-menu-link">Imperial Heritage Collection</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Temple Jewellery Promo -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-sacred-temple.jpg' %}" alt="Sacred Adornments" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Sacred Adornments</h5>
+              <p class="aaranya-promo-desc">Divine craftsmanship inspired by ancient temple architecture.</p>
+              <span class="aaranya-promo-cta">Unveil Temple Art &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 8: DIAMOND JEWELLERY
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="diamond-jewellery" role="tabpanel" aria-label="Diamond Jewellery Collection">
+      <div class="aaranya-menu-grid cols-3-promo-1">
+        
+        <!-- Column 1: Category with authentic diamond thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?sub=necklace" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/dia-neck.jpg' %}" alt="Diamond Necklaces" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Necklaces</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?sub=ring" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/dia-ring.jpg' %}" alt="Diamond Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?sub=earring" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/dia-ear.jpg' %}" alt="Diamond Earrings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Earrings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?sub=bracelet" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/dia-brace.jpg' %}" alt="Diamond Bracelets" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Bracelets</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?sub=pendant" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/dia-pendant.jpg' %}" alt="Diamond Pendants" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Pendants</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?sub=bridal" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/dia-bridal.jpg' %}" alt="Diamond Bridal Sets" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Diamond Bridal Sets</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Style -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">STYLE</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?sub=solitaire" class="aaranya-menu-link">Solitaire</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?style=everyday" class="aaranya-menu-link">Everyday Diamonds</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?style=statement" class="aaranya-menu-link">Statement Diamonds</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?style=contemporary" class="aaranya-menu-link">Modern Designs</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?style=gift" class="aaranya-menu-link">Diamond Gifts</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Precious Metal -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">PRECIOUS METAL</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?metal=white" class="aaranya-menu-link">White Gold</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?metal=gold" class="aaranya-menu-link">Yellow Gold</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?metal=rose" class="aaranya-menu-link">Rose Gold</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}?metal=platinum" class="aaranya-menu-link">Platinum</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Diamond Promo -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-diamond-atelier.jpg' %}" alt="The Diamond Atelier" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">The Diamond Atelier</h5>
+              <p class="aaranya-promo-desc">GIA-certified rare cut solitaires selected for pure fire.</p>
+              <span class="aaranya-promo-cta">Explore Diamond Salon &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 9: MEN'S JEWELLERY
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="mens-jewellery" role="tabpanel" aria-label="Men's Jewellery Collection">
+      <div class="aaranya-menu-grid cols-2-promo-1">
+        
+        <!-- Column 1: Category with thumbnails -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CATEGORY</h4>
+          <ul class="aaranya-link-list">
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='bangles' %}?sub=kada" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/bangle-kadas.jpg' %}" alt="Men's Kadas" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Gold &amp; Platinum Kadas</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='necklaces' %}?metal=gold" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/neck-gold.jpg' %}" alt="Men's Chains" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Imperial Gold Chains</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:category_products' slug='rings' %}?sub=men" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-mens.jpg' %}" alt="Signet Rings" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Signet &amp; Solitaire Rings</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?sub=cufflink" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/ring-cocktail.jpg' %}" alt="Cufflinks" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Gemstone Cufflinks</span>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'campaigns:vault' %}?sub=brooch" class="aaranya-menu-link with-thumb">
+                <span class="aaranya-thumb-box"><img src="{% static 'campaigns/img/menu/thumbnails/style-polki.jpg' %}" alt="Kurta Buttons &amp; Brooches" class="aaranya-thumb-img" loading="lazy"></span>
+                <span class="aaranya-link-text">Kurta Buttons &amp; Brooches</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Material & Curation -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">METALS &amp; FINISHES</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:vault' %}?metal=gold" class="aaranya-menu-link">22K Yellow Gold</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?metal=platinum" class="aaranya-menu-link">950 Platinum</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?style=antique" class="aaranya-menu-link">Antique Brushed Gold</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?metal=diamond" class="aaranya-menu-link">Black Diamonds &amp; Onyx</a></li>
+            <li><a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link">Bespoke Monogramming</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Men's Promo -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:vault' %}?sub=men" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-mens-jewellery.jpg' %}" alt="The Men's Heirloom Collection" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">The Men's Heirloom Collection</h5>
+              <p class="aaranya-promo-desc">Substantial gold and regal silhouettes for the discerning gentleman.</p>
+              <span class="aaranya-promo-cta">Explore Men's Edit &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 10: GIFTS
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="gifts" role="tabpanel" aria-label="Gifts Collection">
+      <div class="aaranya-menu-grid cols-2-promo-1">
+        
+        <!-- Column 1: Occasion & Recipient -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">OCCASION &amp; RECIPIENT</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:vault' %}?style=gift" class="aaranya-menu-link">Birthday Gifts</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?style=gift" class="aaranya-menu-link">Anniversary Gifts</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-menu-link">Wedding Gifts</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='rings' %}?sub=engagement" class="aaranya-menu-link">Engagement Gifts</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?style=festive" class="aaranya-menu-link">Festive Gifts</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?style=gift" class="aaranya-menu-link">Gifts for Her</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?sub=men" class="aaranya-menu-link">Gifts for Him</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Price & Sets -->
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">SHOP BY PRICE &amp; SET</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:vault' %}?max_price=10000" class="aaranya-menu-link">Under ₹10,000</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?max_price=25000" class="aaranya-menu-link">Under ₹25,000</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?max_price=50000" class="aaranya-menu-link">Under ₹50,000</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?filter=bestseller" class="aaranya-menu-link">Premium Gifts</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?sub=pendant" class="aaranya-menu-link">Personalised Gifts</a></li>
+            <li><a href="{% url 'campaigns:vault' %}?sub=gift" class="aaranya-menu-link">Curated Gift Sets</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Gifting Promo -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:vault' %}?sub=gift" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-heirloom-gifting.jpg' %}" alt="Heirloom Gifting Experience" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">Heirloom Gifting Experience</h5>
+              <p class="aaranya-promo-desc">Complimentary royal velvet gift box &amp; bespoke handwritten calligraphy note.</p>
+              <span class="aaranya-promo-cta">Discover Gifting &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ====================================================================
+         PANE 11: MORE
+         ==================================================================== -->
+    <div class="aaranya-menu-panel" data-panel="more" role="tabpanel" aria-label="Atelier Services &amp; More">
+      <div class="aaranya-menu-grid cols-3-promo-1">
+        
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">ATELIER SERVICES</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link">Hereditary Craftsmanship</a></li>
+            <li><a href="{% url 'campaigns:vault' %}" data-open-appointment class="aaranya-menu-link">Private Jewellery Viewing</a></li>
+            <li><a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link">Bespoke Heirloom Commissions</a></li>
+            <li><a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link">BIS 916 &amp; GIA Certification</a></li>
+          </ul>
+        </div>
+
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">CARE &amp; EXPERTISE</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link">Jewellery Care &amp; Preservation</a></li>
+            <li><a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link">Heirloom Gold Exchange</a></li>
+            <li><a href="{% url 'campaigns:vault' %}" class="aaranya-menu-link">Insured White-Glove Concierge</a></li>
+            <li><a href="/admin/" class="aaranya-menu-link">Jewellery Store CMS</a></li>
+          </ul>
+        </div>
+
+        <div class="aaranya-menu-col">
+          <h4 class="aaranya-col-heading">THE ATELIER JOURNAL</h4>
+          <ul class="aaranya-link-list text-only">
+            <li><a href="{% url 'campaigns:category_products' slug='necklaces' %}?style=polki" class="aaranya-menu-link">The Kundan &amp; Polki Story</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-menu-link">The Imperial Bridal Trousseau Guide</a></li>
+            <li><a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}" class="aaranya-menu-link">The 4 Cs of Solitaire Fire</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Side: Craftsmanship & Heritage Promo -->
+        <div class="aaranya-promo-group cols-1">
+          <a href="{% url 'campaigns:vault' %}" class="aaranya-promo-card">
+            <div class="aaranya-promo-media">
+              <img src="{% static 'campaigns/img/menu/promos/promo-generations.jpg' %}" alt="Master Craftsmanship &amp; Heritage" class="aaranya-promo-img" loading="lazy">
+            </div>
+            <div class="aaranya-promo-info">
+              <h5 class="aaranya-promo-title">The Art of Becoming Heirloom</h5>
+              <p class="aaranya-promo-desc">Where generations of craftsmanship become a part of your story.</p>
+              <span class="aaranya-promo-cta">Read Curatorial Manifesto &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /.aaranya-mega-menu-inner -->
+</div><!-- /.aaranya-mega-menu-overlay -->
+"""
+
+with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+    f.write(template_content)
+
+print(f"Successfully generated updated {OUTPUT_FILE}")

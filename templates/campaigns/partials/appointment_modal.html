@@ -1,0 +1,391 @@
+<!-- ========================================================================
+     AARANYA / ATELIER NILAYA — PRIVATE JEWELLERY VIEWING MODAL
+     In-page luxury appointment booking modal (eliminates OS mailto prompt)
+     ======================================================================== -->
+<div id="appointment-modal" class="atelier-appointment-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="appointment-modal-title">
+  <div class="atelier-appointment-backdrop" id="appointment-modal-backdrop"></div>
+  
+  <div class="atelier-appointment-card">
+    <button type="button" class="appointment-modal-close" id="appointment-modal-close-btn" aria-label="Close appointment modal">
+      &times;
+    </button>
+
+    <div class="appointment-card-header">
+      <span class="appointment-eyebrow">AARANYA &bull; PRIVATE JEWELLERY CONCIERGE</span>
+      <h3 id="appointment-modal-title" class="appointment-title">Reserve a Private Jewellery Viewing</h3>
+      <p class="appointment-subtitle">
+        Our master jewellers welcome connoisseurs by confidential appointment. Inspect certified polki diamonds, 24K pure gold, and bespoke heirloom commissions in complete privacy.
+      </p>
+    </div>
+
+    <!-- Booking Form -->
+    <form id="appointment-form" class="appointment-form" onsubmit="event.preventDefault(); window.handleAppointmentSubmit();">
+      <div class="appointment-grid">
+        
+        <div class="appointment-field">
+          <label for="app-client-name" class="appointment-label">Full Name *</label>
+          <input type="text" id="app-client-name" class="appointment-input" placeholder="e.g. Lady Gayatri Devi" required>
+        </div>
+
+        <div class="appointment-field">
+          <label for="app-client-phone" class="appointment-label">Phone / WhatsApp Number *</label>
+          <input type="tel" id="app-client-phone" class="appointment-input" placeholder="+91 98250 00000" required>
+        </div>
+
+        <div class="appointment-field">
+          <label for="app-client-date" class="appointment-label">Preferred Date *</label>
+          <input type="date" id="app-client-date" class="appointment-input" required>
+        </div>
+
+        <div class="appointment-field">
+          <label for="app-viewing-mode" class="appointment-label">Showroom &amp; Viewing Location</label>
+          <select id="app-viewing-mode" class="appointment-select">
+            <option value="surat">Surat Flagship Atelier &amp; Showroom (Mugalisara)</option>
+            <option value="mumbai">Private Viewing Suite (Mumbai)</option>
+            <option value="delhi">Private Viewing Suite (New Delhi)</option>
+            <option value="virtual">Virtual Concierge Video Viewing (Worldwide)</option>
+          </select>
+        </div>
+
+        <div class="appointment-field full-width">
+          <label for="app-client-notes" class="appointment-label">Artworks or Special Requests (Optional)</label>
+          <textarea id="app-client-notes" class="appointment-textarea" rows="2" placeholder="e.g. Bridal choker suites, solitaire rings, or bespoke nakashi craftsmanship."></textarea>
+        </div>
+
+      </div>
+
+      <div class="appointment-actions">
+        <button type="submit" class="appointment-submit-btn">
+          <span>CONFIRM APPOINTMENT REQUEST</span>
+          <span class="submit-arrow">&rarr;</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Success Confirmation State (Initially Hidden) -->
+    <div id="appointment-success-state" class="appointment-success-state" style="display: none;">
+      <div class="appointment-success-icon">✦</div>
+      <h4 class="appointment-success-title">Your Private Viewing Is Requested</h4>
+      <p class="appointment-success-body">
+        Thank you. Your appointment request has been reserved with distinction. Our senior master jeweller will contact you via WhatsApp/phone within 2 business hours to confirm your private viewing suite.
+      </p>
+      <div class="appointment-ref-badge" id="appointment-ref-code">REF: AN-2026-8842</div>
+      <button type="button" class="appointment-close-success-btn" onclick="window.closeAppointmentModal()">
+        Return to Atelier
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ============================================================================
+   APPOINTMENT MODAL STYLES (Aaranya / Atelier Nilaya Luxury Identity)
+   ============================================================================ */
+.atelier-appointment-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+
+.atelier-appointment-modal.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.atelier-appointment-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 14, 12, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.atelier-appointment-card {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  padding: 40px;
+  z-index: 2;
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.atelier-appointment-modal.is-active .atelier-appointment-card {
+  transform: translateY(0) scale(1);
+}
+
+.appointment-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #682D3C;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: opacity 0.2s;
+}
+
+.appointment-modal-close:hover {
+  opacity: 0.6;
+}
+
+.appointment-eyebrow {
+  display: block;
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.70rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: #682D3C;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.appointment-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #302522;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+}
+
+.appointment-subtitle {
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #6a625e;
+  margin: 0 0 24px 0;
+}
+
+.appointment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.appointment-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.appointment-label {
+  display: block;
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #302522;
+  margin-bottom: 6px;
+}
+
+.appointment-input,
+.appointment-select,
+.appointment-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #D8D2C9;
+  border-radius: 2px;
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.88rem;
+  color: #302522;
+  background-color: #FAF8F5;
+  transition: border-color 0.2s, background-color 0.2s;
+  box-sizing: border-box;
+}
+
+.appointment-input:focus,
+.appointment-select:focus,
+.appointment-textarea:focus {
+  outline: none;
+  border-color: #682D3C;
+  background-color: #FFFFFF;
+}
+
+.appointment-submit-btn {
+  width: 100%;
+  padding: 14px 28px;
+  background: #682D3C;
+  color: #FFFFFF;
+  border: none;
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.appointment-submit-btn:hover {
+  background: #501F2C;
+}
+
+.appointment-success-state {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.appointment-success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #F7F2E9;
+  color: #682D3C;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  border: 1px solid #E8DDD0;
+}
+
+.appointment-success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: #302522;
+  margin: 0 0 10px 0;
+}
+
+.appointment-success-body {
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.90rem;
+  line-height: 1.6;
+  color: #6a625e;
+  max-width: 480px;
+  margin: 0 auto 20px auto;
+}
+
+.appointment-ref-badge {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 0.82rem;
+  background: #F7F2E9;
+  color: #682D3C;
+  padding: 6px 14px;
+  border-radius: 3px;
+  border: 1px dashed #682D3C;
+  margin-bottom: 24px;
+}
+
+.appointment-close-success-btn {
+  padding: 10px 24px;
+  border: 1px solid #302522;
+  background: transparent;
+  color: #302522;
+  font-family: 'Manrope', -apple-system, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.appointment-close-success-btn:hover {
+  background: #302522;
+  color: #FFFFFF;
+}
+
+@media (max-width: 640px) {
+  .atelier-appointment-card {
+    padding: 24px 18px;
+  }
+  .appointment-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+(function() {
+  function openAppointmentModal() {
+    const modal = document.getElementById('appointment-modal');
+    if (!modal) return;
+    modal.classList.add('is-active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    // Set minimum date to tomorrow
+    const dateInput = document.getElementById('app-client-date');
+    if (dateInput && !dateInput.value) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      dateInput.min = tomorrow.toISOString().split('T')[0];
+      dateInput.value = tomorrow.toISOString().split('T')[0];
+    }
+  }
+
+  function closeAppointmentModal() {
+    const modal = document.getElementById('appointment-modal');
+    if (!modal) return;
+    modal.classList.remove('is-active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function handleAppointmentSubmit() {
+    const form = document.getElementById('appointment-form');
+    const successState = document.getElementById('appointment-success-state');
+    const refCode = document.getElementById('appointment-ref-code');
+
+    if (form) form.style.display = 'none';
+    if (refCode) {
+      const randomRef = 'REF: AN-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+      refCode.textContent = randomRef;
+    }
+    if (successState) successState.style.display = 'block';
+  }
+
+  window.openAppointmentModal = openAppointmentModal;
+  window.closeAppointmentModal = closeAppointmentModal;
+  window.handleAppointmentSubmit = handleAppointmentSubmit;
+
+  // Intercept all appointment buttons and href="#private-appointment" links
+  document.addEventListener('DOMContentLoaded', function() {
+    const backdrop = document.getElementById('appointment-modal-backdrop');
+    const closeBtn = document.getElementById('appointment-modal-close-btn');
+
+    if (backdrop) backdrop.addEventListener('click', closeAppointmentModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeAppointmentModal);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeAppointmentModal();
+    });
+
+    document.addEventListener('click', function(e) {
+      const trigger = e.target.closest('[data-open-appointment], [href="#private-appointment"], [href*="private-appointment"]');
+      if (trigger) {
+        e.preventDefault();
+        openAppointmentModal();
+        if (trigger.hasAttribute('data-custom-design')) {
+          const notes = document.getElementById('app-client-notes');
+          if (notes) {
+            notes.value = "Custom Bespoke Design Inquiry: The Empress Cushion Solitaire (Archival 1987 Design)";
+          }
+        }
+      }
+    });
+  });
+})();
+</script>

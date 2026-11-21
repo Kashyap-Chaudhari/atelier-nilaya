@@ -1,0 +1,94 @@
+{% load static %}
+<div class="zone-next-preview" role="region" aria-label="Upcoming Collection Preview and Controls">
+  
+  <!-- Interactive Next Collection Unveiling Card -->
+  <div class="preview-interactive-card" role="button" tabindex="0" aria-label="Unveil upcoming collection">
+    
+    <div class="preview-card-header">
+      <span class="preview-status-label">NEXT UNVEILING</span>
+      <span class="preview-next-order">
+        {% if campaigns.1 %}
+          {{ campaigns.1.formatted_order }} / {{ total_campaigns|stringformat:"02d" }}
+        {% else %}
+          01 / {{ total_campaigns|stringformat:"02d" }}
+        {% endif %}
+      </span>
+    </div>
+
+    <div class="preview-poster-box">
+      <img 
+        src="{% if campaigns.1 %}{{ campaigns.1.poster_desktop_url }}{% else %}{{ campaigns.0.poster_desktop_url }}{% endif %}" 
+        alt="Upcoming Collection Preview"
+        class="preview-poster-img"
+        loading="lazy"
+      />
+      <div class="preview-click-overlay">
+        <span class="preview-unveil-badge">UNVEIL &bull; EXPLORE</span>
+      </div>
+    </div>
+
+    <div class="preview-card-footer">
+      <span class="preview-upcoming-eyebrow">
+        {% if campaigns.1 %}{{ campaigns.1.eyebrow }}{% else %}{{ campaigns.0.eyebrow }}{% endif %}
+      </span>
+      <h3 class="preview-upcoming-title">
+        {% if campaigns.1 %}{{ campaigns.1.title }}{% else %}{{ campaigns.0.title }}{% endif %}
+      </h3>
+    </div>
+
+  </div>
+
+  <!-- Editorial Navigation & Playback Controls -->
+  <div class="atelier-nav-controls">
+    
+    <!-- Linear 7-Second Autoplay Progress Bar -->
+    <div class="atelier-timeline-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Campaign presentation timeline">
+      <div class="timeline-progress-fill"></div>
+    </div>
+
+    <!-- Navigation Buttons & Play/Pause -->
+    <div class="atelier-control-actions">
+      
+      <div class="nav-arrow-group">
+        <!-- Previous Arrow -->
+        <button class="atelier-icon-btn btn-prev" aria-label="Previous Jewellery Collection" title="Previous Collection">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Next Arrow -->
+        <button class="atelier-icon-btn btn-next" aria-label="Next Jewellery Collection" title="Next Collection">
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Play / Pause Autoplay Toggle -->
+      <button class="atelier-icon-btn btn-play-pause" aria-label="Pause campaign presentation" title="Pause Autoplay">
+        <svg viewBox="0 0 24 24">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Direct Slide Indicator Pills -->
+    <div class="direct-slide-pills" role="tablist" aria-label="Direct Campaign Selector">
+      {% for c in campaigns %}
+        <button 
+          class="slide-pill-dot {% if forloop.first %}active{% endif %}" 
+          data-slide-index="{{ forloop.counter0 }}"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          aria-label="Navigate to collection {{ c.formatted_order }}: {{ c.title }}"
+          title="{{ c.title }}"
+        ></button>
+      {% endfor %}
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,162 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Email Verification Required &bull; Atelier Nilaya{% endblock %}
+
+{% block extra_head %}
+<style>
+.nilaya-pending-stage {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px 100px;
+  background: radial-gradient(circle at 50% 20%, rgba(104, 45, 60, 0.12) 0%, rgba(14, 14, 12, 0) 70%), #0E0E0C;
+}
+
+.nilaya-pending-container {
+  width: 100%;
+  max-width: 560px;
+}
+
+.nilaya-pending-card {
+  background: #141311;
+  border: 1px solid rgba(217, 181, 107, 0.3);
+  border-radius: 6px;
+  padding: clamp(28px, 4vw, 42px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+  text-align: center;
+}
+
+.nilaya-auth-eyebrow {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.nilaya-card-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 2.3rem);
+  font-weight: 500;
+  color: #F8F5F0;
+  margin: 0 0 12px;
+}
+
+.nilaya-card-subtitle {
+  font-size: 0.92rem;
+  color: rgba(248, 245, 240, 0.75);
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+.nilaya-auth-alert {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.nilaya-alert-success {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+}
+
+.nilaya-alert-error {
+  background: rgba(185, 28, 28, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.nilaya-auth-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 14px 24px;
+  background: #d9b56b;
+  color: #1c0b13;
+  text-decoration: none;
+  border-radius: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nilaya-auth-btn:hover {
+  background: #ecd59b;
+}
+
+.nilaya-link-gold {
+  color: #d9b56b;
+  text-decoration: none;
+}
+.nilaya-link-gold:hover {
+  text-decoration: underline;
+}
+
+.nilaya-perk-box {
+  background: rgba(28, 11, 19, 0.6);
+  border: 1px solid rgba(217, 181, 107, 0.2);
+  border-radius: 6px;
+  padding: 16px;
+  margin: 24px 0;
+  text-align: left;
+  font-size: 0.82rem;
+  color: rgba(248, 245, 240, 0.7);
+  line-height: 1.5;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="nilaya-pending-stage">
+  <div class="nilaya-pending-container">
+    <div class="nilaya-pending-card">
+      <span class="nilaya-auth-eyebrow">Verification Required</span>
+      <h1 class="nilaya-card-title">Verify Your Email Address</h1>
+      <p class="nilaya-card-subtitle">
+        We have dispatched a confidential verification link to <strong>{{ target_email|default:"your registered email" }}</strong>. 
+        Please click the link in your email within 1 hour to enable checkout.
+      </p>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="nilaya-auth-alert {% if message.tags == 'error' %}nilaya-alert-error{% else %}nilaya-alert-success{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="nilaya-perk-box">
+        <strong style="color: #d9b56b; display: block; margin-bottom: 6px;">✦ Private Vault Policy:</strong>
+        In accordance with bullion security standards and insured logistics protocol, clients can freely browse collections and curate their acquisition bag, but must verify their email address before accessing checkout and placing orders.
+      </div>
+
+      <form method="POST" action="{% url 'campaigns:resend_verification_email' %}">
+        {% csrf_token %}
+        <input type="hidden" name="email" value="{{ target_email|default:'' }}">
+        <input type="hidden" name="next" value="{{ next|default:'' }}">
+        <button type="submit" class="nilaya-auth-btn">
+          Resend Verification Email (Max 3 / hour) &rarr;
+        </button>
+      </form>
+
+      <div style="margin-top: 24px; font-size: 0.82rem; display: flex; justify-content: space-between;">
+        <a href="{% url 'campaigns:hero' %}" class="nilaya-link-gold">&larr; Continue browsing pieces</a>
+        <a href="{% url 'campaigns:logout' %}" class="nilaya-link-gold">Sign out / Switch account</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

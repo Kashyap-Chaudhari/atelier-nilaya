@@ -1,0 +1,125 @@
+{% load static %}
+<!-- ========================================================================
+     ATELIER NILAYA — LUXURY SLIDE-IN BAG DRAWER
+     Slide-in panel on Desktop (Right) / Bottom Sheet on Mobile
+     ======================================================================== -->
+<div class="nilaya-bag-scrim" id="nilaya-bag-scrim" aria-hidden="true"></div>
+
+<aside class="nilaya-bag-drawer" id="nilaya-bag-drawer" role="dialog" aria-modal="true" aria-label="Acquisition Bag" aria-hidden="true">
+  
+  <!-- Header -->
+  <header class="bag-drawer-header">
+    <div class="bag-drawer-title-wrap">
+      <span class="bag-drawer-kicker">ATELIER NILAYA &bull; SURAT</span>
+      <h2 class="bag-drawer-title">
+        Acquisition Bag <span class="bag-title-count">(<span id="drawer-bag-count">0</span>)</span>
+      </h2>
+    </div>
+    <button type="button" class="bag-drawer-close" id="bag-drawer-close-btn" aria-label="Close Acquisition Bag">
+      &times;
+    </button>
+  </header>
+
+  <!-- Notification Banner -->
+  <div class="bag-drawer-alert" id="bag-drawer-alert" style="display:none;"></div>
+
+  <!-- Body / Items List -->
+  <div class="bag-drawer-body">
+    <!-- Empty State -->
+    <div class="bag-empty-state" id="bag-empty-state">
+      <div class="bag-empty-icon">&#10022;</div>
+      <h3 class="bag-empty-title">Your acquisition bag is empty</h3>
+      <p class="bag-empty-sub">
+        Explore our curated royal collections, archival suites, and bespoke bridal pieces.
+      </p>
+      <a href="{% url 'campaigns:vault' %}" class="btn-empty-vault">
+        EXPLORE THE VAULT &rarr;
+      </a>
+    </div>
+
+    <!-- Filled Items List -->
+    <div class="bag-items-list" id="bag-items-list" style="display:none;">
+      <!-- Populated via bag_drawer.js -->
+    </div>
+  </div>
+
+  <!-- Footer / Price Breakup & Checkout CTA -->
+  <footer class="bag-drawer-footer" id="bag-drawer-footer" style="display:none;">
+    
+    <!-- Transparent Bench Price Breakup -->
+    <div class="bag-price-breakup">
+      <div class="breakup-row">
+        <span>Precious Metal Value</span>
+        <span id="breakup-gold-val">₹0</span>
+      </div>
+      <div class="breakup-row">
+        <span>Master Bench Making Charges</span>
+        <span id="breakup-making-val">₹0</span>
+      </div>
+      <div class="breakup-row" id="breakup-stone-row">
+        <span>Certified Gemstones</span>
+        <span id="breakup-stone-val">₹0</span>
+      </div>
+      <div class="breakup-row">
+        <span>GST (3% Sovereign Hallmark)</span>
+        <span id="breakup-gst-val">₹0</span>
+      </div>
+      <div class="breakup-row breakup-shipping">
+        <span>Insured Armored Courier</span>
+        <span class="breakup-free">Complimentary</span>
+      </div>
+      
+      <div class="breakup-divider"></div>
+      
+      <div class="breakup-row breakup-total">
+        <span>Total Acquisition Value</span>
+        <span class="breakup-final-amount" id="breakup-total-val">₹0</span>
+      </div>
+
+      <div class="breakup-advance-note" id="breakup-advance-note" style="display:none;">
+        <span class="advance-tag">Made To Order</span>
+        <span id="breakup-advance-text">Advance Payable Today: ₹0</span>
+      </div>
+    </div>
+
+    <!-- Item Unavailable Notice Area -->
+    <div id="bag-unavailable-notice" style="display:none; background: rgba(104,45,60,0.25); border: 1px solid #682D3C; color: #fca5a5; padding: 10px 14px; border-radius: 4px; font-size: 0.82rem; margin-bottom: 14px; line-height: 1.4;"></div>
+
+    <!-- Checkout Action -->
+    <div class="bag-cta-group">
+      {% if user.is_authenticated %}
+      <a href="{% url 'orders:checkout' %}" class="btn-bag-checkout" id="btn-proceed-checkout">
+        <span>Proceed to checkout</span>
+        <span class="checkout-arrow">&rarr;</span>
+      </a>
+      {% else %}
+      <a href="/login/?next=/checkout/" class="btn-bag-checkout" id="btn-proceed-checkout">
+        <span>Proceed to checkout</span>
+        <span class="checkout-arrow">&rarr;</span>
+      </a>
+      {% endif %}
+      
+      <a href="https://wa.me/[add number]" class="bag-whatsapp-assist" target="_blank" rel="noopener">
+        <span>Questions about sizing or purity? Chat on WhatsApp [add number]</span>
+      </a>
+    </div>
+
+    <!-- Assurance Badges -->
+    <div class="bag-trust-badges">
+      <div class="trust-badge-item">
+        <span class="badge-icon">&#10003;</span>
+        <span>BIS 916 / 750 Hallmarked</span>
+      </div>
+      <div class="trust-badge-item">
+        <span class="badge-icon">&#10003;</span>
+        <span>100% Insured Armored Delivery</span>
+      </div>
+      <div class="trust-badge-item">
+        <span class="badge-icon">&#10003;</span>
+        <span>15-Day Exchange Privilege</span>
+      </div>
+    </div>
+
+  </footer>
+
+</aside>

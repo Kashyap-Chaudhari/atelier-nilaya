@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier Nilaya &bull; Fine Jewellery &bull; Surat &bull; Est. 1954</title>
+  <meta name="description" content="Atelier Nilaya â€” Surat's historic jewellery maison crafting bespoke certified hallmarked gold, uncut polki diamonds, and royal heirlooms since 1954.">
+
+  <!-- Fonts: Cormorant Garamond & Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- Fast inline check: add has-curtains class immediately so curtains show on every refresh/load -->
+  <script>
+    (function () {
+      try {
+        var hasHash = window.location.hash && window.location.hash.length > 1;
+        if (!hasHash) {
+          document.documentElement.classList.add('has-curtains');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+
+<body>
+
+  <!-- ========================================================================
+       VELVET CURTAINS OPENING COVER ("Velvet curtains")
+       Colours: plum #25101f, wine #3b1630, champagne #ead9b6
+       ======================================================================== -->
+  <aside id="curtains-cover" 
+         class="curtains-cover" 
+         role="dialog" 
+         aria-modal="true" 
+         aria-label="Welcome to Atelier Nilaya">
+    <!-- Two Plum Velvet Panels meeting at center seam -->
+    <div class="curtains-panel curtains-panel-left" aria-hidden="true"></div>
+    <div class="curtains-panel curtains-panel-right" aria-hidden="true"></div>
+
+    <!-- Center Stage: Gem Outline, Shop Name & Tagline -->
+    <div class="curtains-center">
+      <!-- 3 SVG paths with pathLength="100" for synchronized stroke draw -->
+      <svg class="curtains-gem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Path 1: Crown trapezoid -->
+        <path d="M 26 30 L 74 30 L 90 44 L 10 44 Z" pathLength="100" />
+        <!-- Path 2: Lower pavilion cone to culet -->
+        <path d="M 10 44 L 50 86 L 90 44 Z" pathLength="100" />
+        <!-- Path 3: Internal diamond facets radiating from culet to table -->
+        <path d="M 26 30 L 50 86 L 74 30 M 50 30 L 50 86 M 10 44 L 90 44" pathLength="100" />
+      </svg>
+
+      <h1 class="curtains-title">Atelier Nilaya</h1>
+      <p class="curtains-tagline">Surat &bull; Est. 1954</p>
+    </div>
+
+    <!-- Keyboard-Reachable Accessible Skip Button -->
+    <button type="button" 
+            id="curtains-skip-btn" 
+            class="curtains-skip-btn" 
+            aria-label="Skip introductory curtain animation">
+      Skip
+    </button>
+  </aside>
+
+  <!-- ========================================================================
+       1. GLOBAL HEADER
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-block">
+        <a href="{{ url_for('index') }}" class="brand-title">Atelier Nilaya</a>
+        <span class="brand-location">Surat &bull; Est. 1954</span>
+      </div>
+
+      <nav class="header-nav" aria-label="Main Navigation">
+        <a href="{{ url_for('index') }}" class="nav-link is-active">Home</a>
+        <a href="#edit" class="nav-link">Featured Edit</a>
+        {% for cat in all_categories %}
+        <a href="{{ url_for('category', category_slug=cat.slug) }}" class="nav-link">
+          {{ cat.name }}
+        </a>
+        {% endfor %}
+        <a href="#visit" class="nav-link">Private Viewing</a>
+
+        <a href="{{ url_for('wishlist') }}" class="header-icon-link" aria-label="View saved pieces in wishlist">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="header-icon-label">Wishlist</span>
+          <span class="header-badge wishlist-badge{% if not wishlist_ids %} is-hidden{% endif %}" id="header-wishlist-count">
+            {{ wishlist_ids|length }}
+          </span>
+        </a>
+
+        <a href="{{ url_for('bag') }}" class="header-icon-link" aria-label="View shopping bag">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="header-icon-label">Bag</span>
+          <span class="header-badge{% if not cart_count %} is-hidden{% endif %}" id="header-cart-count">
+            {{ cart_count }}
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. HERO SECTION (Synchronized with Curtains Reveal)
+       ======================================================================== -->
+  <main id="main-content">
+    <section class="home-hero-section" aria-label="Introduction">
+      <div class="hero-content-wrap">
+        <span class="hero-kicker">Maison de Haute Joaillerie &bull; Surat</span>
+        <h2 class="hero-headline">The Sovereign Vault of Surat Fine Jewellery</h2>
+        <p class="hero-sub">
+          Handcrafted in certified 22K and 18K gold, calibrated with rare uncut syndicate polki diamonds and Colombian emeralds. Every piece is an heirloom sculpted for generations.
+        </p>
+        <div class="hero-cta-group">
+          <a href="{{ url_for('category', category_slug='rings') }}" class="hero-btn-primary">
+            Explore Curated Vault
+          </a>
+          <a href="#visit" class="hero-btn-secondary">
+            Request Private Viewing
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         FEATURED EDIT: MID-PAGE SECTION (FADED PHOTO BAND + EDITORIAL GRID)
+         Placed STRICTLY before "Four Master Chapters of The Atelier" (Section 3)
+         Scroll Anchor: id="edit"
+         ======================================================================== -->
+    {% include 'partials/featured_edit_section.html' %}
+
+    <!-- ========================================================================
+         3. CURATED VAULT CHAPTERS (SHOP BY CATEGORY)
+         ======================================================================== -->
+    <section class="home-section" aria-labelledby="categories-heading">
+      <div class="home-section-header">
+        <span class="home-section-kicker">Permanent Catalogue</span>
+        <h3 id="categories-heading" class="home-section-title">Four Master Chapters of The Atelier</h3>
+      </div>
+
+      <div class="categories-grid">
+        {% for cat in all_categories %}
+        <a href="{{ url_for('category', category_slug=cat.slug) }}" class="category-card">
+          <span class="category-card-name">{{ cat.name }}</span>
+          <span class="category-card-count">Explore Collection &rarr;</span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         THE SKETCHBOOK: FROM PENCIL TO JEWEL
+         Directly after Shop by Category section.
+         Concept: The founder's archival design sketchbook page with an interactive
+         before-and-after slider revealing the drawing turning into the real jewel.
+         ======================================================================== -->
+    {% if designs %}
+    <section id="sketchbook-section" class="sketchbook-section" aria-labelledby="sketchbook-heading">
+      <div class="sketchbook-header">
+        <span class="sketchbook-kicker">The Sketchbook &bull; From Pencil to Jewel</span>
+        <!-- Section headline: Strictly ONE real sentence in the founder's voice -->
+        <h2 id="sketchbook-heading" class="sketchbook-headline">
+          &ldquo;Every ring in our vault began as a pencil line on this bench.&rdquo;
+        </h2>
+      </div>
+
+      <!-- The Sketchbook Page Presentation Case -->
+      <div class="sketchbook-stage-wrap">
+        <div class="sketchbook-page" 
+             id="sketchbook-page" 
+             style="--slider-pos: 50%;"
+             tabindex="0"
+             aria-label="Interactive sketchbook comparison page">
+
+          <!-- 1. LEFT LAYER: Original hand-drawn pencil design on cream paper (#efe4cc) -->
+          <div class="sketchbook-layer sketchbook-layer--sketch" aria-hidden="false">
+            <img id="sketchbook-sketch-img"
+                 class="sketchbook-img"
+                 src="{{ designs[0].sketch_path }}"
+                 alt="{{ designs[0].sketch_alt }}"
+                 width="640"
+                 height="425"
+                 loading="eager"
+                 fetchpriority="high">
+          </div>
+
+          <!-- 2. RIGHT LAYER: Finished piece (clipped via clip-path: polygon) -->
+          <div class="sketchbook-layer sketchbook-layer--finished" 
+               id="sketchbook-finished-layer" 
+               aria-hidden="false">
+            <div class="sketchbook-finished-inner" id="sketchbook-finished-container">
+              <img id="sketchbook-finished-img"
+                   class="sketchbook-img"
+                   src="{{ designs[0].finished_photo }}"
+                   alt="Finished {{ designs[0].title }} hand-set in {{ designs[0].default_metal|replace('_', ' ')|title }}"
+                   width="640"
+                   height="425"
+                   loading="eager">
+
+              <!-- Missing image fallback (never broken icon or alt text) -->
+              <div id="sketchbook-fallback" class="sketchbook-fallback" style="display: none;" aria-hidden="true">
+                <span class="sketchbook-fallback-mark">&#9671;</span>
+                <span class="sketchbook-fallback-text">Photo coming soon</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. DRAGGABLE DIVIDER LINE & 44px TOUCH HANDLE -->
+          <div class="sketchbook-divider" 
+               id="sketchbook-divider" 
+               style="left: var(--slider-pos, 50%);"
+               aria-hidden="true">
+            <div class="sketchbook-divider-line"></div>
+            <div class="sketchbook-handle"
+                 id="sketchbook-handle"
+                 role="slider"
+                 tabindex="0"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 aria-valuenow="50"
+                 aria-label="Compare sketch and finished piece"
+                 title="Drag left or right to compare">
+              <svg class="sketchbook-handle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+                <polyline points="9 18 15 12 9 6" transform="translate(6, 0)"></polyline>
+              </svg>
+            </div>
+          </div>
+
+        </div> <!-- /.sketchbook-page -->
+
+        <!-- Metal selector dots under the page (only for metals really offered for active design) -->
+        <div class="sketchbook-metal-dots-row" id="sketchbook-metal-dots" aria-label="Select metal variant">
+          {% for m in designs[0].metals %}
+          <button type="button"
+                  class="sketchbook-metal-dot metal-dot-{{ m }} {% if m == designs[0].default_metal %}is-active{% endif %}"
+                  data-metal="{{ m }}"
+                  aria-label="{{ m|replace('_', ' ')|title }}"
+                  title="{{ m|replace('_', ' ')|title }}">
+          </button>
+          {% endfor %}
+        </div>
+
+        <!-- Design Story, Year, Title (High Contrast & Clear Readability) -->
+        <div class="sketchbook-caption">
+          <div class="sketchbook-meta">
+            <span class="sketchbook-year" id="sketchbook-year">{{ designs[0].year }}</span>
+            <span class="sketchbook-meta-divider" aria-hidden="true">&bull;</span>
+            <a href="{{ url_for('product_detail', slug_or_id=designs[0].product_slug) }}" class="sketchbook-piece-title-link">
+              <h3 class="sketchbook-piece-title" id="sketchbook-title">{{ designs[0].title }}</h3>
+            </a>
+          </div>
+          <p class="sketchbook-story" id="sketchbook-story">{{ designs[0].story }}</p>
+
+          <!-- Action CTAs (Ultra-High Contrast, WCAG AAA Compliant & Bold Typography) -->
+          <div class="sketchbook-actions">
+            <a href="{{ url_for('product_detail', slug_or_id=designs[0].product_slug) }}" class="sketchbook-btn sketchbook-btn--primary">
+              <span>VIEW THIS PIECE</span>
+              <span class="sketchbook-btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <a href="#visit" class="sketchbook-btn sketchbook-btn--outline" title="Commission a bespoke custom jewellery design">
+              <span>ASK FOR A CUSTOM DESIGN</span>
+              <span class="sketchbook-btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+      </div> <!-- /.sketchbook-stage-wrap -->
+
+      <!-- Structured Designs Payload for vanilla JS controller -->
+      <script type="application/json" id="sketchbook-data">
+        {{ designs|tojson|safe }}
+      </script>
+    </section>
+    {% endif %}
+
+    <!-- ========================================================================
+         4. FEATURED MASTERPIECES SHOWCASE
+         ======================================================================== -->
+    {% if featured_products %}
+    <section class="home-section" style="padding-top: 0;" aria-labelledby="featured-heading">
+      <div class="home-section-header">
+        <span class="home-section-kicker">Archival Creations</span>
+        <h3 id="featured-heading" class="home-section-title">Masterpieces of the Maison</h3>
+      </div>
+
+      <div class="featured-grid">
+        {% for prod in featured_products %}
+        <a href="{{ url_for('product_detail', slug_or_id=prod.slug) }}" class="featured-card">
+          {% if prod.tag %}
+          <span class="featured-card-badge">{{ prod.tag }}</span>
+          {% endif %}
+          <h4 class="featured-card-name">{{ prod.name }}</h4>
+          <span class="featured-card-metal">{{ prod.metal|default('18K Yellow Gold') }} &bull; {{ prod.stone|default('Syndicate Polki') }}</span>
+          <div class="featured-card-price">â‚¹{{ prod.price|format_inr }}</div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ========================================================================
+         "PIECES THAT FOUND THEIR FAMILY"
+         Replaces Customer Reviews and FAQ sections.
+         ======================================================================== -->
+    {% include 'partials/family_album_section.html' %}
+
+    <!-- ========================================================================
+         5. PRIVATE ATELIER SHOWROOM SECTION
+         ======================================================================== -->
+    <section id="visit" class="home-section" style="padding-top: 0;" aria-labelledby="showroom-heading">
+      <div class="showroom-banner">
+        <h3 id="showroom-heading" class="showroom-banner-title">Private Viewing at Surat Atelier</h3>
+        <p class="showroom-banner-sub">
+          Experience our private showroom by appointment. Discover raw uncut stones, trial bridal suites in privacy, and commission bespoke archival pieces directly with our master karigars.
+        </p>
+        <a href="{{ url_for('category', category_slug='rings') }}" class="showroom-banner-btn">
+          View Available Creations
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       6. GLOBAL FOOTER
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-title">Atelier Nilaya</div>
+        <div class="footer-tagline">Surat &bull; Est. 1954</div>
+      </div>
+      <div class="footer-copy">&copy; 1954&ndash;2026 Atelier Nilaya. All rights reserved. Surat, Gujarat, India.</div>
+      <div class="footer-links">
+        <a href="{{ url_for('index') }}" class="footer-link">Home</a>
+        <a href="{{ url_for('category', category_slug='rings') }}" class="footer-link">Vault</a>
+        <a href="{{ url_for('wishlist') }}" class="footer-link">Wishlist</a>
+        <a href="{{ url_for('bag') }}" class="footer-link">Bag</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>

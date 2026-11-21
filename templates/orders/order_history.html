@@ -1,0 +1,324 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Order History &bull; Atelier Nilaya Haute Joaillerie{% endblock %}
+
+{% block extra_head %}
+<style>
+.history-page-container {
+  max-width: 960px;
+  margin: 40px auto 80px;
+  padding: 0 24px;
+}
+
+.history-header {
+  margin-bottom: 36px;
+  text-align: left;
+}
+
+.history-eyebrow {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #AD9161;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.history-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  font-weight: 500;
+  color: #F8F5F0;
+  margin: 0 0 8px;
+}
+
+.history-subtitle {
+  font-size: 0.92rem;
+  color: rgba(248, 245, 240, 0.65);
+  margin: 0;
+}
+
+/* Guest Phone Search Bar */
+.history-phone-card {
+  background: #141311;
+  border: 1px solid rgba(173, 145, 97, 0.25);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.history-phone-form {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  max-width: 440px;
+}
+
+.history-input {
+  flex: 1;
+  height: 42px;
+  background: #0E0E0C;
+  border: 1px solid rgba(173, 145, 97, 0.3);
+  border-radius: 4px;
+  color: #F8F5F0;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.88rem;
+  padding: 0 12px;
+  outline: none;
+}
+
+.history-search-btn {
+  height: 42px;
+  padding: 0 18px;
+  background: #642D3B;
+  border: 1px solid #AD9161;
+  color: #F8F5F0;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Orders Cards List */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.history-order-card {
+  background: #141311;
+  border: 1px solid rgba(173, 145, 97, 0.25);
+  border-radius: 6px;
+  padding: 24px 28px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-order-card:hover {
+  border-color: #AD9161;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.history-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(173, 145, 97, 0.15);
+  margin-bottom: 18px;
+}
+
+.history-ref-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #F8F5F0;
+  margin: 0 0 2px;
+}
+
+.history-date {
+  font-size: 0.78rem;
+  color: rgba(248, 245, 240, 0.55);
+}
+
+.history-items-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.history-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: #0E0E0C;
+  border: 1px solid rgba(173, 145, 97, 0.2);
+}
+
+.history-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(173, 145, 97, 0.12);
+}
+
+.history-total-price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #d9b56b;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.history-track-btn {
+  height: 38px;
+  padding: 0 16px;
+  background: #642D3B;
+  border: 1px solid #AD9161;
+  color: #F8F5F0;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.history-track-btn:hover {
+  background: #7a3648;
+}
+
+/* Empty State */
+.history-empty-card {
+  background: #141311;
+  border: 1px solid rgba(173, 145, 97, 0.2);
+  border-radius: 6px;
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.history-empty-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  color: #F8F5F0;
+  margin: 12px 0 8px;
+}
+
+.history-empty-sub {
+  font-size: 0.9rem;
+  color: rgba(248, 245, 240, 0.6);
+  max-width: 440px;
+  margin: 0 auto 24px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="history-page-container">
+  
+  <header class="history-header">
+    <span class="history-eyebrow">Atelier Nilaya &bull; Private Client Registry</span>
+    <h1 class="history-title">Acquisition Folio &bull; {{ customer_name }}</h1>
+    <p class="history-subtitle">Review your certified haute joaillerie acquisitions, hallmark registries, and bench crafting milestones.</p>
+  </header>
+
+  {% if orders %}
+  <div class="history-list" id="my-orders">
+    {% for ord in orders %}
+    <article class="history-order-card">
+      <div class="history-card-top">
+        <div>
+          <h2 class="history-ref-title">{{ ord.order_number }}</h2>
+          <span class="history-date">Acquired on {{ ord.created_at|date:"d M Y, h:i A" }} &bull; {{ ord.customer_name }}</span>
+        </div>
+        <div style="font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 4px; background: rgba(173, 145, 97, 0.15); border: 1px solid #AD9161; color: #d9b56b;">
+          ● {{ ord.get_status_display }}
+        </div>
+      </div>
+
+      <!-- Item Thumbnails and Names -->
+      <div class="history-items-row">
+        {% for item in ord.items.all %}
+        <div style="display: flex; align-items: center; gap: 10px; margin-right: 16px;">
+          <img src="{{ item.product.image_url_fallback }}" alt="{{ item.product_name }}" class="history-thumb" onerror="this.src='/static/lifestyle/hero-lifestyle-1920.webp'">
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600; color: #F8F5F0;">{{ item.product_name }}</div>
+            <div style="font-size: 0.72rem; color: rgba(248, 245, 240, 0.5);">{{ item.metal|title|cut:"_" }} &bull; Qty: {{ item.quantity }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="history-card-bottom">
+        <div>
+          <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(248, 245, 240, 0.55); display: block;">Total Acquisition Settled</span>
+          <span class="history-total-price">₹{{ ord.total_amount|floatformat:0 }}</span>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="{% url 'orders:invoice' ord.order_number %}" class="history-track-btn" style="background: transparent; border-color: rgba(173,145,97,0.4); color: #d9b56b;">
+            Tax Invoice &darr;
+          </a>
+          <a href="{% url 'orders:track' %}?order={{ ord.order_number }}" class="history-track-btn">
+            Track Milestone &rarr;
+          </a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="history-empty-card" id="my-orders">
+    <div style="font-size: 28px; color: #d9b56b;">✦</div>
+    <h2 class="history-empty-title">No Previous Acquisitions Found</h2>
+    <p class="history-empty-sub">Your client folio is currently empty. Your first bespoke or collection piece begins at The Vault.</p>
+    <a href="{% url 'campaigns:vault' %}" class="history-track-btn" style="padding: 0 24px;">Explore The Vault &rarr;</a>
+  </div>
+  {% endif %}
+
+  <!-- Saved Addresses Section -->
+  <section id="saved-addresses" style="margin-top: 50px; padding-top: 36px; border-top: 1px solid rgba(173,145,97,0.2);">
+    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; color: #F8F5F0; margin: 0 0 8px;">Saved White-Glove Delivery Addresses</h3>
+    <p style="font-size: 0.85rem; color: rgba(248,245,240,0.6); margin-bottom: 20px;">Authenticated destinations on file for armored courier dispatch.</p>
+    
+    {% if saved_addresses %}
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+        {% for addr in saved_addresses %}
+        <div style="background: #141311; border: 1px solid rgba(173,145,97,0.25); border-radius: 6px; padding: 20px;">
+          <strong style="color: #d9b56b;">{{ addr.full_name }}</strong>
+          <p style="font-size: 0.84rem; color: rgba(248,245,240,0.7); margin: 6px 0;">
+            {{ addr.address_line1 }}<br>
+            {{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}<br>
+            Phone: {{ addr.phone }}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="background: #141311; border: 1px dashed rgba(173,145,97,0.25); border-radius: 6px; padding: 24px; text-align: center; color: rgba(248,245,240,0.6); font-size: 0.88rem;">
+        Your delivery addresses will be securely recorded and saved here during your first acquisition checkout.
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- Client Profile Details -->
+  <section id="profile" style="margin-top: 40px; padding-top: 36px; border-top: 1px solid rgba(173,145,97,0.2);">
+    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; color: #F8F5F0; margin: 0 0 8px;">Client Folio Credentials</h3>
+    <div style="background: #141311; border: 1px solid rgba(173,145,97,0.25); border-radius: 6px; padding: 24px; max-width: 500px;">
+      <div style="font-size: 0.86rem; color: rgba(248,245,240,0.8); line-height: 1.8;">
+        <div>Client Name: <strong style="color: #F8F5F0;">{{ user.get_full_name|default:user.first_name|default:user.username }}</strong></div>
+        <div>Registered Contact: <strong style="color: #F8F5F0;">{{ user.email|default:user.username }}</strong></div>
+        <div>Membership Status: <span style="color: #d9b56b; font-weight: 600;">Atelier Nilaya Private Patron</span></div>
+        <div style="margin-top: 14px;">
+          <a href="{% url 'campaigns:logout' %}" style="color: #fca5a5; font-size: 0.82rem; text-decoration: underline;">Log out from this device</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

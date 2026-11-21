@@ -1,0 +1,159 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Email Verification &bull; Atelier Nilaya Haute Joaillerie{% endblock %}
+
+{% block extra_head %}
+<style>
+.nilaya-verify-stage {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px 100px;
+  background: radial-gradient(circle at 50% 20%, rgba(104, 45, 60, 0.12) 0%, rgba(14, 14, 12, 0) 70%), #0E0E0C;
+}
+
+.nilaya-verify-container {
+  width: 100%;
+  max-width: 540px;
+}
+
+.nilaya-verify-card {
+  background: #141311;
+  border: 1px solid rgba(217, 181, 107, 0.3);
+  border-radius: 6px;
+  padding: clamp(28px, 4vw, 42px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+  text-align: center;
+}
+
+.nilaya-verify-icon {
+  font-size: 2.4rem;
+  color: #d9b56b;
+  margin-bottom: 16px;
+}
+
+.nilaya-auth-eyebrow {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.nilaya-card-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 2.3rem);
+  font-weight: 500;
+  color: #F8F5F0;
+  margin: 0 0 12px;
+}
+
+.nilaya-card-subtitle {
+  font-size: 0.92rem;
+  color: rgba(248, 245, 240, 0.72);
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+
+.nilaya-auth-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: #d9b56b;
+  color: #1c0b13;
+  text-decoration: none;
+  border-radius: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.nilaya-auth-btn:hover {
+  background: #ecd59b;
+}
+
+.nilaya-auth-alert {
+  padding: 14px 18px;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.nilaya-alert-error {
+  background: rgba(185, 28, 28, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.nilaya-alert-success {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+}
+
+.nilaya-link-gold {
+  color: #d9b56b;
+  text-decoration: none;
+}
+.nilaya-link-gold:hover {
+  text-decoration: underline;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="nilaya-verify-stage">
+  <div class="nilaya-verify-container">
+    <div class="nilaya-verify-card">
+      {% if success %}
+        <div class="nilaya-verify-icon">✦</div>
+        <span class="nilaya-auth-eyebrow">Folio Authenticated</span>
+        <h1 class="nilaya-card-title">Email Verified Successfully</h1>
+        <p class="nilaya-card-subtitle">
+          Your client folio has been authenticated. You now have full clearance for private checkout, benchmark bullion price reservations, and white-glove insured acquisitions.
+        </p>
+
+        <a href="{{ redirect_url|default:'/orders/history/' }}" class="nilaya-auth-btn">
+          Proceed to Boutique Folio &rarr;
+        </a>
+      {% else %}
+        <div class="nilaya-verify-icon" style="color: #ef4444;">⚠</div>
+        <span class="nilaya-auth-eyebrow">Authentication Error</span>
+        <h1 class="nilaya-card-title">Verification Link Invalid or Expired</h1>
+        <p class="nilaya-card-subtitle">
+          This verification link is invalid or has expired (links expire after 1 hour). Please request a fresh verification link below.
+        </p>
+
+        {% if resend_message %}
+          <div class="nilaya-auth-alert {% if resend_success %}nilaya-alert-success{% else %}nilaya-alert-error{% endif %}">
+            {{ resend_message }}
+          </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'campaigns:resend_verification_email' %}">
+          {% csrf_token %}
+          <input type="hidden" name="email" value="{{ user_email|default:'' }}">
+          <button type="submit" class="nilaya-auth-btn">
+            Resend Verification Email &rarr;
+          </button>
+        </form>
+
+        <div style="margin-top: 24px; font-size: 0.82rem;">
+          <a href="{% url 'campaigns:login' %}" class="nilaya-link-gold">&larr; Return to Sign In</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

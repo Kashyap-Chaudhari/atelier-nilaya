@@ -1,0 +1,60 @@
+{% load static %}
+<div class="zone-story-rail" role="region" aria-label="Curated Story Rail">
+  <div class="zone-story-rail-content">
+    
+    <!-- Exhibition Catalogue Coordinates -->
+    <div class="story-catalogue-badge" aria-label="Exhibition Archive Marking">
+      <span class="catalogue-icon" aria-hidden="true">✦</span>
+      <span class="catalogue-label">EXHIBITION N&deg; <span class="catalogue-order">{{ campaigns.0.formatted_order }}</span> &bull; PRIVATE JEWELLERY ARCHIVE &bull; SURAT / MUMBAI / NY</span>
+    </div>
+
+    <!-- Odometer Number Lockup -->
+    <div class="collection-counter-lockup">
+      <div class="collection-number-odometer" aria-live="polite">
+        <span class="odometer-digit">{{ campaigns.0.formatted_order }}</span>
+      </div>
+      <span class="collection-total-count" aria-hidden="true">/ {{ total_campaigns|stringformat:"02d" }}</span>
+    </div>
+
+    <!-- Small Uppercase Category Eyebrow -->
+    <div class="story-eyebrow-wrapper">
+      <div class="story-eyebrow eyebrow-label">
+        <span>{{ campaigns.0.eyebrow }}</span>
+      </div>
+    </div>
+
+    <!-- Large Elegant High-Contrast Serif Headline -->
+    <h1 class="story-headline text-display">
+      {{ campaigns.0.title }}
+    </h1>
+
+    <!-- Emotional Sub-headline -->
+    <div class="story-headline-sub">
+      {{ campaigns.0.headline_sub }}
+    </div>
+
+    <!-- Short Emotional Narrative Description -->
+    <p class="story-description">
+      {{ campaigns.0.description }}
+    </p>
+
+    <!-- Provenance & Curator Tag -->
+    <div class="story-provenance-meta">
+      <div class="story-provenance-row">
+        <span class="provenance-pill story-provenance-tag">{{ campaigns.0.provenance_tag }}</span>
+      </div>
+      <div class="story-curator-row">
+        <span class="story-curator-text">{{ campaigns.0.curator_note }}</span>
+      </div>
+    </div>
+
+    <!-- Minimal Collection CTA -->
+    <div class="story-cta-wrapper">
+      <a href="{{ campaigns.0.cta_url }}" class="atelier-cta story-cta-link" role="button">
+        <span class="story-cta-text">{{ campaigns.0.cta_text }}</span>
+        <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>

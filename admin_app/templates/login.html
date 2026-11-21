@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Sign In &bull; Atelier Nilaya Admin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/static/admin.css?v=20261119_1">
+  <style>
+    body {
+      background-color: #f6f1e7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .login-box {
+      background-color: #ffffff;
+      border: 1px solid #e0d8ce;
+      border-radius: 6px;
+      padding: 44px 36px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+    .login-crest {
+      color: #d9b56b;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .login-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: #1c0b13;
+      margin-bottom: 4px;
+    }
+    .login-sub {
+      font-size: 13px;
+      color: #6e5e64;
+      margin-bottom: 28px;
+    }
+    .login-form {
+      text-align: left;
+    }
+    .demo-creds-hint {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid #e0d8ce;
+      font-size: 12px;
+      color: #6e5e64;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <div class="login-crest">✦</div>
+    <h1 class="login-title">Atelier Nilaya</h1>
+    <p class="login-sub">Surat, Est. 1954 &bull; Private Staff Administration</p>
+
+    {% if error %}
+      <div style="background-color: var(--c-error-bg); border: 1px solid var(--c-error); color: var(--c-error); padding: 10px 14px; border-radius: 6px; font-size: 14px; margin-bottom: 20px; text-align: left;">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    {% if require_2fa %}
+      <!-- Step 2: Two-Factor Authentication for Owner -->
+      <form class="login-form" method="POST" action="/login/2fa">
+        <input type="hidden" name="email" value="{{ email }}">
+        <div class="form-group">
+          <label class="form-label" for="otpCode">Owner Two-Factor Verification Code</label>
+          <input type="text" id="otpCode" name="otp_code" class="form-input" placeholder="Enter 6-digit code (e.g. 729401)" required autofocus>
+          <span class="form-helper">Owner authentication requires security OTP verification. Default demo code: <code>729401</code></span>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width: 100%;">Verify &amp; Open Admin</button>
+      </form>
+    {% else %}
+      <!-- Step 1: Email & Password -->
+      <form class="login-form" method="POST" action="/login">
+        <div class="form-group">
+          <label class="form-label" for="staffEmail">Staff Email</label>
+          <input type="email" id="staffEmail" name="email" class="form-input" placeholder="e.g. owner@ateliernilaya.com" required autofocus value="{{ email|default('') }}">
+          <span class="form-helper">Use your authorized Atelier Nilaya staff email address.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="staffPassword">Password</label>
+          <input type="password" id="staffPassword" name="password" class="form-input" placeholder="Enter your password" required>
+          <span class="form-helper">Minimum 8 characters with secure mixed credentials.</span>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 8px;">Sign In to Atelier Admin</button>
+      </form>
+
+      <div class="demo-creds-hint">
+        <strong>Authorized Staff Accounts:</strong><br>
+        &bull; <strong>Owner:</strong> <code>owner@ateliernilaya.com</code> / <code>NilayaOwner1954!</code> (2FA OTP: <code>729401</code>)<br>
+        &bull; <strong>Manager:</strong> <code>manager@ateliernilaya.com</code> / <code>NilayaManager1954!</code><br>
+        &bull; <strong>Stock Staff:</strong> <code>stock@ateliernilaya.com</code> / <code>NilayaStock1954!</code><br>
+        &bull; <strong>Delivery Staff:</strong> <code>delivery@ateliernilaya.com</code> / <code>NilayaDelivery1954!</code>
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

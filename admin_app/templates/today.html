@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Today{% endblock %}
+
+{% block content %}
+<div class="today-container">
+  <div class="card-header" style="border: none; padding-bottom: 0; margin-bottom: 24px;">
+    <div>
+      <h1 class="page-title">Today at The Atelier</h1>
+      <p class="page-subtitle" style="margin-bottom: 0;">
+        Good day, {{ session.staff_name }}. Here are the four priorities needing your attention today.
+      </p>
+    </div>
+    <div style="font-size: 14px; color: var(--c-text-muted);">
+      {{ today_date_formatted }}
+    </div>
+  </div>
+
+  <!-- The 4 Big Operational Buttons -->
+  <div class="today-grid">
+
+    <!-- 1. Orders waiting for me -->
+    <a href="/orders" class="today-action-card">
+      <div class="today-card-top">
+        <div>
+          <span style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-gold-hover);">Fulfillment</span>
+          <h2 class="today-card-title">Orders waiting for me</h2>
+        </div>
+        <div class="today-card-badge">{{ pending_orders_count }}</div>
+      </div>
+      <p style="font-size: 14px; color: var(--c-text-muted); margin-bottom: 16px;">
+        {% if pending_orders_count > 0 %}
+          {{ pending_orders_count }} client orders ready to be verified, packed or dispatched.
+        {% else %}
+          All current orders are dispatched and up to date.
+        {% endif %}
+      </p>
+      <div class="today-card-action-text">
+        <span>Open Orders to Pack Today</span>
+        <span>&rarr;</span>
+      </div>
+    </a>
+
+    <!-- 2. Items running low -->
+    <a href="/stock" class="today-action-card">
+      <div class="today-card-top">
+        <div>
+          <span style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-gold-hover);">Inventory</span>
+          <h2 class="today-card-title">Items running low</h2>
+        </div>
+        <div class="today-card-badge" {% if low_stock_count > 0 %}style="color: #996b00;"{% endif %}>
+          {{ low_stock_count }}
+        </div>
+      </div>
+      <p style="font-size: 14px; color: var(--c-text-muted); margin-bottom: 16px;">
+        {% if low_stock_count > 0 %}
+          {{ low_stock_count }} master creations are at or below safety stock threshold.
+        {% else %}
+          All jewellery pieces have healthy stock quantities.
+        {% endif %}
+      </p>
+      <div class="today-card-action-text">
+        <span>Review Low Stock Items</span>
+        <span>&rarr;</span>
+      </div>
+    </a>
+
+    <!-- 3. Today's Gold Rate (Editable in place!) -->
+    <div class="today-action-card" style="cursor: default;">
+      <div class="today-card-top">
+        <div>
+          <span style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-gold-hover);">Daily Bench Rate</span>
+          <h2 class="today-card-title">Today's gold rate</h2>
+        </div>
+        <div class="today-card-badge">₹{{ "{:,.0f}".format(current_gold_rate.rate_22k|default(7200)|float) }}</div>
+      </div>
+      <p style="font-size: 14px; color: var(--c-text-muted); margin-bottom: 10px;">
+        Edit 22K rate per gram in place below. Updates store prices automatically.
+      </p>
+
+      <!-- Editable in-place form -->
+      <form method="POST" action="/gold-rate/update-quick" class="today-gold-edit-form">
+        <div class="gold-input-group">
+          <span class="gold-input-prefix">₹</span>
+          <input type="number" step="10" name="rate_22k" class="gold-rate-input" value="{{ current_gold_rate.rate_22k|default(7200)|int }}" required>
+          <span style="font-size: 13px; color: var(--c-text-muted);">/g</span>
+        </div>
+        <button type="submit" class="btn btn-gold btn-sm">Update Today's Rate</button>
+      </form>
+
+      <div style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center;">
+        <a href="/gold-rate" class="today-card-action-text" style="font-size: 13px;">
+          <span>View Rate History &amp; Bulk Price Updates</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4. Today's Appointments -->
+    <a href="/appointments-custom" class="today-action-card">
+      <div class="today-card-top">
+        <div>
+          <span style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-gold-hover);">Showroom</span>
+          <h2 class="today-card-title">Today's appointments</h2>
+        </div>
+        <div class="today-card-badge">{{ today_appointments_count }}</div>
+      </div>
+      <p style="font-size: 14px; color: var(--c-text-muted); margin-bottom: 16px;">
+        {% if today_appointments_count > 0 %}
+          {{ today_appointments_count }} private client viewings scheduled in the Surat showroom today.
+        {% else %}
+          No appointments scheduled today. {{ upcoming_appointments_count }} upcoming this week.
+        {% endif %}
+      </p>
+      <div class="today-card-action-text">
+        <span>View Appointments Calendar</span>
+        <span>&rarr;</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Historical Gold Rate Quick View -->
+  <div class="card" style="padding: 20px 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h3 class="card-title" style="margin-bottom: 4px;">Live Bench Rates Benchmark</h3>
+        <p style="font-size: 14px; color: var(--c-text-muted); margin: 0;">
+          24K Gold: <strong>₹{{ "{:,.0f}".format(current_gold_rate.rate_24k|default(7850)|float) }}/g</strong> &bull; 
+          22K Gold: <strong>₹{{ "{:,.0f}".format(current_gold_rate.rate_22k|default(7200)|float) }}/g</strong> &bull; 
+          18K Gold: <strong>₹{{ "{:,.0f}".format(current_gold_rate.rate_18k|default(5890)|float) }}/g</strong> &bull; 
+          Silver: <strong>₹{{ "{:,.0f}".format(current_gold_rate.rate_silver|default(92)|float) }}/g</strong>
+        </p>
+      </div>
+      <a href="/gold-rate" class="btn btn-outline btn-sm">Full Rate History &rarr;</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

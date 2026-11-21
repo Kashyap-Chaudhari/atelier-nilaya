@@ -1,0 +1,145 @@
+{% load static %}
+<!-- ========================================================================
+     AARANYA — SHOP BY CATEGORY SECTION
+     Placed directly after "PERMANENT CATALOGUE — Four Master Chapters"
+     Clicking any card opens the dedicated category page showing all products
+     ======================================================================== -->
+
+<section class="aaranya-category-section" id="shop-by-category" aria-label="Shop by Jewellery Category">
+  <div class="aaranya-cat-container">
+
+    <!-- Section Header Row -->
+    <div class="aaranya-cat-header">
+      <div>
+        <h2 class="aaranya-cat-heading">Shop by Category</h2>
+      </div>
+
+      <div class="aaranya-cat-header-right">
+        <a href="{% url 'campaigns:vault' %}" class="aaranya-vault-link" id="aaranya-open-vault-link" title="Explore the complete Aaranya jewellery vault">
+          <span>VIEW COMPLETE VAULT</span>
+          <span class="aaranya-vault-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+
+        <!-- Carousel Navigation Controls -->
+        <div class="aaranya-cat-nav-controls" aria-label="Category carousel controls">
+          <button type="button" class="aaranya-cat-arrow prev" id="cat-prev-btn" aria-label="Scroll left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <button type="button" class="aaranya-cat-arrow next" id="cat-next-btn" aria-label="Scroll right">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Horizontal Category Slider / Track -->
+    <div class="aaranya-cat-track-wrapper" id="aaranya-cat-track-wrapper" tabindex="0" role="region" aria-label="Jewellery categories scrollable showcase">
+      <div class="aaranya-cat-track" id="aaranya-cat-track">
+
+        {% if categories %}
+          {% for cat in categories %}
+          <a href="{% url 'campaigns:category_products' slug=cat.slug %}" class="aaranya-cat-card" data-category-slug="{{ cat.slug }}">
+            <div class="aaranya-cat-img-box">
+              <img src="{{ cat.display_banner }}" alt="{{ cat.name }}" class="aaranya-cat-img" loading="lazy" onerror="this.onerror=null; this.src='{% static 'campaigns/img/categories/cat-' %}{{ cat.slug }}.jpg';">
+            </div>
+            <div class="aaranya-cat-card-body">
+              <h3 class="aaranya-cat-card-title">{{ cat.name }}</h3>
+              <p class="aaranya-cat-card-sub">{{ cat.subtitle }}</p>
+            </div>
+          </a>
+          {% endfor %}
+        {% else %}
+        <!-- 1. Necklaces -->
+        <a href="{% url 'campaigns:category_products' slug='necklaces' %}" class="aaranya-cat-card" data-category-slug="necklaces">
+          <div class="aaranya-cat-img-box">
+            <img src="{% static 'campaigns/img/categories/cat-necklaces.jpg' %}" alt="Necklaces" class="aaranya-cat-img" loading="lazy">
+          </div>
+          <div class="aaranya-cat-card-body">
+            <h3 class="aaranya-cat-card-title">Necklaces</h3>
+            <p class="aaranya-cat-card-sub">ROYAL CHOKERS, RANI HAAR &amp; KANTHA MALAS</p>
+          </div>
+        </a>
+
+        <!-- 2. Earrings -->
+        <a href="{% url 'campaigns:category_products' slug='earrings' %}" class="aaranya-cat-card" data-category-slug="earrings">
+          <div class="aaranya-cat-img-box">
+            <img src="{% static 'campaigns/img/categories/cat-earrings.jpg' %}" alt="Earrings" class="aaranya-cat-img" loading="lazy">
+          </div>
+          <div class="aaranya-cat-card-body">
+            <h3 class="aaranya-cat-card-title">Earrings</h3>
+            <p class="aaranya-cat-card-sub">CHANDBALIS, JHUMKAS &amp; STATEMENT DROPS</p>
+          </div>
+        </a>
+
+        <!-- 3. Bangles -->
+        <a href="{% url 'campaigns:category_products' slug='bangles' %}" class="aaranya-cat-card" data-category-slug="bangles">
+          <div class="aaranya-cat-img-box">
+            <img src="{% static 'campaigns/img/categories/cat-bangles.jpg' %}" alt="Bangles" class="aaranya-cat-img" loading="lazy">
+          </div>
+          <div class="aaranya-cat-card-body">
+            <h3 class="aaranya-cat-card-title">Bangles</h3>
+            <p class="aaranya-cat-card-sub">TEMPLE KADAS, FILIGREE &amp; GOLD BANGLES</p>
+          </div>
+        </a>
+
+        <!-- 4. Rings -->
+        <a href="{% url 'campaigns:category_products' slug='rings' %}" class="aaranya-cat-card" data-category-slug="rings">
+          <div class="aaranya-cat-img-box">
+            <img src="{% static 'campaigns/img/categories/cat-rings.jpg' %}" alt="Rings" class="aaranya-cat-img" loading="lazy">
+          </div>
+          <div class="aaranya-cat-card-body">
+            <h3 class="aaranya-cat-card-title">Rings</h3>
+            <p class="aaranya-cat-card-sub">SOLITAIRES, SIGNET BANDS &amp; NAVRATNA RINGS</p>
+          </div>
+        </a>
+
+        <!-- 5. Bridal Jewellery -->
+        <a href="{% url 'campaigns:category_products' slug='bridal-jewellery' %}" class="aaranya-cat-card" data-category-slug="bridal-jewellery">
+          <div class="aaranya-cat-img-box">
+            <img src="{% static 'campaigns/img/categories/cat-bridal.jpg' %}" alt="Bridal Jewellery" class="aaranya-cat-img" loading="lazy">
+          </div>
+          <div class="aaranya-cat-card-body">
+            <h3 class="aaranya-cat-card-title">Bridal Jewellery</h3>
+            <p class="aaranya-cat-card-sub">IMPERIAL WEDDING SUITES &amp; COMPLETE TROUSSEAUS</p>
+          </div>
+        </a>
+
+        <!-- 6. Temple Jewellery -->
+        <a href="{% url 'campaigns:category_products' slug='temple-jewellery' %}" class="aaranya-cat-card" data-category-slug="temple-jewellery">
+          <div class="aaranya-cat-img-box">
+            <img src="{% static 'campaigns/img/categories/cat-temple.jpg' %}" alt="Temple Jewellery" class="aaranya-cat-img" loading="lazy">
+          </div>
+          <div class="aaranya-cat-card-body">
+            <h3 class="aaranya-cat-card-title">Temple Jewellery</h3>
+            <p class="aaranya-cat-card-sub">CHOLA &amp; HOYSALA MOTIFS, SACRED HEIRLOOMS</p>
+          </div>
+        </a>
+
+        <!-- 7. Diamond Jewellery -->
+        <a href="{% url 'campaigns:category_products' slug='diamond-jewellery' %}" class="aaranya-cat-card" data-category-slug="diamond-jewellery">
+          <div class="aaranya-cat-img-box">
+            <img src="{% static 'campaigns/img/categories/cat-diamond.jpg' %}" alt="Diamond Jewellery" class="aaranya-cat-img" loading="lazy">
+          </div>
+          <div class="aaranya-cat-card-body">
+            <h3 class="aaranya-cat-card-title">Diamond Jewellery</h3>
+            <p class="aaranya-cat-card-sub">CERTIFIED SOLITAIRES &amp; BRILLIANT CUTS</p>
+          </div>
+        </a>
+        {% endif %}
+
+      </div><!-- /.aaranya-cat-track -->
+    </div><!-- /.aaranya-cat-track-wrapper -->
+
+    <!-- Scroll Progress Indicator Bar -->
+    <div class="aaranya-cat-progress-track" aria-hidden="true">
+      <div class="aaranya-cat-progress-bar" id="aaranya-cat-progress-bar"></div>
+    </div>
+
+  </div><!-- /.aaranya-cat-container -->
+</section>

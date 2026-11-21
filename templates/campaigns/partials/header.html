@@ -1,0 +1,71 @@
+{% load static %}
+<!-- ========================================================================
+     AARANYA — HAUTE JOAILLERIE INTEGRATED HEADER
+     Brand Monogram Bar + Horizontal Category Bar + Full-Width Mega Menu
+     ======================================================================== -->
+<header class="atelier-header aaranya-header" role="banner">
+  
+  <!-- Tier 1: Brand Identity & Atelier Salon Actions -->
+  <div class="aaranya-header-top">
+    <div class="aaranya-brand">
+      <a href="{% url 'campaigns:hero' %}" class="aaranya-brand-link" aria-label="AARANYA Home &mdash; The Art of Becoming Heirloom">
+        <div class="aaranya-brand-monogram" aria-hidden="true">✦</div>
+        <div class="aaranya-brand-text">
+          <span class="aaranya-brand-name">AARANYA</span>
+          <span class="aaranya-brand-tagline">THE ART OF BECOMING HEIRLOOM</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="aaranya-header-actions">
+      {% if user.is_authenticated %}
+        <div class="customer-header-menu-wrap" style="position: relative; display: inline-block;">
+          <button type="button" class="aaranya-action-link customer-menu-toggle" id="customerMenuToggle" style="background: none; border: 1px solid rgba(173,145,97,0.4); padding: 5px 12px; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: #682D3C; font-weight: 700;">
+            <span>{{ user.first_name|default:user.username|truncatechars:12|upper }}</span>
+            <span style="font-size: 9px;">&#x25BE;</span>
+          </button>
+          <div class="customer-menu-dropdown" id="customerMenuDropdown" style="display: none; position: absolute; top: calc(100% + 6px); right: 0; min-width: 190px; background: #141311; border: 1px solid rgba(173,145,97,0.35); border-radius: 6px; box-shadow: 0 12px 30px rgba(0,0,0,0.5); padding: 8px 0; z-index: 1000;">
+            <a href="{% url 'orders:history' %}" class="customer-dropdown-item" style="display: block; padding: 9px 18px; color: #F8F5F0; text-decoration: none; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">My Orders</a>
+            <a href="{% url 'campaigns:account_addresses' %}" class="customer-dropdown-item" style="display: block; padding: 9px 18px; color: #F8F5F0; text-decoration: none; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">Saved Addresses</a>
+            <a href="{% url 'campaigns:wishlist' %}" class="customer-dropdown-item" style="display: block; padding: 9px 18px; color: #F8F5F0; text-decoration: none; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">Wishlist</a>
+            <a href="{% url 'campaigns:account_profile' %}" class="customer-dropdown-item" style="display: block; padding: 9px 18px; color: #F8F5F0; text-decoration: none; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">Profile</a>
+            <div style="height: 1px; background: rgba(173,145,97,0.2); margin: 6px 0;"></div>
+            <a href="{% url 'campaigns:logout' %}" class="customer-dropdown-item" style="display: block; padding: 9px 18px; color: #fca5a5; text-decoration: none; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">Log out</a>
+          </div>
+        </div>
+      {% else %}
+        <a href="{% url 'campaigns:login' %}" class="aaranya-action-link" style="color: #682D3C; font-weight: 700;">LOGIN / SIGN IN</a>
+      {% endif %}
+      <button type="button" class="aaranya-appointment-pill" data-open-appointment title="Book a Private Jewellery Viewing">
+        BOOK APPOINTMENT
+      </button>
+      
+      <!-- Atelier Velvet Bag Button -->
+      <button type="button" class="aaranya-bag-pill" id="header-bag-btn" data-open-bag aria-label="Open Shopping Bag">
+        <span class="aaranya-bag-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </span>
+        <span>BAG</span>
+        <span class="aaranya-bag-badge" id="header-bag-count">0</span>
+      </button>
+
+      <!-- Mobile Hamburger Button -->
+      <button type="button" class="aaranya-mobile-toggle" id="aaranya-mobile-menu-btn" aria-label="Open Navigation Menu" aria-controls="aaranya-mobile-drawer">
+        <span class="aaranya-hamburger-line"></span>
+        <span class="aaranya-hamburger-line"></span>
+        <span class="aaranya-hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Tier 2: Horizontal Jewellery Category Bar (Prompt Section 3) -->
+  {% include 'components/navbar.html' %}
+
+  <!-- Full-Width Mega Menu Dropdown (Prompt Section 4 & 5) -->
+  {% include 'components/mega_menu.html' %}
+
+</header>

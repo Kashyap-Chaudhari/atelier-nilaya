@@ -1,0 +1,258 @@
+{% load static %}
+<!-- ========================================================================
+     ATELIER NILAYA — THE VELVET TRAY STORY SECTION
+     Directly below Homepage Hero.
+     Concept: Asymmetric dark plum velvet tray with 7 distinct geometric
+     compartments (arch, large rectangle, two circles, wide slot, tall slot, tiny slot).
+     Single scroll-triggered effect: velvet lids lift and slide away (staggered 120ms).
+     ======================================================================== -->
+<section 
+  id="atelier-velvet-tray" 
+  class="velvet-tray-section" 
+  aria-label="Atelier Nilaya Heritage Story"
+>
+  <!-- Section Headline (Strictly ONE real sentence in founder's voice; no eyebrow, no generic title) -->
+  <div class="velvet-tray-headline-wrap">
+    <h2 class="velvet-tray-headline">
+      &ldquo;We built our first bench in Surat with a handful of tools and the belief that gold should outlive us all.&rdquo;
+    </h2>
+  </div>
+
+  <!-- Master Velvet Tray Presentation Case -->
+  <div class="velvet-tray-wrapper">
+    <div class="velvet-tray-case">
+      <div class="velvet-tray-grid">
+
+        <!-- ====================================================================
+             COMPARTMENT 1: LARGE RECTANGLE (FOUNDER'S LETTER)
+             Ivory paper slip rotated -2deg, overlapping the tray's outer edge.
+             Font: 'La Belle Aurore' handwriting.
+             ==================================================================== -->
+        <div class="tray-compartment tray-compartment--letter" tabindex="0" aria-label="Founder's handwritten letter">
+          <!-- Scroll-Triggered Velvet Lid (Order 0) -->
+          <div class="velvet-compartment-lid" style="--lid-order: 0;" aria-hidden="true">
+            <div class="lid-pull-tab" aria-hidden="true"></div>
+          </div>
+
+          <!-- Ivory Paper Slip (Rotated 2deg, overlapping tray edge) -->
+          <article class="letter-paper-slip">
+            <header class="letter-header">
+              <span class="letter-atelier-mark">Atelier Nilaya &bull; Surat</span>
+              <span class="letter-wax-seal" title="Wax Seal of Authenticity">✦</span>
+            </header>
+
+            <!-- TODO: Replace with real founder letter (80-100 words, first person) -->
+            <!-- FOUNDER'S LETTER (80-100 words, first person): ... -->
+            <p class="letter-body">
+              &ldquo;We began with a single wooden workbench in the heart of Surat, where my father taught me that true jewellery is never manufactured&mdash;it is summoned from patience, flame, and gold. When we set our first polki stone in [Founding Year], we vowed that no piece bearing our hallmark would ever take shortcuts. Every curve is forged by hand so that seventy years from now, when your grandchild holds it to the light, the gold will still whisper of our devotion.&rdquo;
+            </p>
+
+            <!-- TODO: Replace with real founder name -->
+            <!-- FOUNDER NAME: ... -->
+            <footer class="letter-signoff">
+              &mdash; [Founder Name]
+            </footer>
+          </article>
+        </div>
+
+        <!-- ====================================================================
+             COMPARTMENT 2: ARCH (OLD SHOP PHOTO)
+             Architectural arch shape. Photo artwork gently overlaps the lower rim.
+             ==================================================================== -->
+        <div class="tray-compartment tray-compartment--arch" tabindex="0" aria-label="Original Surat goldsmith atelier photo">
+          <!-- Scroll-Triggered Velvet Lid (Order 1) -->
+          <div class="velvet-compartment-lid" style="--lid-order: 1;" aria-hidden="true">
+            <div class="lid-pull-tab" aria-hidden="true"></div>
+          </div>
+
+          <div class="arch-visual-frame">
+            <!-- Slightly imperfect alignment: illustration overlaps bottom edge -->
+            <div class="arch-svg-container">
+              <!-- TODO: Replace with real shop photo -->
+              <svg 
+                class="arch-svg-artwork" 
+                viewBox="0 0 340 400" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                role="img" 
+                aria-label="Original Surat goldsmith atelier storefront and wooden workbench in [Founding Year]"
+              >
+                <title>Original Surat goldsmith atelier storefront and wooden workbench in [Founding Year]</title>
+                <!-- Arch Architectural Frame -->
+                <path d="M20 160 C20 70, 320 70, 320 160 L320 390 L20 390 Z" fill="#14060C" stroke="#D7C19A" stroke-width="1.2" stroke-opacity="0.45" />
+                <path d="M35 165 C35 85, 305 85, 305 165 L305 385 L35 385 Z" stroke="#D7C19A" stroke-width="0.7" stroke-dasharray="3 3" stroke-opacity="0.3" />
+                
+                <!-- Heritage Haveli Carved Pillars & Jharokha Motif -->
+                <line x1="50" y1="170" x2="50" y2="360" stroke="#D7C19A" stroke-width="1.5" stroke-opacity="0.35" />
+                <line x1="290" y1="170" x2="290" y2="360" stroke="#D7C19A" stroke-width="1.5" stroke-opacity="0.35" />
+                <path d="M50 170 C100 130, 240 130, 290 170" stroke="#D7C19A" stroke-width="1.2" stroke-opacity="0.4" />
+                <circle cx="170" cy="115" r="16" stroke="#D7C19A" stroke-width="1" stroke-opacity="0.5" />
+                <circle cx="170" cy="115" r="6" fill="#D7C19A" fill-opacity="0.3" />
+
+                <!-- Old Wooden Goldsmith Workbench Bench in Surat -->
+                <rect x="75" y="240" width="190" height="18" rx="2" fill="#2A121A" stroke="#D7C19A" stroke-width="1" stroke-opacity="0.6" />
+                <line x1="90" y1="258" x2="90" y2="370" stroke="#D7C19A" stroke-width="2" stroke-opacity="0.5" />
+                <line x1="250" y1="258" x2="250" y2="370" stroke="#D7C19A" stroke-width="2" stroke-opacity="0.5" />
+                <line x1="90" y1="315" x2="250" y2="315" stroke="#D7C19A" stroke-width="1" stroke-opacity="0.35" />
+
+                <!-- Goldsmith Bench Pin, Loupe, Anvil & Flame Lamp -->
+                <path d="M155 240 L170 215 L185 240 Z" fill="#D7C19A" fill-opacity="0.4" stroke="#D7C19A" stroke-width="1" />
+                <circle cx="120" cy="225" r="9" stroke="#D7C19A" stroke-width="1.2" stroke-opacity="0.65" />
+                <line x1="126" y1="231" x2="136" y2="241" stroke="#D7C19A" stroke-width="1.5" stroke-opacity="0.65" />
+                
+                <!-- Vintage Brass Oil Lamp with Gentle Flame -->
+                <path d="M215 240 L212 210 Q218 200 224 210 L221 240 Z" stroke="#D7C19A" stroke-width="1" stroke-opacity="0.5" fill="#3D1A25" />
+                <path d="M218 205 Q214 195 218 185 Q222 195 218 205 Z" fill="#D7C19A" fill-opacity="0.75" />
+
+                <!-- Vintage Surat Street Plaque Inscription -->
+                <text x="170" y="352" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="13" font-weight="500" letter-spacing="3" fill="#D7C19A" fill-opacity="0.8">
+                  ATELIER NILAYA &bull; 1954
+                </text>
+                <text x="170" y="368" text-anchor="middle" font-family="'Manrope', sans-serif" font-size="8.5" font-weight="500" letter-spacing="2" fill="#E8DDD0" fill-opacity="0.65">
+                  MUGHALISARA &bull; SURAT
+                </text>
+              </svg>
+            </div>
+            
+            <div class="arch-caption">
+              <!-- TODO: Replace with real shop photo caption -->
+              Original Surat Goldsmith Workshop &bull; Circa 1954
+            </div>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             COMPARTMENT 3: TALL SLOT (THE SHOP'S PROMISE, ON EMERALD)
+             Deep Heritage Emerald background (#183F35) with champagne typography.
+             ==================================================================== -->
+        <div class="tray-compartment tray-compartment--tall-promise" tabindex="0" aria-label="The Atelier Promise">
+          <!-- Scroll-Triggered Velvet Lid (Order 2) -->
+          <div class="velvet-compartment-lid" style="--lid-order: 2;" aria-hidden="true">
+            <div class="lid-pull-tab" aria-hidden="true"></div>
+          </div>
+
+          <div class="promise-emblem" aria-hidden="true">✦</div>
+
+          <!-- TODO: Replace with real promise -->
+          <!-- PROMISE (one line): ... -->
+          <blockquote class="promise-quote-text">
+            &ldquo;Every heirloom born on our bench is pledged to outlive the century and honor the lineage that holds it.&rdquo;
+          </blockquote>
+
+          <footer class="promise-hallmark-seal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D7C19A" stroke-width="1.2" aria-hidden="true">
+              <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2" />
+            </svg>
+            <span class="promise-seal-text">HEREDITARY ATELIER PLEDGE</span>
+          </footer>
+        </div>
+
+        <!-- ====================================================================
+             COMPARTMENT 4: CIRCLE 1 (FOUNDING YEAR)
+             Single founding year in circular velvet well.
+             ==================================================================== -->
+        <div class="tray-compartment tray-compartment--circle-year" tabindex="0" aria-label="Founding Year">
+          <!-- Scroll-Triggered Velvet Lid (Order 3) -->
+          <div class="velvet-compartment-lid" style="--lid-order: 3;" aria-hidden="true">
+            <div class="lid-pull-tab" aria-hidden="true"></div>
+          </div>
+
+          <div class="circle-concentric-rim">
+            <!-- TODO: Replace with real founding year -->
+            <!-- FOUNDING YEAR: ... -->
+            <time datetime="1954" class="founding-year-number">[1954]</time>
+            <span class="founding-year-label">FOUNDED &bull; SURAT</span>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             COMPARTMENT 5: CIRCLE 2 (CLOSE-UP OF AN OLD TOOL)
+             Antique goldsmith chasing hammer and nakashi anvil line artwork.
+             ==================================================================== -->
+        <div class="tray-compartment tray-compartment--circle-tool" tabindex="0" aria-label="Antique Goldsmith Tool">
+          <!-- Scroll-Triggered Velvet Lid (Order 4) -->
+          <div class="velvet-compartment-lid" style="--lid-order: 4;" aria-hidden="true">
+            <div class="lid-pull-tab" aria-hidden="true"></div>
+          </div>
+
+          <div class="circle-concentric-rim">
+            <!-- TODO: Replace with real tool photo -->
+            <svg 
+              class="circle-tool-artwork" 
+              viewBox="0 0 120 120" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              role="img" 
+              aria-label="Hand-forged antique Surat goldsmith chasing chisel and anvil"
+            >
+              <title>Hand-forged antique Surat goldsmith chasing chisel and anvil</title>
+              <!-- Chasing Hammer Head -->
+              <path d="M30 45 L52 35 L56 42 L34 52 Z" fill="#D7C19A" fill-opacity="0.85" stroke="#D7C19A" stroke-width="1" />
+              <circle cx="54" cy="38" r="5" fill="#FAF6EE" />
+              <!-- Rosewood Hammer Handle -->
+              <path d="M42 42 Q68 68 88 88" stroke="#D7C19A" stroke-width="3" stroke-linecap="round" stroke-opacity="0.9" />
+              <path d="M84 84 L96 96" stroke="#642D3B" stroke-width="4.5" stroke-linecap="round" />
+              <!-- Hand-Forged Chisel & Gold Grain -->
+              <line x1="28" y1="78" x2="68" y2="62" stroke="#FAF6EE" stroke-width="2" stroke-linecap="round" stroke-opacity="0.85" />
+              <polygon points="25,79 31,77 27,83" fill="#D7C19A" />
+              <!-- Raw Gold Speckle Accent -->
+              <circle cx="34" cy="85" r="2.5" fill="#D7C19A" />
+              <circle cx="42" cy="88" r="1.8" fill="#D7C19A" />
+            </svg>
+            <span class="circle-tool-label">NAKASHI CHISEL &bull; 1954</span>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             COMPARTMENT 6: TINY SLOT (ONE SPECIFIC FACT ABOUT CRAFT)
+             Compact velvet inset with authentic duration metric.
+             ==================================================================== -->
+        <div class="tray-compartment tray-compartment--tiny-fact" tabindex="0" aria-label="Craftsmanship duration metric">
+          <!-- Scroll-Triggered Velvet Lid (Order 5) -->
+          <div class="velvet-compartment-lid" style="--lid-order: 5;" aria-hidden="true">
+            <div class="lid-pull-tab" aria-hidden="true"></div>
+          </div>
+
+          <!-- TODO: Replace with real craft fact -->
+          <!-- ONE SPECIFIC FACT ABOUT CRAFT: ... -->
+          <div class="fact-metric-number">320</div>
+          <p class="fact-metric-desc">
+            Hours of hereditary nakashi carving &amp; stone calibration for a single royal necklace.
+          </p>
+        </div>
+
+        <!-- ====================================================================
+             COMPARTMENT 7: WIDE SLOT (SILENT LOOPING ARTISAN VIDEO)
+             Silent looping video of an artisan setting a stone in 24k gold.
+             ==================================================================== -->
+        <div class="tray-compartment tray-compartment--wide-video" tabindex="0" aria-label="Artisan stone setting film">
+          <!-- Scroll-Triggered Velvet Lid (Order 6) -->
+          <div class="velvet-compartment-lid" style="--lid-order: 6;" aria-hidden="true">
+            <div class="lid-pull-tab" aria-hidden="true"></div>
+          </div>
+
+          <!-- Silent Looping Video of Artisan Setting Stone -->
+          <video 
+            class="wide-video-element" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            poster="/media/campaigns/posters/desktop/diamond-atelier-poster-desktop.jpg" 
+            aria-label="Master goldsmith calibrating and hand-setting uncut syndicate polki diamonds into 24-karat gold collet"
+          >
+            <source src="/media/campaigns/videos/desktop/diamond-atelier-desktop.mp4" type="video/mp4">
+            <!-- Fallback text for non-video user agents -->
+            <p>Master goldsmith setting uncut syndicate polki diamonds into 24-karat gold.</p>
+          </video>
+
+          <div class="wide-video-caption">
+            <span class="wide-video-title">Hand-Setting Syndicate Polki in 24K Gold</span>
+            <span class="wide-video-badge">LIVE ATELIER BENCH</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

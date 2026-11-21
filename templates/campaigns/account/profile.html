@@ -1,0 +1,59 @@
+{% extends 'campaigns/account/base_account.html' %}
+
+{% block title %}Client Profile &bull; Atelier Nilaya{% endblock %}
+
+{% block account_content %}
+<div class="nilaya-account-card">
+  <h2 class="nilaya-card-section-title">Personal Client Folio</h2>
+  <p class="nilaya-card-section-desc">
+    Review your recorded contact details and private membership status.
+  </p>
+
+  {% if success_msg %}
+    <div class="nilaya-alert-success">{{ success_msg }}</div>
+  {% endif %}
+
+  {% if error_msg %}
+    <div class="nilaya-alert-error">{{ error_msg }}</div>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="nilaya-form-group">
+      <label class="nilaya-form-label">Full Name</label>
+      <input type="text" name="first_name" class="nilaya-form-input" value="{{ user.first_name }}" required>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="nilaya-form-group">
+        <label class="nilaya-form-label">Registered Email</label>
+        <input type="email" class="nilaya-form-input" value="{{ user.email }}" readonly style="opacity: 0.75; cursor: not-allowed;">
+        <span style="font-size: 0.76rem; color: {% if user.profile.is_email_verified %}#6ee7b7{% else %}#fbbf24{% endif %}; display: block; margin-top: 4px;">
+          {% if user.profile.is_email_verified %}✓ Verified Email{% else %}⚠ Pending Verification{% endif %}
+        </span>
+      </div>
+
+      <div class="nilaya-form-group">
+        <label class="nilaya-form-label">Mobile Number</label>
+        <input type="text" name="mobile_number" class="nilaya-form-input" value="{{ user.profile.mobile_number|default:'' }}" placeholder="10-digit mobile number">
+      </div>
+    </div>
+
+    <div style="background: rgba(28, 11, 19, 0.5); border: 1px solid rgba(217, 181, 107, 0.2); border-radius: 6px; padding: 18px; margin: 20px 0; font-size: 0.84rem; color: rgba(248, 245, 240, 0.75);">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+        <span>Client Folio Created:</span>
+        <span style="color: #d9b56b; font-weight: 600;">{{ user.date_joined|date:"d M Y" }}</span>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span>Total Boutique Orders:</span>
+        <span style="color: #d9b56b; font-weight: 600;">{{ order_count }} recorded</span>
+      </div>
+    </div>
+
+    <button type="submit" class="nilaya-auth-btn">
+      Save Folio Updates &rarr;
+    </button>
+  </form>
+</div>
+{% endblock %}

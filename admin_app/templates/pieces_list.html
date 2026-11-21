@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Pieces{% endblock %}
+
+{% block content %}
+<div class="pieces-container">
+  
+  <div class="list-header-bar">
+    <div>
+      <h1 class="page-title">Jewellery Pieces</h1>
+      <p class="page-subtitle" style="margin-bottom: 0;">
+        Manage all jewellery creations in your catalogue. Photos are shown large because jewellery is judged by sight.
+      </p>
+    </div>
+    
+    <div style="display: flex; gap: 12px; align-items: center;">
+      {% if show_archived %}
+        <a href="/pieces" class="btn btn-outline">Show Active Pieces</a>
+      {% else %}
+        <a href="/pieces?archived=1" class="btn btn-outline">View Removed Archive ({{ archived_count }})</a>
+      {% endif %}
+      <a href="/pieces/new" class="btn btn-gold">+ Add a New Piece</a>
+    </div>
+  </div>
+
+  <!-- Filters & Search Bar -->
+  <div class="card" style="padding: 16px; margin-bottom: 20px;">
+    <div class="list-filters-bar">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="tableSearchInput" class="search-input" placeholder="Search by piece name, metal, or stone...">
+      </div>
+
+      <select class="filter-select" onchange="location.href='/pieces?category=' + this.value;">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat.id }}" {% if selected_cat == cat.id|string %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+      </select>
+
+      <select class="filter-select" onchange="location.href='/pieces?metal=' + this.value;">
+        <option value="">All Metals</option>
+        <option value="yellow_gold" {% if selected_metal == 'yellow_gold' %}selected{% endif %}>Yellow Gold (22K)</option>
+        <option value="rose_gold" {% if selected_metal == 'rose_gold' %}selected{% endif %}>Rose Gold (18K)</option>
+        <option value="platinum" {% if selected_metal == 'platinum' %}selected{% endif %}>Platinum (950)</option>
+        <option value="silver" {% if selected_metal == 'silver' %}selected{% endif %}>Silver (925)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Pieces Table: Large Photo Thumbnails First -->
+  {% if pieces %}
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th style="width: 80px;">Photo</th>
+          <th>Piece Name &amp; Details</th>
+          <th>Category</th>
+          <th>Metal &amp; Purity</th>
+          <th>Gold Weight</th>
+          <th>Store Price</th>
+          <th>Stock Status</th>
+          <th style="text-align: right; width: 180px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pieces %}
+        <tr onclick="location.href='/pieces/{{ p.id }}/edit';">
+          <td>
+            <img src="{{ p.image_url|default('/static/lifestyle/lifestyle-product-1.webp') }}" 
+                 alt="{{ p.name }}" 
+                 class="piece-thumb-large"
+                 onerror="this.src='/static/lifestyle/lifestyle-product-1.webp';">
+          </td>
+          <td>
+            <div class="piece-title-cell">
+              <span class="piece-name">{{ p.name }}</span>
+              <span class="piece-meta">{{ p.stone|default('Syndicate Polki & Natural Diamonds') }}</span>
+              {% if p.huid_number %}
+              <span style="font-size: 11px; color: var(--c-gold-hover);">HUID: {{ p.huid_number }}</span>
+              {% endif %}
+            </div>
+          </td>
+          <td>{{ p.category_name }}</td>
+          <td>{{ p.purity|default('22K Gold') }}</td>
+          <td>{{ p.approx_weight|default(p.gold_weight_grams ~ ' g') }}</td>
+          <td style="font-weight: 700; color: var(--c-text);">
+            ₹{{ "{:,.0f}".format(p.price) }}
+          </td>
+          <td>
+            {% if p.stock_status == 'Sold' %}
+              <span class="status-badge status-badge-sold">Sold Out</span>
+            {% elif p.stock_qty <= p.low_stock_threshold %}
+              <span class="status-badge status-badge-low">Low ({{ p.stock_qty }})</span>
+            {% else %}
+              <span class="status-badge status-badge-available">In Stock ({{ p.stock_qty }})</span>
+            {% endif %}
+          </td>
+          <td style="text-align: right;" onclick="event.stopPropagation();">
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+              {% if p.is_deleted %}
+                <form method="POST" action="/pieces/{{ p.id }}/restore" style="display:inline;">
+                  <button type="submit" class="btn btn-outline btn-sm" title="Restore this piece back to the live catalogue">Restore</button>
+                </form>
+              {% else %}
+                <a href="/pieces/{{ p.id }}/edit" class="btn btn-outline btn-sm" title="Edit piece details">Edit</a>
+                <form method="POST" action="/pieces/{{ p.id }}/duplicate" style="display:inline;">
+                  <button type="submit" class="btn btn-outline btn-sm" title="Duplicate piece specifications">Copy</button>
+                </form>
+                <button type="button" 
+                        class="btn btn-danger btn-sm" 
+                        data-confirm-delete 
+                        data-action-url="/pieces/{{ p.id }}/delete"
+                        data-item-name="{{ p.name }}"
+                        title="Remove piece from store">Remove</button>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <!-- Empty State -->
+  <div class="card empty-state">
+    <div class="empty-icon">✧</div>
+    <h2 class="empty-title">No pieces found</h2>
+    <p class="empty-desc">
+      {% if show_archived %}
+        There are no removed pieces in the archive.
+      {% else %}
+        Your jewellery catalogue is ready for its first masterpiece. Add your first piece with photos, gold weight and pricing.
+      {% endif %}
+    </p>
+    {% if not show_archived %}
+    <a href="/pieces/new" class="btn btn-gold">+ Add Your First Piece</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

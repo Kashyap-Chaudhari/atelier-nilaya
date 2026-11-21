@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin{% endblock %} &bull; Atelier Nilaya</title>
+  
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap">
+  
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="/static/admin.css?v=20261119_1">
+</head>
+<body data-rate22k="{{ current_gold_rate.rate_22k|default(7200) }}" 
+      data-rate18k="{{ current_gold_rate.rate_18k|default(5890) }}" 
+      data-rate-silver="{{ current_gold_rate.rate_silver|default(92) }}">
+
+  <!-- Sidebar: Dark Maroon (#1c0b13) with Plain Language Labels -->
+  <aside class="admin-sidebar" aria-label="Main Navigation">
+    <div class="sidebar-brand">
+      <div class="brand-crest">✦</div>
+      <div class="brand-title">Atelier Nilaya</div>
+      <div class="brand-subtitle">Surat &bull; Est. 1954 &bull; Admin</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- 1. Today (Dashboard) -->
+      <a href="/today" class="nav-item {% if active_nav == 'today' %}active{% endif %}">
+        <span class="nav-icon">◈</span>
+        <span>Today</span>
+      </a>
+
+      <!-- 2. Pieces (Catalog) -->
+      {% if session.staff_role in ['owner', 'manager', 'stock_staff'] %}
+      <a href="/pieces" class="nav-item {% if active_nav == 'pieces' %}active{% endif %}">
+        <span class="nav-icon">✧</span>
+        <span>Pieces</span>
+      </a>
+      {% endif %}
+
+      <!-- 3. Stock -->
+      {% if session.staff_role in ['owner', 'manager', 'stock_staff'] %}
+      <a href="/stock" class="nav-item {% if active_nav == 'stock' %}active{% endif %}">
+        <span class="nav-icon">❖</span>
+        <span>Stock</span>
+      </a>
+      {% endif %}
+
+      <!-- 4. Gold Rate and Prices -->
+      {% if session.staff_role in ['owner', 'manager'] %}
+      <a href="/gold-rate" class="nav-item {% if active_nav == 'gold-rate' %}active{% endif %}">
+        <span class="nav-icon">⚖</span>
+        <span>Gold Rate and Prices</span>
+      </a>
+      {% endif %}
+
+      <!-- 5. Orders -->
+      {% if session.staff_role in ['owner', 'manager', 'delivery_staff'] %}
+      <a href="/orders" class="nav-item {% if active_nav == 'orders' %}active{% endif %}">
+        <span class="nav-icon">◻</span>
+        <span>Orders</span>
+      </a>
+      {% endif %}
+
+      <!-- 6. Delivery -->
+      {% if session.staff_role in ['owner', 'manager', 'delivery_staff'] %}
+      <a href="/delivery" class="nav-item {% if active_nav == 'delivery' %}active{% endif %}">
+        <span class="nav-icon">⛟</span>
+        <span>Delivery</span>
+      </a>
+      {% endif %}
+
+      <!-- 7. Appointments and Custom Requests -->
+      {% if session.staff_role in ['owner', 'manager'] %}
+      <a href="/appointments-custom" class="nav-item {% if active_nav == 'appointments' %}active{% endif %}">
+        <span class="nav-icon">◷</span>
+        <span>Appointments &amp; Custom</span>
+      </a>
+      {% endif %}
+
+      <!-- 8. Website Photos and Text -->
+      {% if session.staff_role in ['owner', 'manager'] %}
+      <a href="/website-content" class="nav-item {% if active_nav == 'content' %}active{% endif %}">
+        <span class="nav-icon">✎</span>
+        <span>Website Photos &amp; Text</span>
+      </a>
+      {% endif %}
+
+      <!-- 9. Customers -->
+      {% if session.staff_role in ['owner', 'manager'] %}
+      <a href="/customers" class="nav-item {% if active_nav == 'customers' %}active{% endif %}">
+        <span class="nav-icon">◎</span>
+        <span>Customers</span>
+      </a>
+      {% endif %}
+
+      <!-- 10. Reports -->
+      {% if session.staff_role in ['owner', 'manager'] %}
+      <a href="/reports" class="nav-item {% if active_nav == 'reports' %}active{% endif %}">
+        <span class="nav-icon">📈</span>
+        <span>Reports</span>
+      </a>
+      {% endif %}
+
+      <!-- 11. Settings -->
+      {% if session.staff_role == 'owner' %}
+      <a href="/settings" class="nav-item {% if active_nav == 'settings' %}active{% endif %}">
+        <span class="nav-icon">⚙</span>
+        <span>Settings</span>
+      </a>
+      {% endif %}
+
+      <!-- Activity Logs -->
+      {% if session.staff_role in ['owner', 'manager'] %}
+      <a href="/activity-logs" class="nav-item {% if active_nav == 'logs' %}active{% endif %}">
+        <span class="nav-icon">📋</span>
+        <span>Activity Log</span>
+      </a>
+      {% endif %}
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="staff-info">
+        <span class="staff-name">{{ session.staff_name|default('Staff Member') }}</span>
+        <span class="staff-role-badge">{{ (session.staff_role|default('staff'))|replace('_', ' ')|upper }}</span>
+      </div>
+      <a href="/logout" class="sidebar-logout-btn">Sign Out</a>
+    </div>
+  </aside>
+
+  <!-- Main Work Area (Light Workspace, Cream background) -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation menu">
+          ☰
+        </button>
+        <span style="font-size: 14px; color: var(--c-text-muted);">
+          {{ today_date_formatted|default('Today') }} &bull; Surat Atelier
+        </span>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Live Gold Rate Pill (Always Visible in Header) -->
+        <a href="/gold-rate" class="gold-rate-pill" title="Click to view rate history and adjust">
+          <span>22K Gold:</span>
+          <span style="color: #1c0b13;">₹{{ "{:,.0f}".format((current_gold_rate.rate_22k|default(7200))|float) }}/g</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="admin-body">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- Safe Delete Confirmation Modal -->
+  <div class="modal-backdrop" id="deleteConfirmModal" role="dialog" aria-modal="true" aria-labelledby="delModalTitle">
+    <div class="modal-window">
+      <h3 class="card-title" id="delModalTitle" style="color: var(--c-error);">Confirm Deletion</h3>
+      <p style="margin: 12px 0 20px 0; color: var(--c-text);">
+        Are you sure you want to remove <strong id="deleteItemNameSpan">this item</strong>? 
+        It will be moved to the archive and can be restored at any time.
+      </p>
+      <form id="deleteActionForm" method="POST" action="">
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" class="btn btn-outline" id="cancelDeleteModalBtn">Keep Item</button>
+          <button type="submit" class="btn btn-danger">Yes, Remove Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Flash Toast Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="toast-msg {% if category == 'error' %}toast-error{% endif %}">
+          <span>{% if category == 'error' %}⚠️{% else %}✓{% endif %}</span>
+          <span>{{ message }}</span>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Admin Script -->
+  <script src="/static/admin.js?v=20261119_1"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

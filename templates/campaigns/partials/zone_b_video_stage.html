@@ -1,0 +1,64 @@
+{% load static %}
+<div class="zone-video-stage" role="region" aria-label="Cinematic Video Stage">
+  <div class="sculptural-frame-wrapper">
+    
+    <!-- Architectural Corner Wireframe Ticks -->
+    <span class="corner-accent corner-top-left" aria-hidden="true"></span>
+    <span class="corner-accent corner-top-right" aria-hidden="true"></span>
+    <span class="corner-accent corner-bottom-left" aria-hidden="true"></span>
+    <span class="corner-accent corner-bottom-right" aria-hidden="true"></span>
+
+    <!-- Asymmetric Sculptural Viewport -->
+    <div class="stage-viewport" data-composition="{{ campaigns.0.composition_style }}">
+      
+      <!-- Architectural Veil Transition Sweep Layer -->
+      <div class="unveil-mask-layer" aria-hidden="true"></div>
+
+      <!-- High-Resolution Fallback Poster Layer -->
+      <img 
+        src="{{ campaigns.0.poster_desktop_url }}" 
+        alt="{{ campaigns.0.title }}"
+        class="stage-media-layer stage-poster" 
+        fetchpriority="high"
+      />
+
+      <!-- Dual-Buffered Video Stage: Slot 1 (Primary Active) -->
+      <video
+        id="stage-video-primary"
+        class="stage-media-layer stage-video playing"
+        src="{{ campaigns.0.video_desktop_url }}"
+        data-src="{{ campaigns.0.video_desktop_url }}"
+        poster="{{ campaigns.0.poster_desktop_url }}"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-label="Active jewellery campaign film"
+      ></video>
+
+      <!-- Dual-Buffered Video Stage: Slot 2 (Secondary Inactive/Preloader) -->
+      <video
+        id="stage-video-secondary"
+        class="stage-media-layer stage-video"
+        src=""
+        data-src=""
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+      ></video>
+
+      <!-- Floating Hallmark Seal -->
+      <div class="stage-hallmark-seal" aria-hidden="true">
+        <svg class="hallmark-insignia" viewBox="0 0 24 24">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+        <span class="hallmark-label">ATELIER N° 916 &bull; MASTER CRAFT</span>
+      </div>
+
+    </div>
+
+  </div>
+</div>

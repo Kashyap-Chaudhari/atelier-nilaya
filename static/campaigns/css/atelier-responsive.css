@@ -1,0 +1,428 @@
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ==========================================================================
+   THE UNVEILING ATELIER — RESPONSIVE ART DIRECTION
+   Palette: Ivory × Deep Burgundy
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TABLET EXPERIENCE (1024px & 768px Viewports)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1200px) {
+  .atelier-vertical-rail {
+    display: none;
+  }
+
+  .atelier-nav-menu {
+    gap: 18px;
+  }
+
+  .atelier-nav-link {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+  }
+
+  .hero-editorial-grid {
+    grid-template-columns: 1fr 1.25fr;
+    grid-template-rows: auto auto;
+    gap: 28px;
+    height: auto;
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  .atelier-hero-section {
+    height: auto;
+    min-height: 100vh;
+    max-height: none;
+    padding-top: calc(var(--header-height) + 12px);
+  }
+
+  .zone-story-rail {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    padding: 0;
+  }
+
+  .zone-video-stage {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    height: clamp(380px, 45vh, 480px);
+  }
+
+  .zone-next-preview {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 18px;
+    border-top: var(--border-burgundy-hairline);
+  }
+
+  .preview-interactive-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 480px;
+    background: var(--c-white);
+  }
+
+  .preview-poster-box {
+    width: 140px;
+    height: 90px;
+    flex-shrink: 0;
+  }
+
+  .preview-card-footer {
+    margin-top: 0;
+  }
+
+  .atelier-nav-controls {
+    margin-top: 0;
+    min-width: 240px;
+  }
+}
+
+@media (max-width: 900px) {
+  .atelier-nav-menu {
+    display: none; /* Collapses to minimal luxury mobile layout */
+  }
+
+  .hero-editorial-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+    padding: 0 20px 36px 20px;
+  }
+
+  .zone-story-rail {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+
+  .zone-video-stage {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    height: clamp(340px, 42vh, 420px);
+  }
+
+  .zone-next-preview {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .preview-interactive-card {
+    max-width: 100%;
+  }
+
+  .story-headline {
+    font-size: clamp(3.2rem, 5vw, 4.2rem);
+    font-weight: 500;
+    line-height: 1.0;
+  }
+
+  .story-headline-sub {
+    font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .story-description {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 400;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE PORTRAIT-FIRST ART DIRECTION (360px, 375px, 390px, 430px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  :root {
+    --header-height: 60px;
+  }
+
+  .atelier-header {
+    height: var(--header-height);
+    padding: 0 16px;
+    background: linear-gradient(180deg, rgba(248, 245, 240, 0.98) 0%, rgba(248, 245, 240, 0) 100%);
+    border-bottom: 1px solid rgba(100, 45, 59, 0.08);
+  }
+
+  .atelier-logo-monogram {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+    border-color: var(--c-burgundy);
+    color: var(--c-burgundy);
+  }
+
+  .atelier-brand-title {
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
+    color: var(--c-text-primary);
+  }
+
+  .atelier-brand-sub {
+    font-size: 0.52rem;
+    color: var(--c-burgundy);
+  }
+
+  .atelier-status-tag {
+    display: none;
+  }
+
+  /* Full viewport mobile stage container */
+  .atelier-hero-section {
+    min-height: 100svh;
+    height: auto;
+    padding: var(--header-height) 0 24px 0;
+    justify-content: flex-start;
+    background-color: var(--c-ivory);
+  }
+
+  .hero-editorial-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0 16px;
+    height: auto;
+  }
+
+  /* Video Stage takes primary focus */
+  .zone-video-stage {
+    order: 1;
+    width: 100%;
+    height: clamp(280px, 38vh, 360px);
+    margin: 2px 0 6px 0;
+  }
+
+  .sculptural-frame-wrapper {
+    padding: 4px;
+  }
+
+  .stage-viewport[data-composition="sculptural-bevel"],
+  .stage-viewport[data-composition="geometric-arch"],
+  .stage-viewport[data-composition="angled-facet"] {
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px)) !important;
+  }
+
+  .stage-hallmark-seal {
+    bottom: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    background: rgba(248, 245, 240, 0.94);
+    border: var(--border-burgundy-hairline);
+  }
+
+  .hallmark-insignia {
+    width: 13px;
+    height: 13px;
+    fill: var(--c-burgundy);
+  }
+
+  .hallmark-label {
+    font-size: 0.52rem;
+    color: var(--c-burgundy);
+  }
+
+  /* Zone A — Mobile Editorial Story Rail */
+  .zone-story-rail {
+    order: 2;
+    padding: 0;
+  }
+
+  .story-catalogue-badge {
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    color: var(--c-burgundy);
+    margin-bottom: 6px;
+  }
+
+  .collection-counter-lockup {
+    margin-bottom: 6px;
+    gap: 8px;
+  }
+
+  .collection-number-odometer {
+    height: 2.2rem;
+    line-height: 2.2rem;
+  }
+
+  .odometer-digit {
+    font-size: 2rem;
+    color: var(--c-burgundy);
+  }
+
+  .collection-total-count {
+    font-size: 0.68rem;
+    color: var(--c-text-muted);
+  }
+
+  .story-eyebrow-wrapper {
+    margin-bottom: 4px;
+  }
+
+  .eyebrow-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--c-burgundy);
+  }
+
+  .story-headline {
+    font-size: clamp(2.4rem, 7.8vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1.02;
+    margin-bottom: 6px;
+    color: var(--c-text-primary);
+  }
+
+  .story-headline-sub {
+    font-size: 1.15rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    color: var(--c-burgundy);
+  }
+
+  .story-description {
+    font-family: var(--font-body);
+    font-size: 14px; /* 14–16px */
+    font-weight: 400;
+    line-height: 1.55;
+    margin-bottom: 14px;
+    color: var(--c-text-secondary);
+  }
+
+  .story-provenance-meta {
+    margin-bottom: 16px;
+    gap: 6px;
+  }
+
+  .provenance-pill {
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    padding: 3px 8px;
+    background: rgba(100, 45, 59, 0.06);
+    border: var(--border-burgundy-hairline);
+    color: var(--c-burgundy);
+  }
+
+  .story-curator-row {
+    font-size: 0.62rem;
+    color: var(--c-burgundy);
+  }
+
+  .atelier-cta {
+    font-size: 0.72rem;
+    padding: 8px 0;
+    color: var(--c-text-primary);
+  }
+
+  /* Zone C — Mobile Compact Navigation & Horizontal Preview Pill */
+  .zone-next-preview {
+    order: 3;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: var(--border-burgundy-hairline);
+  }
+
+  .preview-interactive-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    background: var(--c-white);
+    border: 1px solid rgba(100, 45, 59, 0.15);
+  }
+
+  .preview-poster-box {
+    width: 72px;
+    height: 50px;
+    flex-shrink: 0;
+  }
+
+  .preview-upcoming-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--c-text-primary);
+  }
+
+  .preview-status-label {
+    font-size: 0.52rem;
+    color: var(--c-burgundy);
+  }
+
+  .atelier-nav-controls {
+    margin-top: 12px;
+    gap: 10px;
+  }
+
+  .timeline-progress-fill {
+    background: linear-gradient(90deg, var(--c-burgundy), var(--c-burgundy-light));
+  }
+
+  .atelier-control-actions {
+    justify-content: space-between;
+  }
+
+  .atelier-icon-btn {
+    width: 36px;
+    height: 36px;
+    background: var(--c-white);
+    border: var(--border-burgundy-hairline);
+    color: var(--c-burgundy);
+  }
+
+  .slide-pill-dot {
+    width: 16px;
+    height: 3px;
+    background: rgba(100, 45, 59, 0.18);
+  }
+
+  .slide-pill-dot.active {
+    width: 28px;
+    background: var(--c-burgundy);
+  }
+}
+
+/* Small 360px Viewports */
+@media (max-width: 380px) {
+  .zone-video-stage {
+    height: 250px;
+  }
+  .story-headline {
+    font-size: 2.1rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .story-headline-sub {
+    font-size: 1.05rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .story-description {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.45;
+    margin-bottom: 10px;
+  }
+  .story-provenance-meta {
+    margin-bottom: 10px;
+  }
+  .atelier-cta {
+    font-size: 0.68rem;
+    padding: 6px 0;
+  }
+}

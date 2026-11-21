@@ -1,0 +1,249 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<style>
+.nilaya-account-stage {
+  min-height: 80vh;
+  padding: 60px 24px 100px;
+  background: radial-gradient(circle at 50% 10%, rgba(104, 45, 60, 0.1) 0%, rgba(14, 14, 12, 0) 70%), #0E0E0C;
+}
+
+.nilaya-account-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.nilaya-account-header {
+  border-bottom: 1px solid rgba(217, 181, 107, 0.25);
+  padding-bottom: 24px;
+  margin-bottom: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.nilaya-account-eyebrow {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.nilaya-account-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.2rem, 3.5vw, 2.8rem);
+  font-weight: 500;
+  color: #F8F5F0;
+  margin: 0;
+}
+
+.nilaya-account-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 36px;
+}
+
+@media (max-width: 860px) {
+  .nilaya-account-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sidebar Nav */
+.nilaya-account-nav {
+  background: #141311;
+  border: 1px solid rgba(217, 181, 107, 0.28);
+  border-radius: 6px;
+  padding: 12px 0;
+  height: fit-content;
+}
+
+.nilaya-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  color: rgba(248, 245, 240, 0.75);
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.nilaya-nav-item:hover {
+  background: rgba(217, 181, 107, 0.08);
+  color: #F8F5F0;
+}
+
+.nilaya-nav-item.active {
+  background: rgba(217, 181, 107, 0.12);
+  color: #d9b56b;
+  border-left-color: #d9b56b;
+}
+
+.nilaya-nav-divider {
+  height: 1px;
+  background: rgba(217, 181, 107, 0.15);
+  margin: 8px 0;
+}
+
+/* Content Area Card */
+.nilaya-account-card {
+  background: #141311;
+  border: 1px solid rgba(217, 181, 107, 0.28);
+  border-radius: 6px;
+  padding: clamp(28px, 4vw, 40px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.nilaya-card-section-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #F8F5F0;
+  margin: 0 0 8px;
+}
+
+.nilaya-card-section-desc {
+  font-size: 0.88rem;
+  color: rgba(248, 245, 240, 0.65);
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+/* Common form elements inside account */
+.nilaya-form-group {
+  margin-bottom: 20px;
+}
+
+.nilaya-form-label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  margin-bottom: 8px;
+}
+
+.nilaya-form-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #1c0b13;
+  border: 1px solid rgba(217, 181, 107, 0.35);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.92rem;
+  color: #F8F5F0;
+  outline: none;
+}
+
+.nilaya-form-input:focus {
+  border-color: #d9b56b;
+  box-shadow: 0 0 0 3px rgba(217, 181, 107, 0.18);
+}
+
+.nilaya-auth-btn {
+  padding: 12px 24px;
+  background: #d9b56b;
+  color: #1c0b13;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nilaya-auth-btn:hover {
+  background: #ecd59b;
+}
+
+.nilaya-alert-success {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  margin-bottom: 20px;
+}
+
+.nilaya-alert-error {
+  background: rgba(185, 28, 28, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  margin-bottom: 20px;
+}
+</style>
+{% block account_extra_css %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+<section class="nilaya-account-stage">
+  <div class="nilaya-account-container">
+    <div class="nilaya-account-header">
+      <div>
+        <span class="nilaya-account-eyebrow">Client Folio &bull; Established 1954</span>
+        <h1 class="nilaya-account-title">{{ user.first_name|default:user.username }}'s Folio</h1>
+      </div>
+      <div>
+        {% if user.profile.is_email_verified %}
+          <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #6ee7b7; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px;">
+            ✦ Authenticated Client
+          </span>
+        {% else %}
+          <a href="{% url 'campaigns:verify_email_pending' %}" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; text-decoration: none;">
+            ⚠ Verify Email to Order &rarr;
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="nilaya-account-layout">
+      <!-- Navigation Sidebar -->
+      <aside class="nilaya-account-nav">
+        <a href="{% url 'campaigns:account_profile' %}" class="nilaya-nav-item {% if active_tab == 'profile' %}active{% endif %}">
+          <span>✦</span> Profile Details
+        </a>
+        <a href="{% url 'campaigns:account_password' %}" class="nilaya-nav-item {% if active_tab == 'password' %}active{% endif %}">
+          <span>✦</span> Change Password
+        </a>
+        <a href="{% url 'campaigns:account_addresses' %}" class="nilaya-nav-item {% if active_tab == 'addresses' %}active{% endif %}">
+          <span>✦</span> Saved Addresses
+        </a>
+        <a href="{% url 'orders:history' %}" class="nilaya-nav-item {% if active_tab == 'orders' %}active{% endif %}">
+          <span>✦</span> My Orders
+        </a>
+        <div class="nilaya-nav-divider"></div>
+        <a href="{% url 'campaigns:logout' %}" class="nilaya-nav-item" style="color: #fca5a5;">
+          <span>✕</span> Log Out
+        </a>
+      </aside>
+
+      <!-- Sub-page Content -->
+      <div class="nilaya-account-content">
+        {% block account_content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

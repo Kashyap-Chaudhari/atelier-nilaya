@@ -1,0 +1,87 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}{{ campaign.title }} &bull; The Unveiling Atelier{% endblock %}
+
+{% block content %}
+<article style="padding: calc(var(--header-height) + 60px) 0 100px 0; max-width: var(--container-max-width); margin: 0 auto; padding-left: clamp(20px, 3.5vw, 56px); padding-right: clamp(20px, 3.5vw, 56px); background:var(--c-ivory);">
+  
+  <nav style="margin-bottom: 32px;">
+    <a href="{% url 'campaigns:hero' %}" class="atelier-cta" style="font-size:0.75rem; color:var(--c-burgundy);">
+      <span class="cta-arrow" style="transform:none; margin-right:8px; color:var(--c-burgundy);">&larr;</span>
+      <span>RETURN TO MAIN EXHIBITION</span>
+    </a>
+  </nav>
+
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 64px; align-items:flex-start;">
+    
+    <!-- Video / Media Showcase -->
+    <div>
+      <div style="position:relative; overflow:hidden; border:1px solid rgba(100, 45, 59, 0.25); box-shadow:0 25px 60px rgba(53,31,39,0.12); background:var(--c-ivory-surface);">
+        <video 
+          src="{{ campaign.video_desktop_url }}" 
+          poster="{{ campaign.poster_desktop_url }}" 
+          controls 
+          autoplay 
+          muted 
+          loop 
+          playsinline 
+          style="width:100%; display:block;"
+        ></video>
+      </div>
+
+      <div style="margin-top:20px; display:flex; gap:16px;">
+        <img src="{{ campaign.poster_desktop_url }}" alt="Desktop Poster" style="width:140px; height:80px; object-fit:cover; border:1px solid rgba(100,45,59,0.2); box-shadow:0 4px 12px rgba(53,31,39,0.06);" />
+        {% if campaign.poster_mobile %}
+          <img src="{{ campaign.poster_mobile_url }}" alt="Mobile Poster" style="width:50px; height:80px; object-fit:cover; border:1px solid rgba(100,45,59,0.2); box-shadow:0 4px 12px rgba(53,31,39,0.06);" />
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Editorial Dossier -->
+    <div>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <span style="font-family:var(--font-serif-display); font-size:2.4rem; font-weight:500; color:var(--c-burgundy);">{{ campaign.formatted_order }}</span>
+        <span class="eyebrow-label">{{ campaign.eyebrow }}</span>
+      </div>
+
+      <!-- Hero Heading Scale: Cormorant Garamond, 72–100px, Weight 500 -->
+      <h1 class="hero-heading" style="margin-bottom:16px; font-size:clamp(3.5rem, 5vw, 5.5rem); line-height:1.02;">
+        {{ campaign.title }}
+      </h1>
+
+      {% if campaign.headline_sub %}
+        <!-- Italic Highlight: Cormorant Garamond, Weight 400 Italic -->
+        <div class="italic-highlight" style="font-size:clamp(1.3rem, 1.8vw, 1.7rem); color:var(--c-burgundy); margin-bottom:24px;">
+          {{ campaign.headline_sub }}
+        </div>
+      {% endif %}
+
+      <!-- Body Storytelling: Manrope, 14–16px -->
+      <p class="body-text" style="font-size:16px; line-height:1.8; margin-bottom:32px;">
+        {{ campaign.description }}
+      </p>
+
+      <div style="background:var(--c-white); border:1px solid rgba(100, 45, 59, 0.16); box-shadow:0 10px 30px rgba(53,31,39,0.05); padding:28px; margin-bottom:36px;">
+        <div style="font-family:var(--font-sans); font-size:0.75rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--c-burgundy); margin-bottom:14px;">SPECIFICATIONS &amp; ATELIER NOTES</div>
+        <ul style="list-style:none; font-family:var(--font-body); font-size:15px; color:var(--c-text-secondary); line-height:2.2;">
+          <li><strong>Provenance:</strong> <span style="color:var(--c-text-primary); font-weight:600;">{{ campaign.provenance_tag }}</span></li>
+          <li><strong>Curator Note:</strong> <span style="color:var(--c-text-primary);">{{ campaign.curator_note }}</span></li>
+          <li><strong>Architectural Cut:</strong> <span style="color:var(--c-text-primary);">{{ campaign.get_composition_style_display }}</span></li>
+          <li><strong>Palette Accent:</strong> <span style="color:var(--c-text-primary);">{{ campaign.get_theme_accent_display }}</span></li>
+        </ul>
+      </div>
+
+      <div style="display:flex; gap:20px; align-items:center;">
+        <a href="#private-appointment" data-open-appointment class="atelier-cta" style="padding:14px 28px; background:var(--c-burgundy); color:var(--c-white); border:1px solid var(--c-burgundy); font-size:0.78rem; box-shadow:0 6px 20px rgba(100,45,59,0.25);">
+          <span>INQUIRE ABOUT THIS EXHIBITION PIECE</span>
+          <span class="cta-arrow" style="color:var(--c-white);">&rarr;</span>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</article>
+{% endblock %}

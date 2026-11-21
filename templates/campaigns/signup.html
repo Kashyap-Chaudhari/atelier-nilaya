@@ -1,0 +1,464 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Create Private Folio &bull; Atelier Nilaya Haute Joaillerie{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ==========================================================================
+   ATELIER NILAYA — CLIENT SIGN UP & REGISTRATION PAGE
+   ========================================================================== */
+
+.nilaya-signup-stage {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px 100px;
+  background: radial-gradient(circle at 50% 15%, rgba(104, 45, 60, 0.12) 0%, rgba(14, 14, 12, 0) 70%), #0E0E0C;
+}
+
+.nilaya-signup-container {
+  width: 100%;
+  max-width: 620px;
+}
+
+.nilaya-signup-card {
+  background: #141311;
+  border: 1px solid rgba(217, 181, 107, 0.3);
+  border-radius: 6px;
+  padding: clamp(28px, 4vw, 44px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+.nilaya-auth-eyebrow {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.nilaya-card-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 2.4rem);
+  font-weight: 500;
+  color: #F8F5F0;
+  margin: 0 0 8px;
+}
+
+.nilaya-card-subtitle {
+  font-size: 0.9rem;
+  color: rgba(248, 245, 240, 0.68);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+/* Alert Boxes */
+.nilaya-auth-alert {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin-bottom: 20px;
+}
+
+.nilaya-alert-error {
+  background: rgba(185, 28, 28, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+/* Form Controls */
+.nilaya-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .nilaya-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.nilaya-form-group {
+  margin-bottom: 18px;
+}
+
+.nilaya-form-label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  margin-bottom: 8px;
+}
+
+.nilaya-input-wrap {
+  position: relative;
+}
+
+.nilaya-form-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #1c0b13;
+  border: 1px solid rgba(217, 181, 107, 0.35);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.92rem;
+  color: #F8F5F0;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.nilaya-form-input:focus {
+  border-color: #d9b56b;
+  box-shadow: 0 0 0 3px rgba(217, 181, 107, 0.18);
+}
+
+.nilaya-password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(248, 245, 240, 0.55);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.nilaya-password-toggle:hover {
+  color: #d9b56b;
+}
+
+/* Password Strength Meter */
+.nilaya-strength-meter {
+  margin-top: 8px;
+}
+
+.nilaya-strength-bar-bg {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.nilaya-strength-bar {
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 2px;
+}
+
+.nilaya-strength-text {
+  font-size: 0.76rem;
+  color: rgba(248, 245, 240, 0.6);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Consent Checkbox */
+.nilaya-consent-wrap {
+  margin: 22px 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(248, 245, 240, 0.75);
+}
+
+.nilaya-consent-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.nilaya-consent-label input[type="checkbox"] {
+  accent-color: #d9b56b;
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nilaya-link-gold {
+  color: #d9b56b;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nilaya-link-gold:hover {
+  color: #F8F5F0;
+  text-decoration: underline;
+}
+
+/* Action Button */
+.nilaya-auth-btn {
+  width: 100%;
+  padding: 14px 24px;
+  background: #d9b56b;
+  color: #1c0b13;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.nilaya-auth-btn:hover {
+  background: #ecd59b;
+}
+
+.nilaya-auth-btn:active {
+  transform: scale(0.99);
+}
+
+/* Footer Links */
+.nilaya-card-footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(217, 181, 107, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: rgba(248, 245, 240, 0.65);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="nilaya-signup-stage">
+  <div class="nilaya-signup-container">
+    <div class="nilaya-signup-card">
+      <span class="nilaya-auth-eyebrow">Client Registration &bull; Atelier Nilaya</span>
+      <h1 class="nilaya-card-title">Create Your Private Folio</h1>
+      <p class="nilaya-card-subtitle">
+        Register to curate personal acquisitions, reserve benchmark bullion rates, and enjoy white-glove insured delivery across India.
+      </p>
+
+      {% if error %}
+        <div class="nilaya-auth-alert nilaya-alert-error" role="alert">
+          {{ error }}
+        </div>
+      {% endif %}
+
+      <form method="POST" action="{% url 'campaigns:signup' %}?next={{ next|urlencode }}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <!-- Full Name -->
+        <div class="nilaya-form-group">
+          <label for="id_full_name" class="nilaya-form-label">Full Name</label>
+          <div class="nilaya-input-wrap">
+            <input 
+              type="text" 
+              id="id_full_name" 
+              name="full_name" 
+              class="nilaya-form-input" 
+              placeholder="e.g. Maharani Gayatri Devi" 
+              value="{{ full_name|default:'' }}"
+              required 
+              autofocus 
+              autocomplete="name">
+          </div>
+        </div>
+
+        <!-- Contact Information Row: Email & Mobile -->
+        <div class="nilaya-form-row">
+          <div class="nilaya-form-group">
+            <label for="id_email" class="nilaya-form-label">Email Address</label>
+            <div class="nilaya-input-wrap">
+              <input 
+                type="email" 
+                id="id_email" 
+                name="email" 
+                class="nilaya-form-input" 
+                placeholder="patron@domain.luxury" 
+                value="{{ email|default:'' }}"
+                required 
+                autocomplete="email">
+            </div>
+          </div>
+
+          <div class="nilaya-form-group">
+            <label for="id_mobile_number" class="nilaya-form-label">Mobile Number</label>
+            <div class="nilaya-input-wrap">
+              <input 
+                type="tel" 
+                id="id_mobile_number" 
+                name="mobile_number" 
+                class="nilaya-form-input" 
+                placeholder="10-digit mobile (e.g. 9825100000)" 
+                value="{{ mobile_number|default:'' }}"
+                required 
+                maxlength="15" 
+                autocomplete="tel">
+            </div>
+          </div>
+        </div>
+
+        <!-- Password Row: Password & Confirm Password -->
+        <div class="nilaya-form-row">
+          <div class="nilaya-form-group">
+            <label for="id_password1" class="nilaya-form-label">Create Password</label>
+            <div class="nilaya-input-wrap">
+              <input 
+                type="password" 
+                id="id_password1" 
+                name="password" 
+                class="nilaya-form-input" 
+                placeholder="Min. 8 characters" 
+                required 
+                autocomplete="new-password">
+              <button type="button" class="nilaya-password-toggle" id="togglePassword1Btn" aria-label="Toggle password visibility">
+                Show
+              </button>
+            </div>
+          </div>
+
+          <div class="nilaya-form-group">
+            <label for="id_password2" class="nilaya-form-label">Confirm Password</label>
+            <div class="nilaya-input-wrap">
+              <input 
+                type="password" 
+                id="id_password2" 
+                name="confirm_password" 
+                class="nilaya-form-input" 
+                placeholder="Re-enter password" 
+                required 
+                autocomplete="new-password">
+              <button type="button" class="nilaya-password-toggle" id="togglePassword2Btn" aria-label="Toggle confirm password visibility">
+                Show
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Password Strength Meter -->
+        <div class="nilaya-strength-meter">
+          <div class="nilaya-strength-bar-bg">
+            <div class="nilaya-strength-bar" id="strengthBar"></div>
+          </div>
+          <div class="nilaya-strength-text">
+            <span id="strengthLabel">Password strength</span>
+            <span id="strengthHint">Must be at least 8 characters</span>
+          </div>
+        </div>
+
+        <!-- Consent Checkbox -->
+        <div class="nilaya-consent-wrap">
+          <label class="nilaya-consent-label">
+            <input type="checkbox" name="terms_consent" id="id_terms_consent" required {% if terms_consent %}checked{% endif %}>
+            <span>
+              I agree to the <a href="{% url 'campaigns:hero' %}" class="nilaya-link-gold" target="_blank">Terms of Service</a>, 
+              <a href="{% url 'campaigns:hero' %}" class="nilaya-link-gold" target="_blank">Privacy Policy</a>, 
+              and consent to receive digital hallmark registries and order delivery dispatches.
+            </span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="nilaya-auth-btn" id="signupSubmitBtn">
+          Create Folio &amp; Verify Email &rarr;
+        </button>
+
+        <!-- Footer Links -->
+        <div class="nilaya-card-footer">
+          <div>
+            Already have an active account? 
+            <a href="{% url 'campaigns:login' %}?next={{ next|urlencode }}" class="nilaya-link-gold" style="font-weight: 700;">
+              Sign In
+            </a>
+          </div>
+          <div>
+            <a href="{% url 'campaigns:hero' %}" class="nilaya-link-gold">
+              &larr; Return to boutique
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Password Visibility Toggles
+  function setupToggle(toggleId, inputId) {
+    const btn = document.getElementById(toggleId);
+    const input = document.getElementById(inputId);
+    if (btn && input) {
+      btn.addEventListener('click', function() {
+        const isPwd = input.getAttribute('type') === 'password';
+        input.setAttribute('type', isPwd ? 'text' : 'password');
+        btn.textContent = isPwd ? 'Hide' : 'Show';
+      });
+    }
+  }
+  setupToggle('togglePassword1Btn', 'id_password1');
+  setupToggle('togglePassword2Btn', 'id_password2');
+
+  // Live Password Strength Meter
+  const passwordInput = document.getElementById('id_password1');
+  const strengthBar = document.getElementById('strengthBar');
+  const strengthLabel = document.getElementById('strengthLabel');
+  const strengthHint = document.getElementById('strengthHint');
+
+  if (passwordInput && strengthBar) {
+    passwordInput.addEventListener('input', function() {
+      const val = passwordInput.value;
+      let score = 0;
+
+      if (val.length >= 8) score += 25;
+      if (val.length >= 12) score += 15;
+      if (/[A-Z]/.test(val)) score += 20;
+      if (/[0-9]/.test(val)) score += 20;
+      if (/[^A-Za-z0-9]/.test(val)) score += 20;
+
+      strengthBar.style.width = Math.min(score, 100) + '%';
+
+      if (val.length === 0) {
+        strengthBar.style.width = '0%';
+        strengthBar.style.backgroundColor = 'transparent';
+        strengthLabel.textContent = 'Password strength';
+        strengthHint.textContent = 'Must be at least 8 characters';
+      } else if (score < 40) {
+        strengthBar.style.backgroundColor = '#ef4444';
+        strengthLabel.textContent = 'Weak';
+        strengthLabel.style.color = '#ef4444';
+        strengthHint.textContent = 'Add uppercase, numbers, or symbols';
+      } else if (score < 75) {
+        strengthBar.style.backgroundColor = '#f59e0b';
+        strengthLabel.textContent = 'Moderate';
+        strengthLabel.style.color = '#f59e0b';
+        strengthHint.textContent = 'Good, but could be stronger';
+      } else {
+        strengthBar.style.backgroundColor = '#10b981';
+        strengthLabel.textContent = 'Strong';
+        strengthLabel.style.color = '#10b981';
+        strengthHint.textContent = 'Excellent security';
+      }
+    });
+  }
+});
+</script>
+{% endblock %}

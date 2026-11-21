@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#0E0E0C">
+  <meta name="description" content="The Unveiling Atelier — An imaginary private haute joaillerie exhibition unveiling rare handcrafted gold, diamonds, and heritage treasures.">
+  
+  <title>{% block title %}The Unveiling Atelier — Haute Joaillerie &bull; Private Exhibition{% endblock %}</title>
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap" rel="stylesheet">
+
+  <!-- Atelier Stylesheets (Cache-Busted) -->
+  <link rel="stylesheet" href="{% static 'campaigns/css/atelier-design-system.css' %}?v=20261118_v3">
+  <link rel="stylesheet" href="{% static 'campaigns/css/atelier-hero.css' %}?v=20261118_v3">
+  <link rel="stylesheet" href="{% static 'campaigns/css/atelier-responsive.css' %}?v=20261118_v3">
+  <link rel="stylesheet" href="{% static 'campaigns/css/navigation.css' %}?v=20261118_v3">
+  <link rel="stylesheet" href="{% static 'campaigns/css/velvet-tray.css' %}?v=20261118_v3">
+  <link rel="stylesheet" href="{% static 'cart/css/bag_drawer.css' %}?v=20261120_v2">
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body data-app="unveiling-atelier">
+  
+  <!-- Atelier Global Header -->
+  {% include 'campaigns/partials/header.html' %}
+
+  <!-- Mobile Navigation Drawer & Background Scrim -->
+  {% include 'components/mobile_menu.html' %}
+  <div class="aaranya-scrim" id="aaranya-scrim" aria-hidden="true"></div>
+
+  <!-- Main Content Stage -->
+  <main id="atelier-main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Atelier Footer -->
+  {% include 'campaigns/partials/footer.html' %}
+
+  <!-- Private Jewellery Viewing Appointment Modal (Prevents OS mailto prompt) -->
+  {% include 'campaigns/partials/appointment_modal.html' %}
+
+  <!-- Sliding Bag Drawer (Desktop Panel / Mobile Sheet) -->
+  {% include 'cart/partials/bag_drawer.html' %}
+
+  <!-- Client-side Scripts -->
+  <script src="{% static 'campaigns/js/atelier-state.js' %}"></script>
+  <script src="{% static 'campaigns/js/atelier-transition.js' %}"></script>
+  <script src="{% static 'campaigns/js/atelier-hero.js' %}"></script>
+  <script src="{% static 'campaigns/js/navigation.js' %}"></script>
+  <script src="{% static 'campaigns/js/velvet-tray.js' %}"></script>
+  <script src="{% static 'cart/js/bag_drawer.js' %}?v=20261120_v2"></script>
+  
+  <script>
+  // Customer Dropdown & Wishlist Authentication Handler
+  document.addEventListener('DOMContentLoaded', function() {
+    // Header customer menu dropdown
+    const customerToggle = document.getElementById('customerMenuToggle');
+    const customerDropdown = document.getElementById('customerMenuDropdown');
+    if (customerToggle && customerDropdown) {
+      customerToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isOpen = customerDropdown.style.display === 'block';
+        customerDropdown.style.display = isOpen ? 'none' : 'block';
+      });
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.customer-header-menu-wrap')) {
+          customerDropdown.style.display = 'none';
+        }
+      });
+    }
+
+    // Wishlist Heart Click: sends logged-out patrons to login first
+    document.addEventListener('click', function(e) {
+      const heartBtn = e.target.closest('[data-wishlist-btn]');
+      if (!heartBtn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const pid = heartBtn.dataset.productId || '';
+      
+      fetch(`/api/wishlist/toggle?product_id=${encodeURIComponent(pid)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.requires_login) {
+            window.location.href = data.login_url || `/login/?next=${encodeURIComponent(window.location.pathname)}&wishlist_add=${pid}`;
+          } else {
+            heartBtn.classList.toggle('is-active', data.is_wishlisted);
+            heartBtn.setAttribute('aria-pressed', data.is_wishlisted ? 'true' : 'false');
+          }
+        })
+        .catch(() => {
+          window.location.href = `/login/?next=${encodeURIComponent(window.location.pathname)}&wishlist_add=${pid}`;
+        });
+    });
+  });
+  </script>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

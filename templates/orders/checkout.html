@@ -1,0 +1,277 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Checkout &bull; Atelier Nilaya Haute Joaillerie{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'orders/css/checkout.css' %}?v=20261120_1">
+<!-- Razorpay Checkout Integration Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page-container">
+  
+  <header class="checkout-header">
+    <span class="checkout-eyebrow">Atelier Nilaya &bull; Private Acquisition</span>
+    <h1 class="checkout-title">Complete Your Acquisition</h1>
+    <p class="checkout-subtitle">Insured white-glove delivery from our Surat vaults with BIS hallmarked certification.</p>
+  </header>
+
+  <div class="checkout-layout">
+    
+    <!-- LEFT: 3-Step Guided Form -->
+    <div class="checkout-steps-col">
+      
+      <!-- STEP 1: Contact Details & Mobile Verification -->
+      <section class="checkout-step-card is-active" id="step-1-card">
+        <div class="checkout-step-header">
+          <span class="checkout-step-num">1</span>
+          <h2 class="checkout-step-title">Contact &amp; Authentication</h2>
+          <span class="checkout-step-badge">Verified</span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="checkout-field">
+            <label for="checkout-phone" class="checkout-label">
+              <span>Mobile Phone Number *</span>
+              <small>SMS &amp; Dispatch Updates</small>
+            </label>
+            <div class="inline-input-action">
+              <input 
+                type="tel" 
+                id="checkout-phone" 
+                class="checkout-input" 
+                placeholder="10-digit mobile number" 
+                maxlength="10"
+                value="{{ request.session.checkout_phone|default:'' }}"
+                required
+              >
+              <button type="button" id="send-otp-btn" class="checkout-btn-inline">Verify via OTP</button>
+            </div>
+            <span id="otp-status-msg" class="checkout-helper">We send armored transit alerts and OTP authentication to this number.</span>
+          </div>
+
+          <div class="checkout-field">
+            <label for="checkout-email" class="checkout-label">
+              <span>Email Address *</span>
+              <small>Digital Invoice &amp; Certificate</small>
+            </label>
+            <input 
+              type="email" 
+              id="checkout-email" 
+              class="checkout-input" 
+              placeholder="e.g. connoisseur@domain.com"
+              value="{{ request.user.email|default:'' }}"
+              required
+            >
+            <span class="checkout-helper">Signed in as {{ request.user.first_name|default:request.user.username }}; GST invoice &amp; tracking folio will be emailed.</span>
+          </div>
+        </div>
+
+        <!-- Hidden OTP Verification Row (Revealed when OTP sent) -->
+        <div id="otp-verify-row" class="checkout-field" style="display: none; margin-top: 10px;">
+          <label for="checkout-otp" class="checkout-label">
+            <span>Enter 6-Digit OTP</span>
+            <small>Demo code: <strong>729401</strong></small>
+          </label>
+          <div class="inline-input-action" style="max-width: 320px;">
+            <input type="text" id="checkout-otp" class="checkout-input" placeholder="Enter 6-digit code" maxlength="6">
+            <button type="button" id="verify-otp-btn" class="checkout-btn-inline">Verify</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: Insured Delivery Address -->
+      <section class="checkout-step-card is-active" id="step-2-card">
+        <div class="checkout-step-header">
+          <span class="checkout-step-num">2</span>
+          <h2 class="checkout-step-title">Insured White-Glove Delivery Address</h2>
+        </div>
+
+        <div class="checkout-field">
+          <label for="checkout-fullname" class="checkout-label">Full Name of Recipient *</label>
+          <input 
+            type="text" 
+            id="checkout-fullname" 
+            class="checkout-input" 
+            placeholder="Recipient name matching photo ID for insured courier" 
+            value="{{ request.user.get_full_name|default:request.user.first_name|default:'' }}"
+            required
+          >
+          <span class="checkout-helper">Sequel / BlueDart armored couriers require government photo ID at delivery.</span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="checkout-field">
+            <label for="checkout-pincode" class="checkout-label">
+              <span>Delivery Pincode *</span>
+              <small>6 Digits</small>
+            </label>
+            <input 
+              type="text" 
+              id="checkout-pincode" 
+              class="checkout-input" 
+              placeholder="e.g. 395003" 
+              maxlength="6"
+              required
+            >
+            <span id="checkout-pincode-estimate" class="checkout-helper">Type 6-digit pincode for automatic city &amp; transit estimate.</span>
+          </div>
+
+          <div class="checkout-field">
+            <label for="checkout-city" class="checkout-label">City *</label>
+            <input type="text" id="checkout-city" class="checkout-input" placeholder="City" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="checkout-field">
+            <label for="checkout-state" class="checkout-label">State *</label>
+            <input type="text" id="checkout-state" class="checkout-input" placeholder="State" required>
+          </div>
+
+          <div class="checkout-field">
+            <label for="checkout-address2" class="checkout-label">Landmark / Apartment No. (Optional)</label>
+            <input type="text" id="checkout-address2" class="checkout-input" placeholder="e.g. Flat 402, Royal Palms">
+          </div>
+        </div>
+
+        <div class="checkout-field">
+          <label for="checkout-address1" class="checkout-label">Street Address &amp; House/Building Name *</label>
+          <input type="text" id="checkout-address1" class="checkout-input" placeholder="Detailed street address" required>
+        </div>
+
+        <!-- Gift Message Option -->
+        <label class="checkout-checkbox-row">
+          <input type="checkbox" id="checkout-is-gift">
+          <span class="checkout-checkbox-text">
+            <strong>This is an heirloom gift.</strong> Include complimentary wax-sealed calligraphy message and presentation box.
+          </span>
+        </label>
+
+        <div id="checkout-gift-message-box" style="display: none; margin-top: 10px;">
+          <div class="checkout-field">
+            <label for="checkout-gift-msg" class="checkout-label">Gift Card Message (Max 200 characters)</label>
+            <textarea id="checkout-gift-msg" class="checkout-textarea" placeholder="Write your personal blessing or sentiment to be transcribed in ink..."></textarea>
+          </div>
+          
+          <label class="checkout-checkbox-row" style="margin-top: 8px;">
+            <input type="checkbox" id="checkout-hide-price" checked>
+            <span class="checkout-checkbox-text">
+              Hide commercial pricing on the accompanying gift presentation invoice.
+            </span>
+          </label>
+        {% if cart.requires_advance_only %}
+        <!-- Made to Order Advance Payment Option -->
+        <div style="background: rgba(100, 45, 59, 0.25); border: 1px solid rgba(173, 145, 97, 0.35); border-radius: 6px; padding: 14px 16px; margin-top: 18px;">
+          <label class="checkout-checkbox-row" style="margin: 0;">
+            <input type="checkbox" id="checkout-advance-choice" checked>
+            <span class="checkout-checkbox-text">
+              <strong>Pay 30% Bench Advance Today: ₹{{ cart.advance_required_amount|floatformat:0 }}</strong><br>
+              <span style="font-size: 0.78rem; color: rgba(248, 245, 240, 0.65);">
+                Remaining balance payable upon hallmark stamping before insured vault dispatch.
+              </span>
+            </span>
+          </label>
+        </div>
+        {% endif %}
+      </section>
+
+    </div>
+
+    <!-- RIGHT: Sticky Order Summary & Breakup Column -->
+    <aside class="checkout-summary-col">
+      <div class="summary-card">
+        <h3 class="summary-title">Acquisition Folio</h3>
+
+        <!-- Items List -->
+        <div class="summary-items-list">
+          {% for item in cart.items.all %}
+          <div class="summary-item-row">
+            <img src="{{ item.product.image_url_fallback }}" alt="{{ item.product.name }}" class="summary-item-img" onerror="this.src='/static/lifestyle/hero-lifestyle-1920.webp'">
+            <div class="summary-item-info">
+              <h4 class="summary-item-name">{{ item.product.name }}</h4>
+              <div class="summary-item-meta">
+                {{ item.metal|title|cut:"_" }} &bull; Qty: {{ item.quantity }}
+                {% if item.size and item.size != 'Standard' %} &bull; {{ item.size }}{% endif %}
+              </div>
+              {% if item.engraving_text %}
+              <div style="font-size: 0.72rem; color: #d9b56b; font-style: italic; margin-top: 2px;">
+                “{{ item.engraving_text }}”
+              </div>
+              {% endif %}
+            </div>
+            <div class="summary-item-price">
+              ₹{{ item.line_total|floatformat:0 }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Coupon Application Field -->
+        <div class="summary-coupon-box">
+          <input type="text" id="checkout-coupon-code" class="summary-coupon-input" placeholder="Heirloom Coupon Code" maxlength="20">
+          <button type="button" id="checkout-apply-coupon-btn" class="summary-coupon-btn">Apply</button>
+        </div>
+        <div id="checkout-coupon-msg" class="checkout-helper" style="margin-top: -12px; margin-bottom: 14px;"></div>
+
+        <!-- Transparent Bench Price Breakup -->
+        <div class="breakup-table">
+          <div class="breakup-row">
+            <span>Bullion Value (Live Zaveri Rate):</span>
+            <span id="summary-gold-val">₹{{ cart.gold_total|floatformat:0 }}</span>
+          </div>
+          <div class="breakup-row">
+            <span>Karigar Making &amp; Bench Craft:</span>
+            <span id="summary-making-val">₹{{ cart.making_total|floatformat:0 }}</span>
+          </div>
+          {% if cart.stone_total > 0 %}
+          <div class="breakup-row">
+            <span>Certified Diamonds &amp; Gemstones:</span>
+            <span id="summary-stone-val">₹{{ cart.stone_total|floatformat:0 }}</span>
+          </div>
+          {% endif %}
+          <div class="breakup-row">
+            <span>Applicable GST (3%):</span>
+            <span id="summary-gst-val">₹{{ cart.gst_total|floatformat:0 }}</span>
+          </div>
+          <div class="breakup-row">
+            <span>Armored Transit &amp; Transit Insurance:</span>
+            <span style="color: #9cd18b;">Complimentary</span>
+          </div>
+          <div class="breakup-row" id="summary-discount-row" style="display: none; color: #9cd18b;">
+            <span>Privilege Discount:</span>
+            <span id="summary-discount-val">-₹0</span>
+          </div>
+          <div class="breakup-row total-row">
+            <span>Final Total:</span>
+            <span class="total-amount" id="summary-total-val">₹{{ cart.final_total|floatformat:0 }}</span>
+          </div>
+          <div class="price-lock-note" style="text-align: right; margin-top: 4px;">
+            <span>Price locked for</span> <span id="price-lock-timer">15:00</span>
+          </div>
+        </div>
+
+        <!-- Pay Now Submit Button in Sidebar Summary -->
+        <button type="button" id="checkout-summary-pay-btn" class="checkout-submit-btn">
+          <span>Proceed to Secure Payment</span>
+          <span>&rarr;</span>
+        </button>
+
+        <div class="checkout-security-pills">
+          <span>🔒 Secured by Razorpay</span>
+          <span>✦ BIS Hallmarked</span>
+          <span>🛡 Insured Transit</span>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'orders/js/checkout.js' %}?v=20261120_4"></script>
+{% endblock %}

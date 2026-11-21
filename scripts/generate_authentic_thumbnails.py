@@ -1,0 +1,101 @@
+import os
+import urllib.request
+from PIL import Image
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+THUMBS_DIR = os.path.join(BASE_DIR, 'static', 'campaigns', 'img', 'menu', 'thumbnails')
+PROMOS_DIR = os.path.join(BASE_DIR, 'static', 'campaigns', 'img', 'menu', 'promos')
+CATS_DIR = os.path.join(BASE_DIR, 'static', 'campaigns', 'img', 'categories')
+
+os.makedirs(THUMBS_DIR, exist_ok=True)
+
+# Helper to crop a square from an image at relative coordinates
+def crop_square(im, center_x_ratio=0.5, center_y_ratio=0.5, size_ratio=0.8):
+    w, h = im.size
+    crop_size = int(min(w, h) * size_ratio)
+    cx = int(w * center_x_ratio)
+    cy = int(h * center_y_ratio)
+    left = max(0, min(w - crop_size, cx - crop_size // 2))
+    top = max(0, min(h - crop_size, cy - crop_size // 2))
+    cropped = im.crop((left, top, left + crop_size, top + crop_size))
+    return cropped.resize((140, 140), Image.Resampling.LANCZOS)
+
+# Base source images
+img_kadas = Image.open(os.path.join(PROMOS_DIR, 'promo-heritage-kadas.jpg'))
+img_bangles_cat = Image.open(os.path.join(CATS_DIR, 'cat-bangles.jpg'))
+img_chandbalis = Image.open(os.path.join(PROMOS_DIR, 'promo-chandbalis.jpg'))
+img_earrings_cat = Image.open(os.path.join(CATS_DIR, 'cat-earrings.jpg'))
+img_rings_cat = Image.open(os.path.join(CATS_DIR, 'cat-rings.jpg'))
+img_solitaire = Image.open(os.path.join(PROMOS_DIR, 'promo-solitaire-rings.jpg'))
+img_cocktail = Image.open(os.path.join(PROMOS_DIR, 'promo-cocktail-rings.jpg'))
+img_neck_cat = Image.open(os.path.join(CATS_DIR, 'cat-necklaces.jpg'))
+img_choker = Image.open(os.path.join(PROMOS_DIR, 'promo-royal-chokers.jpg'))
+img_bridal_cat = Image.open(os.path.join(CATS_DIR, 'cat-bridal.jpg'))
+img_bridal_promo = Image.open(os.path.join(PROMOS_DIR, 'promo-bridal-edit.jpg'))
+img_temple_cat = Image.open(os.path.join(CATS_DIR, 'cat-temple.jpg'))
+img_temple_promo = Image.open(os.path.join(PROMOS_DIR, 'promo-sacred-temple.jpg'))
+img_diamond_cat = Image.open(os.path.join(CATS_DIR, 'cat-diamond.jpg'))
+
+print("Generating 100% authentic jewellery thumbnails...")
+
+# 1. BANGLES THUMBNAILS (MUST ALL BE REAL BANGLES/KADAS - ZERO RINGS/NECKLACES!)
+crop_square(img_kadas, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'bangle-all.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.45, 0.45, 0.65).save(os.path.join(THUMBS_DIR, 'bangle-gold.jpg'), 'JPEG', quality=92)
+crop_square(img_bangles_cat, 0.5, 0.5, 0.85).save(os.path.join(THUMBS_DIR, 'bangle-diamond.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.55, 0.55, 0.70).save(os.path.join(THUMBS_DIR, 'bangle-bridal.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.5, 0.4, 0.60).save(os.path.join(THUMBS_DIR, 'bangle-kadas.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.4, 0.6, 0.70).save(os.path.join(THUMBS_DIR, 'bangle-temple.jpg'), 'JPEG', quality=92)
+crop_square(img_bangles_cat, 0.6, 0.45, 0.70).save(os.path.join(THUMBS_DIR, 'bangle-daily.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.6, 0.5, 0.65).save(os.path.join(THUMBS_DIR, 'bangle-antique.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'bridal-bangle.jpg'), 'JPEG', quality=92)
+crop_square(img_bangles_cat, 0.5, 0.5, 0.80).save(os.path.join(THUMBS_DIR, 'dia-brace.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'temple-bangle.jpg'), 'JPEG', quality=92)
+crop_square(img_bangles_cat, 0.5, 0.5, 0.80).save(os.path.join(THUMBS_DIR, 'engraved-bracelets.jpg'), 'JPEG', quality=92)
+crop_square(img_kadas, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'trending.jpg'), 'JPEG', quality=92)
+
+# 2. EARRINGS THUMBNAILS (MUST ALL BE REAL EARRINGS - ZERO RINGS/NECKLACES!)
+crop_square(img_chandbalis, 0.5, 0.45, 0.75).save(os.path.join(THUMBS_DIR, 'ear-all.jpg'), 'JPEG', quality=92)
+crop_square(img_chandbalis, 0.5, 0.65, 0.60).save(os.path.join(THUMBS_DIR, 'ear-jhumka.jpg'), 'JPEG', quality=92)
+crop_square(img_earrings_cat, 0.35, 0.5, 0.55).save(os.path.join(THUMBS_DIR, 'ear-stud.jpg'), 'JPEG', quality=92)
+crop_square(img_chandbalis, 0.4, 0.4, 0.60).save(os.path.join(THUMBS_DIR, 'ear-hoop.jpg'), 'JPEG', quality=92)
+crop_square(img_chandbalis, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'ear-chandbali.jpg'), 'JPEG', quality=92)
+crop_square(img_earrings_cat, 0.5, 0.5, 0.80).save(os.path.join(THUMBS_DIR, 'ear-drop.jpg'), 'JPEG', quality=92)
+crop_square(img_chandbalis, 0.55, 0.5, 0.65).save(os.path.join(THUMBS_DIR, 'ear-trad.jpg'), 'JPEG', quality=92)
+crop_square(img_earrings_cat, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'ear-diamond.jpg'), 'JPEG', quality=92)
+crop_square(img_earrings_cat, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'dia-ear.jpg'), 'JPEG', quality=92)
+crop_square(img_chandbalis, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'bridal-ear.jpg'), 'JPEG', quality=92)
+crop_square(img_chandbalis, 0.5, 0.5, 0.65).save(os.path.join(THUMBS_DIR, 'temple-ear.jpg'), 'JPEG', quality=92)
+
+# 3. RINGS THUMBNAILS (MUST ALL BE REAL RINGS - ZERO NECKLACES/BANGLES!)
+crop_square(img_rings_cat, 0.5, 0.5, 0.85).save(os.path.join(THUMBS_DIR, 'ring-all.jpg'), 'JPEG', quality=92)
+crop_square(img_solitaire, 0.5, 0.45, 0.60).save(os.path.join(THUMBS_DIR, 'ring-engage.jpg'), 'JPEG', quality=92)
+crop_square(img_solitaire, 0.5, 0.55, 0.55).save(os.path.join(THUMBS_DIR, 'ring-bands.jpg'), 'JPEG', quality=92)
+crop_square(img_rings_cat, 0.45, 0.45, 0.70).save(os.path.join(THUMBS_DIR, 'ring-diamond.jpg'), 'JPEG', quality=92)
+crop_square(img_solitaire, 0.5, 0.5, 0.65).save(os.path.join(THUMBS_DIR, 'ring-gold.jpg'), 'JPEG', quality=92)
+crop_square(img_cocktail, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'ring-cocktail.jpg'), 'JPEG', quality=92)
+crop_square(img_rings_cat, 0.5, 0.5, 0.80).save(os.path.join(THUMBS_DIR, 'ring-couple.jpg'), 'JPEG', quality=92)
+crop_square(img_solitaire, 0.55, 0.5, 0.60).save(os.path.join(THUMBS_DIR, 'ring-mens.jpg'), 'JPEG', quality=92)
+crop_square(img_rings_cat, 0.5, 0.5, 0.80).save(os.path.join(THUMBS_DIR, 'dia-ring.jpg'), 'JPEG', quality=92)
+crop_square(img_cocktail, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'bridal-rings.jpg'), 'JPEG', quality=92)
+crop_square(img_solitaire, 0.5, 0.5, 0.65).save(os.path.join(THUMBS_DIR, 'pers-rings.jpg'), 'JPEG', quality=92)
+
+# 4. BRIDAL THUMBNAILS (REAL BRIDAL PIECES!)
+crop_square(img_bridal_cat, 0.5, 0.4, 0.70).save(os.path.join(THUMBS_DIR, 'bridal-sets.jpg'), 'JPEG', quality=92)
+crop_square(img_choker, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'bridal-neck.jpg'), 'JPEG', quality=92)
+crop_square(img_bridal_promo, 0.5, 0.25, 0.50).save(os.path.join(THUMBS_DIR, 'bridal-tikka.jpg'), 'JPEG', quality=92)
+crop_square(img_bridal_promo, 0.5, 0.4, 0.45).save(os.path.join(THUMBS_DIR, 'bridal-nath.jpg'), 'JPEG', quality=92)
+crop_square(img_bridal_promo, 0.5, 0.5, 0.70).save(os.path.join(THUMBS_DIR, 'bridal-col.jpg'), 'JPEG', quality=92)
+crop_square(img_bridal_cat, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'custom-bridal.jpg'), 'JPEG', quality=92)
+crop_square(img_bridal_cat, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'wedding.jpg'), 'JPEG', quality=92)
+
+# 5. NECKLACES & TEMPLE
+crop_square(img_neck_cat, 0.5, 0.5, 0.80).save(os.path.join(THUMBS_DIR, 'neck-all.jpg'), 'JPEG', quality=92)
+crop_square(img_choker, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'neck-choker.jpg'), 'JPEG', quality=92)
+crop_square(img_neck_cat, 0.5, 0.4, 0.65).save(os.path.join(THUMBS_DIR, 'neck-pendant.jpg'), 'JPEG', quality=92)
+crop_square(img_diamond_cat, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'neck-diamond.jpg'), 'JPEG', quality=92)
+crop_square(img_choker, 0.45, 0.45, 0.70).save(os.path.join(THUMBS_DIR, 'neck-gold.jpg'), 'JPEG', quality=92)
+crop_square(img_temple_cat, 0.5, 0.5, 0.80).save(os.path.join(THUMBS_DIR, 'temple-all.jpg'), 'JPEG', quality=92)
+crop_square(img_temple_promo, 0.5, 0.5, 0.75).save(os.path.join(THUMBS_DIR, 'temple-neck.jpg'), 'JPEG', quality=92)
+crop_square(img_temple_cat, 0.5, 0.4, 0.60).save(os.path.join(THUMBS_DIR, 'temple-pendant.jpg'), 'JPEG', quality=92)
+
+print("ALL THUMBNAILS SUCCESSFULLY UPDATED WITH AUTHENTIC JEWELLERY CROPS!")

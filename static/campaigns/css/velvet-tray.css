@@ -1,0 +1,655 @@
+/* ==========================================================================
+   ATELIER NILAYA — THE VELVET TRAY STORY SECTION
+   Heritage Story Experience directly below Homepage Hero
+   Palette: Dark Plum Velvet (#240F17) × Champagne Gold (#D7C19A) × Emerald (#183F35)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap');
+
+/* --- Section Canvas --- */
+.velvet-tray-section {
+  position: relative;
+  background-color: var(--c-ivory, #F8F5F0);
+  padding: clamp(64px, 8vw, 108px) 0 clamp(80px, 9vw, 120px) 0;
+  border-top: 1px solid rgba(100, 45, 59, 0.16);
+  border-bottom: 1px solid rgba(100, 45, 59, 0.12);
+  overflow: visible;
+}
+
+/* --- Section Headline (Single Real Sentence in Founder's Voice) --- */
+/* Strict Rule: No identical cards, no numbered markers, no all-caps labels, 
+   no small eyebrow text above headings, no gradient glows, no generic titles */
+.velvet-tray-headline-wrap {
+  max-width: 980px;
+  margin: 0 auto clamp(36px, 4.5vw, 56px) auto;
+  padding: 0 clamp(20px, 3.5vw, 40px);
+  text-align: center;
+}
+
+.velvet-tray-headline {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(27px, 3.2vw, 42px);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.36;
+  color: #351F27;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* --- The Velvet Tray Master Container --- */
+.velvet-tray-wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+  position: relative;
+}
+
+/* Flat velvet texture (subtle SVG noise) with inner shadow & champagne rim */
+.velvet-tray-case {
+  background-color: #240F17;
+  background-image: 
+    radial-gradient(circle at 50% 25%, rgba(76, 27, 43, 0.5) 0%, rgba(24, 9, 16, 0.98) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95   0 0 0 0 0.8   0 0 0 0 0.85   0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  border: 1.5px solid rgba(215, 193, 154, 0.35);
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 12px 42px rgba(8, 2, 5, 0.82),
+    inset 0 2px 6px rgba(0, 0, 0, 0.65),
+    0 24px 64px rgba(36, 15, 23, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: clamp(20px, 2.8vw, 36px);
+  position: relative;
+  overflow: visible;
+}
+
+/* --- Asymmetric 12-Column CSS Grid --- */
+.velvet-tray-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  align-items: stretch;
+  position: relative;
+}
+
+/* --- Base Compartment Styles --- */
+.tray-compartment {
+  position: relative;
+  background-color: #1A0911;
+  border: 1px solid rgba(215, 193, 154, 0.32);
+  box-shadow: 
+    inset 0 4px 18px rgba(6, 1, 4, 0.72),
+    0 1px 0 rgba(215, 193, 154, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease;
+}
+
+.tray-compartment:focus-within {
+  outline: 2px solid #D7C19A;
+  outline-offset: 3px;
+}
+
+/* --- Compartment 1: Large Rectangle (Founder's Letter) --- */
+.tray-compartment--letter {
+  grid-column: 1 / span 5;
+  grid-row: 1 / span 2;
+  min-height: 420px;
+  background-color: #17080F;
+  overflow: visible; /* Allows paper slip to overlap tray edge */
+  border-radius: 4px;
+}
+
+/* Ivory paper slip rotated 2deg, overlapping tray edge */
+.letter-paper-slip {
+  position: relative;
+  background-color: #FAF6EE;
+  background-image: 
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.8) 0%, rgba(243, 236, 222, 0.95) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noisePaper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.4   0 0 0 0 0.35   0 0 0 0 0.3   0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noisePaper)'/%3E%3C/svg%3E");
+  color: #261118;
+  padding: clamp(24px, 2.5vw, 36px) clamp(22px, 2.5vw, 32px);
+  margin-top: -16px;
+  margin-left: -12px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border-radius: 2px;
+  border: 1px solid rgba(215, 193, 154, 0.45);
+  box-shadow: 
+    0 14px 34px rgba(0, 0, 0, 0.32),
+    0 2px 6px rgba(0, 0, 0, 0.16);
+  transform: rotate(-2deg);
+  transform-origin: top left;
+  z-index: 4;
+}
+
+.letter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(100, 45, 59, 0.15);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.letter-atelier-mark {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #642D3B;
+}
+
+.letter-wax-seal {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #642D3B;
+  color: #FAF6EE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  box-shadow: 0 2px 6px rgba(100, 45, 59, 0.4);
+}
+
+.letter-body {
+  font-family: 'La Belle Aurore', cursive;
+  font-size: clamp(1.18rem, 1.35vw, 1.32rem);
+  line-height: 1.68;
+  color: #261118;
+  margin: 0 0 18px 0;
+  white-space: normal;
+}
+
+.letter-signoff {
+  font-family: 'La Belle Aurore', cursive;
+  font-size: clamp(1.22rem, 1.4vw, 1.38rem);
+  color: #642D3B;
+  text-align: right;
+  display: block;
+}
+
+/* --- Compartment 2: Arch (Old Shop Photo) --- */
+.tray-compartment--arch {
+  grid-column: 6 / span 4;
+  grid-row: 1 / span 2;
+  border-radius: 140px 140px 4px 4px;
+  min-height: 420px;
+  background-color: #15070D;
+  overflow: visible; /* Imperfect alignment: photo overlaps lower edge */
+  justify-content: space-between;
+}
+
+.arch-visual-frame {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 138px 138px 3px 3px;
+  overflow: visible;
+}
+
+.arch-svg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* Imperfect alignment: photo artwork gently overlaps bottom compartment edge */
+  transform: translateY(8px);
+  margin-bottom: -6px;
+  z-index: 2;
+}
+
+.arch-svg-artwork {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+}
+
+.arch-caption {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(215, 193, 154, 0.85);
+  letter-spacing: 0.08em;
+  padding: 4px 16px;
+  background: rgba(21, 7, 13, 0.82);
+  backdrop-filter: blur(4px);
+  border-top: 1px solid rgba(215, 193, 154, 0.2);
+  z-index: 3;
+}
+
+/* --- Compartment 3: Tall Slot (Shop's Promise on Emerald) --- */
+.tray-compartment--tall-promise {
+  grid-column: 10 / span 3;
+  grid-row: 1 / span 2;
+  border-radius: 4px;
+  min-height: 420px;
+  background-color: #183F35; /* Shop's promise on emerald */
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(32, 85, 71, 0.6) 0%, rgba(16, 47, 39, 0.98) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseEmerald'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.9   0 0 0 0 0.95   0 0 0 0 0.9   0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseEmerald)'/%3E%3C/svg%3E");
+  border: 1px solid rgba(215, 193, 154, 0.45);
+  box-shadow: 
+    inset 0 4px 22px rgba(6, 20, 16, 0.75),
+    0 1px 0 rgba(215, 193, 154, 0.18);
+  padding: clamp(28px, 2.5vw, 36px) clamp(20px, 2vw, 28px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.promise-emblem {
+  color: #D7C19A;
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+}
+
+.promise-quote-text {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(1.22rem, 1.45vw, 1.45rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.62;
+  color: #F7E7CE;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.promise-hallmark-seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid rgba(215, 193, 154, 0.28);
+  padding-top: 16px;
+  width: 100%;
+}
+
+.promise-seal-text {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(247, 231, 206, 0.78);
+  letter-spacing: 0.12em;
+}
+
+/* --- Compartment 4: Circle 1 (Founding Year) --- */
+.tray-compartment--circle-year {
+  grid-column: 1 / span 2;
+  grid-row: 3;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 190px;
+  margin: 0 auto;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #17070F;
+  border: 1.5px solid rgba(215, 193, 154, 0.4);
+  box-shadow: 
+    inset 0 4px 18px rgba(6, 1, 4, 0.8),
+    0 2px 10px rgba(0, 0, 0, 0.35);
+  padding: 16px;
+}
+
+.circle-concentric-rim {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px dashed rgba(215, 193, 154, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.founding-year-number {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(1.9rem, 2.2vw, 2.4rem);
+  font-weight: 500;
+  color: #D7C19A;
+  line-height: 1;
+  display: block;
+}
+
+.founding-year-label {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(233, 223, 213, 0.72);
+  margin-top: 6px;
+  letter-spacing: 0.06em;
+}
+
+/* --- Compartment 5: Circle 2 (Close-up of Old Tool) --- */
+.tray-compartment--circle-tool {
+  grid-column: 3 / span 2;
+  grid-row: 3;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 190px;
+  margin: 0 auto;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #17070F;
+  border: 1.5px solid rgba(215, 193, 154, 0.4);
+  box-shadow: 
+    inset 0 4px 18px rgba(6, 1, 4, 0.8),
+    0 2px 10px rgba(0, 0, 0, 0.35);
+  padding: 16px;
+}
+
+.circle-tool-artwork {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.55));
+}
+
+.circle-tool-label {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: rgba(233, 223, 213, 0.72);
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* --- Compartment 6: Tiny Slot (One Specific Fact About Craft) --- */
+.tray-compartment--tiny-fact {
+  grid-column: 5 / span 2;
+  grid-row: 3;
+  border-radius: 4px;
+  min-height: 190px;
+  background-color: #180810;
+  padding: clamp(16px, 1.8vw, 24px) 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.fact-metric-number {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(2.2rem, 2.6vw, 2.9rem);
+  font-weight: 500;
+  color: #D7C19A;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.fact-metric-desc {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(233, 223, 213, 0.88);
+  margin: 0;
+}
+
+/* --- Compartment 7: Wide Slot (Silent Looping Artisan Video) --- */
+.tray-compartment--wide-video {
+  grid-column: 7 / span 6;
+  grid-row: 3;
+  border-radius: 4px;
+  min-height: 190px;
+  background-color: #0E0409;
+  position: relative;
+  overflow: hidden;
+}
+
+.wide-video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.92) contrast(1.08);
+}
+
+.wide-video-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(14, 4, 9, 0.92) 0%, rgba(14, 4, 9, 0) 100%);
+  padding: 24px 20px 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.wide-video-title {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #FAF6EE;
+  letter-spacing: 0.04em;
+}
+
+.wide-video-badge {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #D7C19A;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wide-video-badge::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #D7C19A;
+}
+
+/* ==========================================================================
+   MOTION: SINGLE SCROLL-TRIGGERED EFFECT (VELVET LID LIFT)
+   IntersectionObserver, staggered 120ms, then nothing else animates.
+   Respects prefers-reduced-motion.
+   ========================================================================== */
+
+.velvet-compartment-lid {
+  position: absolute;
+  inset: 0;
+  background-color: #240E18;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(72, 28, 44, 0.95) 0%, rgba(26, 10, 17, 0.98) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseLid'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.9   0 0 0 0 0.7   0 0 0 0 0.8   0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseLid)'/%3E%3C/svg%3E");
+  border: 1px solid rgba(215, 193, 154, 0.38);
+  box-shadow: 
+    0 10px 24px rgba(0, 0, 0, 0.6),
+    inset 0 1px 2px rgba(215, 193, 154, 0.25);
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease;
+  transition-delay: calc(var(--lid-order, 0) * 120ms);
+  will-change: transform, opacity;
+}
+
+/* Matching compartment shapes for lids */
+.tray-compartment--arch .velvet-compartment-lid {
+  border-radius: 140px 140px 4px 4px;
+}
+.tray-compartment--circle-year .velvet-compartment-lid,
+.tray-compartment--circle-tool .velvet-compartment-lid {
+  border-radius: 50%;
+}
+.tray-compartment--letter .velvet-compartment-lid,
+.tray-compartment--tall-promise .velvet-compartment-lid,
+.tray-compartment--tiny-fact .velvet-compartment-lid,
+.tray-compartment--wide-video .velvet-compartment-lid {
+  border-radius: 4px;
+}
+
+/* Delicate silk ribbon pull-tab in champagne */
+.lid-pull-tab {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(215, 193, 154, 0.4);
+  background: rgba(215, 193, 154, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lid-pull-tab::after {
+  content: "✦";
+  font-size: 0.6rem;
+  color: #D7C19A;
+}
+
+/* Unveiled state: lids lift and slide away smoothly */
+.velvet-tray-section.is-unveiled .velvet-compartment-lid {
+  transform: translateY(-112%) scale(0.96);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease, visibility 0s 0.85s;
+}
+
+/* Reduced Motion: completely disable animation, lids hidden from start */
+@media (prefers-reduced-motion: reduce) {
+  .velvet-compartment-lid {
+    display: none !important;
+    transform: none !important;
+    transition: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN: PRESERVES SHAPES & STACKS ON MOBILE
+   ========================================================================== */
+
+/* Tablet (<= 1024px) */
+@media (max-width: 1024px) {
+  .velvet-tray-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .tray-compartment--letter {
+    grid-column: 1 / span 6;
+    grid-row: auto;
+    min-height: auto;
+  }
+  
+  .tray-compartment--arch {
+    grid-column: 1 / span 3;
+    grid-row: auto;
+    min-height: 380px;
+  }
+  
+  .tray-compartment--tall-promise {
+    grid-column: 4 / span 3;
+    grid-row: auto;
+    min-height: 380px;
+  }
+  
+  .tray-compartment--circle-year {
+    grid-column: 1 / span 2;
+    grid-row: auto;
+  }
+  
+  .tray-compartment--circle-tool {
+    grid-column: 3 / span 2;
+    grid-row: auto;
+  }
+  
+  .tray-compartment--tiny-fact {
+    grid-column: 5 / span 2;
+    grid-row: auto;
+  }
+  
+  .tray-compartment--wide-video {
+    grid-column: 1 / span 6;
+    grid-row: auto;
+    min-height: 240px;
+  }
+}
+
+/* Mobile (<= 768px): Stack into one column while keeping distinct shapes */
+@media (max-width: 768px) {
+  .velvet-tray-section {
+    padding: 56px 0 72px 0;
+  }
+  
+  .velvet-tray-case {
+    padding: 20px 16px;
+  }
+  
+  .velvet-tray-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  /* Stacking: all compartments become full width */
+  .tray-compartment--letter,
+  .tray-compartment--arch,
+  .tray-compartment--tall-promise,
+  .tray-compartment--circle-year,
+  .tray-compartment--circle-tool,
+  .tray-compartment--tiny-fact,
+  .tray-compartment--wide-video {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  
+  /* Large rectangle letter: slightly milder rotation for mobile */
+  .letter-paper-slip {
+    margin-top: -8px;
+    margin-left: -4px;
+    transform: rotate(-1.5deg);
+  }
+  
+  /* Arch shape preserved */
+  .tray-compartment--arch {
+    min-height: 320px;
+    border-radius: 120px 120px 4px 4px;
+  }
+  
+  /* Circle shapes preserved */
+  .tray-compartment--circle-year,
+  .tray-compartment--circle-tool {
+    width: 170px;
+    height: 170px;
+    margin: 0 auto;
+  }
+  
+  /* Wide video retains comfortable height */
+  .tray-compartment--wide-video {
+    min-height: 220px;
+  }
+}
