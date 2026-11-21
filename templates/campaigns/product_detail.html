@@ -75,10 +75,10 @@
         {% endif %}
       </div>
 
-      <!-- Thumbnail Strip: 360 Spin, Front, Side, Top, Lifestyle -->
+      <!-- Thumbnail Strip: 360 Spin, Front, Side, Top, Lifestyle (Only rendered when real multi-angle/spin frames exist) -->
+      {% if product.has_spin %}
       <div class="product-thumbnails-strip" role="tablist" aria-label="Select angle or 360 spin view">
         
-        {% if product.has_spin %}
         <!-- 360 Spin Thumbnail Button -->
         <button 
           type="button" 
@@ -95,7 +95,6 @@
           >
           <span class="thumb-label">360&deg; Spin</span>
         </button>
-        {% endif %}
 
         <!-- Front Angle Thumbnail -->
         <button 
@@ -166,6 +165,7 @@
         </button>
 
       </div>
+      {% endif %}
 
     </div>
 

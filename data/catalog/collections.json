@@ -1,0 +1,1413 @@
+[
+ {
+  "slug": "necklaces-all",
+  "label": "All Necklaces",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 209
+ },
+ {
+  "slug": "necklaces-gold",
+  "label": "Gold Necklaces",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 176
+ },
+ {
+  "slug": "necklaces-diamond",
+  "label": "Diamond Necklaces",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 42
+ },
+ {
+  "slug": "necklaces-bridal",
+  "label": "Bridal Necklaces",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 103
+ },
+ {
+  "slug": "necklaces-temple",
+  "label": "Temple Necklaces",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 36
+ },
+ {
+  "slug": "necklaces-choker-sets",
+  "label": "Choker Sets",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 57
+ },
+ {
+  "slug": "necklaces-long",
+  "label": "Long Necklaces",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 46
+ },
+ {
+  "slug": "necklaces-pendant",
+  "label": "Pendant Necklaces",
+  "top_menu": "Necklaces",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 70
+ },
+ {
+  "slug": "necklaces-style-traditional",
+  "label": "Traditional",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 126
+ },
+ {
+  "slug": "necklaces-style-contemporary",
+  "label": "Contemporary",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 51
+ },
+ {
+  "slug": "necklaces-style-antique",
+  "label": "Antique",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 38
+ },
+ {
+  "slug": "necklaces-style-minimal",
+  "label": "Minimal",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 76
+ },
+ {
+  "slug": "necklaces-style-kundan",
+  "label": "Kundan",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "necklaces-style-polki",
+  "label": "Polki",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "necklaces-style-pearl",
+  "label": "Pearl",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 18
+ },
+ {
+  "slug": "necklaces-style-statement",
+  "label": "Statement",
+  "top_menu": "Necklaces",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 25
+ },
+ {
+  "slug": "necklaces-occasion-wedding",
+  "label": "Wedding",
+  "top_menu": "Necklaces",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 111
+ },
+ {
+  "slug": "necklaces-occasion-engagement",
+  "label": "Engagement",
+  "top_menu": "Necklaces",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 20
+ },
+ {
+  "slug": "necklaces-occasion-festive",
+  "label": "Festive",
+  "top_menu": "Necklaces",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 102
+ },
+ {
+  "slug": "necklaces-occasion-daily-wear",
+  "label": "Daily Wear",
+  "top_menu": "Necklaces",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 83
+ },
+ {
+  "slug": "necklaces-occasion-party-wear",
+  "label": "Party Wear",
+  "top_menu": "Necklaces",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 50
+ },
+ {
+  "slug": "necklaces-occasion-gifting",
+  "label": "Gifting",
+  "top_menu": "Necklaces",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 104
+ },
+ {
+  "slug": "necklaces-material-gold",
+  "label": "Gold",
+  "top_menu": "Necklaces",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 176
+ },
+ {
+  "slug": "necklaces-material-diamond",
+  "label": "Diamond",
+  "top_menu": "Necklaces",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 42
+ },
+ {
+  "slug": "necklaces-material-platinum",
+  "label": "Platinum",
+  "top_menu": "Necklaces",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "necklaces-material-silver",
+  "label": "Silver",
+  "top_menu": "Necklaces",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "necklaces-material-pearl",
+  "label": "Pearl",
+  "top_menu": "Necklaces",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 18
+ },
+ {
+  "slug": "necklaces-material-gemstone",
+  "label": "Gemstone",
+  "top_menu": "Necklaces",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "earrings-all",
+  "label": "All Earrings",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 178
+ },
+ {
+  "slug": "earrings-jhumkas",
+  "label": "Jhumkas",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 39
+ },
+ {
+  "slug": "earrings-stud",
+  "label": "Stud Earrings",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 43
+ },
+ {
+  "slug": "earrings-hoop",
+  "label": "Hoop Earrings",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 25
+ },
+ {
+  "slug": "earrings-chandbalis",
+  "label": "Chandbalis",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 30
+ },
+ {
+  "slug": "earrings-drop",
+  "label": "Drop Earrings",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 41
+ },
+ {
+  "slug": "earrings-traditional",
+  "label": "Traditional Earrings",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 92
+ },
+ {
+  "slug": "earrings-diamond",
+  "label": "Diamond Earrings",
+  "top_menu": "Earrings",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 43
+ },
+ {
+  "slug": "earrings-style-antique",
+  "label": "Antique",
+  "top_menu": "Earrings",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 21
+ },
+ {
+  "slug": "earrings-style-temple",
+  "label": "Temple",
+  "top_menu": "Earrings",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 21
+ },
+ {
+  "slug": "earrings-style-kundan",
+  "label": "Kundan",
+  "top_menu": "Earrings",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "earrings-style-polki",
+  "label": "Polki",
+  "top_menu": "Earrings",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "earrings-style-pearl",
+  "label": "Pearl",
+  "top_menu": "Earrings",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "earrings-style-minimal",
+  "label": "Minimal",
+  "top_menu": "Earrings",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 78
+ },
+ {
+  "slug": "earrings-style-contemporary",
+  "label": "Contemporary",
+  "top_menu": "Earrings",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 59
+ },
+ {
+  "slug": "earrings-occasion-bridal",
+  "label": "Bridal",
+  "top_menu": "Earrings",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 92
+ },
+ {
+  "slug": "earrings-occasion-festive",
+  "label": "Festive",
+  "top_menu": "Earrings",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 80
+ },
+ {
+  "slug": "earrings-occasion-everyday",
+  "label": "Everyday",
+  "top_menu": "Earrings",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 80
+ },
+ {
+  "slug": "earrings-occasion-party-wear",
+  "label": "Party Wear",
+  "top_menu": "Earrings",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 82
+ },
+ {
+  "slug": "earrings-occasion-gifting",
+  "label": "Gifting",
+  "top_menu": "Earrings",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 90
+ },
+ {
+  "slug": "earrings-material-gold",
+  "label": "Gold",
+  "top_menu": "Earrings",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 145
+ },
+ {
+  "slug": "earrings-material-diamond",
+  "label": "Diamond",
+  "top_menu": "Earrings",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 43
+ },
+ {
+  "slug": "earrings-material-silver",
+  "label": "Silver",
+  "top_menu": "Earrings",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 18
+ },
+ {
+  "slug": "earrings-material-platinum",
+  "label": "Platinum",
+  "top_menu": "Earrings",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 15
+ },
+ {
+  "slug": "earrings-material-gemstone",
+  "label": "Gemstone",
+  "top_menu": "Earrings",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "rings-all",
+  "label": "All Rings",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 256
+ },
+ {
+  "slug": "rings-engagement",
+  "label": "Engagement Rings",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 32
+ },
+ {
+  "slug": "rings-wedding-bands",
+  "label": "Wedding Bands",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 38
+ },
+ {
+  "slug": "rings-diamond",
+  "label": "Diamond Rings",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 75
+ },
+ {
+  "slug": "rings-gold",
+  "label": "Gold Rings",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 181
+ },
+ {
+  "slug": "rings-cocktail",
+  "label": "Cocktail Rings",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 22
+ },
+ {
+  "slug": "rings-couple",
+  "label": "Couple Rings",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 28
+ },
+ {
+  "slug": "rings-mens",
+  "label": "Men's Rings",
+  "top_menu": "Rings",
+  "group": "Category",
+  "min_required": 20,
+  "product_count": 50
+ },
+ {
+  "slug": "rings-style-solitaire",
+  "label": "Solitaire",
+  "top_menu": "Rings",
+  "group": "Style",
+  "min_required": 20,
+  "product_count": 24
+ },
+ {
+  "slug": "rings-style-floral",
+  "label": "Floral",
+  "top_menu": "Rings",
+  "group": "Style",
+  "min_required": 20,
+  "product_count": 21
+ },
+ {
+  "slug": "rings-style-traditional",
+  "label": "Traditional",
+  "top_menu": "Rings",
+  "group": "Style",
+  "min_required": 20,
+  "product_count": 43
+ },
+ {
+  "slug": "rings-style-minimal",
+  "label": "Minimal",
+  "top_menu": "Rings",
+  "group": "Style",
+  "min_required": 20,
+  "product_count": 155
+ },
+ {
+  "slug": "rings-style-statement",
+  "label": "Statement",
+  "top_menu": "Rings",
+  "group": "Style",
+  "min_required": 20,
+  "product_count": 60
+ },
+ {
+  "slug": "rings-style-gemstone",
+  "label": "Gemstone",
+  "top_menu": "Rings",
+  "group": "Style",
+  "min_required": 20,
+  "product_count": 26
+ },
+ {
+  "slug": "rings-price-under-10k",
+  "label": "Under ₹10,000",
+  "top_menu": "Rings",
+  "group": "Price",
+  "min_required": 20,
+  "product_count": 33
+ },
+ {
+  "slug": "bangles-price-under-10k",
+  "label": "Under ₹10,000",
+  "top_menu": "Bangles",
+  "group": "Price",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "rings-price-10k-25k",
+  "label": "₹10,000–₹25,000",
+  "top_menu": "Rings",
+  "group": "Price",
+  "min_required": 20,
+  "product_count": 27
+ },
+ {
+  "slug": "bangles-price-10k-25k",
+  "label": "₹10,000–₹25,000",
+  "top_menu": "Bangles",
+  "group": "Price",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "rings-price-25k-50k",
+  "label": "₹25,000–₹50,000",
+  "top_menu": "Rings",
+  "group": "Price",
+  "min_required": 20,
+  "product_count": 39
+ },
+ {
+  "slug": "bangles-price-25k-50k",
+  "label": "₹25,000–₹50,000",
+  "top_menu": "Bangles",
+  "group": "Price",
+  "min_required": 15,
+  "product_count": 19
+ },
+ {
+  "slug": "rings-price-50k-1l",
+  "label": "₹50,000–₹1,00,000",
+  "top_menu": "Rings",
+  "group": "Price",
+  "min_required": 20,
+  "product_count": 57
+ },
+ {
+  "slug": "bangles-price-50k-1l",
+  "label": "₹50,000–₹1,00,000",
+  "top_menu": "Bangles",
+  "group": "Price",
+  "min_required": 15,
+  "product_count": 20
+ },
+ {
+  "slug": "rings-price-above-1l",
+  "label": "Above ₹1,00,000",
+  "top_menu": "Rings",
+  "group": "Price",
+  "min_required": 20,
+  "product_count": 100
+ },
+ {
+  "slug": "bangles-price-above-1l",
+  "label": "Above ₹1,00,000",
+  "top_menu": "Bangles",
+  "group": "Price",
+  "min_required": 15,
+  "product_count": 120
+ },
+ {
+  "slug": "rings-material-gold",
+  "label": "Gold",
+  "top_menu": "Rings",
+  "group": "Material",
+  "min_required": 20,
+  "product_count": 181
+ },
+ {
+  "slug": "rings-material-diamond",
+  "label": "Diamond",
+  "top_menu": "Rings",
+  "group": "Material",
+  "min_required": 20,
+  "product_count": 75
+ },
+ {
+  "slug": "rings-material-platinum",
+  "label": "Platinum",
+  "top_menu": "Rings",
+  "group": "Material",
+  "min_required": 20,
+  "product_count": 42
+ },
+ {
+  "slug": "rings-material-silver",
+  "label": "Silver",
+  "top_menu": "Rings",
+  "group": "Material",
+  "min_required": 20,
+  "product_count": 33
+ },
+ {
+  "slug": "rings-material-gemstone",
+  "label": "Gemstone",
+  "top_menu": "Rings",
+  "group": "Material",
+  "min_required": 20,
+  "product_count": 26
+ },
+ {
+  "slug": "bangles-all",
+  "label": "All Bangles",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 192
+ },
+ {
+  "slug": "bangles-gold",
+  "label": "Gold Bangles",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 140
+ },
+ {
+  "slug": "bangles-diamond",
+  "label": "Diamond Bangles",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "bangles-bridal",
+  "label": "Bridal Bangles",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 20
+ },
+ {
+  "slug": "bangles-kadas",
+  "label": "Kadas",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 21
+ },
+ {
+  "slug": "bangles-temple",
+  "label": "Temple Bangles",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 19
+ },
+ {
+  "slug": "bangles-daily",
+  "label": "Daily Wear Bangles",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 59
+ },
+ {
+  "slug": "bangles-antique",
+  "label": "Antique Bangles",
+  "top_menu": "Bangles",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 24
+ },
+ {
+  "slug": "bangles-style-traditional",
+  "label": "Traditional",
+  "top_menu": "Bangles",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 115
+ },
+ {
+  "slug": "bangles-style-contemporary",
+  "label": "Contemporary",
+  "top_menu": "Bangles",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 32
+ },
+ {
+  "slug": "bangles-style-minimal",
+  "label": "Minimal",
+  "top_menu": "Bangles",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 53
+ },
+ {
+  "slug": "bangles-style-designer",
+  "label": "Designer",
+  "top_menu": "Bangles",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 15
+ },
+ {
+  "slug": "bangles-style-stone-studded",
+  "label": "Stone Studded",
+  "top_menu": "Bangles",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 25
+ },
+ {
+  "slug": "bangles-style-engraved",
+  "label": "Engraved",
+  "top_menu": "Bangles",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "bangles-material-gold",
+  "label": "Gold",
+  "top_menu": "Bangles",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 140
+ },
+ {
+  "slug": "bangles-material-diamond",
+  "label": "Diamond",
+  "top_menu": "Bangles",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "bangles-material-platinum",
+  "label": "Platinum",
+  "top_menu": "Bangles",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 17
+ },
+ {
+  "slug": "bangles-material-silver",
+  "label": "Silver",
+  "top_menu": "Bangles",
+  "group": "Material",
+  "min_required": 15,
+  "product_count": 35
+ },
+ {
+  "slug": "bridal-sets",
+  "label": "Complete Bridal Sets",
+  "top_menu": "Bridal Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 65
+ },
+ {
+  "slug": "bridal-necklaces",
+  "label": "Bridal Necklaces",
+  "top_menu": "Bridal Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 103
+ },
+ {
+  "slug": "bridal-earrings",
+  "label": "Bridal Earrings",
+  "top_menu": "Bridal Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 92
+ },
+ {
+  "slug": "bridal-bangles",
+  "label": "Bridal Bangles",
+  "top_menu": "Bridal Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 20
+ },
+ {
+  "slug": "bridal-maang-tikka",
+  "label": "Maang Tikka",
+  "top_menu": "Bridal Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 20
+ },
+ {
+  "slug": "bridal-nath",
+  "label": "Nath",
+  "top_menu": "Bridal Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "bridal-rings",
+  "label": "Bridal Rings",
+  "top_menu": "Bridal Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 44
+ },
+ {
+  "slug": "bridal-coll-kundan",
+  "label": "Kundan Bridal",
+  "top_menu": "Bridal Jewellery",
+  "group": "Collection",
+  "min_required": 15,
+  "product_count": 57
+ },
+ {
+  "slug": "bridal-coll-polki",
+  "label": "Polki Bridal",
+  "top_menu": "Bridal Jewellery",
+  "group": "Collection",
+  "min_required": 15,
+  "product_count": 53
+ },
+ {
+  "slug": "bridal-coll-temple",
+  "label": "Temple Bridal",
+  "top_menu": "Bridal Jewellery",
+  "group": "Collection",
+  "min_required": 15,
+  "product_count": 70
+ },
+ {
+  "slug": "bridal-coll-antique",
+  "label": "Antique Bridal",
+  "top_menu": "Bridal Jewellery",
+  "group": "Collection",
+  "min_required": 15,
+  "product_count": 77
+ },
+ {
+  "slug": "bridal-coll-diamond",
+  "label": "Diamond Bridal",
+  "top_menu": "Bridal Jewellery",
+  "group": "Collection",
+  "min_required": 15,
+  "product_count": 90
+ },
+ {
+  "slug": "bridal-coll-traditional",
+  "label": "Traditional Bridal",
+  "top_menu": "Bridal Jewellery",
+  "group": "Collection",
+  "min_required": 15,
+  "product_count": 270
+ },
+ {
+  "slug": "bridal-occasion-engagement",
+  "label": "Engagement",
+  "top_menu": "Bridal Jewellery",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 63
+ },
+ {
+  "slug": "bridal-occasion-wedding",
+  "label": "Wedding",
+  "top_menu": "Bridal Jewellery",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 328
+ },
+ {
+  "slug": "bridal-occasion-reception",
+  "label": "Reception",
+  "top_menu": "Bridal Jewellery",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 143
+ },
+ {
+  "slug": "bridal-occasion-mehendi",
+  "label": "Mehendi",
+  "top_menu": "Bridal Jewellery",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 53
+ },
+ {
+  "slug": "bridal-occasion-sangeet",
+  "label": "Sangeet",
+  "top_menu": "Bridal Jewellery",
+  "group": "Occasion",
+  "min_required": 15,
+  "product_count": 86
+ },
+ {
+  "slug": "temple-all",
+  "label": "All Temple Jewellery",
+  "top_menu": "Temple Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 104
+ },
+ {
+  "slug": "temple-necklaces",
+  "label": "Temple Necklaces",
+  "top_menu": "Temple Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 36
+ },
+ {
+  "slug": "temple-earrings",
+  "label": "Temple Earrings",
+  "top_menu": "Temple Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 21
+ },
+ {
+  "slug": "temple-bangles",
+  "label": "Temple Bangles",
+  "top_menu": "Temple Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 19
+ },
+ {
+  "slug": "temple-pendants",
+  "label": "Temple Pendants",
+  "top_menu": "Temple Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 19
+ },
+ {
+  "slug": "temple-bridal-sets",
+  "label": "Temple Bridal Sets",
+  "top_menu": "Temple Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 22
+ },
+ {
+  "slug": "temple-motif-antique-finish",
+  "label": "Antique Finish",
+  "top_menu": "Temple Jewellery",
+  "group": "Heritage Motifs",
+  "min_required": 15,
+  "product_count": 104
+ },
+ {
+  "slug": "temple-motif-lakshmi",
+  "label": "Goddess Lakshmi Designs",
+  "top_menu": "Temple Jewellery",
+  "group": "Heritage Motifs",
+  "min_required": 15,
+  "product_count": 34
+ },
+ {
+  "slug": "temple-motif-peacock-floral",
+  "label": "Traditional Peacock & Floral Motifs",
+  "top_menu": "Temple Jewellery",
+  "group": "Heritage Motifs",
+  "min_required": 15,
+  "product_count": 52
+ },
+ {
+  "slug": "temple-motif-south-indian-royal",
+  "label": "South Indian Royal Collection",
+  "top_menu": "Temple Jewellery",
+  "group": "Heritage Motifs",
+  "min_required": 15,
+  "product_count": 31
+ },
+ {
+  "slug": "temple-motif-imperial-heritage",
+  "label": "Imperial Heritage Collection",
+  "top_menu": "Temple Jewellery",
+  "group": "Heritage Motifs",
+  "min_required": 15,
+  "product_count": 22
+ },
+ {
+  "slug": "diamond-necklaces",
+  "label": "Diamond Necklaces",
+  "top_menu": "Diamond Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 42
+ },
+ {
+  "slug": "diamond-rings",
+  "label": "Diamond Rings",
+  "top_menu": "Diamond Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 75
+ },
+ {
+  "slug": "diamond-earrings",
+  "label": "Diamond Earrings",
+  "top_menu": "Diamond Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 43
+ },
+ {
+  "slug": "diamond-bracelets",
+  "label": "Diamond Bracelets",
+  "top_menu": "Diamond Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 18
+ },
+ {
+  "slug": "diamond-pendants",
+  "label": "Diamond Pendants",
+  "top_menu": "Diamond Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 26
+ },
+ {
+  "slug": "diamond-bridal-sets",
+  "label": "Diamond Bridal Sets",
+  "top_menu": "Diamond Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "diamond-style-solitaire",
+  "label": "Solitaire",
+  "top_menu": "Diamond Jewellery",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 29
+ },
+ {
+  "slug": "diamond-style-everyday",
+  "label": "Everyday Diamonds",
+  "top_menu": "Diamond Jewellery",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 64
+ },
+ {
+  "slug": "diamond-style-statement",
+  "label": "Statement Diamonds",
+  "top_menu": "Diamond Jewellery",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 76
+ },
+ {
+  "slug": "diamond-style-modern",
+  "label": "Modern Designs",
+  "top_menu": "Diamond Jewellery",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 133
+ },
+ {
+  "slug": "diamond-style-gifts",
+  "label": "Diamond Gifts",
+  "top_menu": "Diamond Jewellery",
+  "group": "Style",
+  "min_required": 15,
+  "product_count": 107
+ },
+ {
+  "slug": "diamond-metal-white-gold",
+  "label": "White Gold",
+  "top_menu": "Diamond Jewellery",
+  "group": "Precious Metal",
+  "min_required": 15,
+  "product_count": 87
+ },
+ {
+  "slug": "diamond-metal-yellow-gold",
+  "label": "Yellow Gold",
+  "top_menu": "Diamond Jewellery",
+  "group": "Precious Metal",
+  "min_required": 15,
+  "product_count": 63
+ },
+ {
+  "slug": "diamond-metal-rose-gold",
+  "label": "Rose Gold",
+  "top_menu": "Diamond Jewellery",
+  "group": "Precious Metal",
+  "min_required": 15,
+  "product_count": 41
+ },
+ {
+  "slug": "diamond-metal-platinum",
+  "label": "Platinum",
+  "top_menu": "Diamond Jewellery",
+  "group": "Precious Metal",
+  "min_required": 15,
+  "product_count": 40
+ },
+ {
+  "slug": "mens-kadas",
+  "label": "Gold & Platinum Kadas",
+  "top_menu": "Men's Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 24
+ },
+ {
+  "slug": "mens-chains",
+  "label": "Imperial Gold Chains",
+  "top_menu": "Men's Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 19
+ },
+ {
+  "slug": "mens-signet-solitaire",
+  "label": "Signet & Solitaire Rings",
+  "top_menu": "Men's Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 42
+ },
+ {
+  "slug": "mens-cufflinks",
+  "label": "Gemstone Cufflinks",
+  "top_menu": "Men's Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 19
+ },
+ {
+  "slug": "mens-kurta-brooches",
+  "label": "Kurta Buttons & Brooches",
+  "top_menu": "Men's Jewellery",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 21
+ },
+ {
+  "slug": "mens-finish-22k-yellow-gold",
+  "label": "22K Yellow Gold",
+  "top_menu": "Men's Jewellery",
+  "group": "Metals & Finishes",
+  "min_required": 15,
+  "product_count": 66
+ },
+ {
+  "slug": "mens-finish-950-platinum",
+  "label": "950 Platinum",
+  "top_menu": "Men's Jewellery",
+  "group": "Metals & Finishes",
+  "min_required": 15,
+  "product_count": 31
+ },
+ {
+  "slug": "mens-finish-antique-brushed-gold",
+  "label": "Antique Brushed Gold",
+  "top_menu": "Men's Jewellery",
+  "group": "Metals & Finishes",
+  "min_required": 15,
+  "product_count": 19
+ },
+ {
+  "slug": "mens-finish-black-diamonds-onyx",
+  "label": "Black Diamonds & Onyx",
+  "top_menu": "Men's Jewellery",
+  "group": "Metals & Finishes",
+  "min_required": 15,
+  "product_count": 23
+ },
+ {
+  "slug": "mens-finish-bespoke-monogramming",
+  "label": "Bespoke Monogramming",
+  "top_menu": "Men's Jewellery",
+  "group": "Metals & Finishes",
+  "min_required": 15,
+  "product_count": 34
+ },
+ {
+  "slug": "pers-custom-name-necklace",
+  "label": "Custom Name Necklace",
+  "top_menu": "New & Featured",
+  "group": "Personalised Jewellery",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "pers-initial-pendants",
+  "label": "Initial Pendants",
+  "top_menu": "New & Featured",
+  "group": "Personalised Jewellery",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "pers-personalised-rings",
+  "label": "Personalised Rings",
+  "top_menu": "New & Featured",
+  "group": "Personalised Jewellery",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "pers-engraved-bracelets-kadas",
+  "label": "Engraved Bracelets & Kadas",
+  "top_menu": "New & Featured",
+  "group": "Personalised Jewellery",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "pers-custom-bridal-sets",
+  "label": "Custom Bridal Sets",
+  "top_menu": "New & Featured",
+  "group": "Personalised Jewellery",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "pers-design-your-own",
+  "label": "Design Your Own Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Personalised Jewellery",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "nf-new-arrivals",
+  "label": "New Arrivals",
+  "top_menu": "New & Featured",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 50
+ },
+ {
+  "slug": "nf-festive",
+  "label": "Festive Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 309
+ },
+ {
+  "slug": "nf-wedding",
+  "label": "Wedding Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 467
+ },
+ {
+  "slug": "nf-everyday",
+  "label": "Everyday Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 304
+ },
+ {
+  "slug": "nf-exclusive",
+  "label": "Exclusive Designs",
+  "top_menu": "New & Featured",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 96
+ },
+ {
+  "slug": "nf-latest-collections",
+  "label": "Latest Collections",
+  "top_menu": "New & Featured",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 50
+ },
+ {
+  "slug": "gift-sets",
+  "label": "Gift Sets",
+  "top_menu": "New & Featured",
+  "group": "Category",
+  "min_required": 15,
+  "product_count": 16
+ },
+ {
+  "slug": "feat-bridal-collection",
+  "label": "Bridal Collection",
+  "top_menu": "New & Featured",
+  "group": "Featured",
+  "min_required": 15,
+  "product_count": 360
+ },
+ {
+  "slug": "feat-heritage",
+  "label": "Heritage Collection",
+  "top_menu": "New & Featured",
+  "group": "Featured",
+  "min_required": 15,
+  "product_count": 140
+ },
+ {
+  "slug": "feat-diamond",
+  "label": "Diamond Collection",
+  "top_menu": "New & Featured",
+  "group": "Featured",
+  "min_required": 15,
+  "product_count": 231
+ },
+ {
+  "slug": "feat-temple",
+  "label": "Temple Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Featured",
+  "min_required": 15,
+  "product_count": 104
+ },
+ {
+  "slug": "feat-designer",
+  "label": "Designer Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Featured",
+  "min_required": 15,
+  "product_count": 267
+ },
+ {
+  "slug": "feat-special-occasion",
+  "label": "Special Occasion Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Featured",
+  "min_required": 15,
+  "product_count": 567
+ },
+ {
+  "slug": "sales-bestsellers",
+  "label": "Bestsellers",
+  "top_menu": "New & Featured",
+  "group": "Sales-driven",
+  "min_required": 0,
+  "rule": "Fill automatically from real order data after launch. Left empty on purpose so no piece shows a Best Seller or Favourite badge it has not earned.",
+  "product_count": 0
+ },
+ {
+  "slug": "sales-customer-favourites",
+  "label": "Customer Favourites",
+  "top_menu": "New & Featured",
+  "group": "Sales-driven",
+  "min_required": 0,
+  "rule": "Fill automatically from real order data after launch. Left empty on purpose so no piece shows a Best Seller or Favourite badge it has not earned.",
+  "product_count": 0
+ },
+ {
+  "slug": "sales-trending",
+  "label": "Trending Jewellery",
+  "top_menu": "New & Featured",
+  "group": "Sales-driven",
+  "min_required": 0,
+  "rule": "Fill automatically from real order data after launch. Left empty on purpose so no piece shows a Best Seller or Favourite badge it has not earned.",
+  "product_count": 0
+ }
+]

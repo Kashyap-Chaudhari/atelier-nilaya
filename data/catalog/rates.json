@@ -1,0 +1,36 @@
+{
+  "as_of": "2026-11-20",
+  "currency": "INR",
+  "city_basis": "Gandhinagar, Gujarat (nearest listed city to Kalol)",
+  "gst_pct": 3,
+  "metal_rates_per_g": {
+    "gold_24k": 12562,
+    "gold_22k": 11515,
+    "gold_18k": 9422,
+    "silver_925": 161.9,
+    "platinum_950": 3938
+  },
+  "derivations": {
+    "silver_925": "silver 999 at Rs 1,75,000/kg = Rs 175/g x 0.925",
+    "platinum_950": "platinum 999 spot Rs 4,145/g (19 Nov 2026) x 0.95"
+  },
+  "stone_rates_inr_per_ct": {
+    "melee": 55000,
+    "dia_s": 95000,
+    "dia_m": 150000,
+    "dia_l": 280000,
+    "polki": 22000,
+    "blackdia": 12000,
+    "ruby": 9000,
+    "emerald": 11000,
+    "sapphire": 14000,
+    "gem_semi": 800,
+    "onyx": 250
+  },
+  "stone_rates_note": "ESTIMATES for natural stones. Replace with your supplier invoice cost or certificate-based price before you publish any piece.",
+  "sources": [
+    "Gold: Groww gold rates page, Gandhinagar, last updated 20 Nov 2026 (24K 12,562 / 22K 11,515 / 18K 9,422 per gram)",
+    "Silver: Goodreturns, 20 Nov 2026, Rs 1,75,000 per kg",
+    "Platinum: metalcharts.org spot converted to INR, 19 Nov 2026, Rs 4,144.53 per gram. Indian dealer quotes for platinum vary widely, so confirm with your own supplier."
+  ]
+}
