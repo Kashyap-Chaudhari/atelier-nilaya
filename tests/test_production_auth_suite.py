@@ -77,84 +77,26 @@ def run_tests():
         'terms_consent': 'on',
     }, follow=False)
     assert resp.status_code == 302, f"Expected redirect after signup, got {resp.status_code}"
-    assert '/verify-email/pending/' in resp['Location'], f"Redirect should point to verify-email pending, got {resp['Location']}"
-
+    # Verification email step is removed per requirements; user gets immediate access
     user = User.objects.get(email=test_email)
-    assert user.profile.is_email_verified is False, "New user must start with is_email_verified=False!"
+    assert user.profile.is_email_verified is True, "New user must start verified!"
     assert user.profile.mobile_number == test_phone, "Profile must store clean mobile number!"
-    print("✓ User registered with unverified email and linked profile.")
-
-    # Check notification log for verification email
-    log = NotificationLog.objects.filter(recipient=test_email, template_name='email_verification').first()
-    assert log is not None, "Verification email notification log must be created!"
-    assert log.status == 'sent', f"Expected sent status, got {log.status}"
-    print("✓ Verification email recorded in NotificationLog with direct token.")
+    print("✓ User registered and immediately verified for seamless ordering.")
 
     # ------------------------------------------------------------------
-    # TEST 3: Unverified User Blocked from Checkout
+    # TEST 3: User Cleared Directly for Checkout
     # ------------------------------------------------------------------
-    print("\n[TEST 3] Testing Checkout Gate for Unverified User...")
-    # Add a product to cart first
+    print("\n[TEST 3] Testing Direct Checkout Access...")
     prod = JewelleryProduct.objects.filter(is_in_stock=True).first()
     if prod:
         client.post('/cart/add/', {'product_id': prod.id, 'quantity': 1})
 
     resp = client.get('/orders/checkout/', follow=False)
-    assert resp.status_code == 302, f"Unverified user must be redirected, got {resp.status_code}"
-    assert '/verify-email/pending/' in resp['Location'], f"Redirect should point to verify pending, got {resp['Location']}"
-    print("✓ Unverified user strictly blocked from checkout and redirected to verification notice.")
-
-    # Direct order API attempt by unverified user
-    resp = client.post('/payments/api/order/create/', data='{}', content_type='application/json')
-    assert resp.status_code == 403, f"Expected 403 for unverified user on payment API, got {resp.status_code}"
-    print("✓ Payment/Order creation API strictly returns 403 Forbidden for unverified client.")
+    assert resp.status_code == 200, f"Signed up user must have direct checkout access, got {resp.status_code}"
+    print("✓ Registered user cleared directly for checkout without email verification blocker.")
 
     # ------------------------------------------------------------------
-    # TEST 4: Email Verification Token Activation
-    # ------------------------------------------------------------------
-    print("\n[TEST 4] Testing Email Verification Activation Link...")
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
-    token = default_token_generator.make_token(user)
-
-    resp = client.get(f'/verify-email/{uid}/{token}/')
-    assert resp.status_code == 200
-    assert 'Email Verified Successfully' in resp.content.decode()
-
-    user.refresh_from_db()
-    assert user.profile.is_email_verified is True, "User profile must now be verified!"
-    print("✓ User email verified. Welcome notification logged.")
-
-    # Now checkout must be accessible
-    resp = client.get('/orders/checkout/')
-    assert resp.status_code == 200, f"Verified user must have full checkout access, got {resp.status_code}"
-    print("✓ Verified user now successfully cleared for checkout.")
-
-    # ------------------------------------------------------------------
-    # TEST 5: Resend Verification Email Rate Limiting (Max 3 / hr)
-    # ------------------------------------------------------------------
-    print("\n[TEST 5] Testing Resend Verification Email Rate Limiting...")
-    # Temporarily reset verification to test resend limits
-    user.profile.is_email_verified = False
-    user.profile.resend_verification_count = 0
-    user.profile.last_resend_at = None
-    user.profile.save()
-
-    for i in range(1, 4):
-        resp = client.post('/verify-email/resend/', {'email': user.email}, follow=True)
-        user.profile.refresh_from_db()
-        assert user.profile.resend_verification_count == i, f"Count should be {i}, got {user.profile.resend_verification_count}"
-
-    # 4th attempt must be rejected
-    resp = client.post('/verify-email/resend/', {'email': user.email}, follow=True)
-    assert 'Maximum limit of 3 verification emails per hour reached' in resp.content.decode(), "4th resend must be rejected!"
-    print("✓ Resend verification rate limiting verified (capped strictly at 3/hr).")
-
-    # Restore verification
-    user.profile.is_email_verified = True
-    user.profile.save()
-
-    # ------------------------------------------------------------------
-    # TEST 6: Authentication via Email and Mobile Number + Session Control
+    # TEST 4: Authentication via Email and Mobile Number + Session Control
     # ------------------------------------------------------------------
     print("\n[TEST 6] Testing Login via Email and Mobile Number...")
     client.get('/logout/')

@@ -36,13 +36,6 @@ def api_create_razorpay_order(request):
             'redirect_url': '/login/?next=/orders/checkout/'
         }, status=401)
 
-    if hasattr(request.user, 'profile') and not request.user.profile.is_email_verified:
-        return JsonResponse({
-            'success': False,
-            'message': 'Email verification required. Please verify your email before acquiring pieces.',
-            'redirect_url': '/verify-email/pending/?next=/orders/checkout/'
-        }, status=403)
-
     cart = get_or_create_cart(request)
     if cart.total_items == 0:
         return JsonResponse({'success': False, 'message': 'Acquisition bag is empty'}, status=400)

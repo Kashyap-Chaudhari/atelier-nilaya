@@ -143,10 +143,6 @@ def create_order_from_cart(cart, customer_data, coupon=None, is_advance=False, u
 
 @login_required(login_url='/login/')
 def checkout_view(request):
-    # Enforce email verification check on checkout
-    if hasattr(request.user, 'profile') and not request.user.profile.is_email_verified:
-        return redirect('/verify-email/pending/?next=/orders/checkout/')
-
     cart = get_or_create_cart(request)
     if cart.total_items == 0:
         return redirect('campaigns:hero')

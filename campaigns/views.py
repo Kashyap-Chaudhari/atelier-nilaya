@@ -555,13 +555,17 @@ def customer_signup_view(request):
                 )
                 profile, _ = UserProfile.objects.get_or_create(user=user)
                 profile.mobile_number = clean_phone
-                profile.is_email_verified = False
+                profile.is_email_verified = True
                 profile.save()
 
                 AuthRateLimitLog.record(ip, 'signup', email)
-                send_verification_email(user, request)
+                try:
+                    from notifications.emails import send_welcome_email
+                    send_welcome_email(user)
+                except Exception:
+                    pass
 
-                # Log user in so they can browse & fill their bag (checkout is blocked until verified)
+                # Log user in directly with active session and merged bag
                 old_key = request.session.session_key
                 login(request, user, backend='campaigns.auth_backends.EmailOrPhoneBackend')
                 request.session.cycle_key()
@@ -569,8 +573,8 @@ def customer_signup_view(request):
                 request.session.set_expiry(14 * 24 * 60 * 60)
                 get_or_create_cart(request)
 
-                request.session['verification_pending_email'] = email
-                return redirect(f"/verify-email/pending/?next={next_url}")
+                target_redirect = next_url if next_url and next_url != '/' else '/'
+                return redirect(target_redirect)
 
     return render(request, 'campaigns/signup.html', {
         'next': next_url,
@@ -704,18 +708,7 @@ def verify_email_view(request, uidb64, token):
 
 def verify_email_pending_view(request):
     next_url = get_safe_redirect(request)
-    target_email = ''
-    if request.user.is_authenticated:
-        if hasattr(request.user, 'profile') and request.user.profile.is_email_verified:
-            return redirect(next_url)
-        target_email = request.user.email
-    else:
-        target_email = request.session.get('verification_pending_email', '')
-
-    return render(request, 'campaigns/verify_email_pending.html', {
-        'target_email': target_email,
-        'next': next_url,
-    })
+    return redirect(next_url)
 
 
 def resend_verification_email_view(request):
