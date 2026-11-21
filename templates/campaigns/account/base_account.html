@@ -4,27 +4,32 @@
 {% block extra_head %}
 <style>
 /* ==========================================================================
-   ATELIER NILAYA — PRIVATE CLIENT FOLIO SUITE & RESPONSIVE ACCOUNT LAYOUT
-   Rich Imperial Burgundy (#1c0b13), Antique Gold (#d9b56b), Cream (#F8F5F0)
+   ATELIER NILAYA — PRIVATE CLIENT FOLIO SUITE
+   Signature Ivory & Royal Burgundy Palette (Matching Home Page)
+   Canvas: #FBF8F2 &bull; Surface: #FFFFFF &bull; Accent: #682D3C &bull; Gold: #c5a059
    ========================================================================== */
 
+/* Page Canvas with generous top clearance below the header */
 .nilaya-account-stage {
   min-height: 85vh;
-  padding: 50px clamp(16px, 3.5vw, 40px) 100px;
-  background: radial-gradient(circle at 50% 12%, rgba(104, 45, 60, 0.22) 0%, rgba(20, 11, 16, 0.96) 60%), #0E0E0C;
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 36px);
+  padding-bottom: 90px;
+  padding-left: clamp(16px, 3.5vw, 40px);
+  padding-right: clamp(16px, 3.5vw, 40px);
+  background: linear-gradient(180deg, #FBF8F2 0%, #F5EFEB 100%);
 }
 
 .nilaya-account-container {
   width: 100%;
-  max-width: 1140px;
+  max-width: 940px;
   margin: 0 auto;
 }
 
-/* Header Banner */
+/* Folio Header Section */
 .nilaya-account-header {
-  border-bottom: 1px solid rgba(217, 181, 107, 0.22);
-  padding-bottom: 24px;
-  margin-bottom: 32px;
+  border-bottom: 1px solid rgba(104, 45, 60, 0.12);
+  padding-bottom: 22px;
+  margin-bottom: 24px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -36,252 +41,144 @@
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #d9b56b;
+  color: #682D3C;
   display: block;
   margin-bottom: 6px;
 }
 
 .nilaya-account-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.1rem, 3.6vw, 2.8rem);
+  font-size: clamp(2.2rem, 3.5vw, 2.7rem);
   font-weight: 500;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0;
-  letter-spacing: 0.02em;
   line-height: 1.15;
+  letter-spacing: 0.02em;
 }
 
-/* Status Badge */
+/* Patron Status Pill */
 .nilaya-patron-status-badge {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: linear-gradient(135deg, rgba(217, 181, 107, 0.14) 0%, rgba(104, 45, 60, 0.25) 100%);
-  border: 1px solid rgba(217, 181, 107, 0.35);
-  color: #d9b56b;
+  background: rgba(104, 45, 60, 0.06);
+  border: 1px solid rgba(104, 45, 60, 0.18);
+  color: #682D3C;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.72rem;
+  font-size: 0.70rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 7px 16px;
+  padding: 6px 14px;
   border-radius: 20px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 8px rgba(104, 45, 60, 0.05);
 }
 
 .nilaya-badge-star {
-  font-size: 0.75rem;
-  color: #d9b56b;
+  color: #c5a059;
+  font-size: 0.72rem;
 }
 
-/* Master Account Layout Grid */
-.nilaya-account-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 32px;
-  align-items: start;
-}
-
-/* Sidebar Nav (Desktop) */
-.nilaya-account-nav {
-  background: linear-gradient(175deg, #180D14 0%, #11080E 100%);
-  border: 1px solid rgba(217, 181, 107, 0.28);
+/* Horizontal Segmented Folio Navigation Bar (Zero Wasted Space) */
+.nilaya-account-tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.12);
   border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 1px rgba(217, 181, 107, 0.3);
+  padding: 6px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 18px rgba(48, 37, 34, 0.04);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.nilaya-nav-patron-card {
-  display: flex;
+.nilaya-account-tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.nilaya-tab-link {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 12px 14px 8px;
-  border-bottom: 1px solid rgba(217, 181, 107, 0.15);
-  margin-bottom: 8px;
-}
-
-.nilaya-nav-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #4F1F2C 0%, #200B13 100%);
-  border: 1px solid #d9b56b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #d9b56b;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.nilaya-nav-patron-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.nilaya-nav-patron-name {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #F8F5F0;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nilaya-nav-patron-sub {
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(217, 181, 107, 0.8);
-  margin-top: 2px;
-}
-
-.nilaya-nav-items-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.nilaya-nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 14px;
-  color: rgba(248, 245, 240, 0.75);
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 6px;
   text-decoration: none;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.80rem;
+  font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  transition: all 0.22s ease;
-  border-radius: 6px;
-  background: transparent;
-  position: relative;
-}
-
-.nilaya-nav-item-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: rgba(217, 181, 107, 0.08);
-  border: 1px solid rgba(217, 181, 107, 0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #d9b56b;
+  color: #583C44;
+  white-space: nowrap;
   flex-shrink: 0;
   transition: all 0.22s ease;
+  background: transparent;
 }
 
-.nilaya-nav-item-text {
-  flex: 1;
-  white-space: nowrap;
+.nilaya-tab-icon {
+  display: flex;
+  align-items: center;
+  color: inherit;
 }
 
-.nilaya-nav-item-arrow {
-  font-size: 0.85rem;
-  color: rgba(217, 181, 107, 0.4);
-  transition: all 0.22s ease;
+.nilaya-tab-link:hover {
+  color: #682D3C;
+  background: rgba(104, 45, 60, 0.05);
 }
 
-.nilaya-nav-item:hover {
-  background: rgba(217, 181, 107, 0.08);
-  color: #F8F5F0;
-  transform: translateX(2px);
-}
-
-.nilaya-nav-item:hover .nilaya-nav-item-icon {
-  background: #d9b56b;
-  color: #1c0b13;
-  border-color: #d9b56b;
-  transform: scale(1.05);
-}
-
-.nilaya-nav-item:hover .nilaya-nav-item-arrow {
-  color: #d9b56b;
-  transform: translateX(3px);
-}
-
-.nilaya-nav-item.active {
-  background: linear-gradient(90deg, rgba(217, 181, 107, 0.16) 0%, rgba(104, 45, 60, 0.15) 100%);
-  color: #d9b56b;
-  border: 1px solid rgba(217, 181, 107, 0.35);
+.nilaya-tab-link.active {
+  background: #682D3C;
+  color: #FFFFFF;
   font-weight: 700;
+  box-shadow: 0 4px 12px rgba(104, 45, 60, 0.2);
 }
 
-.nilaya-nav-item.active .nilaya-nav-item-icon {
-  background: #d9b56b;
-  color: #1c0b13;
-  border-color: #d9b56b;
+.nilaya-tab-link.active .nilaya-tab-icon {
+  color: #ead9b6;
 }
 
-.nilaya-nav-item.active .nilaya-nav-item-arrow {
-  color: #d9b56b;
+.nilaya-tab-link.nilaya-tab-logout {
+  color: #8c3b4d;
+  margin-left: auto;
 }
 
-.nilaya-nav-divider {
-  height: 1px;
-  background: rgba(217, 181, 107, 0.15);
-  margin: 6px 0;
+.nilaya-tab-link.nilaya-tab-logout:hover {
+  background: rgba(185, 28, 28, 0.08);
+  color: #991b1b;
 }
 
-.nilaya-nav-logout {
-  color: #fca5a5 !important;
-  background: rgba(252, 165, 165, 0.04) !important;
-  border: 1px solid rgba(252, 165, 165, 0.15) !important;
-  margin-top: 4px;
-}
-
-.nilaya-nav-logout .nilaya-nav-item-icon {
-  background: rgba(252, 165, 165, 0.08) !important;
-  border-color: rgba(252, 165, 165, 0.25) !important;
-  color: #fca5a5 !important;
-}
-
-.nilaya-nav-logout:hover {
-  background: rgba(252, 165, 165, 0.12) !important;
-  color: #ffffff !important;
-  border-color: rgba(252, 165, 165, 0.35) !important;
-}
-
-/* Main Content Card */
+/* Folio Content Surface Card */
 .nilaya-account-card {
-  background: linear-gradient(175deg, #180D14 0%, #11080E 100%);
-  border: 1px solid rgba(217, 181, 107, 0.28);
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.12);
   border-radius: 8px;
   padding: clamp(24px, 4vw, 42px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 1px rgba(217, 181, 107, 0.3);
+  box-shadow: 0 12px 36px rgba(48, 37, 34, 0.05);
 }
 
 .nilaya-card-section-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
   font-weight: 500;
-  color: #F8F5F0;
-  margin: 0 0 8px;
+  color: #302522;
+  margin: 0 0 6px;
   letter-spacing: 0.02em;
 }
 
 .nilaya-card-section-desc {
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.88rem;
-  color: rgba(248, 245, 240, 0.68);
+  color: rgba(48, 37, 34, 0.7);
   margin: 0 0 28px;
   line-height: 1.5;
 }
 
-/* Common Form Controls */
+/* Form Controls — Styled with Ivory Canvas Contrast */
 .nilaya-form-group {
   margin-bottom: 20px;
 }
@@ -293,62 +190,62 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #d9b56b;
+  color: #682D3C;
   margin-bottom: 8px;
 }
 
 .nilaya-form-input {
   width: 100%;
   box-sizing: border-box;
-  background: #1f0b15;
-  border: 1px solid rgba(217, 181, 107, 0.35);
+  background: #FDFBF7;
+  border: 1px solid rgba(104, 45, 60, 0.2);
   border-radius: 6px;
   padding: 13px 16px;
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.95rem;
-  color: #F8F5F0;
+  color: #302522;
   outline: none;
   transition: all 0.25s ease;
 }
 
 .nilaya-form-input:focus {
-  border-color: #d9b56b;
-  background: #240d19;
-  box-shadow: 0 0 0 3px rgba(217, 181, 107, 0.2);
+  background: #FFFFFF;
+  border-color: #682D3C;
+  box-shadow: 0 0 0 3px rgba(104, 45, 60, 0.12);
 }
 
 .nilaya-form-input[readonly] {
-  background: rgba(24, 11, 18, 0.6);
-  border-color: rgba(217, 181, 107, 0.2);
-  color: rgba(248, 245, 240, 0.7);
+  background: #F6F1EC;
+  border-color: rgba(104, 45, 60, 0.15);
+  color: rgba(48, 37, 34, 0.7);
   cursor: default;
 }
 
-/* Action Button */
+/* Primary Action Buttons (Matching Home Page Style) */
 .nilaya-auth-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   padding: 13px 28px;
-  background: linear-gradient(135deg, #d9b56b 0%, #c5a059 100%);
-  color: #1c0b13;
-  border: none;
+  background: #682D3C;
+  color: #FFFFFF;
+  border: 1px solid #4F1F2C;
   border-radius: 6px;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 16px rgba(104, 45, 60, 0.2);
+  box-shadow: 0 4px 14px rgba(104, 45, 60, 0.18);
 }
 
 .nilaya-auth-btn:hover {
-  background: linear-gradient(135deg, #ecd59b 0%, #d9b56b 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(217, 181, 107, 0.3);
+  background: #4F1F2C;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(104, 45, 60, 0.26);
 }
 
 .nilaya-auth-btn:active {
@@ -357,9 +254,9 @@
 
 /* Alert Boxes */
 .nilaya-alert-success {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #065f46;
   padding: 12px 16px;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -367,86 +264,34 @@
 }
 
 .nilaya-alert-error {
-  background: rgba(185, 28, 28, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
+  background: rgba(185, 28, 28, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #991b1b;
   padding: 12px 16px;
   border-radius: 6px;
   font-size: 0.85rem;
   margin-bottom: 20px;
 }
 
-/* ==========================================================================
-   MOBILE VIEW ADAPTATION (< 860px)
-   Horizontal Scrollable Tab Bar + Touch Friendly Inputs
-   ========================================================================== */
-@media (max-width: 860px) {
+/* Mobile Optimizations (< 768px) */
+@media (max-width: 768px) {
   .nilaya-account-stage {
-    padding: 30px 16px 80px;
+    padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 24px);
+    padding-bottom: 60px;
   }
 
-  .nilaya-account-header {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
+  .nilaya-account-tab-bar {
+    padding: 4px;
+    gap: 4px;
   }
 
-  .nilaya-account-layout {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .nilaya-tab-link {
+    padding: 8px 12px;
+    font-size: 0.70rem;
   }
 
-  /* Transform sidebar into a sleek horizontal scrollable pill bar */
-  .nilaya-account-nav {
-    border-radius: 30px;
-    padding: 6px;
-    background: #140910;
-  }
-
-  .nilaya-nav-patron-card {
-    display: none; /* Hide mini card on mobile to save vertical height */
-  }
-
-  .nilaya-nav-items-list {
-    flex-direction: row;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    gap: 6px;
-    padding: 2px;
-  }
-
-  .nilaya-nav-items-list::-webkit-scrollbar {
-    display: none; /* Chrome / Safari */
-  }
-
-  .nilaya-nav-item {
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 0.72rem;
-    flex-shrink: 0;
-  }
-
-  .nilaya-nav-item-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-  }
-
-  .nilaya-nav-item-icon svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  .nilaya-nav-item-arrow {
-    display: none;
-  }
-
-  .nilaya-nav-divider {
-    display: none;
-  }
-
-  .nilaya-nav-logout {
-    margin-top: 0;
+  .nilaya-tab-link.nilaya-tab-logout {
+    margin-left: 0;
   }
 
   .nilaya-auth-btn {
@@ -462,7 +307,7 @@
 <section class="nilaya-account-stage">
   <div class="nilaya-account-container">
     
-    <!-- Top Account Header -->
+    <!-- Top Folio Header (Clear of the top navbar) -->
     <div class="nilaya-account-header">
       <div>
         <span class="nilaya-account-eyebrow">Atelier Nilaya &bull; Private Client Folio</span>
@@ -476,93 +321,68 @@
       </div>
     </div>
 
-    <!-- Account Master Layout Grid -->
-    <div class="nilaya-account-layout">
+    <!-- Integrated Horizontal Navigation Tabs (Compact & Responsive) -->
+    <nav class="nilaya-account-tab-bar" aria-label="Folio Navigation">
       
-      <!-- Navigation Sidebar (Desktop Card / Mobile Scrollable Tab Bar) -->
-      <aside class="nilaya-account-nav" aria-label="Account folio navigation">
-        
-        <!-- Desktop Mini Profile Header -->
-        <div class="nilaya-nav-patron-card">
-          <div class="nilaya-nav-avatar" aria-hidden="true">
-            <span>{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
-          </div>
-          <div class="nilaya-nav-patron-info">
-            <span class="nilaya-nav-patron-name">{{ user.get_full_name|default:user.first_name|default:user.username }}</span>
-            <span class="nilaya-nav-patron-sub">Private Folio</span>
-          </div>
-        </div>
+      <a href="{% url 'campaigns:account_profile' %}" class="nilaya-tab-link {% if active_tab == 'profile' %}active{% endif %}">
+        <span class="nilaya-tab-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </span>
+        <span>Profile Details</span>
+      </a>
 
-        <!-- Navigation Links -->
-        <div class="nilaya-nav-items-list">
-          
-          <a href="{% url 'campaigns:account_profile' %}" class="nilaya-nav-item {% if active_tab == 'profile' %}active{% endif %}" title="Profile Details">
-            <span class="nilaya-nav-item-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </span>
-            <span class="nilaya-nav-item-text">Profile Details</span>
-            <span class="nilaya-nav-item-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+      <a href="{% url 'campaigns:account_password' %}" class="nilaya-tab-link {% if active_tab == 'password' %}active{% endif %}">
+        <span class="nilaya-tab-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </span>
+        <span>Change Password</span>
+      </a>
 
-          <a href="{% url 'campaigns:account_password' %}" class="nilaya-nav-item {% if active_tab == 'password' %}active{% endif %}" title="Change Password">
-            <span class="nilaya-nav-item-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-              </svg>
-            </span>
-            <span class="nilaya-nav-item-text">Change Password</span>
-            <span class="nilaya-nav-item-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+      <a href="{% url 'campaigns:account_addresses' %}" class="nilaya-tab-link {% if active_tab == 'addresses' %}active{% endif %}">
+        <span class="nilaya-tab-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        </span>
+        <span>Saved Addresses</span>
+      </a>
 
-          <a href="{% url 'campaigns:account_addresses' %}" class="nilaya-nav-item {% if active_tab == 'addresses' %}active{% endif %}" title="Saved Delivery Addresses">
-            <span class="nilaya-nav-item-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-            </span>
-            <span class="nilaya-nav-item-text">Saved Addresses</span>
-            <span class="nilaya-nav-item-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+      <a href="{% url 'orders:history' %}" class="nilaya-tab-link {% if active_tab == 'orders' %}active{% endif %}">
+        <span class="nilaya-tab-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </span>
+        <span>My Orders</span>
+      </a>
 
-          <a href="{% url 'orders:history' %}" class="nilaya-nav-item {% if active_tab == 'orders' %}active{% endif %}" title="Order History and Tracking">
-            <span class="nilaya-nav-item-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-            </span>
-            <span class="nilaya-nav-item-text">My Orders</span>
-            <span class="nilaya-nav-item-arrow" aria-hidden="true">&rarr;</span>
-          </a>
+      <a href="{% url 'campaigns:logout' %}" class="nilaya-tab-link nilaya-tab-logout">
+        <span class="nilaya-tab-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </span>
+        <span>Log Out</span>
+      </a>
 
-          <div class="nilaya-nav-divider" aria-hidden="true"></div>
+    </nav>
 
-          <a href="{% url 'campaigns:logout' %}" class="nilaya-nav-item nilaya-nav-logout" title="Sign Out">
-            <span class="nilaya-nav-item-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-              </svg>
-            </span>
-            <span class="nilaya-nav-item-text">Log Out</span>
-          </a>
-
-        </div>
-      </aside>
-
-      <!-- Sub-page Content Area -->
-      <div class="nilaya-account-content">
-        {% block account_content %}{% endblock %}
-      </div>
-
+    <!-- Main Content Area -->
+    <div class="nilaya-account-content">
+      {% block account_content %}{% endblock %}
     </div>
+
   </div>
 </section>
 {% endblock %}

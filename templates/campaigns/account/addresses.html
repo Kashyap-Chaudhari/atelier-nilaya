@@ -4,10 +4,10 @@
 
 {% block account_content %}
 <div class="nilaya-account-card">
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 24px;">
     <div>
       <h2 class="nilaya-card-section-title" style="margin: 0 0 6px;">Saved Shipping Addresses</h2>
-      <p class="nilaya-card-section-desc" style="margin: 0;">Manage your verified delivery locations for insured white-glove transit.</p>
+      <p class="nilaya-card-section-desc" style="margin: 0;">Manage your verified delivery locations for insured white-glove transit across India.</p>
     </div>
     <button type="button" class="nilaya-auth-btn" onclick="document.getElementById('addAddressForm').style.display = document.getElementById('addAddressForm').style.display === 'none' ? 'block' : 'none';">
       + Add New Address
@@ -23,15 +23,15 @@
   {% endif %}
 
   <!-- Add New Address Form (collapsible) -->
-  <div id="addAddressForm" style="display: none; background: rgba(28, 11, 19, 0.6); border: 1px solid rgba(217, 181, 107, 0.3); border-radius: 6px; padding: 24px; margin-bottom: 32px;">
-    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; color: #F8F5F0; margin: 0 0 16px;">
+  <div id="addAddressForm" style="display: none; background: #FAF6F0; border: 1px solid rgba(104, 45, 60, 0.18); border-radius: 8px; padding: clamp(18px, 3vw, 28px); margin-bottom: 32px; box-shadow: 0 6px 20px rgba(48, 37, 34, 0.04);">
+    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; color: #302522; margin: 0 0 16px;">
       Add Verified Delivery Address
     </h3>
     <form method="POST">
       {% csrf_token %}
       <input type="hidden" name="action" value="add_address">
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
         <div class="nilaya-form-group">
           <label class="nilaya-form-label">Recipient Full Name</label>
           <input type="text" name="full_name" class="nilaya-form-input" required value="{{ user.first_name }}">
@@ -52,7 +52,7 @@
         <input type="text" name="address_line2" class="nilaya-form-input" placeholder="Landmark or Area">
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px;">
         <div class="nilaya-form-group">
           <label class="nilaya-form-label">City</label>
           <input type="text" name="city" class="nilaya-form-input" value="Surat" required>
@@ -68,36 +68,40 @@
       </div>
 
       <button type="submit" class="nilaya-auth-btn">
-        Save Address &rarr;
+        <span>Save Address</span>
+        <span aria-hidden="true">&rarr;</span>
       </button>
     </form>
   </div>
 
   <!-- Address List -->
   {% if addresses %}
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
       {% for addr in addresses %}
-        <div style="background: #1c0b13; border: 1px solid rgba(217, 181, 107, 0.25); border-radius: 6px; padding: 20px; position: relative;">
-          <strong style="color: #F8F5F0; font-size: 0.95rem; display: block; margin-bottom: 6px;">{{ addr.full_name }}</strong>
-          <p style="font-size: 0.85rem; color: rgba(248, 245, 240, 0.7); line-height: 1.5; margin: 0 0 12px;">
+        <div style="background: #FAF6F0; border: 1px solid rgba(104, 45, 60, 0.16); border-radius: 8px; padding: 22px; position: relative; box-shadow: 0 4px 14px rgba(48, 37, 34, 0.03);">
+          <strong style="color: #302522; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; display: block; margin-bottom: 6px;">{{ addr.full_name }}</strong>
+          <p style="font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.85rem; color: rgba(48, 37, 34, 0.78); line-height: 1.5; margin: 0 0 14px;">
             {{ addr.address_line1 }}{% if addr.address_line2 %}, {{ addr.address_line2 }}{% endif %}<br>
             {{ addr.city }}, {{ addr.state }} &bull; {{ addr.pincode }}<br>
-            <span style="color: #d9b56b;">Phone:</span> {{ addr.phone }}
+            <span style="color: #682D3C; font-weight: 700;">Phone:</span> {{ addr.phone }}
           </p>
           <form method="POST" onsubmit="return confirm('Remove this saved delivery location?');" style="display: inline;">
             {% csrf_token %}
             <input type="hidden" name="action" value="delete_address">
             <input type="hidden" name="address_id" value="{{ addr.id }}">
-            <button type="submit" style="background: none; border: none; color: #fca5a5; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; padding: 0;">
-              Remove Address
+            <button type="submit" style="background: none; border: none; color: #8c3b4d; font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; padding: 0;">
+              Remove Address &times;
             </button>
           </form>
         </div>
       {% endfor %}
     </div>
   {% else %}
-    <div style="text-align: center; padding: 40px 20px; border: 1px dashed rgba(217, 181, 107, 0.25); border-radius: 6px;">
-      <p style="color: rgba(248, 245, 240, 0.65); font-size: 0.9rem; margin: 0 0 16px;">No saved delivery addresses yet in your folio.</p>
+    <div style="text-align: center; padding: 48px 24px; border: 1px dashed rgba(104, 45, 60, 0.2); border-radius: 8px; background: #FAF7F2;">
+      <div style="font-size: 1.8rem; margin-bottom: 8px; color: #682D3C;">📍</div>
+      <p style="color: rgba(48, 37, 34, 0.7); font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.92rem; margin: 0 0 16px;">
+        No saved delivery addresses in your folio yet.
+      </p>
       <button type="button" class="nilaya-auth-btn" onclick="document.getElementById('addAddressForm').style.display = 'block';">
         + Add Delivery Address
       </button>
