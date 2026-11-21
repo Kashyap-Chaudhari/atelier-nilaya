@@ -65,12 +65,25 @@
     if (customerToggle && customerDropdown) {
       customerToggle.addEventListener('click', function(e) {
         e.stopPropagation();
-        const isOpen = customerDropdown.style.display === 'block';
-        customerDropdown.style.display = isOpen ? 'none' : 'block';
+        const willOpen = !customerDropdown.classList.contains('is-open') && customerDropdown.style.display !== 'block';
+        if (willOpen) {
+          customerDropdown.classList.add('is-open');
+          customerDropdown.style.display = 'block';
+          customerToggle.classList.add('is-active');
+          customerToggle.setAttribute('aria-expanded', 'true');
+        } else {
+          customerDropdown.classList.remove('is-open');
+          customerDropdown.style.display = 'none';
+          customerToggle.classList.remove('is-active');
+          customerToggle.setAttribute('aria-expanded', 'false');
+        }
       });
       document.addEventListener('click', function(e) {
         if (!e.target.closest('.customer-header-menu-wrap')) {
+          customerDropdown.classList.remove('is-open');
           customerDropdown.style.display = 'none';
+          customerToggle.classList.remove('is-active');
+          customerToggle.setAttribute('aria-expanded', 'false');
         }
       });
     }
