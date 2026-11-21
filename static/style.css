@@ -441,19 +441,22 @@ button {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 cols desktop */
-  gap: var(--grid-gap); /* 8px gaps */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  width: 100%;
+  justify-content: start;
 }
 
-/* Laptop (901px - 1200px): 3 columns */
-@media (max-width: 1200px) and (min-width: 901px) {
+/* Tablet (768px to 1279px): 3 columns, 16px gap */
+@media (max-width: 1279px) and (min-width: 768px) {
   .products-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 }
 
-/* Phone / Tablet (<= 900px down to 360px): 2 columns */
-@media (max-width: 900px) {
+/* Mobile (<= 767px down to 360px): 2 columns, 8px gap */
+@media (max-width: 767px) {
   .header-container {
     padding: 14px 16px;
   }
@@ -464,7 +467,7 @@ button {
     padding: 0 16px;
   }
   .products-section {
-    padding: 0 16px 60px 16px;
+    padding: 0 12px 60px 12px;
   }
   .products-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -473,420 +476,498 @@ button {
 }
 
 /* ==========================================================================
-   5. EACH TILE (Light Grey Tile #f6f6f6)
+   5. PRODUCT CARD (PANDORA-INSPIRED CLEAN MINIMAL LUXURY TILE)
    ========================================================================== */
 .product-tile {
-  background-color: var(--c-tile-bg); /* #f6f6f6 */
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   position: relative;
   transition: transform 0.25s ease;
+  outline: none;
 }
 
-/* Tile Visual Stage (Fixed 1:1 Aspect Ratio, Zero Layout Shift) */
+@media (hover: hover) and (pointer: fine) {
+  .product-tile:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.product-tile:focus-within {
+  outline: 2px solid var(--c-gold, #d9b56b);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-tile,
+  .tile-add-to-bag-btn,
+  .spin-lifestyle-img,
+  .image-dot,
+  .swatch-btn,
+  .tile-wishlist-btn {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Tile Visual Stage: Square (1:1), soft neutral #f6f2ea, contain fit, generous padding */
 .tile-stage {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
-  background-color: var(--c-tile-bg);
+  background-color: #f6f2ea;
+  border-radius: 6px;
   overflow: hidden;
-  cursor: grab;
-  touch-action: pan-y; /* Pass vertical swipes through to page scroll */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
   -webkit-user-select: none;
   user-select: none;
+  cursor: pointer;
+  touch-action: pan-y;
 }
 
-.tile-stage:active {
-  cursor: grabbing;
+@media (max-width: 767px) {
+  .tile-stage {
+    padding: 14px;
+  }
 }
 
-/* Photographic Spin Image */
+/* Stretched Link to Product Page */
+.tile-stage-link {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Master Jewellery Photo */
 .spin-active-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: inherit;
+  box-sizing: border-box;
   z-index: 2;
   pointer-events: none;
   display: block;
-  -webkit-user-select: none;
-  user-select: none;
+  transition: opacity 0.35s ease;
 }
 
-/* Second view on hover (Desktop) or second tap (Phone): Lifestyle Photo */
-.spin-lifestyle-img,
-.tile-lifestyle-photo {
+/* Secondary Worn/Angle Photo (Revealed on desktop hover or mobile swipe/tap) */
+.spin-lifestyle-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: 3;
+  object-fit: contain;
+  padding: inherit;
+  box-sizing: border-box;
+  z-index: 2;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .product-tile:hover .spin-lifestyle-img,
-  .product-tile:hover .tile-lifestyle-photo {
+  .product-tile:hover .spin-lifestyle-img {
     opacity: 1;
+  }
+  .product-tile:hover .image-dot[data-dot="1"] {
+    width: 5px;
+    border-radius: 50%;
+    background-color: rgba(28, 11, 19, 0.25);
+  }
+  .product-tile:hover .image-dot[data-dot="2"] {
+    width: 14px;
+    border-radius: 4px;
+    background-color: #1c0b13;
   }
 }
 
-.spin-lifestyle-img.is-active,
-.product-tile.is-lifestyle-active .spin-lifestyle-img,
-.product-tile.is-lifestyle-active .tile-lifestyle-photo {
+.product-tile.is-secondary-active .spin-lifestyle-img {
   opacity: 1;
 }
+.product-tile.is-secondary-active .image-dot[data-dot="1"] {
+  width: 5px;
+  border-radius: 50%;
+  background-color: rgba(28, 11, 19, 0.25);
+}
+.product-tile.is-secondary-active .image-dot[data-dot="2"] {
+  width: 14px;
+  border-radius: 4px;
+  background-color: #1c0b13;
+}
 
-/* Neutral Fallback Tile ("Photo coming soon") */
-.spin-fallback-tile {
+/* Small Pagination Dots inside image area */
+.tile-image-dots {
   position: absolute;
-  inset: 0;
-  background-color: var(--c-tile-bg);
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.image-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: rgba(28, 11, 19, 0.25);
+  transition: all 0.25s ease;
+}
+
+.image-dot.is-active {
+  background-color: #1c0b13;
+  width: 14px;
+  border-radius: 4px;
+}
+
+/* Top-Left Tag: At most one tag (New, Made to order, Bestseller) */
+.tile-tag-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  background-color: rgba(255, 255, 255, 0.94);
+  color: #1c0b13;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 7px;
+  border-radius: 4px;
+  line-height: 1;
+  border: 1px solid rgba(217, 181, 107, 0.4);
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Top-Right Wishlist Heart Button: 40px, white circle with thin border */
+.tile-wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  color: var(--c-text-muted);
-  text-align: center;
-  padding: 24px;
-  z-index: 2;
+  color: #2b1a1f;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  padding: 0;
+  text-decoration: none;
 }
 
-.spin-fallback-tile[hidden] {
-  display: none !important;
+.tile-wishlist-btn:hover {
+  transform: scale(1.08);
+  border-color: #d9b56b;
+  color: #1c0b13;
 }
 
-.fallback-atelier-title {
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: var(--c-text-primary);
-  text-transform: uppercase;
+.tile-wishlist-btn.is-active,
+.tile-wishlist-btn[aria-pressed="true"] {
+  color: #1c0b13;
+  border-color: #1c0b13;
 }
 
-.fallback-note {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: var(--c-text-muted);
-  letter-spacing: 0.04em;
+.tile-wishlist-btn .heart-icon {
+  width: 18px;
+  height: 18px;
+  transition: fill 0.2s ease, stroke 0.2s ease;
 }
 
-/* 360 Spin Subtle Badge */
+.tile-wishlist-btn.is-active .heart-icon,
+.tile-wishlist-btn[aria-pressed="true"] .heart-icon {
+  fill: #1c0b13;
+  stroke: #1c0b13;
+}
+
+/* Bottom-Right 360° Pill (Only when real frames exist) */
 .spin-360-badge {
   position: absolute;
   bottom: 10px;
   right: 10px;
   z-index: 5;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(4px);
-  border: 1px solid var(--c-border-hairline);
-  color: var(--c-text-primary);
+  border: 1px solid rgba(217, 181, 107, 0.4);
+  color: #1c0b13;
   font-family: var(--font-sans);
-  font-size: 0.65rem;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   padding: 3px 8px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 4px;
   pointer-events: none;
-  opacity: 0.8;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.tile-stage:hover .spin-360-badge,
-.product-viewer-stage:hover .spin-360-badge {
-  opacity: 1;
-}
-
-/* Legacy Canvas Overlay */
-.tile-canvas,
-.model-fallback-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tile-canvas {
-  z-index: 2;
-  opacity: 1;
-  background-color: var(--c-tile-bg);
-  transition: opacity 0.3s ease;
-}
-
-.model-fallback-image {
-  z-index: 1;
-}
-
-/* Second view on hover (Desktop) or second tap (Phone):
-   Switches from 3D model to lifestyle photo (worn on hand or neck) */
-.tile-lifestyle-photo {
-  z-index: 3;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .product-tile:hover .tile-lifestyle-photo {
-    opacity: 1;
-  }
-}
-
-/* Mobile tap toggling via .is-lifestyle-active */
-.product-tile.is-lifestyle-active .tile-lifestyle-photo {
-  opacity: 1;
-}
-
-/* Tag Badge (NEW, BEST SELLER) at Top Left */
-.tile-tag-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 5;
-  background-color: var(--c-white);
-  border: 1px solid var(--c-border-hairline);
-  font-family: var(--font-sans);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-text-primary);
-  padding: 3px 7px;
-  border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-/* Wishlist Heart Button (Top Right) */
-.tile-wishlist-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 6;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.88);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--c-text-primary);
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-
-.tile-wishlist-btn:hover {
-  background-color: var(--c-white);
-  transform: scale(1.08);
-}
-
-.heart-icon {
-  width: 16px;
-  height: 16px;
-  transition: all 0.2s ease;
-}
-
-.tile-wishlist-btn.is-active .heart-icon {
-  fill: var(--c-burgundy);
-  stroke: var(--c-burgundy);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* ==========================================================================
-   6. UNDER EACH TILE (Information, Swatches, Name, Specs, Price, Bag CTA)
+   6. CARD META AREA (LEFT-ALIGNED UNDER IMAGE)
    ========================================================================== */
 .tile-meta-block {
-  padding: 14px 14px 18px 14px;
+  padding: 12px 2px 4px 2px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  text-align: left;
 }
 
-/* Metal Dots: Round 20px, labelled for screen readers */
-.swatches-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.swatch-btn {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background-color: var(--metal-color, #E6C687);
-  border: 1.5px solid transparent;
-  padding: 0;
-  position: relative;
-  transition: transform 0.15s ease, border-color 0.15s ease;
-}
-
-.swatch-btn:hover:not(:disabled) {
-  transform: scale(1.15);
-}
-
-.swatch-btn.is-selected {
-  outline: 1.5px solid var(--c-text-primary);
-  outline-offset: 2px;
-}
-
-.swatch-btn.is-disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-  position: relative;
-}
-
-.swatch-btn.is-disabled::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: var(--c-text-primary);
-  transform: rotate(-45deg);
-}
-
-/* Product Name */
+/* Product Name: 15px semi-bold, max 2 lines with ellipsis, thin gold line on hover */
 .tile-name-link {
-  margin-bottom: 4px;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 3px;
+  outline: none;
 }
 
 .tile-name {
   font-family: var(--font-sans);
-  font-size: 0.88rem;
+  font-size: 15px;
   font-weight: 600;
-  color: var(--c-text-primary);
+  color: #2b1a1f;
   line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 40px;
   transition: color 0.15s ease;
 }
 
-.tile-name-link:hover .tile-name {
-  color: var(--c-gold-hover);
+.product-tile:hover .tile-name {
+  text-decoration: underline;
+  text-decoration-color: #d9b56b;
+  text-underline-offset: 3px;
 }
 
-/* Metal & Stone Line */
+/* One-line Material Detail: 13px muted text */
 .tile-materials {
-  font-size: 0.75rem;
-  color: var(--c-text-muted);
-  margin-bottom: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #766861;
+  margin: 0 0 6px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.3;
 }
 
-/* Price Row with Old Price and "Save N%" */
+/* Price Row: 16px semi-bold with struck-through old price */
 .tile-price-row {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin: 0 0 8px 0;
   flex-wrap: wrap;
 }
 
 .tile-current-price {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--c-text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: #2b1a1f;
 }
 
 .tile-old-price {
-  font-size: 0.8rem;
-  color: var(--c-text-muted);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #8e8077;
   text-decoration: line-through;
+  font-weight: 400;
 }
 
 .tile-discount-badge {
-  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 11px;
   font-weight: 700;
-  color: var(--c-discount-red);
+  color: #9E1B32;
   letter-spacing: 0.02em;
 }
 
-/* "Add to Bag" Text Link */
+/* Metal Selector: Small round swatches (Gold, Silver, Platinum), selected outlined in gold */
+.swatches-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px 0;
+  min-height: 20px;
+}
+
+.swatch-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--metal-color, #E6C687);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.15s ease;
+}
+
+.swatch-btn:hover:not(:disabled) {
+  transform: scale(1.2);
+}
+
+.swatch-btn.is-selected {
+  outline: 2px solid #d9b56b !important;
+  outline-offset: 2px;
+}
+
+/* Action Area: Full-width outlined button, fixed height on desktop (ZERO JUMPING!) */
+.tile-action-wrap {
+  height: 38px;
+  margin-top: 4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .tile-add-to-bag-btn {
-  align-self: flex-start;
-  font-size: 0.8rem;
+  width: 100%;
+  height: 38px;
+  border: 1px solid #1c0b13;
+  background-color: transparent;
+  color: #1c0b13;
+  font-family: var(--font-sans);
+  font-size: 13px;
   font-weight: 600;
-  color: var(--c-text-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  padding: 2px 0;
-  transition: color 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(2px);
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-tile:hover .tile-add-to-bag-btn,
+  .product-tile:focus-within .tile-add-to-bag-btn {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 }
 
 .tile-add-to-bag-btn:hover {
-  color: var(--c-gold-hover);
+  background-color: #1c0b13;
+  color: #f4efe6;
+  border-color: #1c0b13;
 }
 
-/* Toast Notification: Plain, elegant, accessible feedback banner */
-.toast-notification {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  max-width: 380px;
-  background-color: var(--c-text-primary);
-  color: var(--c-white);
-  padding: 14px 20px;
-  border-radius: 4px;
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 500;
-  line-height: 1.4;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-  z-index: 1000;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+.tile-add-to-bag-btn .btn-text-mobile {
+  display: none;
+}
+.tile-add-to-bag-btn .btn-text-desktop {
+  display: inline;
 }
 
-.toast-notification[hidden] {
-  display: none !important;
-}
-
-.toast-notification.is-error {
-  background-color: #8b1e2a;
+/* Mobile: Compact always-visible Add button */
+@media (max-width: 767px) {
+  .tile-action-wrap {
+    height: 34px;
+    margin-top: 6px;
+  }
+  .tile-add-to-bag-btn {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    height: 34px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .tile-add-to-bag-btn .btn-text-desktop {
+    display: none;
+  }
+  .tile-add-to-bag-btn .btn-text-mobile {
+    display: inline;
+  }
 }
 
 /* ==========================================================================
-   7. "LOAD MORE" SECTION (Showing 8 of 16 pieces)
+   7. CENTRED LOAD MORE WITH PROGRESS TRACK
    ========================================================================== */
 .load-more-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 48px 0 20px 0;
+  margin: 48px auto 60px auto;
+  max-width: 320px;
   text-align: center;
 }
 
+.load-more-progress-track {
+  width: 100%;
+  height: 3px;
+  background-color: #ebe5db;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.load-more-progress-bar {
+  height: 100%;
+  background-color: #d9b56b;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
 .load-more-counter {
-  font-size: 0.82rem;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #766861;
+  margin: 0 0 16px 0;
   font-weight: 500;
-  color: var(--c-text-muted);
 }
 
 .load-more-btn {
-  padding: 12px 28px;
-  background-color: var(--c-white);
-  color: var(--c-text-primary);
-  border: 1px solid var(--c-text-primary);
-  font-size: 0.82rem;
+  padding: 11px 32px;
+  background-color: transparent;
+  color: #1c0b13;
+  border: 1px solid #1c0b13;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .load-more-btn:hover {
-  background-color: var(--c-text-primary);
-  color: var(--c-white);
+  background-color: #1c0b13;
+  color: #f4efe6;
+  border-color: #1c0b13;
 }
 
 /* Empty State */

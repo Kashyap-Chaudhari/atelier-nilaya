@@ -53,7 +53,8 @@ def enrich_product_for_gallery(prod):
 
     from django.conf import settings
     import os
-    spin_dir = os.path.join(settings.BASE_DIR, 'static', 'products', prod.slug, prod.base_metal, 'spin')
+    prod_dir = os.path.join(settings.BASE_DIR, 'static', 'products', prod.slug)
+    spin_dir = os.path.join(prod_dir, prod.base_metal, 'spin')
     if os.path.isdir(spin_dir) and len(os.listdir(spin_dir)) >= 12:
         prod.has_spin = True
         prod.spin_frames = len(os.listdir(spin_dir))
@@ -62,17 +63,62 @@ def enrich_product_for_gallery(prod):
         prod.spin_frames = 0
 
     base_price = float(prod.price)
-    prod.metals = {
-        'yellow_gold': {'price': base_price, 'in_stock': True},
-        'rose_gold': {'price': round(base_price * 1.02), 'in_stock': True},
-        'platinum': {'price': round(base_price * 1.08), 'in_stock': True},
-        'silver': {'price': round(base_price * 0.6), 'in_stock': False if base_price > 200000 else True},
+
+    # Metal Swatches: Show a swatch only if that version really exists with its own photos
+    metal_defs = {
+        'yellow_gold': {'label': 'Gold', 'color': '#E6C687', 'mult': 1.0},
+        'rose_gold': {'label': 'Rose Gold', 'color': '#E2A794', 'mult': 1.02},
+        'platinum': {'label': 'Platinum', 'color': '#E5E8EC', 'mult': 1.08},
+        'silver': {'label': 'Silver', 'color': '#D8DCE0', 'mult': 0.6},
     }
+    
+    prod.metals = {}
+    available_metals = []
+    
+    if os.path.isdir(prod_dir):
+        for m_key, m_info in metal_defs.items():
+            m_folder = os.path.join(prod_dir, m_key)
+            if os.path.isdir(m_folder):
+                has_files = (
+                    os.path.isfile(os.path.join(m_folder, 'front.jpg')) or
+                    os.path.isfile(os.path.join(m_folder, 'front.webp')) or
+                    (os.path.isdir(os.path.join(m_folder, 'spin')) and len(os.listdir(os.path.join(m_folder, 'spin'))) >= 12)
+                )
+                if has_files:
+                    m_price = round(base_price * m_info['mult'])
+                    prod.metals[m_key] = {
+                        'price': m_price,
+                        'in_stock': True,
+                        'label': m_info['label'],
+                        'color': m_info['color'],
+                        'has_photos': True
+                    }
+                    available_metals.append({'key': m_key, **prod.metals[m_key]})
+                    
+    if not available_metals:
+        # Default single metal piece
+        b_metal = prod.base_metal if prod.base_metal in metal_defs else 'yellow_gold'
+        b_info = metal_defs[b_metal]
+        prod.metals[b_metal] = {
+            'price': base_price,
+            'in_stock': True,
+            'label': b_info['label'],
+            'color': b_info['color'],
+            'has_photos': True
+        }
+        available_metals.append({'key': b_metal, **prod.metals[b_metal]})
+
+    prod.available_metals = available_metals
     prod.metals_json = json.dumps(prod.metals)
 
-    if prod.is_bestseller or prod.is_featured:
-        prod.tag = 'BEST SELLER'
-    elif prod.id % 3 == 0:
+    # Top-left tag: At most one tag; Bestseller only if real sales data says so
+    if prod.is_bestseller:
+        prod.tag = 'BESTSELLER'
+    elif prod.is_made_to_order:
+        prod.tag = 'MADE TO ORDER'
+    elif prod.is_one_of_a_kind:
+        prod.tag = 'ONLY 1 AVAILABLE'
+    elif prod.is_featured:
         prod.tag = 'NEW'
     else:
         prod.tag = None

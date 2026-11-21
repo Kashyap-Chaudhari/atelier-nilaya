@@ -226,21 +226,24 @@
       <div class="products-grid" id="products-grid">
         {% if products %}
         {% for product in products %}
-        <!-- Luxury Product Tile: Master Studio Imagery, Lifestyle Reveal, Hallmark Eyebrow & Tactile Action -->
+        <!-- Luxury Product Card: Pandora-Inspired Clean Minimal Luxury Tile -->
         <article class="product-tile" data-product-id="{{ product.id }}" data-product-slug="{{ product.slug }}"
           data-base-metal="{{ product.base_metal }}" data-current-metal="{{ product.effective_metal }}"
           data-spin-frames="{{ product.spin_frames }}" data-metals='{{ product.metals|tojson }}'
           data-old-price="{{ product.old_price or '' }}">
-          <!-- Tile Visual Stage: Fixed 1:1 Aspect Ratio with Master Studio Image & Lifestyle Hover -->
+          <!-- Tile Visual Stage: Fixed 1:1 Aspect Ratio with Master Studio Image & Secondary Reveal -->
           <div class="tile-stage" data-spin-viewer data-product-slug="{{ product.slug }}"
-            data-current-metal="{{ product.effective_metal }}" data-spin-frames="{{ product.spin_frames }}" tabindex="0"
-            role="region" aria-label="Atelier Nilaya piece: {{ product.name }}. Hover or tap to view worn.">
-            <!-- Luxury Status Badge (BEST SELLER / HERITAGE / NEW) -->
+            data-current-metal="{{ product.effective_metal }}" data-spin-frames="{{ product.spin_frames }}"
+            role="region" aria-label="{{ product.name }}">
+            <!-- Stretched Link to Product Page -->
+            <a href="{{ url_for('product_detail', slug_or_id=product.slug) }}" class="tile-stage-link" aria-label="View details for {{ product.name }}"></a>
+
+            <!-- Luxury Status Badge: At most one tag -->
             {% if product.tag %}
-            <span class="tile-tag-badge luxury-tag-gold">{{ product.tag }}</span>
+            <span class="tile-tag-badge">{{ product.tag }}</span>
             {% endif %}
 
-            <!-- Glassmorphism Floating Wishlist Button -->
+            <!-- Wishlist Heart Button: 40px White Circle with Thin Border -->
             <button type="button" class="tile-wishlist-btn {% if product.is_wishlisted %}is-active{% endif %}"
               data-wishlist-btn data-product-id="{{ product.id }}"
               aria-label="{% if product.is_wishlisted %}Remove {{ product.name }} from wishlist{% else %}Save {{ product.name }} to wishlist{% endif %}"
@@ -256,19 +259,28 @@
             <!-- Master Studio High-Resolution Image -->
             <img
               src="{{ product.display_image or ('/static/products/' ~ product.slug ~ '/' ~ product.effective_metal ~ '/spin/001.webp') }}"
-              alt="{{ product.name }}" class="spin-active-img" width="600" height="600" loading="lazy">
+              alt="{{ product.name }} in {{ product.purity or '22K Gold' }}, front view" class="spin-active-img" width="600" height="600"
+              {% if loop.index <= 4 %}loading="eager" fetchpriority="high"{% else %}loading="lazy" decoding="async"{% endif %}
+              onerror="handleProductImageError(this);">
 
-            <!-- Second View on Hover: Model Lifestyle Photo -->
+            <!-- Second View on Hover / Mobile Swipe: Model Lifestyle Photo -->
             {% if product.lifestyle_photo %}
             <img src="{{ product.lifestyle_photo }}"
               alt="{{ product.name }} worn on {{ product.lifestyle_body_part or 'model' }}" class="spin-lifestyle-img"
-              width="600" height="600" loading="lazy">
+              width="600" height="600" {% if loop.index <= 4 %}loading="eager"{% else %}loading="lazy" decoding="async"{% endif %}
+              onerror="this.style.display='none';">
             {% endif %}
+
+            <!-- Small Pagination Dots showing active angle/lifestyle photo -->
+            <div class="tile-image-dots" aria-hidden="true">
+              <span class="image-dot is-active" data-dot="1"></span>
+              <span class="image-dot" data-dot="2"></span>
+            </div>
 
             <!-- 360 Degree Indicator Badge (Only shown if product has real spin frames) -->
             {% if product.has_spin %}
-            <div class="spin-360-badge" aria-hidden="true">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <div class="spin-360-badge" aria-label="360 degree turntable view available">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
               </svg>
               <span>360&deg;</span>
@@ -280,43 +292,17 @@
           <!-- Tile Information Area Below Stage -->
           <div class="tile-meta-block">
 
-            <!-- Metal Dots: Only shown if that product has images for that metal and is in stock -->
-            <div class="swatches-row" role="group" aria-label="Metal options for {{ product.name }}">
-              {% set m_types = [
-              ('yellow_gold', 'Yellow gold', '#E6C687'),
-              ('rose_gold', 'Rose gold', '#E2A794'),
-              ('platinum', 'Platinum', '#E5E8EC'),
-              ('silver', 'Silver', '#D8DCE0')
-              ] %}
-              {% for metal_key, metal_label, metal_color in m_types %}
-              {% set metal_info = product.metals.get(metal_key) %}
-              {% if metal_info and metal_info.in_stock and metal_info.has_images %}
-              <button type="button"
-                class="swatch-btn swatch-{{ metal_key }} {% if metal_key == product.effective_metal %}is-selected{% endif %}"
-                data-metal="{{ metal_key }}" data-price="{{ metal_info.price }}"
-                aria-label="{{ metal_label }} - ₹{{ metal_info.price|format_inr }}"
-                style="--metal-color: {{ metal_color }};" {% if metal_key==product.effective_metal %}aria-pressed="true"
-                {% else %}aria-pressed="false" {% endif %}></button>
-              {% endif %}
-              {% endfor %}
-            </div>
-
-            <!-- Eyebrow: Hallmark and Metal Purity -->
-            <div class="tile-eyebrow">
-              {{ product.purity or '22K GOLD' }} &bull; BIS 916 HALLMARKED
-            </div>
-
-            <!-- Product Name Link (Cormorant Garamond Serif) -->
+            <!-- Product Name Link (15px semi-bold, max 2 lines with ellipsis, thin gold underline on hover) -->
             <a href="{{ url_for('product_detail', slug_or_id=product.slug) }}" class="tile-name-link">
               <h2 class="tile-name">{{ product.name }}</h2>
             </a>
 
-            <!-- Metal and Stone Line -->
-            <div class="tile-materials">
-              {{ product.stone or 'Uncut Syndicate Polki Diamonds' }}
+            <!-- One-line Material Detail (13px muted text) -->
+            <div class="tile-materials" data-material-line>
+              {{ product.purity or '22K Gold' }}{% if product.approx_weight %} &bull; {{ product.approx_weight }}{% endif %}
             </div>
 
-            <!-- Price Row with Old Price and "Save N%" Discount Badge (Indian Number Format) -->
+            <!-- Price Row with Old Price and "Save N%" Discount Badge -->
             <div class="tile-price-row">
               <span class="tile-current-price" data-price-display>
                 ₹{{ product.current_price|format_inr }}
@@ -335,17 +321,58 @@
               {% endif %}
             </div>
 
-            <!-- High-Contrast Luxury "Add to Bag" Button (Easy to Use, Tactile & Ergonomic) -->
-            <button type="button" class="tile-add-to-bag-btn" data-add-to-bag data-product-id="{{ product.id }}"
-              aria-label="Add {{ product.name }} to bag">
-              <svg class="bag-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" aria-hidden="true">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-              <span>Add to Bag</span>
-            </button>
+            <!-- Metal Dots: Only shown if that product has images for that metal and is in stock -->
+            {% set m_types = [
+            ('yellow_gold', 'Gold', '#E6C687'),
+            ('rose_gold', 'Rose Gold', '#E2A794'),
+            ('platinum', 'Platinum', '#E5E8EC'),
+            ('silver', 'Silver', '#D8DCE0')
+            ] %}
+            {% set valid_metals = [] %}
+            {% for metal_key, metal_label, metal_color in m_types %}
+              {% set metal_info = product.metals.get(metal_key) %}
+              {% if metal_info and metal_info.in_stock and metal_info.has_images %}
+                {% set _ = valid_metals.append((metal_key, metal_label, metal_color, metal_info.price)) %}
+              {% endif %}
+            {% endfor %}
+
+            {% if valid_metals|length > 1 %}
+            <div class="swatches-row" role="group" aria-label="Available metals for {{ product.name }}">
+              {% for metal_key, metal_label, metal_color, metal_price in valid_metals %}
+              <button type="button"
+                class="swatch-btn swatch-{{ metal_key }} {% if metal_key == product.effective_metal %}is-selected{% endif %}"
+                data-metal="{{ metal_key }}" data-price="{{ metal_price }}"
+                aria-label="{{ metal_label }} - ₹{{ metal_price|format_inr }}"
+                style="--metal-color: {{ metal_color }};" {% if metal_key==product.effective_metal %}aria-pressed="true"
+                {% else %}aria-pressed="false" {% endif %}></button>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div class="swatches-row" style="visibility: hidden; min-height: 20px;"></div>
+            {% endif %}
+
+            <!-- "Add to Bag": Full-width outlined button on hover (desktop, fixed height, NO jumping!) / compact always-visible on mobile -->
+            <div class="tile-action-wrap">
+              {% if product.is_one_of_a_kind %}
+              <button type="button" class="tile-add-to-bag-btn is-one-of-a-kind" data-add-to-bag data-product-id="{{ product.id }}"
+                aria-label="Add {{ product.name }} to bag - Only 1 available">
+                <span class="btn-text-desktop">Only 1 Available</span>
+                <span class="btn-text-mobile">Only 1 Available</span>
+              </button>
+              {% elif product.is_made_to_order %}
+              <a href="/#contact?piece={{ product.slug }}" class="tile-add-to-bag-btn is-made-to-order"
+                aria-label="Enquire for bespoke creation {{ product.name }}">
+                <span class="btn-text-desktop">Customise &bull; Enquire</span>
+                <span class="btn-text-mobile">Enquire</span>
+              </a>
+              {% else %}
+              <button type="button" class="tile-add-to-bag-btn" data-add-to-bag data-product-id="{{ product.id }}"
+                aria-label="Add {{ product.name }} to bag">
+                <span class="btn-text-desktop">Add to Bag</span>
+                <span class="btn-text-mobile">Add</span>
+              </button>
+              {% endif %}
+            </div>
 
           </div>
         </article>
@@ -354,21 +381,20 @@
         <!-- Plain, Helpful Empty State Message -->
         <div class="empty-state-tile">
           <p class="empty-state-headline">No jewellery matches your selected filter criteria.</p>
-          <p class="empty-state-subtext">Clear your filters or choose another metal to explore our complete handcrafted
-            inventory.</p>
-          <a href="{{ url_for('category', category_slug=category.slug) }}" class="empty-state-reset-btn">Reset All
-            Filters</a>
+          <p class="empty-state-subtext">Clear your filters or choose another metal to explore our complete handcrafted inventory.</p>
+          <a href="{{ url_for('category', category_slug=category.slug) }}" class="empty-state-reset-btn">Reset All Filters</a>
         </div>
         {% endif %}
       </div>
 
-      <!-- ====================================================================
-           "LOAD MORE" BATCH BUTTON: Showing 8 of 16 pieces
-           ==================================================================== -->
-      {% if products|length > 8 %}
+      <!-- Centred "Load more" button with thin progress line -->
+      {% if products|length > 12 %}
       <div class="load-more-section" id="load-more-section">
+        <div class="load-more-progress-track">
+          <div class="load-more-progress-bar" id="load-more-progress-bar" style="width: {{ (12 / products|length * 100)|round }}%;"></div>
+        </div>
         <p class="load-more-counter" id="load-more-counter">
-          Showing <span id="visible-count">8</span> of {{ products|length }} pieces
+          Showing <span id="visible-count">12</span> of {{ products|length }} pieces
         </p>
         <button type="button" class="load-more-btn" id="load-more-btn">
           Load More Pieces

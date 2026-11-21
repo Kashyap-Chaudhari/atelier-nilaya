@@ -165,18 +165,18 @@
     <div class="products-grid" id="products-grid">
       {% if products %}
       {% for product in products %}
-      <!-- Product Tile: Photographic 360 Spin, Lifestyle Hover, Metal Swatches, Price & Add to Bag -->
+      <!-- Product Card: Pandora-Inspired Clean Minimal Luxury Tile -->
       <article 
         class="product-tile" 
         data-product-id="{{ product.id }}" 
         data-product-slug="{{ product.slug }}"
         data-base-metal="{{ product.base_metal|default:'yellow_gold' }}"
         data-current-metal="{{ product.base_metal|default:'yellow_gold' }}"
-        data-spin-frames="36"
+        data-spin-frames="{{ product.spin_frames|default:'0' }}"
         data-metals='{{ product.metals_json|safe }}'
         data-old-price="{{ product.old_price|default:'' }}"
       >
-        <!-- Tile Visual Stage: Photographic 360 Spin Viewer (Fixed 1:1 Aspect Ratio) -->
+        <!-- Tile Visual Stage: Square 1:1, Soft Neutral #f6f2ea, Contained Jewellery Studio Photo -->
         <div 
           class="tile-stage" 
           data-spin-viewer
@@ -184,17 +184,19 @@
           data-current-metal="{{ product.base_metal|default:'yellow_gold' }}"
           data-spin-frames="{{ product.spin_frames|default:'0' }}"
           data-image-fallback="{{ product.image_url_fallback|default:'' }}"
-          tabindex="0" 
           role="region" 
           aria-label="{{ product.name }}"
         >
+          <!-- Stretched Link to Product Page -->
+          <a href="{% url 'campaigns:product_detail' pk=product.id %}" class="tile-stage-link" aria-label="View details for {{ product.name }}"></a>
           
-          <!-- Optional Tag (NEW, BEST SELLER) -->
+          <!-- Top-Left Tag: At most one tag (New, Made to order, Bestseller) -->
           {% if product.tag %}
           <span class="tile-tag-badge">{{ product.tag }}</span>
           {% endif %}
 
-          <!-- Wishlist Heart Button (Top Right) -->
+          <!-- Top-Right Wishlist Heart Button: 40px White Circle with Thin Border -->
+          {% if request.user.is_authenticated %}
           <button 
             type="button" 
             class="tile-wishlist-btn" 
@@ -207,44 +209,51 @@
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
           </button>
+          {% else %}
+          <a 
+            href="{% url 'campaigns:login' %}?next={{ request.path|urlencode }}&wishlist_add={{ product.id }}" 
+            class="tile-wishlist-btn"
+            aria-label="Sign in to save {{ product.name }} to wishlist"
+          >
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </a>
+          {% endif %}
 
-          <!-- 360 Active Photographic Spin Image or High-Res Curated Product Photo -->
+          <!-- Master High-Resolution Jewellery Photo (Object-Fit: Contain) -->
           <img 
             src="{% if product.has_spin %}/static/products/{{ product.slug }}/{{ product.base_metal|default:'yellow_gold' }}/spin/001.webp{% else %}{{ product.image_url_fallback|default:'/static/campaigns/img/categories/cat-necklaces.jpg' }}{% endif %}" 
-            alt="{{ product.name }}" 
+            data-fallback="{{ product.image_url_fallback }}"
+            alt="{{ product.name }} in {{ product.metal_purity|default:'22K Gold' }}, front view" 
             class="spin-active-img" 
             width="600" 
             height="600"
-            loading="lazy"
-            onerror="if(this.src!=='{{ product.image_url_fallback }}'){this.src='{{ product.image_url_fallback }}';}"
+            {% if forloop.counter <= 4 %}loading="eager" fetchpriority="high"{% else %}loading="lazy" decoding="async"{% endif %}
+            onerror="handleProductImageError(this);"
           >
 
-          <!-- Second View on Hover (Desktop) / Tap (Mobile): Lifestyle Photo -->
+          <!-- Secondary Worn/Angle Photo (Fades on desktop hover or mobile swipe/tap) -->
           <img 
-            src="/static/products/{{ product.slug }}/lifestyle-1.webp" 
-            alt="{{ product.name }} worn on {{ product.lifestyle_body_part|default:'hand' }}" 
+            src="{{ product.lifestyle_photo|default:'/static/lifestyle/lifestyle-product-1.webp' }}" 
+            alt="{{ product.name }} worn on {{ product.lifestyle_body_part|default:'model' }}" 
             class="spin-lifestyle-img" 
             width="600" 
             height="600"
-            loading="lazy"
+            {% if forloop.counter <= 4 %}loading="eager"{% else %}loading="lazy" decoding="async"{% endif %}
             onerror="this.style.display='none';"
           >
 
-          <!-- Neutral Fallback Tile ("Photo coming soon" in identical frame) -->
-          <div class="spin-fallback-tile" hidden aria-hidden="true">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
-              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-              <polyline points="2 17 12 22 22 17"></polyline>
-              <polyline points="2 12 12 17 22 12"></polyline>
-            </svg>
-            <span class="fallback-atelier-title">Atelier Nilaya &bull; Surat</span>
-            <span class="fallback-note">Photographic Archive in Preparation</span>
+          <!-- Small Pagination Dots showing active angle/lifestyle photo -->
+          <div class="tile-image-dots" aria-hidden="true">
+            <span class="image-dot is-active" data-dot="1"></span>
+            <span class="image-dot" data-dot="2"></span>
           </div>
 
-          <!-- Unobtrusive 360 Degree Indicator Badge (Only if real 360 frames exist) -->
+          <!-- Bottom-Right 360° Pill: Shown ONLY when real 360 frames exist -->
           {% if product.has_spin %}
-          <div class="spin-360-badge" aria-hidden="true">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <div class="spin-360-badge" aria-label="360 degree turntable view available">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
             </svg>
             <span>360&deg;</span>
@@ -253,64 +262,24 @@
 
         </div>
 
-        <!-- Tile Information Area Below Stage -->
+        <!-- Under Image: Left-Aligned Information Area -->
         <div class="tile-meta-block">
           
-          <!-- Metal Dots: Yellow gold, Rose gold, Platinum, Silver -->
-          <div class="swatches-row" role="group" aria-label="Metal options for {{ product.name }}">
-            <button 
-              type="button" 
-              class="swatch-btn swatch-yellow_gold {% if product.base_metal == 'yellow_gold' %}is-selected{% endif %}"
-              data-metal="yellow_gold" 
-              data-price="{{ product.price }}"
-              aria-label="Yellow gold - ₹{{ product.price|floatformat:0 }}"
-              style="--metal-color: #E6C687;"
-              {% if product.base_metal == 'yellow_gold' %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
-            ></button>
-            <button 
-              type="button" 
-              class="swatch-btn swatch-rose_gold {% if product.base_metal == 'rose_gold' %}is-selected{% endif %}"
-              data-metal="rose_gold" 
-              data-price="{{ product.price }}"
-              aria-label="Rose gold - ₹{{ product.price|floatformat:0 }}"
-              style="--metal-color: #E2A794;"
-              {% if product.base_metal == 'rose_gold' %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
-            ></button>
-            <button 
-              type="button" 
-              class="swatch-btn swatch-platinum {% if product.base_metal == 'platinum' %}is-selected{% endif %}"
-              data-metal="platinum" 
-              data-price="{{ product.price }}"
-              aria-label="Platinum - ₹{{ product.price|floatformat:0 }}"
-              style="--metal-color: #E5E8EC;"
-              {% if product.base_metal == 'platinum' %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
-            ></button>
-            <button 
-              type="button" 
-              class="swatch-btn swatch-silver {% if product.price > 200000 %}is-disabled{% endif %}"
-              data-metal="silver" 
-              data-price="{{ product.price }}"
-              {% if product.price > 200000 %}disabled aria-label="Silver (Not offered for this piece)"{% else %}aria-label="Silver - ₹{{ product.price|floatformat:0 }}" aria-pressed="false"{% endif %}
-              style="--metal-color: #D8DCE0;"
-            ></button>
-          </div>
-
-          <!-- Product Name Link -->
+          <!-- Product Name (15px semi-bold, max 2 lines, gold underline on hover) -->
           <a href="{% url 'campaigns:product_detail' pk=product.id %}" class="tile-name-link">
             <h2 class="tile-name">{{ product.name }}</h2>
           </a>
 
-          <!-- Metal and Stone Line -->
-          <div class="tile-materials">
-            {{ product.metal_purity }} &bull; {{ product.gemstone_details|default:'Uncut Diamonds' }}
+          <!-- One-line Material Detail (13px muted text) -->
+          <div class="tile-materials" data-material-line>
+            {{ product.metal_purity }}{% if product.gold_weight_grams %} &bull; {{ product.gold_weight_grams|floatformat:1 }} g{% elif product.approx_weight %} &bull; {{ product.approx_weight }}{% endif %}
           </div>
 
-          <!-- Price with Old Price and "Save N%" Discount Badge -->
+          <!-- Price Row (16px semi-bold with struck-through old price) -->
           <div class="tile-price-row">
             <span class="tile-current-price" data-price-display>
               {{ product.formatted_price }}
             </span>
-
             {% if product.old_price %}
             <span class="tile-old-price" data-old-price-display>
               ₹{{ product.old_price|floatformat:0 }}
@@ -324,16 +293,60 @@
             {% endif %}
           </div>
 
-          <!-- "Add to Bag" Text Link -->
-          <button 
-            type="button" 
-            class="tile-add-to-bag-btn" 
-            data-add-to-bag 
-            data-product-id="{{ product.id }}"
-            aria-label="Add {{ product.name }} to bag"
-          >
-            Add to Bag
-          </button>
+          <!-- Metal Selector: Small round swatches below price, selected outlined in gold -->
+          {% if product.available_metals and product.available_metals|length > 1 %}
+          <div class="swatches-row" role="group" aria-label="Available metal tones for {{ product.name }}">
+            {% for metal in product.available_metals %}
+            <button 
+              type="button" 
+              class="swatch-btn swatch-{{ metal.key }} {% if metal.key == product.base_metal %}is-selected{% endif %}"
+              data-metal="{{ metal.key }}" 
+              data-price="{{ metal.price }}"
+              aria-label="{{ metal.label }} - ₹{{ metal.price|floatformat:0 }}"
+              style="--metal-color: {{ metal.color }};"
+              {% if metal.key == product.base_metal %}aria-pressed="true"{% else %}aria-pressed="false"{% endif %}
+            ></button>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="swatches-row" style="visibility: hidden; min-height: 20px;"></div>
+          {% endif %}
+
+          <!-- "Add to Bag": Full-width outlined button on hover (desktop, fixed height, NO jumping!) / compact always-visible on mobile -->
+          <div class="tile-action-wrap">
+            {% if product.is_one_of_a_kind %}
+            <button 
+              type="button" 
+              class="tile-add-to-bag-btn is-one-of-a-kind" 
+              data-add-to-bag 
+              data-product-id="{{ product.id }}"
+              aria-label="Add {{ product.name }} to bag - Only 1 available"
+            >
+              <span class="btn-text-desktop">Only 1 Available</span>
+              <span class="btn-text-mobile">Only 1 Available</span>
+            </button>
+            {% elif product.is_made_to_order %}
+            <a 
+              href="/#contact?piece={{ product.slug }}" 
+              class="tile-add-to-bag-btn is-made-to-order" 
+              aria-label="Enquire for custom bespoke creation {{ product.name }}"
+            >
+              <span class="btn-text-desktop">Customise &bull; Enquire</span>
+              <span class="btn-text-mobile">Enquire</span>
+            </a>
+            {% else %}
+            <button 
+              type="button" 
+              class="tile-add-to-bag-btn" 
+              data-add-to-bag 
+              data-product-id="{{ product.id }}"
+              aria-label="Add {{ product.name }} to bag"
+            >
+              <span class="btn-text-desktop">Add to Bag</span>
+              <span class="btn-text-mobile">Add</span>
+            </button>
+            {% endif %}
+          </div>
 
         </div>
       </article>
@@ -347,11 +360,14 @@
       {% endif %}
     </div>
 
-    <!-- "LOAD MORE" BATCH BUTTON -->
-    {% if products|length > 8 %}
+    <!-- Centred "Load more" button with thin progress line -->
+    {% if products|length > 12 %}
     <div class="load-more-section" id="load-more-section">
+      <div class="load-more-progress-track">
+        <div class="load-more-progress-bar" id="load-more-progress-bar" style="width: {% widthratio 12 products|length 100 %}%;"></div>
+      </div>
       <p class="load-more-counter" id="load-more-counter">
-        Showing <span id="visible-count">8</span> of {{ products|length }} pieces
+        Showing <span id="visible-count">12</span> of {{ products|length }} pieces
       </p>
       <button type="button" class="load-more-btn" id="load-more-btn">
         Load More Pieces

@@ -511,6 +511,20 @@
           if (this.oldPriceEl) this.oldPriceEl.style.display = 'none';
           if (this.saveBadgeEl) this.saveBadgeEl.style.display = 'none';
         }
+
+        // Update material line label if present
+        if (this.tileRoot) {
+          const matEl = this.tileRoot.querySelector('[data-material-line]');
+          if (matEl && metalInfo && metalInfo.label) {
+            const currentText = matEl.textContent;
+            const parts = currentText.split('•');
+            if (parts.length > 1) {
+              matEl.textContent = `${metalInfo.label} •${parts.slice(1).join('•')}`;
+            } else {
+              matEl.textContent = metalInfo.label;
+            }
+          }
+        }
       }
     }
 
