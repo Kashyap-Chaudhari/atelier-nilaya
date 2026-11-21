@@ -5,25 +5,33 @@
 
 {% block extra_head %}
 <style>
+.confirmed-page-stage {
+  min-height: 85vh;
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 36px);
+  padding-bottom: 90px;
+  padding-left: clamp(16px, 3.5vw, 40px);
+  padding-right: clamp(16px, 3.5vw, 40px);
+  background: linear-gradient(180deg, #FBF8F2 0%, #F5EFEB 100%);
+}
+
 .confirmed-page-container {
   max-width: 860px;
-  margin: 40px auto 80px;
-  padding: 0 24px;
+  margin: 0 auto;
 }
 
 .confirmed-hero-card {
-  background: #141311;
-  border: 1px solid rgba(173, 145, 97, 0.35);
-  border-radius: 6px;
-  padding: 44px 36px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.16);
+  border-radius: 8px;
+  padding: clamp(28px, 4vw, 44px) clamp(20px, 3.5vw, 36px);
   text-align: center;
-  margin-bottom: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  margin-bottom: 28px;
+  box-shadow: 0 8px 32px rgba(48, 37, 34, 0.05);
 }
 
 .confirmed-crest {
   font-size: 32px;
-  color: #d9b56b;
+  color: #c5a059;
   margin-bottom: 12px;
 }
 
@@ -31,47 +39,49 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(1.8rem, 3vw, 2.4rem);
   font-weight: 500;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 10px;
 }
 
 .confirmed-order-pill {
   display: inline-block;
-  background: rgba(100, 45, 59, 0.35);
-  border: 1px solid #AD9161;
-  color: #d9b56b;
+  background: rgba(104, 45, 60, 0.08);
+  border: 1px solid rgba(104, 45, 60, 0.2);
+  color: #682D3C;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   padding: 6px 18px;
-  border-radius: 4px;
+  border-radius: 20px;
   margin-bottom: 20px;
 }
 
 .confirmed-desc {
   font-size: 0.95rem;
   line-height: 1.7;
-  color: rgba(248, 245, 240, 0.7);
+  color: #705953;
   max-width: 620px;
   margin: 0 auto 24px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .confirmed-details-card {
-  background: #141311;
-  border: 1px solid rgba(173, 145, 97, 0.22);
-  border-radius: 6px;
-  padding: 28px;
-  margin-bottom: 28px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.16);
+  border-radius: 8px;
+  padding: clamp(20px, 3.5vw, 28px);
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(48, 37, 34, 0.04);
 }
 
 .confirmed-section-heading {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.35rem;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 16px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(173, 145, 97, 0.2);
+  border-bottom: 1px solid rgba(104, 45, 60, 0.12);
 }
 
 .confirmed-item-row {
@@ -79,25 +89,27 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(173, 145, 97, 0.1);
+  border-bottom: 1px solid rgba(104, 45, 60, 0.1);
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .confirmed-item-name {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 1.1rem;
-  color: #F8F5F0;
+  font-size: 1.15rem;
+  color: #302522;
   margin: 0 0 4px;
 }
 
 .confirmed-item-meta {
   font-size: 0.76rem;
-  color: rgba(248, 245, 240, 0.55);
+  color: #705953;
 }
 
 .confirmed-item-price {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #d9b56b;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #682D3C;
+  font-family: 'Cormorant Garamond', Georgia, serif;
 }
 
 .confirmed-actions-row {
@@ -109,17 +121,17 @@
 }
 
 .btn-confirmed-primary {
-  height: 48px;
+  height: 46px;
   padding: 0 24px;
-  background: #642D3B;
-  border: 1px solid #AD9161;
-  color: #F8F5F0;
+  background: #682D3C;
+  border: 1px solid #4F1F2C;
+  color: #FFFFFF;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.82rem;
+  font-size: 0.80rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -128,21 +140,23 @@
 }
 
 .btn-confirmed-primary:hover {
-  background: #7a3648;
+  background: #4F1F2C;
+  box-shadow: 0 4px 14px rgba(104, 45, 60, 0.2);
+  transform: translateY(-1px);
 }
 
 .btn-confirmed-secondary {
-  height: 48px;
+  height: 46px;
   padding: 0 24px;
-  background: transparent;
-  border: 1px solid rgba(173, 145, 97, 0.4);
-  color: #d9b56b;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.25);
+  color: #682D3C;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.82rem;
+  font-size: 0.80rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -150,156 +164,158 @@
 }
 
 .btn-confirmed-secondary:hover {
-  background: rgba(173, 145, 97, 0.1);
+  background: rgba(104, 45, 60, 0.05);
+  border-color: #682D3C;
 }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="confirmed-page-container">
-  
-  <div class="confirmed-hero-card">
-    <div class="confirmed-crest">✦</div>
-    <span style="font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: #AD9161; display: block; margin-bottom: 8px;">
-      Atelier Nilaya &bull; Surat &bull; Est. 1954
-    </span>
-    {% if order.status == 'awaiting_transfer' or request.GET.method == 'bank_transfer' %}
-    <h1 class="confirmed-title">Order Reserved &bull; Awaiting Bank Transfer</h1>
-    <div class="confirmed-order-pill" style="background: rgba(217, 181, 107, 0.15); border-color: #d9b56b; color: #d9b56b;">
-      Order Reference: {{ order.order_number }} &bull; Stock Held for 24 Hours
-    </div>
+<section class="confirmed-page-stage">
+  <div class="confirmed-page-container">
     
-    <p class="confirmed-desc">
-      Thank you, {{ order.customer_name }}. Your heirloom piece has been exclusively reserved and taken off public acquisition for <strong>24 hours</strong>. Please complete the RTGS / NEFT transfer using the atelier bank details below to finalize confirmation.
-    </p>
-
-    <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #d9b56b; background: rgba(217, 181, 107, 0.1); border: 1px solid rgba(217, 181, 107, 0.3); padding: 8px 16px; border-radius: 4px;">
-      <span>⏱</span>
-      <span>Stock reservation active. Bank transfer instructions and folio details emailed to {{ order.customer_email }}.</span>
-    </div>
-    {% else %}
-    <h1 class="confirmed-title">Your Heirloom Chapter Has Begun</h1>
-    <div class="confirmed-order-pill">Order Reference: {{ order.order_number }}</div>
-    
-    <p class="confirmed-desc">
-      Thank you, {{ order.customer_name }}. Your acquisition has been recorded in the atelier folio. 
-      Our master craftsmen have received your bench specifications, and our dispatch desk will prepare your hallmarked presentation box for insured white-glove transit.
-    </p>
-
-    <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #9cd18b; background: rgba(156, 209, 139, 0.1); border: 1px solid rgba(156, 209, 139, 0.3); padding: 8px 16px; border-radius: 4px;">
-      <span>✓</span>
-      <span>A full GST tax invoice and digital hallmark registry have been emailed to {{ order.customer_email }}.</span>
-    </div>
-    {% endif %}
-  </div>
-
-  {% if order.status == 'awaiting_transfer' or request.GET.method == 'bank_transfer' %}
-  <!-- Dedicated Bank Transfer Instructions Card -->
-  <div class="confirmed-details-card" style="border-color: #AD9161; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(173, 145, 97, 0.2); padding-bottom: 12px; margin-bottom: 16px;">
-      <h2 class="confirmed-section-heading" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">Atelier Bank Transfer Details (RTGS / NEFT)</h2>
-      <span style="font-size: 0.72rem; color: #d9b56b; background: rgba(173, 145, 97, 0.15); border: 1px solid #AD9161; padding: 4px 10px; border-radius: 4px; font-weight: 600;">
-        24-Hour Vault Hold
+    <div class="confirmed-hero-card">
+      <div class="confirmed-crest">✦</div>
+      <span style="font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: #682D3C; font-weight: 700; display: block; margin-bottom: 8px; font-family: var(--font-sans, 'Manrope', sans-serif);">
+        Atelier Nilaya &bull; Surat &bull; Est. 1954
       </span>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; font-size: 0.88rem; color: rgba(248, 245, 240, 0.85); margin-bottom: 20px;">
-      <div style="background: rgba(255, 255, 255, 0.02); padding: 12px 14px; border-radius: 4px; border: 1px solid rgba(173, 145, 97, 0.15);">
-        <small style="color: rgba(248, 245, 240, 0.5); display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Beneficiary Account Name</small>
-        <strong style="color: #F8F5F0;">Atelier Nilaya Private Limited</strong>
+      {% if order.status == 'awaiting_transfer' or request.GET.method == 'bank_transfer' %}
+      <h1 class="confirmed-title">Order Reserved &bull; Awaiting Bank Transfer</h1>
+      <div class="confirmed-order-pill">
+        Order Reference: {{ order.order_number }} &bull; Stock Held for 24 Hours
       </div>
-      <div style="background: rgba(255, 255, 255, 0.02); padding: 12px 14px; border-radius: 4px; border: 1px solid rgba(173, 145, 97, 0.15);">
-        <small style="color: rgba(248, 245, 240, 0.5); display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Bank &amp; Branch</small>
-        <strong style="color: #F8F5F0;">HDFC Bank, Surat Main Branch</strong>
-      </div>
-      <div style="background: rgba(255, 255, 255, 0.02); padding: 12px 14px; border-radius: 4px; border: 1px solid rgba(173, 145, 97, 0.15);">
-        <small style="color: rgba(248, 245, 240, 0.5); display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Current Account Number</small>
-        <strong style="color: #d9b56b; font-size: 1rem; letter-spacing: 0.05em;">9540 1954 8821 00</strong>
-      </div>
-      <div style="background: rgba(255, 255, 255, 0.02); padding: 12px 14px; border-radius: 4px; border: 1px solid rgba(173, 145, 97, 0.15);">
-        <small style="color: rgba(248, 245, 240, 0.5); display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">IFSC Code</small>
-        <strong style="color: #d9b56b; font-size: 1rem; letter-spacing: 0.05em;">HDFC0001954</strong>
-      </div>
-    </div>
-
-    <div style="background: rgba(100, 45, 59, 0.2); border: 1px solid rgba(173, 145, 97, 0.25); border-radius: 4px; padding: 14px; font-size: 0.82rem; line-height: 1.6; color: rgba(248, 245, 240, 0.75);">
-      <p style="margin: 0 0 6px;">
-        <strong style="color: #F8F5F0;">Important Transfer Note:</strong> Please include your Order Reference <strong>{{ order.order_number }}</strong> in the remarks/narration field of your transfer.
+      
+      <p class="confirmed-desc">
+        Thank you, {{ order.customer_name }}. Your heirloom piece has been exclusively reserved and taken off public acquisition for <strong>24 hours</strong>. Please complete the RTGS / NEFT transfer using the atelier bank details below to finalize confirmation.
       </p>
-      <p style="margin: 0;">
-        Once your funds arrive, our accounts desk confirms the order automatically, and a confirmation receipt with hallmark folio will be sent to your WhatsApp and email.
+
+      <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #682D3C; background: rgba(104, 45, 60, 0.08); border: 1px solid rgba(104, 45, 60, 0.2); padding: 8px 16px; border-radius: 20px; font-family: var(--font-sans, 'Manrope', sans-serif);">
+        <span>⏱</span>
+        <span>Stock reservation active. Bank transfer instructions and folio details emailed to {{ order.customer_email }}.</span>
+      </div>
+      {% else %}
+      <h1 class="confirmed-title">Your Heirloom Chapter Has Begun</h1>
+      <div class="confirmed-order-pill">Order Reference: {{ order.order_number }}</div>
+      
+      <p class="confirmed-desc">
+        Thank you, {{ order.customer_name }}. Your acquisition has been recorded in the atelier folio. 
+        Our master craftsmen have received your bench specifications, and our dispatch desk will prepare your hallmarked presentation box for insured white-glove transit.
       </p>
+
+      <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #065f46; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 16px; border-radius: 20px; font-family: var(--font-sans, 'Manrope', sans-serif);">
+        <span>✓</span>
+        <span>A full GST tax invoice and digital hallmark registry have been emailed to {{ order.customer_email }}.</span>
+      </div>
+      {% endif %}
     </div>
-  </div>
-  {% endif %}
-  </div>
 
-  <!-- Acquisition Items & Price Breakdown -->
-  <div class="confirmed-details-card">
-    <h2 class="confirmed-section-heading">Acquisition Specifications</h2>
+    {% if order.status == 'awaiting_transfer' or request.GET.method == 'bank_transfer' %}
+    <!-- Dedicated Bank Transfer Instructions Card -->
+    <div class="confirmed-details-card" style="border-color: rgba(104, 45, 60, 0.25);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(104, 45, 60, 0.12); padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <h2 class="confirmed-section-heading" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">Atelier Bank Transfer Details (RTGS / NEFT)</h2>
+        <span style="font-size: 0.72rem; color: #682D3C; background: rgba(104, 45, 60, 0.08); border: 1px solid rgba(104, 45, 60, 0.2); padding: 4px 10px; border-radius: 20px; font-weight: 700; font-family: var(--font-sans, 'Manrope', sans-serif);">
+          24-Hour Vault Hold
+        </span>
+      </div>
 
-    {% for item in order.items.all %}
-    <div class="confirmed-item-row">
-      <div>
-        <h3 class="confirmed-item-name">{{ item.product_name }}</h3>
-        <div class="confirmed-item-meta">
-          {{ item.metal|title|cut:"_" }} &bull; Quantity: {{ item.quantity }}
-          {% if item.size and item.size != 'Standard' %} &bull; Size: {{ item.size }}{% endif %}
-          {% if item.engraving_text %}&bull; Engraving: “{{ item.engraving_text }}”{% endif %}
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; font-size: 0.88rem; color: #302522; margin-bottom: 20px; font-family: var(--font-sans, 'Manrope', sans-serif);">
+        <div style="background: #FAF8F5; padding: 14px 16px; border-radius: 6px; border: 1px solid rgba(104, 45, 60, 0.12);">
+          <small style="color: #705953; display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Beneficiary Account Name</small>
+          <strong style="color: #302522;">Atelier Nilaya Private Limited</strong>
+        </div>
+        <div style="background: #FAF8F5; padding: 14px 16px; border-radius: 6px; border: 1px solid rgba(104, 45, 60, 0.12);">
+          <small style="color: #705953; display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Bank &amp; Branch</small>
+          <strong style="color: #302522;">HDFC Bank, Surat Main Branch</strong>
+        </div>
+        <div style="background: #FAF8F5; padding: 14px 16px; border-radius: 6px; border: 1px solid rgba(104, 45, 60, 0.12);">
+          <small style="color: #705953; display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Current Account Number</small>
+          <strong style="color: #682D3C; font-size: 1rem; letter-spacing: 0.05em;">9540 1954 8821 00</strong>
+        </div>
+        <div style="background: #FAF8F5; padding: 14px 16px; border-radius: 6px; border: 1px solid rgba(104, 45, 60, 0.12);">
+          <small style="color: #705953; display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">IFSC Code</small>
+          <strong style="color: #682D3C; font-size: 1rem; letter-spacing: 0.05em;">HDFC0001954</strong>
         </div>
       </div>
-      <div class="confirmed-item-price">
-        ₹{{ item.total_price|floatformat:0 }}
+
+      <div style="background: #FAF6F0; border: 1px solid rgba(104, 45, 60, 0.16); border-radius: 6px; padding: 14px 16px; font-size: 0.82rem; line-height: 1.6; color: #554440; font-family: var(--font-sans, 'Manrope', sans-serif);">
+        <p style="margin: 0 0 6px;">
+          <strong style="color: #302522;">Important Transfer Note:</strong> Please include your Order Reference <strong>{{ order.order_number }}</strong> in the remarks/narration field of your transfer.
+        </p>
+        <p style="margin: 0;">
+          Once your funds arrive, our accounts desk confirms the order automatically, and a confirmation receipt with hallmark folio will be sent to your WhatsApp and email.
+        </p>
       </div>
     </div>
-    {% endfor %}
+    {% endif %}
 
-    <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(173, 145, 97, 0.2); display: flex; flex-direction: column; gap: 8px; font-size: 0.84rem; color: rgba(248, 245, 240, 0.7);">
-      <div style="display: flex; justify-content: space-between;">
-        <span>Bullion Value (Live Zaveri Rate):</span>
-        <span>₹{{ order.total_gold_value|floatformat:0 }}</span>
+    <!-- Acquisition Items & Price Breakdown -->
+    <div class="confirmed-details-card">
+      <h2 class="confirmed-section-heading">Acquisition Specifications</h2>
+
+      {% for item in order.items.all %}
+      <div class="confirmed-item-row">
+        <div>
+          <h3 class="confirmed-item-name">{{ item.product_name }}</h3>
+          <div class="confirmed-item-meta">
+            {{ item.metal|title|cut:"_" }} &bull; Quantity: {{ item.quantity }}
+            {% if item.size and item.size != 'Standard' %} &bull; Size: {{ item.size }}{% endif %}
+            {% if item.engraving_text %}&bull; Engraving: “{{ item.engraving_text }}”{% endif %}
+          </div>
+        </div>
+        <div class="confirmed-item-price">
+          ₹{{ item.total_price|floatformat:0 }}
+        </div>
       </div>
-      <div style="display: flex; justify-content: space-between;">
-        <span>Bench Making Charge:</span>
-        <span>₹{{ order.total_making_charge|floatformat:0 }}</span>
-      </div>
-      {% if order.total_stone_value > 0 %}
-      <div style="display: flex; justify-content: space-between;">
-        <span>Stones &amp; Certified Diamonds:</span>
-        <span>₹{{ order.total_stone_value|floatformat:0 }}</span>
-      </div>
-      {% endif %}
-      <div style="display: flex; justify-content: space-between;">
-        <span>GST (3%):</span>
-        <span>₹{{ order.gst_amount|floatformat:0 }}</span>
-      </div>
-      {% if order.discount_amount > 0 %}
-      <div style="display: flex; justify-content: space-between; color: #9cd18b;">
-        <span>Privilege Discount:</span>
-        <span>-₹{{ order.discount_amount|floatformat:0 }}</span>
-      </div>
-      {% endif %}
-      <div style="display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 700; color: #F8F5F0; padding-top: 10px; border-top: 1px solid rgba(173, 145, 97, 0.2);">
-        <span>Total Amount:</span>
-        <span style="color: #d9b56b; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;">₹{{ order.total_amount|floatformat:0 }}</span>
+      {% endfor %}
+
+      <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(104, 45, 60, 0.12); display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; color: #705953; font-family: var(--font-sans, 'Manrope', sans-serif);">
+        <div style="display: flex; justify-content: space-between;">
+          <span>Bullion Value (Live Zaveri Rate):</span>
+          <span style="color: #302522;">₹{{ order.total_gold_value|floatformat:0 }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>Bench Making Charge:</span>
+          <span style="color: #302522;">₹{{ order.total_making_charge|floatformat:0 }}</span>
+        </div>
+        {% if order.total_stone_value > 0 %}
+        <div style="display: flex; justify-content: space-between;">
+          <span>Stones &amp; Certified Diamonds:</span>
+          <span style="color: #302522;">₹{{ order.total_stone_value|floatformat:0 }}</span>
+        </div>
+        {% endif %}
+        <div style="display: flex; justify-content: space-between;">
+          <span>GST (3%):</span>
+          <span style="color: #302522;">₹{{ order.gst_amount|floatformat:0 }}</span>
+        </div>
+        {% if order.discount_amount > 0 %}
+        <div style="display: flex; justify-content: space-between; color: #065f46;">
+          <span>Privilege Discount:</span>
+          <span>-₹{{ order.discount_amount|floatformat:0 }}</span>
+        </div>
+        {% endif %}
+        <div style="display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 700; color: #302522; padding-top: 10px; border-top: 1px solid rgba(104, 45, 60, 0.12);">
+          <span>Total Settled:</span>
+          <span style="color: #682D3C; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;">₹{{ order.total_amount|floatformat:0 }}</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Delivery Information -->
-  <div class="confirmed-details-card">
-    <h2 class="confirmed-section-heading">Insured Delivery Destination</h2>
-    <p style="font-size: 0.88rem; line-height: 1.6; color: rgba(248, 245, 240, 0.8); white-space: pre-line; margin: 0;">
-      {{ order.shipping_address_text }}
-    </p>
-  </div>
+    <!-- Delivery Information -->
+    <div class="confirmed-details-card">
+      <h2 class="confirmed-section-heading">Insured Delivery Destination</h2>
+      <p style="font-size: 0.88rem; line-height: 1.6; color: #302522; white-space: pre-line; margin: 0; font-family: var(--font-sans, 'Manrope', sans-serif);">
+        {{ order.shipping_address_text }}
+      </p>
+    </div>
 
-  <div class="confirmed-actions-row">
-    <a href="{% url 'campaigns:vault' %}" class="btn-confirmed-primary">Return to The Vault</a>
-    <a href="https://wa.me/919825100000?text=Hello%20Atelier%20Nilaya,%20inquiring%20about%20Order%20{{ order.order_number }}" target="_blank" rel="noopener" class="btn-confirmed-secondary">
-      Concierge Assistance on WhatsApp &rarr;
-    </a>
-  </div>
+    <div class="confirmed-actions-row">
+      <a href="{% url 'campaigns:vault' %}" class="btn-confirmed-primary">Return to The Vault</a>
+      <a href="https://wa.me/919825100000?text=Hello%20Atelier%20Nilaya,%20inquiring%20about%20Order%20{{ order.order_number }}" target="_blank" rel="noopener" class="btn-confirmed-secondary">
+        Concierge Assistance on WhatsApp &rarr;
+      </a>
+    </div>
 
-</div>
+  </div>
+</section>
 {% endblock %}

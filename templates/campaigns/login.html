@@ -6,16 +6,19 @@
 {% block extra_head %}
 <style>
 /* ==========================================================================
-   ATELIER NILAYA — CALM LUXURY AUTHENTICATION PAGE
+   ATELIER NILAYA — CALM LUXURY AUTHENTICATION PAGE (Ivory & Burgundy Theme)
    ========================================================================== */
 
 .nilaya-login-stage {
-  min-height: 80vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 24px 100px;
-  background: radial-gradient(circle at 50% 20%, rgba(104, 45, 60, 0.12) 0%, rgba(14, 14, 12, 0) 70%), #0E0E0C;
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 36px);
+  padding-bottom: 90px;
+  padding-left: clamp(16px, 3.5vw, 40px);
+  padding-right: clamp(16px, 3.5vw, 40px);
+  background: linear-gradient(180deg, #FBF8F2 0%, #F5EFEB 100%);
 }
 
 .nilaya-login-container {
@@ -45,7 +48,7 @@
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #d9b56b;
+  color: #682D3C;
   display: block;
   margin-bottom: 12px;
 }
@@ -55,7 +58,7 @@
   font-size: clamp(2.4rem, 3.8vw, 3.2rem);
   font-weight: 500;
   line-height: 1.15;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 16px;
 }
 
@@ -63,7 +66,7 @@
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.95rem;
   line-height: 1.6;
-  color: rgba(248, 245, 240, 0.72);
+  color: #705953;
   margin: 0 0 28px;
 }
 
@@ -71,7 +74,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border-top: 1px solid rgba(217, 181, 107, 0.2);
+  border-top: 1px solid rgba(104, 45, 60, 0.12);
   padding-top: 24px;
 }
 
@@ -80,21 +83,22 @@
   align-items: center;
   gap: 12px;
   font-size: 0.84rem;
-  color: rgba(248, 245, 240, 0.78);
+  color: #302522;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .nilaya-perk-bullet {
-  color: #d9b56b;
+  color: #c5a059;
   font-size: 14px;
 }
 
 /* Right Form Card */
 .nilaya-login-card {
-  background: #141311;
-  border: 1px solid rgba(217, 181, 107, 0.3);
-  border-radius: 6px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.16);
+  border-radius: 8px;
   padding: clamp(28px, 4vw, 40px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 16px 42px rgba(48, 37, 34, 0.08);
   position: relative;
 }
 
@@ -102,14 +106,15 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.9rem;
   font-weight: 500;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 8px;
 }
 
 .nilaya-card-subtitle {
   font-size: 0.88rem;
-  color: rgba(248, 245, 240, 0.65);
+  color: #705953;
   margin: 0 0 24px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 /* Alert Boxes */
@@ -119,18 +124,19 @@
   font-size: 0.84rem;
   line-height: 1.45;
   margin-bottom: 20px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .nilaya-alert-error {
-  background: rgba(185, 28, 28, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #991b1b;
 }
 
 .nilaya-alert-success {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #065f46;
 }
 
 /* Form Controls */
@@ -144,8 +150,9 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #d9b56b;
+  color: #682D3C;
   margin-bottom: 8px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .nilaya-input-wrap {
@@ -155,20 +162,21 @@
 .nilaya-form-input {
   width: 100%;
   box-sizing: border-box;
-  background: #1c0b13;
-  border: 1px solid rgba(217, 181, 107, 0.35);
+  background: #FAF8F5;
+  border: 1px solid rgba(104, 45, 60, 0.2);
   border-radius: 6px;
   padding: 13px 16px;
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.95rem;
-  color: #F8F5F0;
+  color: #302522;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .nilaya-form-input:focus {
-  border-color: #d9b56b;
-  box-shadow: 0 0 0 3px rgba(217, 181, 107, 0.18);
+  border-color: #682D3C;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(104, 45, 60, 0.1);
 }
 
 .nilaya-password-toggle {
@@ -178,17 +186,18 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: rgba(248, 245, 240, 0.55);
+  color: #705953;
   font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   padding: 4px 8px;
+  transition: color 0.2s;
 }
 
 .nilaya-password-toggle:hover {
-  color: #d9b56b;
+  color: #682D3C;
 }
 
 /* Options Row */
@@ -198,32 +207,34 @@
   align-items: center;
   margin-bottom: 24px;
   font-size: 0.82rem;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .nilaya-remember-label {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: rgba(248, 245, 240, 0.78);
+  color: #302522;
   cursor: pointer;
   user-select: none;
 }
 
 .nilaya-remember-label input[type="checkbox"] {
-  accent-color: #d9b56b;
+  accent-color: #682D3C;
   width: 16px;
   height: 16px;
   cursor: pointer;
 }
 
 .nilaya-link-gold {
-  color: #d9b56b;
+  color: #682D3C;
   text-decoration: none;
+  font-weight: 600;
   transition: color 0.2s;
 }
 
 .nilaya-link-gold:hover {
-  color: #F8F5F0;
+  color: #4F1F2C;
   text-decoration: underline;
 }
 
@@ -231,21 +242,23 @@
 .nilaya-auth-btn {
   width: 100%;
   padding: 14px 24px;
-  background: #d9b56b;
-  color: #1c0b13;
-  border: none;
+  background: #682D3C;
+  color: #FFFFFF;
+  border: 1px solid #4F1F2C;
   border-radius: 6px;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.15s;
+  transition: all 0.2s ease;
 }
 
 .nilaya-auth-btn:hover {
-  background: #ecd59b;
+  background: #4F1F2C;
+  box-shadow: 0 4px 14px rgba(104, 45, 60, 0.2);
+  transform: translateY(-1px);
 }
 
 .nilaya-auth-btn:active {
@@ -256,13 +269,14 @@
 .nilaya-card-footer {
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid rgba(217, 181, 107, 0.18);
+  border-top: 1px solid rgba(104, 45, 60, 0.12);
   display: flex;
   flex-direction: column;
   gap: 12px;
   text-align: center;
   font-size: 0.82rem;
-  color: rgba(248, 245, 240, 0.65);
+  color: #705953;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 </style>
 {% endblock %}

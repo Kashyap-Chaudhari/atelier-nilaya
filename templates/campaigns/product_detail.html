@@ -39,14 +39,15 @@
         role="region" 
         aria-label="High-resolution interactive 360° view of {{ product.name }}. Drag or use arrow keys to rotate."
       >
-        <!-- 360 Spin Active Image -->
+        <!-- 360 Spin Active Image or High-Res Curated Product Photo -->
         <img 
           id="product-spin-img"
-          src="/static/products/{{ product.slug }}/{{ selected_metal }}/spin/001.webp" 
-          alt="{{ product.name }} 360° turntable view in {{ selected_metal }}" 
+          src="{% if product.has_spin %}/static/products/{{ product.slug }}/{{ selected_metal }}/spin/001.webp{% else %}{{ product.image_url_fallback }}{% endif %}" 
+          alt="{{ product.name }} in {{ selected_metal }}" 
           class="spin-active-img" 
           width="800" 
           height="800"
+          onerror="if(this.src!=='{{ product.image_url_fallback }}'){this.src='{{ product.image_url_fallback }}';}"
         >
 
         <!-- Still Angle Image (Front, Side, Top, Lifestyle) -->
@@ -58,8 +59,10 @@
           style="display: none;"
           width="800" 
           height="800"
+          onerror="this.style.display='none';"
         >
 
+        {% if product.has_spin %}
         <!-- 360 Degree Indicator Badge -->
         <div class="spin-360-badge" aria-hidden="true">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -69,11 +72,13 @@
         </div>
 
         <div class="viewer-hint">Drag horizontally to scrub 360&deg; &bull; Arrow keys step 1 frame</div>
+        {% endif %}
       </div>
 
       <!-- Thumbnail Strip: 360 Spin, Front, Side, Top, Lifestyle -->
       <div class="product-thumbnails-strip" role="tablist" aria-label="Select angle or 360 spin view">
         
+        {% if product.has_spin %}
         <!-- 360 Spin Thumbnail Button -->
         <button 
           type="button" 
@@ -90,6 +95,7 @@
           >
           <span class="thumb-label">360&deg; Spin</span>
         </button>
+        {% endif %}
 
         <!-- Front Angle Thumbnail -->
         <button 

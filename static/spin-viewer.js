@@ -93,11 +93,12 @@
 
       // Frame count and 12-frame minimum check
       const currentMetalInfo = this.metalsData[this.currentMetal];
+      const framesAttr = this.container.getAttribute('data-spin-frames');
       const framesCount = (currentMetalInfo && typeof currentMetalInfo.frames === 'number') 
         ? currentMetalInfo.frames 
-        : parseInt(this.container.getAttribute('data-spin-frames') || this.options.totalFrames, 10);
+        : (framesAttr !== null ? parseInt(framesAttr, 10) : 36);
 
-      this.totalFrames = framesCount || 36;
+      this.totalFrames = isNaN(framesCount) ? 0 : framesCount;
       this.canSpin = this.totalFrames >= 12;
 
       // Preloaded image caches: { metal: { 1: HTMLImageElement, ... } }
@@ -215,29 +216,34 @@
       }
       this.currentFrame = frameIdx;
 
+      const fallbackAttr = this.container.getAttribute('data-image-fallback');
       const targetSrc = this.canSpin 
         ? this.getFramePath(frameIdx, this.currentMetal)
-        : this.getStillPath('front', this.currentMetal);
+        : (fallbackAttr || this.getStillPath('front', this.currentMetal));
 
-      // Robust fallback handling: Spin -> front.webp -> "Photo coming soon"
+      // Robust fallback handling: Spin -> front.webp / fallback -> "Photo coming soon"
       this.imgEl.onerror = () => {
-        console.warn(`[Atelier Nilaya Image 404] Failed to load: ${this.imgEl.src} (Product: ${this.slug}, Metal: ${this.currentMetal})`);
-        
-        if (this.fallbackStep === 0) {
-          // Attempt 1: fallback to front still view
+        if (this.fallbackStep === 0 && fallbackAttr && this.imgEl.src !== fallbackAttr) {
           this.fallbackStep = 1;
-          const frontSrc = this.getStillPath('front', this.currentMetal);
-          this.imgEl.src = frontSrc;
-        } else {
-          // Attempt 2: fallback to neutral "Photo coming soon" tile
+          this.imgEl.src = fallbackAttr;
+        } else if (this.fallbackStep <= 1) {
           this.fallbackStep = 2;
+          const frontSrc = this.getStillPath('front', this.currentMetal);
+          if (frontSrc && this.imgEl.src !== frontSrc) {
+            this.imgEl.src = frontSrc;
+          } else {
+            this.fallbackStep = 3;
+            this.imgEl.style.display = 'none';
+            if (this.fallbackTileEl) {
+              this.fallbackTileEl.removeAttribute('hidden');
+              this.fallbackTileEl.style.display = 'flex';
+            }
+          }
+        } else {
           this.imgEl.style.display = 'none';
           if (this.fallbackTileEl) {
             this.fallbackTileEl.removeAttribute('hidden');
             this.fallbackTileEl.style.display = 'flex';
-          }
-          if (this.indicatorEl) {
-            this.indicatorEl.style.display = 'none';
           }
         }
       };

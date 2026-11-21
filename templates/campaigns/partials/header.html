@@ -99,7 +99,7 @@
   letter-spacing: 0.04em;
   color: #302522;
   white-space: nowrap;
-  max-width: 120px;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -141,22 +141,21 @@
   transform: translateY(-1px);
 }
 
-/* 2. Bespoke Luxury Patron Dropdown Panel */
+/* 2. Bespoke Luxury Patron Dropdown Panel (Website Ivory/Burgundy Theme) */
 .customer-menu-dropdown.patron-folio-dropdown {
   display: none;
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  width: 275px;
-  background: linear-gradient(175deg, #1A1016 0%, #110B0E 100%);
-  border: 1px solid rgba(217, 181, 107, 0.35);
-  border-radius: 10px;
-  box-shadow: 0 20px 48px -6px rgba(0, 0, 0, 0.75), 0 0 1px rgba(217, 181, 107, 0.5);
+  width: 285px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.16);
+  border-top: 2px solid #d9b56b;
+  border-radius: 8px;
+  box-shadow: 0 18px 42px -4px rgba(48, 37, 34, 0.15), 0 2px 8px rgba(104, 45, 60, 0.06);
   padding: 0;
   z-index: 1000;
   overflow: hidden;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   transform-origin: top right;
   animation: patronDropdownFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -179,24 +178,24 @@
 /* Patron Header Card in Dropdown */
 .patron-dropdown-header {
   padding: 16px 18px 14px;
-  background: radial-gradient(ellipse at top right, rgba(104, 45, 60, 0.45) 0%, rgba(20, 11, 16, 0) 75%);
-  border-bottom: 1px solid rgba(217, 181, 107, 0.18);
+  background: linear-gradient(135deg, #FAF6F0 0%, #F5EFEB 100%);
+  border-bottom: 1px solid rgba(104, 45, 60, 0.12);
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .patron-header-avatar {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4F1F2C 0%, #1F0811 100%);
+  background: linear-gradient(135deg, #682D3C 0%, #3B121D 100%);
   border: 1.5px solid #d9b56b;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 10px rgba(104, 45, 60, 0.25);
 }
 
 .patron-header-initial {
@@ -215,7 +214,7 @@
   font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
   font-size: 1.05rem;
   font-weight: 600;
-  color: #F8F5F0;
+  color: #302522;
   letter-spacing: 0.02em;
   line-height: 1.2;
   white-space: nowrap;
@@ -225,8 +224,8 @@
 
 .patron-header-email {
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.68rem;
-  color: rgba(248, 245, 240, 0.6);
+  font-size: 0.70rem;
+  color: #705953;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -241,18 +240,18 @@
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #d9b56b;
+  color: #682D3C;
   text-transform: uppercase;
   margin-top: 5px;
-  background: rgba(217, 181, 107, 0.12);
+  background: rgba(104, 45, 60, 0.08);
   padding: 2px 7px;
   border-radius: 12px;
-  border: 1px solid rgba(217, 181, 107, 0.25);
+  border: 1px solid rgba(104, 45, 60, 0.18);
 }
 
 .patron-tier-star {
   font-size: 7px;
-  color: #d9b56b;
+  color: #c5a059;
 }
 
 /* Menu Navigation List */
@@ -261,6 +260,7 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  background: #FFFFFF;
 }
 
 .patron-nav-item {
@@ -275,7 +275,7 @@
 }
 
 .patron-nav-item:hover {
-  background: rgba(217, 181, 107, 0.08);
+  background: rgba(104, 45, 60, 0.05);
   transform: translateX(2px);
 }
 
@@ -283,20 +283,20 @@
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  background: rgba(217, 181, 107, 0.08);
-  border: 1px solid rgba(217, 181, 107, 0.2);
+  background: rgba(104, 45, 60, 0.06);
+  border: 1px solid rgba(104, 45, 60, 0.16);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #d9b56b;
+  color: #682D3C;
   flex-shrink: 0;
   transition: all 0.22s ease;
 }
 
 .patron-nav-item:hover .patron-item-icon-box {
-  background: #d9b56b;
-  color: #170e13;
-  border-color: #d9b56b;
+  background: #682D3C;
+  color: #FFFFFF;
+  border-color: #682D3C;
   transform: scale(1.06);
 }
 
@@ -312,33 +312,37 @@
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #F8F5F0;
+  color: #302522;
   line-height: 1.2;
+}
+
+.patron-nav-item:hover .patron-item-title {
+  color: #682D3C;
 }
 
 .patron-item-subtitle {
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.64rem;
-  color: rgba(248, 245, 240, 0.5);
+  font-size: 0.65rem;
+  color: #7a6660;
   margin-top: 1px;
 }
 
 .patron-item-arrow {
   font-size: 0.85rem;
-  color: rgba(217, 181, 107, 0.4);
+  color: rgba(104, 45, 60, 0.35);
   transition: all 0.22s ease;
 }
 
 .patron-nav-item:hover .patron-item-arrow {
-  color: #d9b56b;
+  color: #682D3C;
   transform: translateX(3px);
 }
 
 /* Footer / Logout Row */
 .patron-dropdown-footer {
   padding: 8px 10px 10px;
-  border-top: 1px solid rgba(217, 181, 107, 0.15);
-  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(104, 45, 60, 0.1);
+  background: #FAF6F0;
 }
 
 .patron-logout-item {
@@ -351,18 +355,18 @@
   text-decoration: none;
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #fca5a5;
-  background: rgba(252, 165, 165, 0.05);
-  border: 1px solid rgba(252, 165, 165, 0.18);
+  color: #8c3b4d;
+  background: rgba(140, 59, 77, 0.06);
+  border: 1px solid rgba(140, 59, 77, 0.2);
   transition: all 0.22s ease;
 }
 
 .patron-logout-item:hover {
-  background: rgba(252, 165, 165, 0.14);
-  border-color: rgba(252, 165, 165, 0.4);
+  background: #8c3b4d;
+  border-color: #8c3b4d;
   color: #ffffff;
   transform: translateY(-1px);
 }

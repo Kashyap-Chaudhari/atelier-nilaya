@@ -182,10 +182,11 @@
           data-spin-viewer
           data-product-slug="{{ product.slug }}"
           data-current-metal="{{ product.base_metal|default:'yellow_gold' }}"
-          data-spin-frames="36"
+          data-spin-frames="{{ product.spin_frames|default:'0' }}"
+          data-image-fallback="{{ product.image_url_fallback|default:'' }}"
           tabindex="0" 
           role="region" 
-          aria-label="Interactive 360° view of {{ product.name }}. Drag or use arrow keys to rotate. Hover to view worn."
+          aria-label="{{ product.name }}"
         >
           
           <!-- Optional Tag (NEW, BEST SELLER) -->
@@ -207,14 +208,15 @@
             </svg>
           </button>
 
-          <!-- 360 Active Photographic Spin Image -->
+          <!-- 360 Active Photographic Spin Image or High-Res Curated Product Photo -->
           <img 
-            src="/static/products/{{ product.slug }}/{{ product.base_metal|default:'yellow_gold' }}/spin/001.webp" 
-            alt="{{ product.name }} 360 photographic view in {{ product.base_metal|default:'yellow_gold' }}" 
+            src="{% if product.has_spin %}/static/products/{{ product.slug }}/{{ product.base_metal|default:'yellow_gold' }}/spin/001.webp{% else %}{{ product.image_url_fallback|default:'/static/campaigns/img/categories/cat-necklaces.jpg' }}{% endif %}" 
+            alt="{{ product.name }}" 
             class="spin-active-img" 
             width="600" 
             height="600"
             loading="lazy"
+            onerror="if(this.src!=='{{ product.image_url_fallback }}'){this.src='{{ product.image_url_fallback }}';}"
           >
 
           <!-- Second View on Hover (Desktop) / Tap (Mobile): Lifestyle Photo -->
@@ -225,6 +227,7 @@
             width="600" 
             height="600"
             loading="lazy"
+            onerror="this.style.display='none';"
           >
 
           <!-- Neutral Fallback Tile ("Photo coming soon" in identical frame) -->
@@ -238,13 +241,15 @@
             <span class="fallback-note">Photographic Archive in Preparation</span>
           </div>
 
-          <!-- Unobtrusive 360 Degree Indicator Badge -->
+          <!-- Unobtrusive 360 Degree Indicator Badge (Only if real 360 frames exist) -->
+          {% if product.has_spin %}
           <div class="spin-360-badge" aria-hidden="true">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
             </svg>
             <span>360&deg;</span>
           </div>
+          {% endif %}
 
         </div>
 

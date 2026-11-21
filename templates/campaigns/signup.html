@@ -6,7 +6,7 @@
 {% block extra_head %}
 <style>
 /* ==========================================================================
-   ATELIER NILAYA — CLIENT SIGN UP & REGISTRATION PAGE
+   ATELIER NILAYA — CLIENT SIGN UP & REGISTRATION PAGE (Ivory & Burgundy Theme)
    ========================================================================== */
 
 .nilaya-signup-stage {
@@ -14,8 +14,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 24px 100px;
-  background: radial-gradient(circle at 50% 15%, rgba(104, 45, 60, 0.12) 0%, rgba(14, 14, 12, 0) 70%), #0E0E0C;
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 36px);
+  padding-bottom: 90px;
+  padding-left: clamp(16px, 3.5vw, 40px);
+  padding-right: clamp(16px, 3.5vw, 40px);
+  background: linear-gradient(180deg, #FBF8F2 0%, #F5EFEB 100%);
 }
 
 .nilaya-signup-container {
@@ -24,11 +27,11 @@
 }
 
 .nilaya-signup-card {
-  background: #141311;
-  border: 1px solid rgba(217, 181, 107, 0.3);
-  border-radius: 6px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.16);
+  border-radius: 8px;
   padding: clamp(28px, 4vw, 44px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 16px 42px rgba(48, 37, 34, 0.08);
 }
 
 .nilaya-auth-eyebrow {
@@ -37,7 +40,7 @@
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #d9b56b;
+  color: #682D3C;
   display: block;
   margin-bottom: 8px;
 }
@@ -46,15 +49,16 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(2rem, 3.2vw, 2.4rem);
   font-weight: 500;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 8px;
 }
 
 .nilaya-card-subtitle {
   font-size: 0.9rem;
-  color: rgba(248, 245, 240, 0.68);
+  color: #705953;
   margin: 0 0 24px;
   line-height: 1.5;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 /* Alert Boxes */
@@ -64,12 +68,13 @@
   font-size: 0.84rem;
   line-height: 1.45;
   margin-bottom: 20px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .nilaya-alert-error {
-  background: rgba(185, 28, 28, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #fca5a5;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #991b1b;
 }
 
 /* Form Controls */
@@ -96,8 +101,9 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #d9b56b;
+  color: #682D3C;
   margin-bottom: 8px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .nilaya-input-wrap {
@@ -107,20 +113,21 @@
 .nilaya-form-input {
   width: 100%;
   box-sizing: border-box;
-  background: #1c0b13;
-  border: 1px solid rgba(217, 181, 107, 0.35);
+  background: #FAF8F5;
+  border: 1px solid rgba(104, 45, 60, 0.2);
   border-radius: 6px;
   padding: 12px 16px;
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.92rem;
-  color: #F8F5F0;
+  color: #302522;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .nilaya-form-input:focus {
-  border-color: #d9b56b;
-  box-shadow: 0 0 0 3px rgba(217, 181, 107, 0.18);
+  border-color: #682D3C;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(104, 45, 60, 0.1);
 }
 
 .nilaya-password-toggle {
@@ -130,17 +137,18 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: rgba(248, 245, 240, 0.55);
+  color: #705953;
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   padding: 4px 8px;
+  transition: color 0.2s;
 }
 
 .nilaya-password-toggle:hover {
-  color: #d9b56b;
+  color: #682D3C;
 }
 
 /* Password Strength Meter */
@@ -150,7 +158,7 @@
 
 .nilaya-strength-bar-bg {
   height: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(104, 45, 60, 0.1);
   border-radius: 2px;
   overflow: hidden;
   margin-bottom: 6px;
@@ -160,87 +168,94 @@
   height: 100%;
   width: 0%;
   transition: width 0.3s ease, background-color 0.3s ease;
-  border-radius: 2px;
 }
 
 .nilaya-strength-text {
-  font-size: 0.76rem;
-  color: rgba(248, 245, 240, 0.6);
   display: flex;
   justify-content: space-between;
+  font-size: 0.74rem;
+  color: #705953;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 /* Consent Checkbox */
 .nilaya-consent-wrap {
-  margin: 22px 0;
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: rgba(248, 245, 240, 0.75);
+  margin: 22px 0 26px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(104, 45, 60, 0.12);
 }
 
 .nilaya-consent-label {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  font-size: 0.80rem;
+  line-height: 1.5;
+  color: #302522;
   cursor: pointer;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .nilaya-consent-label input[type="checkbox"] {
-  accent-color: #d9b56b;
-  width: 17px;
-  height: 17px;
+  accent-color: #682D3C;
+  width: 16px;
+  height: 16px;
   margin-top: 2px;
-  cursor: pointer;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .nilaya-link-gold {
-  color: #d9b56b;
+  color: #682D3C;
   text-decoration: none;
+  font-weight: 600;
   transition: color 0.2s;
 }
 
 .nilaya-link-gold:hover {
-  color: #F8F5F0;
+  color: #4F1F2C;
   text-decoration: underline;
 }
 
-/* Action Button */
+/* Submit Button */
 .nilaya-auth-btn {
   width: 100%;
   padding: 14px 24px;
-  background: #d9b56b;
-  color: #1c0b13;
-  border: none;
+  background: #682D3C;
+  color: #FFFFFF;
+  border: 1px solid #4F1F2C;
   border-radius: 6px;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.15s;
+  transition: all 0.2s ease;
 }
 
 .nilaya-auth-btn:hover {
-  background: #ecd59b;
+  background: #4F1F2C;
+  box-shadow: 0 4px 14px rgba(104, 45, 60, 0.2);
+  transform: translateY(-1px);
 }
 
 .nilaya-auth-btn:active {
   transform: scale(0.99);
 }
 
-/* Footer Links */
+/* Card Footer */
 .nilaya-card-footer {
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid rgba(217, 181, 107, 0.18);
+  border-top: 1px solid rgba(104, 45, 60, 0.12);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   text-align: center;
   font-size: 0.82rem;
-  color: rgba(248, 245, 240, 0.65);
+  color: #705953;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 </style>
 {% endblock %}
@@ -248,11 +263,12 @@
 {% block content %}
 <section class="nilaya-signup-stage">
   <div class="nilaya-signup-container">
+    
     <div class="nilaya-signup-card">
-      <span class="nilaya-auth-eyebrow">Client Registration &bull; Atelier Nilaya</span>
-      <h1 class="nilaya-card-title">Create Your Private Folio</h1>
+      <span class="nilaya-auth-eyebrow">Atelier Nilaya &bull; Private Patron Registry</span>
+      <h1 class="nilaya-card-title">Establish Your Private Folio</h1>
       <p class="nilaya-card-subtitle">
-        Register to curate personal acquisitions, reserve benchmark bullion rates, and enjoy white-glove insured delivery across India.
+        Create your authenticated maison account for bespoke orders, hallmarked vaults, and private viewings.
       </p>
 
       {% if error %}
@@ -261,72 +277,66 @@
         </div>
       {% endif %}
 
-      <form method="POST" action="{% url 'campaigns:signup' %}?next={{ next|urlencode }}">
+      <form method="POST" action="{% url 'campaigns:signup' %}?next={{ next|urlencode }}" id="signupForm">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
 
         <!-- Full Name -->
         <div class="nilaya-form-group">
-          <label for="id_full_name" class="nilaya-form-label">Full Name</label>
-          <div class="nilaya-input-wrap">
+          <label for="id_full_name" class="nilaya-form-label">Full Name *</label>
+          <input 
+            type="text" 
+            id="id_full_name" 
+            name="full_name" 
+            class="nilaya-form-input" 
+            placeholder="e.g. Kashyap Chaudhari"
+            value="{{ full_name|default:'' }}"
+            required 
+            autofocus
+            autocomplete="name">
+        </div>
+
+        <!-- Email & Mobile Number (2-column on desktop) -->
+        <div class="nilaya-form-row">
+          <div class="nilaya-form-group">
+            <label for="id_email" class="nilaya-form-label">Email Address *</label>
             <input 
-              type="text" 
-              id="id_full_name" 
-              name="full_name" 
+              type="email" 
+              id="id_email" 
+              name="email" 
               class="nilaya-form-input" 
-              placeholder="e.g. Maharani Gayatri Devi" 
-              value="{{ full_name|default:'' }}"
+              placeholder="e.g. curator@nilaya.luxury"
+              value="{{ email|default:'' }}"
               required 
-              autofocus 
-              autocomplete="name">
+              autocomplete="email">
+          </div>
+
+          <div class="nilaya-form-group">
+            <label for="id_mobile" class="nilaya-form-label">Mobile Number *</label>
+            <input 
+              type="tel" 
+              id="id_mobile" 
+              name="mobile_number" 
+              class="nilaya-form-input" 
+              placeholder="e.g. 9825100000"
+              value="{{ mobile_number|default:'' }}"
+              required 
+              maxlength="15"
+              autocomplete="tel">
           </div>
         </div>
 
-        <!-- Contact Information Row: Email & Mobile -->
+        <!-- Password & Confirm Password -->
         <div class="nilaya-form-row">
           <div class="nilaya-form-group">
-            <label for="id_email" class="nilaya-form-label">Email Address</label>
-            <div class="nilaya-input-wrap">
-              <input 
-                type="email" 
-                id="id_email" 
-                name="email" 
-                class="nilaya-form-input" 
-                placeholder="patron@domain.luxury" 
-                value="{{ email|default:'' }}"
-                required 
-                autocomplete="email">
-            </div>
-          </div>
-
-          <div class="nilaya-form-group">
-            <label for="id_mobile_number" class="nilaya-form-label">Mobile Number</label>
-            <div class="nilaya-input-wrap">
-              <input 
-                type="tel" 
-                id="id_mobile_number" 
-                name="mobile_number" 
-                class="nilaya-form-input" 
-                placeholder="10-digit mobile (e.g. 9825100000)" 
-                value="{{ mobile_number|default:'' }}"
-                required 
-                maxlength="15" 
-                autocomplete="tel">
-            </div>
-          </div>
-        </div>
-
-        <!-- Password Row: Password & Confirm Password -->
-        <div class="nilaya-form-row">
-          <div class="nilaya-form-group">
-            <label for="id_password1" class="nilaya-form-label">Create Password</label>
+            <label for="id_password1" class="nilaya-form-label">Password *</label>
             <div class="nilaya-input-wrap">
               <input 
                 type="password" 
                 id="id_password1" 
                 name="password" 
                 class="nilaya-form-input" 
-                placeholder="Min. 8 characters" 
+                placeholder="Min. 8 characters"
                 required 
                 autocomplete="new-password">
               <button type="button" class="nilaya-password-toggle" id="togglePassword1Btn" aria-label="Toggle password visibility">
@@ -336,17 +346,17 @@
           </div>
 
           <div class="nilaya-form-group">
-            <label for="id_password2" class="nilaya-form-label">Confirm Password</label>
+            <label for="id_password2" class="nilaya-form-label">Confirm Password *</label>
             <div class="nilaya-input-wrap">
               <input 
                 type="password" 
                 id="id_password2" 
                 name="confirm_password" 
                 class="nilaya-form-input" 
-                placeholder="Re-enter password" 
+                placeholder="Re-enter password"
                 required 
                 autocomplete="new-password">
-              <button type="button" class="nilaya-password-toggle" id="togglePassword2Btn" aria-label="Toggle confirm password visibility">
+              <button type="button" class="nilaya-password-toggle" id="togglePassword2Btn" aria-label="Toggle password visibility">
                 Show
               </button>
             </div>
@@ -378,7 +388,7 @@
 
         <!-- Submit Button -->
         <button type="submit" class="nilaya-auth-btn" id="signupSubmitBtn">
-          Create Folio &amp; Verify Email &rarr;
+          Create Private Folio &rarr;
         </button>
 
         <!-- Footer Links -->

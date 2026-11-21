@@ -328,7 +328,8 @@ def order_history_view(request):
     return render(request, 'orders/order_history.html', {
         'orders': orders,
         'saved_addresses': saved_addresses,
-        'customer_name': request.user.first_name or request.user.username
+        'customer_name': request.user.first_name or request.user.username,
+        'active_tab': 'orders',
     })
 
 

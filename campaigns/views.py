@@ -51,6 +51,16 @@ def enrich_product_for_gallery(prod):
     else:
         prod.stone_color = '#FFFFFF'
 
+    from django.conf import settings
+    import os
+    spin_dir = os.path.join(settings.BASE_DIR, 'static', 'products', prod.slug, prod.base_metal, 'spin')
+    if os.path.isdir(spin_dir) and len(os.listdir(spin_dir)) >= 12:
+        prod.has_spin = True
+        prod.spin_frames = len(os.listdir(spin_dir))
+    else:
+        prod.has_spin = False
+        prod.spin_frames = 0
+
     base_price = float(prod.price)
     prod.metals = {
         'yellow_gold': {'price': base_price, 'in_stock': True},

@@ -5,10 +5,19 @@
 
 {% block extra_head %}
 <style>
+/* Page Canvas with generous top clearance below the header */
+.track-page-stage {
+  min-height: 85vh;
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 36px);
+  padding-bottom: 90px;
+  padding-left: clamp(16px, 3.5vw, 40px);
+  padding-right: clamp(16px, 3.5vw, 40px);
+  background: linear-gradient(180deg, #FBF8F2 0%, #F5EFEB 100%);
+}
+
 .track-page-container {
   max-width: 920px;
-  margin: 40px auto 80px;
-  padding: 0 24px;
+  margin: 0 auto;
 }
 
 .track-header {
@@ -22,7 +31,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #AD9161;
+  color: #682D3C;
   display: block;
   margin-bottom: 6px;
 }
@@ -31,24 +40,26 @@
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(2rem, 3.2vw, 2.6rem);
   font-weight: 500;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 8px;
 }
 
 .track-subtitle {
   font-size: 0.92rem;
-  color: rgba(248, 245, 240, 0.65);
+  color: #705953;
   margin: 0 auto;
   max-width: 580px;
+  line-height: 1.55;
 }
 
 /* Lookup Form Card */
 .track-lookup-card {
-  background: #141311;
-  border: 1px solid rgba(173, 145, 97, 0.25);
-  border-radius: 6px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.16);
+  border-radius: 8px;
   padding: 24px 28px;
   margin-bottom: 32px;
+  box-shadow: 0 4px 18px rgba(48, 37, 34, 0.04);
 }
 
 .track-form-grid {
@@ -74,58 +85,63 @@
 .track-label {
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.76rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #D7C19A;
+  color: #682D3C;
 }
 
 .track-input {
   height: 44px;
-  background: #0E0E0C;
-  border: 1px solid rgba(173, 145, 97, 0.3);
-  border-radius: 4px;
-  color: #F8F5F0;
+  background: #FAF8F5;
+  border: 1px solid rgba(104, 45, 60, 0.2);
+  border-radius: 6px;
+  color: #302522;
   font-family: var(--font-sans, 'Manrope', sans-serif);
   font-size: 0.92rem;
   padding: 0 14px;
   outline: none;
   box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
 .track-input:focus {
-  border-color: #AD9161;
+  border-color: #682D3C;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(104, 45, 60, 0.1);
 }
 
 .track-submit-btn {
   height: 44px;
   padding: 0 24px;
-  background: #642D3B;
-  border: 1px solid #AD9161;
-  color: #F8F5F0;
+  background: #682D3C;
+  border: 1px solid #4F1F2C;
+  color: #FFFFFF;
   font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.82rem;
+  font-size: 0.80rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .track-submit-btn:hover {
-  background: #7a3648;
+  background: #4F1F2C;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(104, 45, 60, 0.2);
 }
 
 /* Order Details Card */
 .order-tracking-card {
-  background: #141311;
-  border: 1px solid rgba(173, 145, 97, 0.35);
-  border-radius: 6px;
-  padding: 32px;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.16);
+  border-radius: 8px;
+  padding: clamp(20px, 3.5vw, 32px);
   margin-bottom: 24px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 30px rgba(48, 37, 34, 0.05);
 }
 
 .order-tracking-header {
@@ -135,20 +151,21 @@
   flex-wrap: wrap;
   gap: 14px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(173, 145, 97, 0.2);
+  border-bottom: 1px solid rgba(104, 45, 60, 0.12);
   margin-bottom: 28px;
 }
 
 .order-meta-ref {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.6rem;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 4px;
 }
 
 .order-meta-sub {
   font-size: 0.8rem;
-  color: rgba(248, 245, 240, 0.55);
+  color: #705953;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .status-badge {
@@ -156,29 +173,29 @@
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  border-radius: 4px;
-  font-size: 0.78rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: rgba(173, 145, 97, 0.18);
-  border: 1px solid #AD9161;
-  color: #d9b56b;
+  background: rgba(104, 45, 60, 0.08);
+  border: 1px solid rgba(104, 45, 60, 0.2);
+  color: #682D3C;
 }
 
 .status-badge.status-confirmed,
 .status-badge.status-shipped,
 .status-badge.status-delivered {
-  background: rgba(156, 209, 139, 0.15);
-  border-color: #9cd18b;
-  color: #9cd18b;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #065f46;
 }
 
 .status-badge.status-cancelled,
 .status-badge.status-returned {
-  background: rgba(229, 139, 136, 0.15);
-  border-color: #e58b88;
-  color: #e58b88;
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
+  color: #991b1b;
 }
 
 /* 6-Stage Milestone Progress Bar */
@@ -196,7 +213,7 @@
   left: 20px;
   right: 20px;
   height: 2px;
-  background: rgba(173, 145, 97, 0.2);
+  background: rgba(104, 45, 60, 0.12);
   z-index: 1;
 }
 
@@ -211,9 +228,9 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #0E0E0C;
-  border: 2px solid rgba(173, 145, 97, 0.35);
-  color: rgba(248, 245, 240, 0.5);
+  background: #FAF8F5;
+  border: 2px solid rgba(104, 45, 60, 0.25);
+  color: #705953;
   font-size: 0.75rem;
   font-weight: 700;
   display: flex;
@@ -226,36 +243,38 @@
 .stage-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: rgba(248, 245, 240, 0.5);
+  color: #705953;
   letter-spacing: 0.04em;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .timeline-stage-item.is-completed .stage-dot {
-  background: #642D3B;
-  border-color: #AD9161;
-  color: #F8F5F0;
+  background: #682D3C;
+  border-color: #682D3C;
+  color: #FFFFFF;
 }
 
 .timeline-stage-item.is-completed .stage-label {
-  color: #d9b56b;
+  color: #682D3C;
+  font-weight: 700;
 }
 
 .timeline-stage-item.is-active .stage-dot {
-  background: #AD9161;
-  border-color: #d9b56b;
-  color: #141311;
-  box-shadow: 0 0 12px rgba(173, 145, 97, 0.6);
+  background: #c5a059;
+  border-color: #682D3C;
+  color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
 }
 
 .timeline-stage-item.is-active .stage-label {
-  color: #F8F5F0;
+  color: #302522;
   font-weight: 700;
 }
 
 /* Shipment Courier Callout */
 .shipment-box {
-  background: rgba(100, 45, 59, 0.2);
-  border: 1px solid rgba(173, 145, 97, 0.3);
+  background: #FAF6F0;
+  border: 1px solid rgba(104, 45, 60, 0.16);
   border-radius: 6px;
   padding: 16px 20px;
   margin-bottom: 24px;
@@ -271,13 +290,13 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #d9b56b;
+  color: #682D3C;
   margin: 0 0 4px;
 }
 
 .shipment-info {
   font-size: 0.85rem;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0;
 }
 
@@ -294,7 +313,7 @@
   align-items: center;
   gap: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(173, 145, 97, 0.12);
+  border-bottom: 1px solid rgba(104, 45, 60, 0.1);
 }
 
 .tracking-item-img {
@@ -302,27 +321,29 @@
   height: 52px;
   border-radius: 4px;
   object-fit: cover;
-  background: #0E0E0C;
-  border: 1px solid rgba(173, 145, 97, 0.2);
+  background: #FAF6F0;
+  border: 1px solid rgba(104, 45, 60, 0.15);
 }
 
 .tracking-item-name {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 1.15rem;
-  color: #F8F5F0;
+  color: #302522;
   margin: 0 0 2px;
 }
 
 .tracking-item-meta {
   font-size: 0.76rem;
-  color: rgba(248, 245, 240, 0.55);
+  color: #705953;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
 }
 
 .tracking-item-price {
   margin-left: auto;
   font-size: 1rem;
-  font-weight: 600;
-  color: #d9b56b;
+  font-weight: 700;
+  color: #682D3C;
+  font-family: 'Cormorant Garamond', Georgia, serif;
 }
 
 /* Action buttons */
@@ -336,8 +357,8 @@
 .btn-track-action {
   height: 42px;
   padding: 0 20px;
-  border-radius: 4px;
-  font-size: 0.78rem;
+  border-radius: 6px;
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -349,197 +370,201 @@
 }
 
 .btn-track-primary {
-  background: #642D3B;
-  border: 1px solid #AD9161;
-  color: #F8F5F0;
+  background: #682D3C;
+  border: 1px solid #4F1F2C;
+  color: #FFFFFF;
 }
 
 .btn-track-primary:hover {
-  background: #7a3648;
+  background: #4F1F2C;
+  box-shadow: 0 4px 12px rgba(104, 45, 60, 0.2);
 }
 
 .btn-track-secondary {
-  background: transparent;
-  border: 1px solid rgba(173, 145, 97, 0.35);
-  color: #d9b56b;
+  background: #FFFFFF;
+  border: 1px solid rgba(104, 45, 60, 0.25);
+  color: #682D3C;
 }
 
 .btn-track-secondary:hover {
-  background: rgba(173, 145, 97, 0.1);
+  background: rgba(104, 45, 60, 0.05);
+  border-color: #682D3C;
 }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="track-page-container">
-  
-  <header class="track-header">
-    <span class="track-eyebrow">Atelier Nilaya &bull; Surat &bull; Est. 1954</span>
-    <h1 class="track-title">Track Your Heirloom Acquisition</h1>
-    <p class="track-subtitle">Monitor master karigar bench craftsmanship, BIS hallmark stamping, and insured white-glove armored transit.</p>
-  </header>
-
-  <!-- Search Lookup Form (Restricted to Logged-in Patron's Orders) -->
-  <div class="track-lookup-card">
-    <form method="GET" action="{% url 'orders:track' %}" style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
-      <div class="track-input-group" style="flex: 1; min-width: 240px;">
-        <label for="track-order-num" class="track-label">Your Order Reference Number *</label>
-        <input 
-          type="text" 
-          id="track-order-num" 
-          name="order" 
-          class="track-input" 
-          placeholder="e.g. NIL-2026-XXXX" 
-          value="{{ order_number }}" 
-          required
-        >
-      </div>
-
-      <button type="submit" class="track-submit-btn">Locate Milestone &rarr;</button>
-      <a href="{% url 'orders:history' %}" class="btn-track-secondary" style="padding: 10px 18px; border-radius: 4px; text-decoration: none; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">View All Orders</a>
-    </form>
-  </div>
-
-  {% if error %}
-  <div style="background: rgba(229, 139, 136, 0.15); border: 1px solid #e58b88; color: #e58b88; padding: 14px 18px; border-radius: 4px; margin-bottom: 24px; font-size: 0.88rem;">
-    {{ error }}
-  </div>
-  {% endif %}
-
-  {% if order %}
-  <!-- Live Order Timeline Card -->
-  <article class="order-tracking-card">
+<section class="track-page-stage">
+  <div class="track-page-container">
     
-    <div class="order-tracking-header">
-      <div>
-        <h2 class="order-meta-ref">{{ order.order_number }}</h2>
-        <div class="order-meta-sub">
-          Acquired by {{ order.customer_name }} on {{ order.created_at|date:"d M Y, h:i A" }}
+    <header class="track-header">
+      <span class="track-eyebrow">Atelier Nilaya &bull; Surat &bull; Est. 1954</span>
+      <h1 class="track-title">Track Your Heirloom Acquisition</h1>
+      <p class="track-subtitle">Monitor master karigar bench craftsmanship, BIS hallmark stamping, and insured white-glove armored transit.</p>
+    </header>
+
+    <!-- Search Lookup Form (Restricted to Logged-in Patron's Orders) -->
+    <div class="track-lookup-card">
+      <form method="GET" action="{% url 'orders:track' %}" style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+        <div class="track-input-group" style="flex: 1; min-width: 240px;">
+          <label for="track-order-num" class="track-label">Your Order Reference Number *</label>
+          <input 
+            type="text" 
+            id="track-order-num" 
+            name="order" 
+            class="track-input" 
+            placeholder="e.g. NIL-2026-XXXX" 
+            value="{{ order_number }}" 
+            required
+          >
         </div>
-      </div>
-      <div class="status-badge status-{{ order.status|slugify }}">
-        ● {{ order.get_status_display }}
-      </div>
+
+        <button type="submit" class="track-submit-btn">Locate Milestone &rarr;</button>
+        <a href="{% url 'orders:history' %}" class="btn-track-action btn-track-secondary">View All Orders</a>
+      </form>
     </div>
 
-    <!-- 6-Milestone Visual Timeline -->
-    <div class="timeline-stages">
-      <div class="timeline-stage-item {% if current_step_idx >= 0 %}is-completed{% endif %} {% if current_step_idx == 0 %}is-active{% endif %}">
-        <div class="stage-dot">1</div>
-        <div class="stage-label">New</div>
-      </div>
-      <div class="timeline-stage-item {% if current_step_idx >= 1 %}is-completed{% endif %} {% if current_step_idx == 1 %}is-active{% endif %}">
-        <div class="stage-dot">2</div>
-        <div class="stage-label">Confirmed</div>
-      </div>
-      <div class="timeline-stage-item {% if current_step_idx >= 2 %}is-completed{% endif %} {% if current_step_idx == 2 %}is-active{% endif %}">
-        <div class="stage-dot">3</div>
-        <div class="stage-label">In Making</div>
-      </div>
-      <div class="timeline-stage-item {% if current_step_idx >= 3 %}is-completed{% endif %} {% if current_step_idx == 3 %}is-active{% endif %}">
-        <div class="stage-dot">4</div>
-        <div class="stage-label">Ready</div>
-      </div>
-      <div class="timeline-stage-item {% if current_step_idx >= 4 %}is-completed{% endif %} {% if current_step_idx == 4 %}is-active{% endif %}">
-        <div class="stage-dot">5</div>
-        <div class="stage-label">Shipped</div>
-      </div>
-      <div class="timeline-stage-item {% if current_step_idx >= 5 %}is-completed{% endif %} {% if current_step_idx == 5 %}is-active{% endif %}">
-        <div class="stage-dot">6</div>
-        <div class="stage-label">Delivered</div>
-      </div>
-    </div>
-
-    <!-- Shipment Information (If Manifested or Shipped) -->
-    {% if order.shipment or order.status in 'shipped,delivered' %}
-    <div class="shipment-box">
-      <div>
-        <h3 class="shipment-title">White-Glove Armored Courier Transit</h3>
-        <p class="shipment-info">
-          Courier: <strong>{{ order.shipment.courier_name|default:"Sequel Armored Logistics" }}</strong> 
-          {% if order.shipment.tracking_number %}&bull; Folio No: <strong>{{ order.shipment.tracking_number }}</strong>{% endif %}
-          &bull; Insured Transit: <strong>₹{{ order.total_amount|floatformat:0 }}</strong>
-        </p>
-      </div>
-      {% if order.shipment.tracking_url %}
-      <a href="{{ order.shipment.tracking_url }}" target="_blank" rel="noopener" class="btn-track-action btn-track-secondary">
-        Direct Courier Tracking &rarr;
-      </a>
-      {% endif %}
+    {% if error %}
+    <div style="background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.3); color: #991b1b; padding: 14px 18px; border-radius: 6px; margin-bottom: 24px; font-size: 0.88rem;">
+      {{ error }}
     </div>
     {% endif %}
 
-    <!-- Items Specifications -->
-    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.35rem; color: #F8F5F0; margin: 24px 0 16px;">Acquisition Items</h3>
-    <div class="tracking-items-list">
-      {% for item in order.items.all %}
-      <div class="tracking-item-row">
-        <img src="{{ item.product.image_url_fallback }}" alt="{{ item.product_name }}" class="tracking-item-img" onerror="this.src='/static/lifestyle/hero-lifestyle-1920.webp'">
+    {% if order %}
+    <!-- Live Order Timeline Card -->
+    <article class="order-tracking-card">
+      
+      <div class="order-tracking-header">
         <div>
-          <h4 class="tracking-item-name">{{ item.product_name }}</h4>
-          <div class="tracking-item-meta">
-            {{ item.metal|title|cut:"_" }} &bull; Qty: {{ item.quantity }}
-            {% if item.size and item.size != 'Standard' %} &bull; Size: {{ item.size }}{% endif %}
-            {% if item.engraving_text %}&bull; Engraving: “{{ item.engraving_text }}”{% endif %}
+          <h2 class="order-meta-ref">{{ order.order_number }}</h2>
+          <div class="order-meta-sub">
+            Acquired by {{ order.customer_name }} on {{ order.created_at|date:"d M Y, h:i A" }}
           </div>
         </div>
-        <div class="tracking-item-price">
-          ₹{{ item.total_price|floatformat:0 }}
+        <div class="status-badge status-{{ order.status|slugify }}">
+          ● {{ order.get_status_display }}
         </div>
       </div>
-      {% endfor %}
-    </div>
 
-    <!-- Price Breakup & Delivery Destination -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 16px; border-top: 1px solid rgba(173, 145, 97, 0.2); font-size: 0.85rem;">
-      <div>
-        <h4 style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: #D7C19A; margin: 0 0 6px;">Insured Delivery Address</h4>
-        <p style="color: rgba(248, 245, 240, 0.75); line-height: 1.5; white-space: pre-line; margin: 0;">{{ order.shipping_address_text }}</p>
+      <!-- 6-Milestone Visual Timeline -->
+      <div class="timeline-stages">
+        <div class="timeline-stage-item {% if current_step_idx >= 0 %}is-completed{% endif %} {% if current_step_idx == 0 %}is-active{% endif %}">
+          <div class="stage-dot">1</div>
+          <div class="stage-label">New</div>
+        </div>
+        <div class="timeline-stage-item {% if current_step_idx >= 1 %}is-completed{% endif %} {% if current_step_idx == 1 %}is-active{% endif %}">
+          <div class="stage-dot">2</div>
+          <div class="stage-label">Confirmed</div>
+        </div>
+        <div class="timeline-stage-item {% if current_step_idx >= 2 %}is-completed{% endif %} {% if current_step_idx == 2 %}is-active{% endif %}">
+          <div class="stage-dot">3</div>
+          <div class="stage-label">In Making</div>
+        </div>
+        <div class="timeline-stage-item {% if current_step_idx >= 3 %}is-completed{% endif %} {% if current_step_idx == 3 %}is-active{% endif %}">
+          <div class="stage-dot">4</div>
+          <div class="stage-label">Ready</div>
+        </div>
+        <div class="timeline-stage-item {% if current_step_idx >= 4 %}is-completed{% endif %} {% if current_step_idx == 4 %}is-active{% endif %}">
+          <div class="stage-dot">5</div>
+          <div class="stage-label">Shipped</div>
+        </div>
+        <div class="timeline-stage-item {% if current_step_idx >= 5 %}is-completed{% endif %} {% if current_step_idx == 5 %}is-active{% endif %}">
+          <div class="stage-dot">6</div>
+          <div class="stage-label">Delivered</div>
+        </div>
       </div>
 
-      <div>
-        <h4 style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: #D7C19A; margin: 0 0 6px;">Price Settlement</h4>
-        <div style="display: flex; justify-content: space-between; color: rgba(248, 245, 240, 0.7); margin-bottom: 4px;">
-          <span>Bullion Gold Value:</span>
-          <span>₹{{ order.total_gold_value|floatformat:0 }}</span>
+      <!-- Shipment Information (If Manifested or Shipped) -->
+      {% if order.shipment or order.status in 'shipped,delivered' %}
+      <div class="shipment-box">
+        <div>
+          <h3 class="shipment-title">White-Glove Armored Courier Transit</h3>
+          <p class="shipment-info">
+            Courier: <strong>{{ order.shipment.courier_name|default:"Sequel Armored Logistics" }}</strong> 
+            {% if order.shipment.tracking_number %}&bull; Folio No: <strong>{{ order.shipment.tracking_number }}</strong>{% endif %}
+            &bull; Insured Transit: <strong>₹{{ order.total_amount|floatformat:0 }}</strong>
+          </p>
         </div>
-        <div style="display: flex; justify-content: space-between; color: rgba(248, 245, 240, 0.7); margin-bottom: 4px;">
-          <span>Making Charge:</span>
-          <span>₹{{ order.total_making_charge|floatformat:0 }}</span>
+        {% if order.shipment.tracking_url %}
+        <a href="{{ order.shipment.tracking_url }}" target="_blank" rel="noopener" class="btn-track-action btn-track-secondary">
+          Direct Courier Tracking &rarr;
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <!-- Items Specifications -->
+      <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.35rem; color: #302522; margin: 24px 0 16px;">Acquisition Items</h3>
+      <div class="tracking-items-list">
+        {% for item in order.items.all %}
+        <div class="tracking-item-row">
+          <img src="{{ item.product.image_url_fallback }}" alt="{{ item.product_name }}" class="tracking-item-img" onerror="this.src='/static/lifestyle/hero-lifestyle-1920.webp'">
+          <div>
+            <h4 class="tracking-item-name">{{ item.product_name }}</h4>
+            <div class="tracking-item-meta">
+              {{ item.metal|title|cut:"_" }} &bull; Qty: {{ item.quantity }}
+              {% if item.size and item.size != 'Standard' %} &bull; Size: {{ item.size }}{% endif %}
+              {% if item.engraving_text %}&bull; Engraving: “{{ item.engraving_text }}”{% endif %}
+            </div>
+          </div>
+          <div class="tracking-item-price">
+            ₹{{ item.total_price|floatformat:0 }}
+          </div>
         </div>
-        <div style="display: flex; justify-content: space-between; color: rgba(248, 245, 240, 0.7); margin-bottom: 4px;">
-          <span>GST (3%):</span>
-          <span>₹{{ order.gst_amount|floatformat:0 }}</span>
+        {% endfor %}
+      </div>
+
+      <!-- Price Breakup & Delivery Destination -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 16px; border-top: 1px solid rgba(104, 45, 60, 0.12); font-size: 0.85rem;">
+        <div>
+          <h4 style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: #682D3C; margin: 0 0 6px;">Insured Delivery Address</h4>
+          <p style="color: #302522; line-height: 1.5; white-space: pre-line; margin: 0;">{{ order.shipping_address_text }}</p>
         </div>
-        <div style="display: flex; justify-content: space-between; font-weight: 700; color: #d9b56b; font-size: 1.05rem; padding-top: 6px; border-top: 1px solid rgba(173, 145, 97, 0.15);">
-          <span>Total Settled:</span>
-          <span>₹{{ order.total_amount|floatformat:0 }}</span>
+
+        <div>
+          <h4 style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: #682D3C; margin: 0 0 6px;">Price Settlement</h4>
+          <div style="display: flex; justify-content: space-between; color: #705953; margin-bottom: 4px;">
+            <span>Bullion Gold Value:</span>
+            <span>₹{{ order.total_gold_value|floatformat:0 }}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: #705953; margin-bottom: 4px;">
+            <span>Making Charge:</span>
+            <span>₹{{ order.total_making_charge|floatformat:0 }}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: #705953; margin-bottom: 4px;">
+            <span>GST (3%):</span>
+            <span>₹{{ order.gst_amount|floatformat:0 }}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-weight: 700; color: #682D3C; font-size: 1.05rem; padding-top: 6px; border-top: 1px solid rgba(104, 45, 60, 0.12);">
+            <span>Total Settled:</span>
+            <span>₹{{ order.total_amount|floatformat:0 }}</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Actions Row -->
-    <div class="tracking-actions-row">
-      <a href="https://wa.me/919825100000?text=Hello%20Atelier%20Nilaya,%20inquiring%20about%20Order%20{{ order.order_number }}" target="_blank" rel="noopener" class="btn-track-action btn-track-primary">
-        Chat with Concierge &rarr;
-      </a>
-      <a href="{% url 'campaigns:vault' %}" class="btn-track-action btn-track-secondary">
-        Return to Vault
-      </a>
-    </div>
+      <!-- Actions Row -->
+      <div class="tracking-actions-row">
+        <a href="https://wa.me/919825100000?text=Hello%20Atelier%20Nilaya,%20inquiring%20about%20Order%20{{ order.order_number }}" target="_blank" rel="noopener" class="btn-track-action btn-track-primary">
+          Chat with Concierge &rarr;
+        </a>
+        <a href="{% url 'campaigns:vault' %}" class="btn-track-action btn-track-secondary">
+          Return to Vault
+        </a>
+      </div>
 
-  </article>
-  {% elif not error %}
-  <!-- Empty State if customer has no active orders -->
-  <div class="track-empty-state" style="text-align: center; padding: 48px 24px; background: #FFFFFF; border: 1px solid rgba(104,45,60,0.15); border-radius: 8px; margin: 32px 0; box-shadow: 0 4px 20px rgba(48,37,34,0.04);">
-    <div style="font-size: 2.2rem; color: #d9b56b; margin-bottom: 12px;">✦</div>
-    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.8rem; color: #302522; margin-bottom: 8px; font-weight: 600;">No Active Orders in Your Folio</h3>
-    <p style="color: rgba(48,37,34,0.7); font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.92rem; max-width: 440px; margin: 0 auto 24px; line-height: 1.6;">
-      You have no active orders in transit yet. Discover our rare handcrafted gold, diamonds, and heritage treasures.
-    </p>
-    <a href="{% url 'campaigns:vault' %}" style="display: inline-block; background: #682D3C; color: #FFFFFF; padding: 13px 28px; border-radius: 6px; font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; transition: background 0.2s;">Shop Now &rarr;</a>
+    </article>
+    {% elif not error %}
+    <!-- Empty State if customer has no active orders -->
+    <div class="track-empty-state" style="text-align: center; padding: 48px 24px; background: #FFFFFF; border: 1px solid rgba(104,45,60,0.15); border-radius: 8px; margin: 32px 0; box-shadow: 0 4px 20px rgba(48,37,34,0.04);">
+      <div style="font-size: 2.2rem; color: #c5a059; margin-bottom: 12px;">✦</div>
+      <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.8rem; color: #302522; margin-bottom: 8px; font-weight: 600;">No Active Orders in Your Folio</h3>
+      <p style="color: #705953; font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.92rem; max-width: 440px; margin: 0 auto 24px; line-height: 1.6;">
+        You have no active orders in transit yet. Discover our rare handcrafted gold, diamonds, and heritage treasures.
+      </p>
+      <a href="{% url 'campaigns:vault' %}" style="display: inline-block; background: #682D3C; color: #FFFFFF; padding: 13px 28px; border-radius: 6px; font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; transition: background 0.2s;">Shop Now &rarr;</a>
+    </div>
+    {% endif %}
+
   </div>
-  {% endif %}
-
-</div>
+</section>
 {% endblock %}
