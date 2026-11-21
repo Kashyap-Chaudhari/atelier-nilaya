@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="theme-color" content="#0E0E0C">
   <meta name="description" content="The Unveiling Atelier — An imaginary private haute joaillerie exhibition unveiling rare handcrafted gold, diamonds, and heritage treasures.">
@@ -22,12 +22,16 @@
   <link rel="stylesheet" href="{% static 'campaigns/css/navigation.css' %}?v=20261118_v3">
   <link rel="stylesheet" href="{% static 'campaigns/css/velvet-tray.css' %}?v=20261118_v3">
   <link rel="stylesheet" href="{% static 'cart/css/bag_drawer.css' %}?v=20261120_v2">
+  <link rel="stylesheet" href="{% static 'campaigns/css/mobile_app_navigation.css' %}?v=20261121_v1">
 
   {% block extra_head %}{% endblock %}
 </head>
 <body data-app="unveiling-atelier">
   
-  <!-- Atelier Global Header -->
+  <!-- Mobile Dedicated Top Bar (<= 767px) -->
+  {% include 'campaigns/partials/mobile_top_bar.html' %}
+
+  <!-- Atelier Global Header (Desktop & Tablet >= 768px) -->
   {% include 'campaigns/partials/header.html' %}
 
   <!-- Mobile Navigation Drawer & Background Scrim -->
@@ -48,6 +52,9 @@
   <!-- Sliding Bag Drawer (Desktop Panel / Mobile Sheet) -->
   {% include 'cart/partials/bag_drawer.html' %}
 
+  <!-- Mobile Bottom App Bar (<= 767px) -->
+  {% include 'campaigns/partials/mobile_bottom_bar.html' %}
+
   <!-- Client-side Scripts -->
   <script src="{% static 'campaigns/js/atelier-state.js' %}"></script>
   <script src="{% static 'campaigns/js/atelier-transition.js' %}"></script>
@@ -55,6 +62,7 @@
   <script src="{% static 'campaigns/js/navigation.js' %}"></script>
   <script src="{% static 'campaigns/js/velvet-tray.js' %}"></script>
   <script src="{% static 'cart/js/bag_drawer.js' %}?v=20261120_v2"></script>
+  <script src="{% static 'campaigns/js/mobile_app_navigation.js' %}?v=20261121_v1"></script>
   
   <script>
   // Customer Dropdown & Wishlist Authentication Handler

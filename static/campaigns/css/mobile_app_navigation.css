@@ -1,0 +1,286 @@
+/* ==========================================================================
+   ATELIER NILAYA / AARANYA — MOBILE-ONLY NAVIGATION UPGRADE
+   Strictly scoped to screens 767px wide and below.
+   ZERO IMPACT on desktop or tablet (768px and wider).
+   Palette: Cream (#f4efe6), Dark Brown (#2b1a1f), Maroon (#1c0b13), Gold (#d9b56b)
+   Font: Manrope, 6px corners
+   ========================================================================== */
+
+/* 1. Desktop & Tablet Invariant: Completely hidden on screens >= 768px */
+@media (min-width: 768px) {
+  .nilaya-mobile-top-bar,
+  .nilaya-mobile-bottom-bar {
+    display: none !important;
+  }
+}
+
+/* 2. Mobile Screens Only (<= 767px) */
+@media (max-width: 767px) {
+  
+  /* Hide the old desktop header rows cleanly on mobile */
+  .atelier-header.aaranya-header {
+    display: none !important;
+  }
+
+  /* ------------------------------------------------------------------------
+     PART 1: MOBILE TOP BAR (Fixed 56px + safe area)
+     ------------------------------------------------------------------------ */
+  .nilaya-mobile-top-bar {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(56px + env(safe-area-inset-top, 0px));
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-left: 12px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    background-color: #f4efe6;
+    border-bottom: 1px solid rgba(43, 26, 31, 0.12);
+    z-index: 600;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(43, 26, 31, 0.04);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(0);
+    will-change: transform;
+  }
+
+  /* Slide out on scroll down */
+  .nilaya-mobile-top-bar.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  /* Reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .nilaya-mobile-top-bar {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* Left button container */
+  .nilaya-mobile-top-left {
+    display: flex;
+    align-items: center;
+    flex: 0 0 44px;
+  }
+
+  /* Center Brand Container */
+  .nilaya-mobile-top-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .nilaya-mobile-top-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    color: #2b1a1f;
+  }
+
+  .nilaya-mobile-top-monogram {
+    color: #d9b56b;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .nilaya-mobile-top-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: #2b1a1f;
+    text-transform: uppercase;
+  }
+
+  /* Right Buttons container */
+  .nilaya-mobile-top-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    flex: 0 0 88px;
+  }
+
+  /* Shared Icon Buttons */
+  .nilaya-mobile-top-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    color: #2b1a1f;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    transition: background-color 0.2s, color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nilaya-mobile-top-btn:active {
+    background-color: rgba(43, 26, 31, 0.08);
+  }
+
+  /* ------------------------------------------------------------------------
+     PART 2: MOBILE BOTTOM APP BAR (Fixed 6-Item Maroon Bar)
+     ------------------------------------------------------------------------ */
+  .nilaya-mobile-bottom-bar {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 600;
+    background-color: #1c0b13;
+    border-top: 1px solid rgba(217, 181, 107, 0.35);
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.25);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  /* Hide bottom bar when keyboard is open or on checkout */
+  body.is-keyboard-open .nilaya-mobile-bottom-bar,
+  body.page-checkout .nilaya-mobile-bottom-bar,
+  body.page-payment .nilaya-mobile-bottom-bar {
+    transform: translateY(100%);
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .nilaya-bottom-bar-inner {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    width: 100%;
+    height: 56px;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Individual Tab Button / Link */
+  .nilaya-bottom-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 2px;
+    background: transparent;
+    border: none;
+    border-top: 2px solid transparent;
+    color: #a89877;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+    box-sizing: border-box;
+    position: relative;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .nilaya-bottom-btn:hover {
+    color: #f1d89a;
+  }
+
+  /* Active Tab State */
+  .nilaya-bottom-btn.active,
+  .nilaya-bottom-btn[aria-current="page"] {
+    color: #f1d89a;
+    border-top: 2px solid #d9b56b;
+  }
+
+  .nilaya-bottom-btn.active .nilaya-bottom-icon,
+  .nilaya-bottom-btn[aria-current="page"] .nilaya-bottom-icon {
+    color: #f1d89a;
+  }
+
+  .nilaya-bottom-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    margin-bottom: 3px;
+    color: inherit;
+    transition: transform 0.18s ease;
+  }
+
+  .nilaya-bottom-btn:active .nilaya-bottom-icon {
+    transform: scale(0.92);
+  }
+
+  .nilaya-bottom-label {
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    padding: 0 1px;
+    color: inherit;
+  }
+
+  /* Bag Badge Counter */
+  .nilaya-bottom-bag-wrap {
+    position: relative;
+  }
+
+  .nilaya-bottom-bag-badge {
+    position: absolute;
+    top: -4px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: #d9b56b;
+    color: #1c0b13;
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 16px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+  }
+
+  /* Page Body Clearance so content & footer buttons are never covered */
+  body {
+    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px) !important;
+  }
+
+  /* Main content top clearance for 56px mobile top bar */
+  main#atelier-main-content,
+  .nilaya-account-stage,
+  .nilaya-login-stage,
+  .nilaya-auth-stage {
+    padding-top: calc(56px + env(safe-area-inset-top, 0px) + 16px) !important;
+  }
+
+  /* Elevate floating WhatsApp concierge button above the bottom bar */
+  .atelier-whatsapp-float,
+  .whatsapp-chat-button,
+  .whatsapp-floating-btn,
+  .wa-float-btn,
+  [data-wa-float] {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px) !important;
+  }
+}

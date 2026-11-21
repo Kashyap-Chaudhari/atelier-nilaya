@@ -1,0 +1,53 @@
+{% load static %}
+<!-- ========================================================================
+     ATELIER NILAYA — MOBILE TOP BAR (<= 767px ONLY)
+     Height 56px + top safe area. Menu (L), Centered Logo, Wishlist + Search (R)
+     ======================================================================== -->
+<header class="nilaya-mobile-top-bar" id="nilaya-mobile-top-bar" role="banner" aria-label="Mobile Navigation Bar">
+  <!-- Left: Drawer Menu Icon -->
+  <div class="nilaya-mobile-top-left">
+    <button 
+      type="button" 
+      class="nilaya-mobile-top-btn" 
+      id="nilaya-mobile-top-menu-btn" 
+      aria-label="Open Navigation Menu"
+      aria-controls="aaranya-mobile-drawer"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Center: Atelier Brand Logo -->
+  <div class="nilaya-mobile-top-center">
+    <a href="{% url 'campaigns:hero' %}" class="nilaya-mobile-top-brand" aria-label="Atelier Nilaya Home">
+      <span class="nilaya-mobile-top-monogram" aria-hidden="true">✦</span>
+      <span class="nilaya-mobile-top-title">ATELIER NILAYA</span>
+    </a>
+  </div>
+
+  <!-- Right: Wishlist Heart & Search Icon -->
+  <div class="nilaya-mobile-top-right">
+    <a href="{% url 'campaigns:wishlist' %}" class="nilaya-mobile-top-btn" aria-label="Wishlist" title="Wishlist">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+    </a>
+    
+    <button 
+      type="button" 
+      class="nilaya-mobile-top-btn" 
+      id="nilaya-mobile-top-search-btn" 
+      aria-label="Search jewellery" 
+      title="Search jewellery"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+</header>

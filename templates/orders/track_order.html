@@ -529,6 +529,16 @@
     </div>
 
   </article>
+  {% elif not error %}
+  <!-- Empty State if customer has no active orders -->
+  <div class="track-empty-state" style="text-align: center; padding: 48px 24px; background: #FFFFFF; border: 1px solid rgba(104,45,60,0.15); border-radius: 8px; margin: 32px 0; box-shadow: 0 4px 20px rgba(48,37,34,0.04);">
+    <div style="font-size: 2.2rem; color: #d9b56b; margin-bottom: 12px;">✦</div>
+    <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.8rem; color: #302522; margin-bottom: 8px; font-weight: 600;">No Active Orders in Your Folio</h3>
+    <p style="color: rgba(48,37,34,0.7); font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.92rem; max-width: 440px; margin: 0 auto 24px; line-height: 1.6;">
+      You have no active orders in transit yet. Discover our rare handcrafted gold, diamonds, and heritage treasures.
+    </p>
+    <a href="{% url 'campaigns:vault' %}" style="display: inline-block; background: #682D3C; color: #FFFFFF; padding: 13px 28px; border-radius: 6px; font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; transition: background 0.2s;">Shop Now &rarr;</a>
+  </div>
   {% endif %}
 
 </div>
