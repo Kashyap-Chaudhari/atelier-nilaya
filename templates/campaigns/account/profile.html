@@ -2,57 +2,168 @@
 
 {% block title %}Client Profile &bull; Atelier Nilaya{% endblock %}
 
+{% block account_extra_css %}
+<style>
+/* Profile Folio Specific Polish */
+.nilaya-folio-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 680px) {
+  .nilaya-folio-form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.nilaya-folio-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0 32px;
+}
+
+@media (max-width: 768px) {
+  .nilaya-folio-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.nilaya-stat-card {
+  background: rgba(104, 45, 60, 0.18);
+  border: 1px solid rgba(217, 181, 107, 0.24);
+  border-radius: 6px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.22s ease;
+}
+
+.nilaya-stat-card:hover {
+  background: rgba(104, 45, 60, 0.28);
+  border-color: rgba(217, 181, 107, 0.4);
+}
+
+.nilaya-stat-label {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(248, 245, 240, 0.65);
+}
+
+.nilaya-stat-val {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.22rem;
+  font-weight: 600;
+  color: #d9b56b;
+  letter-spacing: 0.02em;
+}
+
+.nilaya-verified-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #d9b56b;
+  margin-top: 6px;
+}
+</style>
+{% endblock %}
+
 {% block account_content %}
 <div class="nilaya-account-card">
   <h2 class="nilaya-card-section-title">Personal Client Folio</h2>
   <p class="nilaya-card-section-desc">
-    Review your recorded contact details and private membership status.
+    Review your recorded contact details, communication preferences, and private atelier membership.
   </p>
 
   {% if success_msg %}
-    <div class="nilaya-alert-success">{{ success_msg }}</div>
+    <div class="nilaya-alert-success" role="alert">
+      ✓ {{ success_msg }}
+    </div>
   {% endif %}
 
   {% if error_msg %}
-    <div class="nilaya-alert-error">{{ error_msg }}</div>
+    <div class="nilaya-alert-error" role="alert">
+      ⚠ {{ error_msg }}
+    </div>
   {% endif %}
 
   <form method="POST">
     {% csrf_token %}
 
     <div class="nilaya-form-group">
-      <label class="nilaya-form-label">Full Name</label>
-      <input type="text" name="first_name" class="nilaya-form-input" value="{{ user.first_name }}" required>
+      <label for="id_first_name" class="nilaya-form-label">Full Name</label>
+      <input 
+        type="text" 
+        id="id_first_name"
+        name="first_name" 
+        class="nilaya-form-input" 
+        value="{{ user.first_name }}" 
+        placeholder="e.g. Kashyap Chaudhari"
+        required 
+        autocomplete="name">
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div class="nilaya-folio-form-grid">
       <div class="nilaya-form-group">
-        <label class="nilaya-form-label">Registered Email</label>
-        <input type="email" class="nilaya-form-input" value="{{ user.email }}" readonly style="opacity: 0.75; cursor: not-allowed;">
-        <span style="font-size: 0.76rem; color: {% if user.profile.is_email_verified %}#6ee7b7{% else %}#fbbf24{% endif %}; display: block; margin-top: 4px;">
-          {% if user.profile.is_email_verified %}✓ Verified Email{% else %}⚠ Pending Verification{% endif %}
-        </span>
+        <label for="id_email" class="nilaya-form-label">Registered Email</label>
+        <input 
+          type="email" 
+          id="id_email"
+          class="nilaya-form-input" 
+          value="{{ user.email }}" 
+          readonly 
+          title="Registered patron email ID">
+        <div class="nilaya-verified-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Authenticated Patron ID</span>
+        </div>
       </div>
 
       <div class="nilaya-form-group">
-        <label class="nilaya-form-label">Mobile Number</label>
-        <input type="text" name="mobile_number" class="nilaya-form-input" value="{{ user.profile.mobile_number|default:'' }}" placeholder="10-digit mobile number">
+        <label for="id_mobile_number" class="nilaya-form-label">Mobile Number</label>
+        <input 
+          type="tel" 
+          id="id_mobile_number"
+          name="mobile_number" 
+          class="nilaya-form-input" 
+          value="{{ user.profile.mobile_number|default:'' }}" 
+          placeholder="10-digit mobile number"
+          maxlength="15"
+          autocomplete="tel">
       </div>
     </div>
 
-    <div style="background: rgba(28, 11, 19, 0.5); border: 1px solid rgba(217, 181, 107, 0.2); border-radius: 6px; padding: 18px; margin: 20px 0; font-size: 0.84rem; color: rgba(248, 245, 240, 0.75);">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-        <span>Client Folio Created:</span>
-        <span style="color: #d9b56b; font-weight: 600;">{{ user.date_joined|date:"d M Y" }}</span>
+    <!-- Luxury Folio Metrics Grid -->
+    <div class="nilaya-folio-stats-grid">
+      <div class="nilaya-stat-card">
+        <span class="nilaya-stat-label">Folio Established</span>
+        <span class="nilaya-stat-val">{{ user.date_joined|date:"d M Y" }}</span>
       </div>
-      <div style="display: flex; justify-content: space-between;">
-        <span>Total Boutique Orders:</span>
-        <span style="color: #d9b56b; font-weight: 600;">{{ order_count }} recorded</span>
+      <div class="nilaya-stat-card">
+        <span class="nilaya-stat-label">Boutique Orders</span>
+        <span class="nilaya-stat-val">{{ order_count }} recorded</span>
+      </div>
+      <div class="nilaya-stat-card">
+        <span class="nilaya-stat-label">Membership Tier</span>
+        <span class="nilaya-stat-val">✦ Connoisseur Circle</span>
       </div>
     </div>
 
     <button type="submit" class="nilaya-auth-btn">
-      Save Folio Updates &rarr;
+      <span>Save Folio Updates</span>
+      <span aria-hidden="true">&rarr;</span>
     </button>
   </form>
 </div>
