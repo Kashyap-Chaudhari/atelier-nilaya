@@ -276,13 +276,20 @@
 /* Mobile Optimizations (< 768px) */
 @media (max-width: 768px) {
   .nilaya-account-stage {
-    padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 24px);
-    padding-bottom: 60px;
+    padding-top: calc(56px + 20px);
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 16px));
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .nilaya-account-title {
+    font-size: 1.85rem;
   }
 
   .nilaya-account-tab-bar {
     padding: 4px;
     gap: 4px;
+    margin-bottom: 18px;
   }
 
   .nilaya-tab-link {
