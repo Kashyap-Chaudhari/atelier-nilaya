@@ -962,4 +962,26 @@ def customer_logout_view(request):
     return redirect('campaigns:hero')
 
 
+def privacy_policy_view(request):
+    """
+    Renders the Atelier Nilaya Privacy Policy page satisfying the IT Act 2000 / SPDI Rules 2011
+    and Digital Personal Data Protection Act 2023 / DPDP Rules 2025.
+    """
+    return render(request, 'campaigns/privacy_policy.html', {
+        'page_title': 'Privacy Policy — Atelier Nilaya',
+        'meta_description': 'Privacy Policy for Atelier Nilaya, Surat. Learn how we handle your personal data, order records, and privacy rights under Indian data protection laws.',
+    })
+
+
+def terms_of_provenance_view(request):
+    """
+    Renders the Atelier Nilaya Terms of Provenance (Terms & Conditions) covering BIS Hallmarking,
+    6-digit HUID, gemstone disclosures, pricing formula, insured shipping, and lifetime buyback.
+    """
+    return render(request, 'campaigns/terms_of_provenance.html', {
+        'page_title': 'Terms of Provenance — Atelier Nilaya',
+        'meta_description': 'Terms of Provenance and sales conditions for Atelier Nilaya, Surat. Bureau of Indian Standards (BIS) hallmarking, HUID authenticity, insured transit, and client guarantees.',
+    })
+
+
 

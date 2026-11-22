@@ -1,0 +1,816 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Terms of Provenance &bull; Atelier Nilaya &bull; Surat{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Terms of Provenance and sales conditions for Atelier Nilaya, Surat. Official standards for BIS hallmarking, 6-digit HUID authenticity, insured transit, pricing formulas, and lifetime guarantees.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ateliernilaya.com/terms-of-provenance/">
+
+<style>
+/* ==========================================================================
+   ATELIER NILAYA — STATUTORY LEGAL DESIGN SYSTEM
+   Palette: Deep Maroon (#1c0b13 / #16080e), Gold Accent (#d9b56b),
+   Soft Cream Text (#f4efe6 / #F8F5F0), 6px Corners, Editorial Serif Typography
+   ========================================================================== */
+
+:root {
+  --legal-bg: #16080e;
+  --legal-surface: #1f0d14;
+  --legal-border: rgba(217, 181, 107, 0.22);
+  --legal-gold: #d9b56b;
+  --legal-gold-light: #f1d89a;
+  --legal-cream: #f4efe6;
+  --legal-muted: rgba(244, 239, 230, 0.72);
+  --legal-dim: rgba(244, 239, 230, 0.48);
+}
+
+.nilaya-legal-stage {
+  background-color: var(--legal-bg);
+  color: var(--legal-cream);
+  min-height: 100vh;
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 36px);
+  padding-bottom: 100px;
+  padding-left: clamp(16px, 4vw, 48px);
+  padding-right: clamp(16px, 4vw, 48px);
+}
+
+.nilaya-legal-wrapper {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+/* Sticky Table of Contents Sidebar (Desktop) */
+.nilaya-legal-sidebar {
+  position: sticky;
+  top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 24px);
+  background: var(--legal-surface);
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+  padding: 24px 20px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--legal-border) transparent;
+}
+
+.nilaya-legal-sidebar-title {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--legal-gold);
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--legal-border);
+}
+
+.nilaya-legal-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.nilaya-legal-toc-item a {
+  display: block;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.80rem;
+  color: var(--legal-muted);
+  text-decoration: none;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.nilaya-legal-toc-item a:hover,
+.nilaya-legal-toc-item a:focus-visible {
+  color: var(--legal-gold-light);
+  background: rgba(217, 181, 107, 0.08);
+  outline: none;
+}
+
+/* Mobile Collapsible TOC Dropdown */
+.nilaya-mobile-toc {
+  display: none;
+  margin-bottom: 28px;
+  background: var(--legal-surface);
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+  padding: 14px 18px;
+}
+
+.nilaya-mobile-toc summary {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--legal-gold);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nilaya-mobile-toc summary::after {
+  content: '▼';
+  font-size: 0.7rem;
+  color: var(--legal-gold);
+  transition: transform 0.2s ease;
+}
+
+.nilaya-mobile-toc[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.nilaya-mobile-toc .nilaya-legal-toc-list {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--legal-border);
+}
+
+/* Main Legal Column (~720px) */
+.nilaya-legal-main {
+  max-width: 720px;
+  width: 100%;
+}
+
+.nilaya-legal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--legal-gold);
+  background: rgba(217, 181, 107, 0.08);
+  border: 1px solid var(--legal-border);
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.nilaya-legal-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--legal-cream);
+  margin: 0 0 14px 0;
+  letter-spacing: 0.01em;
+}
+
+.nilaya-legal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.80rem;
+  color: var(--legal-dim);
+  margin-bottom: 28px;
+}
+
+.nilaya-print-btn {
+  background: transparent;
+  color: var(--legal-gold);
+  border: 1px solid var(--legal-border);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.nilaya-print-btn:hover {
+  background: rgba(217, 181, 107, 0.12);
+  color: var(--legal-gold-light);
+  border-color: var(--legal-gold);
+}
+
+/* "In Short" Plain-Language Summary Box */
+.nilaya-in-short-box {
+  background: rgba(217, 181, 107, 0.06);
+  border: 1px solid var(--legal-border);
+  border-left: 4px solid var(--legal-gold);
+  border-radius: 6px;
+  padding: 24px 26px;
+  margin-bottom: 40px;
+}
+
+.nilaya-in-short-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--legal-gold-light);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilaya-in-short-list {
+  margin: 0;
+  padding-left: 20px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--legal-cream);
+}
+
+.nilaya-in-short-list li {
+  margin-bottom: 8px;
+}
+
+.nilaya-in-short-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Section Styling */
+.nilaya-legal-section {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--legal-border);
+}
+
+.nilaya-legal-section:last-of-type {
+  border-bottom: none;
+}
+
+.nilaya-section-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.6rem, 2.5vw, 1.9rem);
+  font-weight: 500;
+  color: var(--legal-gold-light);
+  margin: 0 0 16px 0;
+  line-height: 1.25;
+  scroll-margin-top: 120px;
+}
+
+.nilaya-legal-body {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--legal-muted);
+}
+
+.nilaya-legal-body p {
+  margin: 0 0 16px 0;
+}
+
+.nilaya-legal-body p:last-child {
+  margin-bottom: 0;
+}
+
+.nilaya-legal-body strong {
+  color: var(--legal-cream);
+  font-weight: 600;
+}
+
+.nilaya-legal-body ul,
+.nilaya-legal-body ol {
+  margin: 12px 0 16px 0;
+  padding-left: 24px;
+}
+
+.nilaya-legal-body li {
+  margin-bottom: 8px;
+}
+
+/* Fact Placeholder Tag */
+.placeholder-tag {
+  background: rgba(217, 181, 107, 0.16);
+  border: 1px dashed var(--legal-gold);
+  color: var(--legal-gold-light);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.90em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Pricing Formula Callout */
+.formula-callout {
+  background: rgba(217, 181, 107, 0.08);
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--legal-gold-light);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* Bottom Cross-Navigation & Versioning */
+.nilaya-legal-footer-nav {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--legal-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.nilaya-cross-link {
+  color: var(--legal-gold);
+  text-decoration: none;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.nilaya-cross-link:hover {
+  color: var(--legal-gold-light);
+}
+
+.nilaya-version-history {
+  margin-top: 32px;
+  background: var(--legal-surface);
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+  padding: 18px 22px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.80rem;
+  color: var(--legal-dim);
+}
+
+.nilaya-counsel-advisory {
+  margin-top: 32px;
+  background: rgba(217, 181, 107, 0.04);
+  border: 1px solid rgba(217, 181, 107, 0.25);
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: 0.82rem;
+  color: var(--legal-dim);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .nilaya-legal-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .nilaya-legal-sidebar {
+    display: none;
+  }
+
+  .nilaya-mobile-toc {
+    display: block;
+  }
+
+  .nilaya-legal-stage {
+    padding-top: calc(56px + 24px);
+    padding-bottom: 100px;
+  }
+
+  .nilaya-legal-body {
+    font-size: 16px;
+  }
+}
+
+/* ==========================================================================
+   CLEAN PRINT STYLESHEET
+   ========================================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  #aaranya-header,
+  .aaranya-mobile-bar,
+  .nilaya-mobile-app-bar,
+  .nilaya-legal-sidebar,
+  .nilaya-mobile-toc,
+  .nilaya-print-btn,
+  .nilaya-legal-footer-nav,
+  .nilaya-counsel-advisory,
+  footer,
+  #aaranya-scrim {
+    display: none !important;
+  }
+
+  .nilaya-legal-stage {
+    padding: 0 !important;
+    background: transparent !important;
+    min-height: auto !important;
+  }
+
+  .nilaya-legal-main {
+    max-width: 100% !important;
+  }
+
+  .nilaya-legal-title,
+  .nilaya-section-heading,
+  .nilaya-in-short-title,
+  .formula-callout {
+    color: #000000 !important;
+  }
+
+  .nilaya-legal-body,
+  .nilaya-in-short-list {
+    color: #222222 !important;
+  }
+
+  .nilaya-in-short-box {
+    border: 1px solid #777777 !important;
+    background: #f7f7f7 !important;
+  }
+
+  .nilaya-legal-section {
+    border-bottom: 1px solid #cccccc !important;
+    page-break-inside: avoid;
+  }
+
+  .placeholder-tag {
+    border: 1px dashed #666666 !important;
+    color: #000000 !important;
+    background: transparent !important;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="nilaya-legal-stage">
+  <div class="nilaya-legal-wrapper">
+
+    <!-- Desktop Sticky Sidebar Table of Contents -->
+    <aside class="nilaya-legal-sidebar" aria-label="Table of Contents">
+      <div class="nilaya-legal-sidebar-title">Terms Sections</div>
+      <nav>
+        <ul class="nilaya-legal-toc-list">
+          <li class="nilaya-legal-toc-item"><a href="#section-promise">1. Promise of Provenance</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-hallmarking">2. Purity &amp; BIS Hallmarking</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-gemstones">3. Gemstones &amp; Diamonds</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-sourcing">4. Sourcing &amp; Artisanal Ethics</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-presentation">5. Delivery Presentation</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-pricing">6. Transparent Pricing Formula</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-orders">7. Ordering &amp; Payment Verification</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-bespoke">8. Bespoke &amp; Custom Orders</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-transit">9. Insured White-Glove Transit</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-returns">10. 15-Day Return &amp; Exchange</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-buyback">11. Lifetime Buyback &amp; Upgrade</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-care">12. Complimentary Care &amp; Service</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-liability">13. Limitation of Liability</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-jurisdiction">14. Governing Law &amp; Jurisdiction</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-company">15. Atelier Particulars</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Legal Reading Column -->
+    <div class="nilaya-legal-main">
+
+      <div class="nilaya-legal-badge">
+        <span>✦</span>
+        <span>Bureau of Indian Standards (BIS) &bull; Consumer Protection Compliance</span>
+      </div>
+
+      <h1 class="nilaya-legal-title">Terms of Provenance</h1>
+
+      <div class="nilaya-legal-meta">
+        <span><strong>Effective Date:</strong> 22 November 2026</span>
+        <span>&bull;</span>
+        <span><strong>Version:</strong> 1.0</span>
+        <span>&bull;</span>
+        <span><strong>Origin:</strong> Surat, Gujarat, India</span>
+        <button type="button" class="nilaya-print-btn" onclick="window.print();" aria-label="Print or save as PDF">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          <span>Print / Save PDF</span>
+        </button>
+      </div>
+
+      <!-- Mobile Collapsible Jump Menu -->
+      <details class="nilaya-mobile-toc">
+        <summary>Jump to Section</summary>
+        <ul class="nilaya-legal-toc-list">
+          <li class="nilaya-legal-toc-item"><a href="#section-promise">1. Promise of Provenance</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-hallmarking">2. Purity &amp; BIS Hallmarking</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-gemstones">3. Gemstones &amp; Diamonds</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-sourcing">4. Sourcing &amp; Artisanal Ethics</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-presentation">5. Delivery Presentation</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-pricing">6. Transparent Pricing Formula</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-orders">7. Ordering &amp; Payment Verification</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-bespoke">8. Bespoke &amp; Custom Orders</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-transit">9. Insured White-Glove Transit</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-returns">10. 15-Day Return &amp; Exchange</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-buyback">11. Lifetime Buyback &amp; Upgrade</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-care">12. Complimentary Care &amp; Service</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-liability">13. Limitation of Liability</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-jurisdiction">14. Governing Law &amp; Jurisdiction</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-company">15. Atelier Particulars</a></li>
+        </ul>
+      </details>
+
+      <!-- "In Short" Plain-Language Summary Box -->
+      <div class="nilaya-in-short-box">
+        <h2 class="nilaya-in-short-title">In Short &mdash; Client Guarantees</h2>
+        <ul class="nilaya-in-short-list">
+          <li><strong>100% Certified BIS Hallmarking:</strong> Every gold piece carries the mandatory 6-digit alphanumeric HUID laser inscribed and registered with the Bureau of Indian Standards.</li>
+          <li><strong>Zero Synthetic Ambiguity:</strong> We explicitly declare and certificate natural gemstones versus lab-grown creations with independent laboratory grading <span class="placeholder-tag">[GIA / IGI / SGL]</span>.</li>
+          <li><strong>Transparent Pricing:</strong> Our invoice breaks down net precious metal weight, daily bullion benchmark rate, making charges, and stone value separately.</li>
+          <li><strong>Insured Armored Transit:</strong> 100% insured courier transit across India with tamper-evident security vault boxes and OTP-authorized delivery handovers.</li>
+          <li><strong>Lifetime Patronage:</strong> 15-day inspection return window, lifetime exchange/buyback at prevailing metal rates, and complimentary atelier cleaning and prong inspection.</li>
+        </ul>
+      </div>
+
+      <!-- SECTION 1 -->
+      <section class="nilaya-legal-section" id="section-promise">
+        <h2 class="nilaya-section-heading">1. Our Promise of Provenance</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Atelier Nilaya crafts heirloom haute joaillerie. Every jewel that departs our benches in Surat is an original creation formed from certified bullion, responsibly gathered gemstones, and generational bench artistry. These Terms of Provenance constitute the binding agreement between you ("Patron", "Purchaser") and Atelier Nilaya ("the Atelier") regarding every acquisition, commission, and delivery.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section class="nilaya-legal-section" id="section-hallmarking">
+        <h2 class="nilaya-section-heading">2. Precious Metal Purity &amp; Mandatory BIS Hallmarking</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            In strict compliance with the <strong>Bureau of Indian Standards Act, 2016</strong> and the Hallmarking Order regulations issued by the Government of India, every piece of gold jewellery crafted and sold by the Atelier bears mandatory BIS Hallmarking:
+          </p>
+          <ul>
+            <li><strong>BIS Standard Mark:</strong> The triangular Bureau of Indian Standards symbol.</li>
+            <li><strong>Purity Grade:</strong>
+              <ul>
+                <li><strong>22K Gold (916):</strong> 91.6% pure gold alloyed for structural durability.</li>
+                <li><strong>18K Gold (750):</strong> 75.0% pure gold crafted for diamond and gem settings.</li>
+                <li><strong>950 Platinum:</strong> 95.0% pure platinum tested to international standards.</li>
+                <li><strong>925 Sterling Silver:</strong> 92.5% pure silver with fine anti-tarnish rhodium plating.</li>
+              </ul>
+            </li>
+            <li><strong>6-Digit Alphanumeric HUID:</strong> Each individual ornament is laser-inscribed with a unique Hallmark Unique Identification (HUID) code, verifiable via the official <em>BIS Care</em> mobile application.</li>
+            <li><strong>Weight Separation on Invoices:</strong> Our legal tax invoices clearly distinguish <strong>Gross Weight</strong>, <strong>Net Precious Metal Weight</strong>, and <strong>Stone Weight</strong>. We never charge precious metal rates for gemstone weight.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section class="nilaya-legal-section" id="section-gemstones">
+        <h2 class="nilaya-section-heading">3. Gemstones, Diamonds &amp; Laboratory Certification</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            The Atelier upholds absolute transparency regarding the geological nature of all minerals:
+          </p>
+          <ul>
+            <li><strong>Independent Diamond Certification:</strong> Solitaires and significant diamond arrangements are accompanied by physical certificate cards issued by globally recognized gemological laboratories <span class="placeholder-tag">[e.g. Gemological Institute of America (GIA), International Gemological Institute (IGI), or Solitaire Gemological Laboratories (SGL)]</span>.</li>
+            <li><strong>Natural vs. Lab-Grown Disclosure:</strong> Natural mined diamonds and laboratory-grown diamonds are categorized in distinct collections and explicitly labeled in all product descriptions, invoices, and certificates.</li>
+            <li><strong>Heritage Uncut Polki &amp; Kundan:</strong> Polki refers to natural uncut diamond slices set in pure 24K gold foil (kundan jadau). Natural inclusions, variations in translucency, and foil reflections are inherent heritage characteristics and celebrate authentic Indian craftsmanship.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section class="nilaya-legal-section" id="section-sourcing">
+        <h2 class="nilaya-section-heading">4. Ethical Sourcing &amp; Surat Artisanal Standards</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Atelier Nilaya is rooted in the artisanal heritage of Surat, Gujarat. We source precious bullion through government-recognized banks and nominate suppliers compliant with the <strong>Kimberley Process Certification Scheme (KPCS)</strong>. Our master karigars work under fair compensation, regulated hours, ergonomic benches, and dignified atelier conditions.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section class="nilaya-legal-section" id="section-presentation">
+        <h2 class="nilaya-section-heading">5. What Arrives With Every Acquisition</h2>
+        <div class="nilaya-legal-body">
+          <p>Every dispatch from Atelier Nilaya is prepared as an heirloom unboxing presentation:</p>
+          <ul>
+            <li>Your handcrafted jewel nestled in our archival velvet presentation vault box.</li>
+            <li>Official Atelier Nilaya Certificate of Authenticity &amp; Valuation Card.</li>
+            <li>Independent Laboratory Diamond Certificate (for qualifying diamond pieces).</li>
+            <li>BIS Hallmarking documentation with your specific 6-digit HUID inscribed.</li>
+            <li>Serialized tamper-evident security seal attached to the jewel.</li>
+            <li>Comprehensive Atelier Care &amp; Cleaning brochure.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 6 -->
+      <section class="nilaya-legal-section" id="section-pricing">
+        <h2 class="nilaya-section-heading">6. Transparent Pricing Formula</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            We believe luxury jewelry should be priced with total integrity. Our prices are computed using the following formula:
+          </p>
+          <div class="formula-callout">
+            Final Price = (Net Metal Weight × Daily Bullion Benchmark) + Gemstone Value + Making Charge + 3% GST
+          </div>
+          <ul>
+            <li><strong>Daily Bullion Benchmark:</strong> Bullion rates are updated daily based on prevailing market rates in Gandhinagar / Ahmedabad / Mumbai.</li>
+            <li><strong>Rate Lock at Checkout:</strong> Once your order is submitted and payment is initiated, your metal benchmark rate is locked and immune to intra-day market fluctuations.</li>
+            <li><strong>Goods and Services Tax (GST):</strong> A statutory 3% GST is applied uniformly across precious metals and handcrafted jewellery in accordance with Central and State GST legislation.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 7 -->
+      <section class="nilaya-legal-section" id="section-orders">
+        <h2 class="nilaya-section-heading">7. Ordering, Authentication &amp; KYC Verification</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Orders placed through our website constitute a formal offer to purchase. An order is confirmed solely upon successful receipt of payment through our payment gateway (Razorpay) or direct RTGS/NEFT bank transfer.
+          </p>
+          <p>
+            <strong>Mandatory KYC for High-Value Acquisitions (Rule 114B):</strong> Under Rule 114B of the Income Tax Rules, 1962, quoting a valid <strong>Permanent Account Number (PAN)</strong> or submitting Form 60 is mandatory for all transactions exceeding <strong>₹2,00,000 (Rupees Two Lakhs)</strong> per transaction. The Atelier will request and verify your PAN prior to dispatching qualifying orders.
+          </p>
+          <p>
+            <em>Right of Refusal:</em> The Atelier reserves the right to decline or cancel orders displaying signs of fraudulent payment, unauthorized third-party cards, or unverified recipient identities.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 8 -->
+      <section class="nilaya-legal-section" id="section-bespoke">
+        <h2 class="nilaya-section-heading">8. Bespoke &amp; Made-to-Order Commissions</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            For bespoke bridal suites, personalized engravings, and made-to-order sizing:
+          </p>
+          <ul>
+            <li><strong>Advance Commitment:</strong> A non-refundable fabrication deposit of <span class="placeholder-tag">[50% of estimated piece value]</span> is required prior to wax carving and metal casting.</li>
+            <li><strong>Fabrication Timeline:</strong> Standard bespoke fabrication spans <span class="placeholder-tag">[14 to 21 business days]</span> from the date of final 3D CAD design approval.</li>
+            <li><strong>Exclusion from Standard Return:</strong> Bespoke commissions crafted to unique finger dimensions or carrying personalized laser inscriptions are custom creations and are excluded from the 15-day return policy, though they remain fully eligible for our Lifetime Buyback &amp; Exchange guarantee.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 9 -->
+      <section class="nilaya-legal-section" id="section-transit">
+        <h2 class="nilaya-section-heading">9. Insured White-Glove Transit &amp; Handover</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Fine jewellery requires specialized secure logistics. We partner exclusively with accredited armored courier services:
+          </p>
+          <ul>
+            <li><strong>Logistics Partners:</strong> <span class="placeholder-tag">[Sequel Logistics Private Limited / BVC Logistics / Blue Dart Apex]</span>.</li>
+            <li><strong>100% In-Transit Insurance:</strong> Every parcel is fully insured by the Atelier against loss, theft, or damage while in transit until the moment of verified delivery handover.</li>
+            <li><strong>OTP Verification &amp; Signature:</strong> Delivery will only be handed over to the registered recipient upon presentation of an authorized One-Time Password (OTP) sent to the verified mobile number.</li>
+            <li><strong>Mandatory Unboxing Video Protocol:</strong> To protect both patron and atelier against transit tampering, patrons are requested to record an uncut, 360-degree unboxing video showing the intact outer courier seal and inner tamper ribbon. Any transit damage or seal tampering must be reported within <span class="placeholder-tag">[24 to 48 hours]</span> of delivery.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 10 -->
+      <section class="nilaya-legal-section" id="section-returns">
+        <h2 class="nilaya-section-heading">10. 15-Day Return &amp; Exchange Policy</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            We want you to treasure your jewel completely. Standard catalog pieces may be returned or exchanged within <strong>15 calendar days</strong> from the recorded delivery date, subject to the following conditions:
+          </p>
+          <ul>
+            <li>The piece must remain in unworn, brand-new condition with no signs of wear, sizing, or alteration.</li>
+            <li>The serialized tamper-evident security tag must be completely intact and unbroken.</li>
+            <li>All original packaging, velvet box, laboratory certificates, and tax invoices must be returned.</li>
+            <li><strong>Inspection &amp; Refund:</strong> Upon receipt at our Surat atelier, the piece undergoes gemological and hallmarking verification within <strong>3 to 5 business days</strong>. Approved refunds are credited to the original payment source within <span class="placeholder-tag">[7 business days]</span>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 11 -->
+      <section class="nilaya-legal-section" id="section-buyback">
+        <h2 class="nilaya-section-heading">11. Lifetime Buyback &amp; Exchange Guarantee</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Every authentic Atelier Nilaya creation carries our permanent commitment of value:
+          </p>
+          <ul>
+            <li><strong>Precious Metal Value:</strong> Credited at <span class="placeholder-tag">[100% of the prevailing bullion market rate]</span> on the day of physical receipt and purity assay.</li>
+            <li><strong>Diamond Value:</strong> Credited at <span class="placeholder-tag">[90% to 95% of the current market diamond value]</span> for certified solitaires and natural diamonds.</li>
+            <li><strong>Deductions:</strong> Making charges, third-party laboratory certification fees, and statutory taxes (GST) originally paid are non-refundable.</li>
+            <li>Pieces presented for buyback must be accompanied by the original tax invoice and laboratory certificates.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 12 -->
+      <section class="nilaya-legal-section" id="section-care">
+        <h2 class="nilaya-section-heading">12. Complimentary Lifetime Care &amp; Servicing</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            To maintain your jewels in heirloom splendor, the Atelier provides complimentary lifelong servicing:
+          </p>
+          <ul>
+            <li>Complimentary ultrasonic cleaning and steam degreasing at our flagship showroom.</li>
+            <li>Annual prong tightening and claw inspection to ensure gemstone stability.</li>
+            <li>One complimentary ring re-sizing (within ±1 standard Indian size) during the first year of acquisition.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 13 -->
+      <section class="nilaya-legal-section" id="section-liability">
+        <h2 class="nilaya-section-heading">13. Limitation of Liability &amp; Force Majeure</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            To the maximum extent permitted under applicable Indian law, the Atelier's total liability arising out of or in connection with any acquired product shall not exceed the actual purchase price paid by the patron for that specific item.
+          </p>
+          <p>
+            Neither party shall be held liable for failure or delay in performance caused by events beyond reasonable control (Force Majeure), including acts of God, civil commotion, strikes, governmental restrictions, or nationwide courier disruptions.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 14 -->
+      <section class="nilaya-legal-section" id="section-jurisdiction">
+        <h2 class="nilaya-section-heading">14. Governing Law &amp; Dispute Resolution</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            These Terms of Provenance are governed by and construed in accordance with the substantive laws of the <strong>Republic of India</strong>, without regard to conflict of laws principles.
+          </p>
+          <p>
+            Any dispute, controversy, or claim arising out of or relating to your acquisition shall first be referred to mutual amicable conciliation. In the event conciliation fails within 30 days, the courts located exclusively in <strong>Surat, Gujarat, India</strong> shall possess exclusive jurisdiction to adjudicate all proceedings.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 15 -->
+      <section class="nilaya-legal-section" id="section-company">
+        <h2 class="nilaya-section-heading">15. Atelier Particulars &amp; Concierge Support</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            For inquiries, bespoke appointments, or certificate verification:
+            <br>
+            <strong>Entity Name:</strong> <span class="placeholder-tag">[Legal Entity Name: Atelier Nilaya Jewels Private Limited]</span>
+            <br>
+            <strong>Principal Boutique:</strong> <span class="placeholder-tag">[Plot No. 102, Surat Diamond Bourse Road / Ring Road, Surat, Gujarat 395007, India]</span>
+            <br>
+            <strong>CIN / LLPIN:</strong> <span class="placeholder-tag">[U36911GJ2026PTC000000]</span>
+            <br>
+            <strong>GSTIN:</strong> <span class="placeholder-tag">[24AAAAA0000A1Z5]</span>
+            <br>
+            <strong>Concierge Email:</strong> <span class="placeholder-tag">[concierge@ateliernilaya.com]</span>
+            <br>
+            <strong>Concierge Telephone:</strong> <span class="placeholder-tag">[+91 98251 00000 / 0261 2000000]</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- Version History -->
+      <div class="nilaya-version-history">
+        <strong>Document Version History:</strong>
+        <br>
+        &bull; <strong>Version 1.0 (22 November 2026):</strong> Definitive terms of provenance incorporating BIS Hallmarking regulations, 6-digit HUID authenticity protocols, consumer protection e-commerce guidelines, and insured transit mandates.
+      </div>
+
+      <!-- Legal Counsel Review Reminder -->
+      <div class="nilaya-counsel-advisory">
+        <strong>Statutory Notice:</strong> This document contains specific commercial and operational placeholders indicated by dashed boxes. Prior to production publication, the corporate entity particulars, buyback percentages, transit partners, and dispute terms must be verified by your corporate legal counsel and Chartered Accountant.
+      </div>
+
+      <!-- Footer Cross-Navigation -->
+      <div class="nilaya-legal-footer-nav">
+        <a href="{% url 'campaigns:privacy_policy' %}" class="nilaya-cross-link">
+          <span>Read Privacy Policy</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="{% url 'campaigns:hero' %}" class="nilaya-cross-link">
+          <span aria-hidden="true">&larr;</span>
+          <span>Return to Boutique Home</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

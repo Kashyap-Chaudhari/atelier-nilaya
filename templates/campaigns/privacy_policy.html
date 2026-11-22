@@ -1,0 +1,844 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Privacy Policy &bull; Atelier Nilaya &bull; Surat{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Official Privacy Policy of Atelier Nilaya, Surat. Outlines collection, usage, and safeguarding of patron data in accordance with the IT Act 2000, SPDI Rules 2011, and the Digital Personal Data Protection Act 2023.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ateliernilaya.com/privacy-policy/">
+
+<style>
+/* ==========================================================================
+   ATELIER NILAYA — STATUTORY LEGAL DESIGN SYSTEM
+   Palette: Deep Maroon (#1c0b13 / #16080e), Gold Accent (#d9b56b),
+   Soft Cream Text (#f4efe6 / #F8F5F0), 6px Corners, Editorial Serif Typography
+   ========================================================================== */
+
+:root {
+  --legal-bg: #16080e;
+  --legal-surface: #1f0d14;
+  --legal-border: rgba(217, 181, 107, 0.22);
+  --legal-gold: #d9b56b;
+  --legal-gold-light: #f1d89a;
+  --legal-cream: #f4efe6;
+  --legal-muted: rgba(244, 239, 230, 0.72);
+  --legal-dim: rgba(244, 239, 230, 0.48);
+}
+
+.nilaya-legal-stage {
+  background-color: var(--legal-bg);
+  color: var(--legal-cream);
+  min-height: 100vh;
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 36px);
+  padding-bottom: 100px;
+  padding-left: clamp(16px, 4vw, 48px);
+  padding-right: clamp(16px, 4vw, 48px);
+}
+
+.nilaya-legal-wrapper {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+/* Sticky Table of Contents Sidebar (Desktop) */
+.nilaya-legal-sidebar {
+  position: sticky;
+  top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 24px);
+  background: var(--legal-surface);
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+  padding: 24px 20px;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--legal-border) transparent;
+}
+
+.nilaya-legal-sidebar-title {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--legal-gold);
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--legal-border);
+}
+
+.nilaya-legal-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nilaya-legal-toc-item a {
+  display: block;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.82rem;
+  color: var(--legal-muted);
+  text-decoration: none;
+  line-height: 1.45;
+  transition: all 0.2s ease;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.nilaya-legal-toc-item a:hover,
+.nilaya-legal-toc-item a:focus-visible {
+  color: var(--legal-gold-light);
+  background: rgba(217, 181, 107, 0.08);
+  outline: none;
+}
+
+/* Mobile Collapsible TOC Dropdown */
+.nilaya-mobile-toc {
+  display: none;
+  margin-bottom: 28px;
+  background: var(--legal-surface);
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+  padding: 14px 18px;
+}
+
+.nilaya-mobile-toc summary {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--legal-gold);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nilaya-mobile-toc summary::after {
+  content: '▼';
+  font-size: 0.7rem;
+  color: var(--legal-gold);
+  transition: transform 0.2s ease;
+}
+
+.nilaya-mobile-toc[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.nilaya-mobile-toc .nilaya-legal-toc-list {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--legal-border);
+}
+
+/* Main Legal Column (~720px) */
+.nilaya-legal-main {
+  max-width: 720px;
+  width: 100%;
+}
+
+.nilaya-legal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--legal-gold);
+  background: rgba(217, 181, 107, 0.08);
+  border: 1px solid var(--legal-border);
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.nilaya-legal-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--legal-cream);
+  margin: 0 0 14px 0;
+  letter-spacing: 0.01em;
+}
+
+.nilaya-legal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.80rem;
+  color: var(--legal-dim);
+  margin-bottom: 28px;
+}
+
+.nilaya-print-btn {
+  background: transparent;
+  color: var(--legal-gold);
+  border: 1px solid var(--legal-border);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.nilaya-print-btn:hover {
+  background: rgba(217, 181, 107, 0.12);
+  color: var(--legal-gold-light);
+  border-color: var(--legal-gold);
+}
+
+/* "In Short" Plain-Language Summary Box */
+.nilaya-in-short-box {
+  background: rgba(217, 181, 107, 0.06);
+  border: 1px solid var(--legal-border);
+  border-left: 4px solid var(--legal-gold);
+  border-radius: 6px;
+  padding: 24px 26px;
+  margin-bottom: 40px;
+}
+
+.nilaya-in-short-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--legal-gold-light);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nilaya-in-short-list {
+  margin: 0;
+  padding-left: 20px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--legal-cream);
+}
+
+.nilaya-in-short-list li {
+  margin-bottom: 8px;
+}
+
+.nilaya-in-short-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Legal Content Typography & Section Styling */
+.nilaya-legal-section {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--legal-border);
+}
+
+.nilaya-legal-section:last-of-type {
+  border-bottom: none;
+}
+
+.nilaya-section-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.6rem, 2.5vw, 1.9rem);
+  font-weight: 500;
+  color: var(--legal-gold-light);
+  margin: 0 0 16px 0;
+  line-height: 1.25;
+  scroll-margin-top: 120px;
+}
+
+.nilaya-legal-body {
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--legal-muted);
+}
+
+.nilaya-legal-body p {
+  margin: 0 0 16px 0;
+}
+
+.nilaya-legal-body p:last-child {
+  margin-bottom: 0;
+}
+
+.nilaya-legal-body strong {
+  color: var(--legal-cream);
+  font-weight: 600;
+}
+
+.nilaya-legal-body ul,
+.nilaya-legal-body ol {
+  margin: 12px 0 16px 0;
+  padding-left: 24px;
+}
+
+.nilaya-legal-body li {
+  margin-bottom: 8px;
+}
+
+/* Fact Placeholder Tag */
+.placeholder-tag {
+  background: rgba(217, 181, 107, 0.16);
+  border: 1px dashed var(--legal-gold);
+  color: var(--legal-gold-light);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.90em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Tables in Legal Documents */
+.nilaya-legal-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0;
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+}
+
+.nilaya-legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.nilaya-legal-table th {
+  background: rgba(217, 181, 107, 0.12);
+  color: var(--legal-gold-light);
+  padding: 12px 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--legal-border);
+  white-space: nowrap;
+}
+
+.nilaya-legal-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(217, 181, 107, 0.1);
+  color: var(--legal-muted);
+  vertical-align: top;
+}
+
+.nilaya-legal-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Bottom Cross-Navigation & Versioning */
+.nilaya-legal-footer-nav {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--legal-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.nilaya-cross-link {
+  color: var(--legal-gold);
+  text-decoration: none;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.nilaya-cross-link:hover {
+  color: var(--legal-gold-light);
+}
+
+.nilaya-version-history {
+  margin-top: 32px;
+  background: var(--legal-surface);
+  border: 1px solid var(--legal-border);
+  border-radius: 6px;
+  padding: 18px 22px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.80rem;
+  color: var(--legal-dim);
+}
+
+.nilaya-counsel-advisory {
+  margin-top: 32px;
+  background: rgba(217, 181, 107, 0.04);
+  border: 1px solid rgba(217, 181, 107, 0.25);
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: 0.82rem;
+  color: var(--legal-dim);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .nilaya-legal-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .nilaya-legal-sidebar {
+    display: none;
+  }
+
+  .nilaya-mobile-toc {
+    display: block;
+  }
+
+  .nilaya-legal-stage {
+    padding-top: calc(56px + 24px);
+    padding-bottom: 100px;
+  }
+
+  .nilaya-legal-body {
+    font-size: 16px;
+  }
+}
+
+/* ==========================================================================
+   CLEAN PRINT STYLESHEET
+   ========================================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  #aaranya-header,
+  .aaranya-mobile-bar,
+  .nilaya-mobile-app-bar,
+  .nilaya-legal-sidebar,
+  .nilaya-mobile-toc,
+  .nilaya-print-btn,
+  .nilaya-legal-footer-nav,
+  .nilaya-counsel-advisory,
+  footer,
+  #aaranya-scrim {
+    display: none !important;
+  }
+
+  .nilaya-legal-stage {
+    padding: 0 !important;
+    background: transparent !important;
+    min-height: auto !important;
+  }
+
+  .nilaya-legal-main {
+    max-width: 100% !important;
+  }
+
+  .nilaya-legal-title,
+  .nilaya-section-heading,
+  .nilaya-in-short-title {
+    color: #000000 !important;
+  }
+
+  .nilaya-legal-body,
+  .nilaya-in-short-list {
+    color: #222222 !important;
+  }
+
+  .nilaya-in-short-box {
+    border: 1px solid #777777 !important;
+    background: #f7f7f7 !important;
+  }
+
+  .nilaya-legal-section {
+    border-bottom: 1px solid #cccccc !important;
+    page-break-inside: avoid;
+  }
+
+  .placeholder-tag {
+    border: 1px dashed #666666 !important;
+    color: #000000 !important;
+    background: transparent !important;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="nilaya-legal-stage">
+  <div class="nilaya-legal-wrapper">
+
+    <!-- Desktop Sticky Sidebar Table of Contents -->
+    <aside class="nilaya-legal-sidebar" aria-label="Table of Contents">
+      <div class="nilaya-legal-sidebar-title">Sections</div>
+      <nav>
+        <ul class="nilaya-legal-toc-list">
+          <li class="nilaya-legal-toc-item"><a href="#section-who-we-are">1. Who We Are</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-personal-data">2. Personal Data We Collect</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-purposes">3. Why We Collect &amp; Use Data</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-consent">4. Lawful Consent &amp; Withdrawal</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-sharing">5. Third-Party Sharing</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-cookies">6. Cookie Policy &amp; Tracking</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-retention">7. Data Retention Periods</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-rights">8. Your Statutory Rights</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-children">9. Protection of Children</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-security">10. Security Safeguards</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-cross-border">11. Cross-Border Transfers</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-grievance">12. Grievance Officer Details</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-updates">13. Policy Updates</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Legal Reading Column -->
+    <div class="nilaya-legal-main">
+
+      <div class="nilaya-legal-badge">
+        <span>✦</span>
+        <span>Statutory Compliance &bull; IT Act &amp; DPDP Act</span>
+      </div>
+
+      <h1 class="nilaya-legal-title">Privacy Policy</h1>
+
+      <div class="nilaya-legal-meta">
+        <span><strong>Effective Date:</strong> 22 November 2026</span>
+        <span>&bull;</span>
+        <span><strong>Version:</strong> 1.0</span>
+        <span>&bull;</span>
+        <span><strong>Jurisdiction:</strong> Surat, Gujarat, India</span>
+        <button type="button" class="nilaya-print-btn" onclick="window.print();" aria-label="Print or save as PDF">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          <span>Print / Save PDF</span>
+        </button>
+      </div>
+
+      <!-- Mobile Collapsible Jump Menu -->
+      <details class="nilaya-mobile-toc">
+        <summary>Jump to Section</summary>
+        <ul class="nilaya-legal-toc-list">
+          <li class="nilaya-legal-toc-item"><a href="#section-who-we-are">1. Who We Are</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-personal-data">2. Personal Data We Collect</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-purposes">3. Why We Collect &amp; Use Data</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-consent">4. Lawful Consent &amp; Withdrawal</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-sharing">5. Third-Party Sharing</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-cookies">6. Cookie Policy &amp; Tracking</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-retention">7. Data Retention Periods</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-rights">8. Your Statutory Rights</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-children">9. Protection of Children</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-security">10. Security Safeguards</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-cross-border">11. Cross-Border Transfers</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-grievance">12. Grievance Officer Details</a></li>
+          <li class="nilaya-legal-toc-item"><a href="#section-updates">13. Policy Updates</a></li>
+        </ul>
+      </details>
+
+      <!-- "In Short" Plain-Language Summary Box -->
+      <div class="nilaya-in-short-box">
+        <h2 class="nilaya-in-short-title">In Short &mdash; Key Commitments</h2>
+        <ul class="nilaya-in-short-list">
+          <li><strong>We respect your discretion:</strong> We collect only the information strictly necessary to craft, hallmark, insure, and securely deliver your fine jewellery acquisitions.</li>
+          <li><strong>No card numbers stored:</strong> All financial payments are processed through Razorpay's PCI-DSS Level 1 certified gateway. We never store credit or debit card credentials.</li>
+          <li><strong>Zero data selling:</strong> We do not sell, rent, monetize, or trade your personal or purchase data under any circumstances.</li>
+          <li><strong>Legal statutory compliance:</strong> This policy satisfies both the Information Technology Act 2000 (SPDI Rules 2011) and the Digital Personal Data Protection Act 2023 (DPDP Rules 2025).</li>
+          <li><strong>Full control:</strong> You may request access, correction, or deletion of your records at any time by contacting our dedicated Grievance Officer in Surat.</li>
+        </ul>
+      </div>
+
+      <!-- SECTION 1 -->
+      <section class="nilaya-legal-section" id="section-who-we-are">
+        <h2 class="nilaya-section-heading">1. Who We Are</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            This Privacy Policy governs the processing of personal data by <strong>Atelier Nilaya</strong> (hereinafter referred to as "the Atelier", "we", "us", or "our"), operated under the registered commercial entity <span class="placeholder-tag">[Legal Entity Name: e.g. Atelier Nilaya Fine Jewels Private Limited / Partnership Firm]</span>.
+          </p>
+          <p>
+            Our registered master atelier and principal boutique are located at:
+            <br>
+            <strong>Registered Office:</strong> <span class="placeholder-tag">[Registered Address, e.g. Plot No. 102, Surat Diamond Bourse Road / Ring Road, Surat, Gujarat 395007, India]</span>
+            <br>
+            <strong>GSTIN:</strong> <span class="placeholder-tag">[24AAAAA0000A1Z5]</span>
+            <br>
+            <strong>CIN / LLPIN:</strong> <span class="placeholder-tag">[U36911GJ2026PTC000000]</span>
+            <br>
+            <strong>Official Contact Email:</strong> <span class="placeholder-tag">[concierge@ateliernilaya.com]</span>
+          </p>
+          <p>
+            For the purposes of the Digital Personal Data Protection Act, 2023 ("DPDP Act"), the Atelier acts as a <strong>Data Fiduciary</strong> determining the purpose and means of processing your personal data.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section class="nilaya-legal-section" id="section-personal-data">
+        <h2 class="nilaya-section-heading">2. What Personal Data We Collect</h2>
+        <div class="nilaya-legal-body">
+          <p>We collect personal information directly from you when you register, browse, commission bespoke pieces, or acquire jewellery from our boutique:</p>
+          <ul>
+            <li><strong>Account &amp; Identity Details:</strong> Full name, verified email address, and 10-digit Indian mobile number for patron authentication and order verification.</li>
+            <li><strong>Delivery &amp; Invoicing Details:</strong> Physical delivery addresses, billing addresses, landmark, city, state, postal PIN code, and contact person phone number for armored courier dispatch.</li>
+            <li><strong>Financial &amp; Transaction Records:</strong> Order IDs, amounts paid, transaction timestamp, and gateway reference numbers. <em>Payment credentials (credit/debit card numbers, CVVs, net banking passwords, UPI PINs) are processed directly by our RBI-authorized payment partner, Razorpay, and are never handled or stored on our servers.</em></li>
+            <li><strong>Mandatory Statutory KYC (PAN / Form 60):</strong> In compliance with Rule 114B of the Income Tax Rules, 1962, we collect your Permanent Account Number (PAN) or Form 60 for jewellery purchase transactions exceeding <strong>₹2,00,000 (Rupees Two Lakhs)</strong>.</li>
+            <li><strong>Bespoke Commissions &amp; Private Folio Notes:</strong> Sizing measurements (ring sizes, wrist circumferences, necklace lengths), design preferences, engraving requests, and consultation notes.</li>
+            <li><strong>Customer Communications:</strong> Inquiries, letters, and chat records initiated via email, WhatsApp Business, or our concierge appointment booking modal.</li>
+            <li><strong>Technical &amp; Session Data:</strong> IP address, browser type, operating system, and cookie markers utilized to maintain your shopping bag and Velvet Tray wishlist.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section class="nilaya-legal-section" id="section-purposes">
+        <h2 class="nilaya-section-heading">3. Why We Collect and Use Your Data</h2>
+        <div class="nilaya-legal-body">
+          <p>Every piece of data collected is processed for specific, explicitly declared, and legitimate business purposes:</p>
+          <ul>
+            <li><strong>Account Operation &amp; Patron Verification:</strong> To authenticate your client folio, safeguard your account against unauthorized access, and verify ownership of customized requests.</li>
+            <li><strong>Order Fulfillment &amp; White-Glove Transit:</strong> To cast, hallmark, laser-inscribe, package, and dispatch your acquisitions via insured armored transport services.</li>
+            <li><strong>Statutory Invoicing &amp; Tax Compliance:</strong> To issue legal Goods and Services Tax (GST) tax invoices, maintain hallmarking logs under BIS standards, and fulfill audit obligations under the Income Tax Act.</li>
+            <li><strong>Transactional Notifications:</strong> To convey essential order receipts, fabrication milestones, dispatch dispatch manifests, and OTP verification codes for secure delivery handovers.</li>
+            <li><strong>Bespoke Consultations:</strong> To schedule private appointments with our master jewelers and prepare tailored design renderings.</li>
+            <li><strong>Curated Marketing (Opt-In Only):</strong> To share preview invitations for new haute joaillerie collections solely when you have given explicit prior consent. You may withdraw marketing consent at any time.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section class="nilaya-legal-section" id="section-consent">
+        <h2 class="nilaya-section-heading">4. Lawful Consent and Right of Withdrawal</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Under the DPDP Act 2023, personal data is processed based on your freely given, specific, informed, unconditional, and unambiguous consent, or for legitimate statutory uses (such as issuing GST invoices and complying with BIS hallmarking regulations).
+          </p>
+          <p>
+            <strong>How to withdraw consent:</strong> You possess the absolute right to withdraw your consent at any time by writing to our Grievance Officer at <span class="placeholder-tag">[grievance@ateliernilaya.com]</span>.
+          </p>
+          <p>
+            <em>Please note:</em> Withdrawing consent does not affect the legality of any processing executed prior to the withdrawal, nor does it affect our mandatory legal duties to retain transactional records and tax invoices under Indian tax legislation.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section class="nilaya-legal-section" id="section-sharing">
+        <h2 class="nilaya-section-heading">5. Who We Share Your Data With</h2>
+        <div class="nilaya-legal-body">
+          <p>We do not sell, rent, or trade your personal data. We share relevant data subsets only with verified service providers under binding confidentiality and data protection agreements:</p>
+          <ul>
+            <li><strong>Payment Aggregator:</strong> Razorpay Software Private Limited (PCI-DSS Level 1 compliant) for encrypted payment processing.</li>
+            <li><strong>Insured Armored Couriers:</strong> <span class="placeholder-tag">[Sequel Logistics Private Limited / BVC Logistics / Blue Dart Apex]</span> for insured white-glove transit and OTP delivery verification.</li>
+            <li><strong>Transactional Communications:</strong> <span class="placeholder-tag">[SMS Gateway Provider / Meta WhatsApp Cloud API / AWS SES]</span> strictly for dispatch updates and OTP messages.</li>
+            <li><strong>Cloud Infrastructure:</strong> <span class="placeholder-tag">[Amazon Web Services (AWS) Asia Pacific - Mumbai Region]</span> for encrypted database storage and application hosting.</li>
+            <li><strong>Statutory &amp; Law Enforcement Bodies:</strong> Commercial tax departments, the Directorate General of GST Intelligence (DGGI), or law enforcement agencies when strictly mandated under Indian statutory summons or warrants.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 6 -->
+      <section class="nilaya-legal-section" id="section-cookies">
+        <h2 class="nilaya-section-heading">6. Cookie Policy &amp; Storage Markers</h2>
+        <div class="nilaya-legal-body">
+          <p>Our website utilizes necessary cookies and local storage tokens to deliver an uninterrupted boutique experience:</p>
+          
+          <div class="nilaya-legal-table-wrap">
+            <table class="nilaya-legal-table">
+              <thead>
+                <tr>
+                  <th>Cookie Name</th>
+                  <th>Classification</th>
+                  <th>Duration</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>sessionid</code></td>
+                  <td>Strictly Essential</td>
+                  <td>14 Days</td>
+                  <td>Maintains secure authenticated customer login state.</td>
+                </tr>
+                <tr>
+                  <td><code>csrftoken</code></td>
+                  <td>Strictly Essential</td>
+                  <td>1 Year</td>
+                  <td>Protects against Cross-Site Request Forgery (CSRF) exploits.</td>
+                </tr>
+                <tr>
+                  <td><code>nilaya_bag</code></td>
+                  <td>Functional</td>
+                  <td>30 Days</td>
+                  <td>Preserves items placed in your shopping bag across visits.</td>
+                </tr>
+                <tr>
+                  <td><code>nilaya_wishlist</code></td>
+                  <td>Functional</td>
+                  <td>60 Days</td>
+                  <td>Remembers your curated Velvet Tray wishlist selections.</td>
+                </tr>
+                <tr>
+                  <td><code>_analytics_token</code></td>
+                  <td>Optional / Analytic</td>
+                  <td>1 Year</td>
+                  <td>Aggregated, privacy-preserving boutique traffic metrics.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>You may adjust or block cookies via your browser settings; however, disabling strictly essential cookies will prevent authentication and checkout functionality.</p>
+        </div>
+      </section>
+
+      <!-- SECTION 7 -->
+      <section class="nilaya-legal-section" id="section-retention">
+        <h2 class="nilaya-section-heading">7. Data Retention Periods</h2>
+        <div class="nilaya-legal-body">
+          <p>Personal data is retained only for as long as required to fulfill the stated purposes or to comply with statutory mandates:</p>
+          <ul>
+            <li><strong>Tax &amp; Invoice Records:</strong> Retained for a minimum of <strong>8 (eight) consecutive financial years</strong> following the transaction year, as mandated under Section 44AA of the Income Tax Act, 1961 and Section 36 of the CGST Act, 2017.</li>
+            <li><strong>Hallmarking &amp; Provenance Certificates:</strong> Retained indefinitely in our internal vault registry to honor lifetime exchange and buyback guarantees.</li>
+            <li><strong>Customer Account Profiles:</strong> Retained until you formally request account closure and folio deletion.</li>
+            <li><strong>Marketing Preferences:</strong> Retained until consent is revoked via unsubscribe link or concierge notification.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 8 -->
+      <section class="nilaya-legal-section" id="section-rights">
+        <h2 class="nilaya-section-heading">8. Your Statutory Rights as a Data Principal</h2>
+        <div class="nilaya-legal-body">
+          <p>Under the DPDP Act 2023 and the SPDI Rules 2011, you enjoy the following enforceable rights:</p>
+          <ul>
+            <li><strong>Right to Access:</strong> You may request a plain-language summary of your personal data processed by the Atelier, along with the identities of all third parties with whom it has been shared.</li>
+            <li><strong>Right to Correction &amp; Erasure:</strong> You may request the correction of inaccurate or incomplete data, or the erasure of personal data that is no longer necessary for the stated purpose or statutory compliance.</li>
+            <li><strong>Right of Grievance Redressal:</strong> You have the right to readily accessible grievance redressal mechanisms with our designated Grievance Officer.</li>
+            <li><strong>Right to Nominate:</strong> You may nominate another individual to exercise your data principal rights in the event of death or incapacity.</li>
+          </ul>
+          <p>
+            We commit to addressing all verified rights requests free of charge within <span class="placeholder-tag">[30 calendar days]</span>. If dissatisfied with our resolution, you hold the legal right to file a complaint before the <strong>Data Protection Board of India</strong>.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 9 -->
+      <section class="nilaya-legal-section" id="section-children">
+        <h2 class="nilaya-section-heading">9. Protection of Children's Data</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Atelier Nilaya does not market to or knowingly collect personal data from individuals under 18 years of age. Precious jewellery acquisitions and account registrations require contractual capacity under the Indian Contract Act, 1872. If we discover that personal data of a minor has been collected without verifiable parental or guardian consent, we will promptly delete the data from our live systems.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 10 -->
+      <section class="nilaya-legal-section" id="section-security">
+        <h2 class="nilaya-section-heading">10. Security Safeguards &amp; Breach Protocol</h2>
+        <div class="nilaya-legal-body">
+          <p>We maintain comprehensive technical, organizational, and physical security measures:</p>
+          <ul>
+            <li><strong>Encryption:</strong> All web communication is encrypted in transit using TLS 1.3 cryptographic protocols with HSTS enforcement.</li>
+            <li><strong>Credential Security:</strong> Customer passwords are cryptographically hashed using PBKDF2 with SHA-256 and salted.</li>
+            <li><strong>Access Control:</strong> Administrative access is restricted via multi-factor authentication, least-privilege principles, and IP whitelisting.</li>
+            <li><strong>Incident Protocol:</strong> In the event of a confirmed personal data breach impacting your rights, we will notify the Data Protection Board of India and affected data principals in strict adherence to the timelines established under the DPDP Rules and CERT-In cyber incident directives.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 11 -->
+      <section class="nilaya-legal-section" id="section-cross-border">
+        <h2 class="nilaya-section-heading">11. Cross-Border Data Transfers</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            Our core databases, transaction records, and client files are stored on secure cloud servers situated within the territory of India <span class="placeholder-tag">[AWS Asia Pacific - Mumbai Region]</span>. We do not transfer personal data to any foreign jurisdiction restricted by the Central Government of India under Section 16 of the DPDP Act.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 12 -->
+      <section class="nilaya-legal-section" id="section-grievance">
+        <h2 class="nilaya-section-heading">12. Grievance Officer &amp; Redressal Mechanism</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            In accordance with Rule 5(9) of the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011 and Section 6 of the DPDP Act, 2023, the details of our designated Grievance Officer are set forth below:
+          </p>
+          <p>
+            <strong>Name:</strong> <span class="placeholder-tag">[Grievance Officer Name: e.g. Mr. Rajesh V. Vora]</span>
+            <br>
+            <strong>Designation:</strong> <span class="placeholder-tag">[Grievance Redressal Officer &amp; Legal Head]</span>
+            <br>
+            <strong>Registered Address:</strong> <span class="placeholder-tag">[Atelier Nilaya, Plot 102, Surat Diamond Bourse Road, Surat, Gujarat 395007, India]</span>
+            <br>
+            <strong>Direct Email:</strong> <span class="placeholder-tag">[grievance@ateliernilaya.com]</span>
+            <br>
+            <strong>Direct Contact Telephone:</strong> <span class="placeholder-tag">[+91 98251 00000 / 0261 2000000]</span>
+            <br>
+            <strong>Working Hours:</strong> Monday through Friday, 10:00 AM to 6:00 PM IST (excluding public holidays).
+          </p>
+          <p>
+            <strong>Resolution Timeline:</strong> We acknowledge every formal grievance within <strong>24 hours</strong> of receipt and provide a conclusive written resolution within <span class="placeholder-tag">[15 business days]</span>.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 13 -->
+      <section class="nilaya-legal-section" id="section-updates">
+        <h2 class="nilaya-section-heading">13. Policy Updates &amp; Notifications</h2>
+        <div class="nilaya-legal-body">
+          <p>
+            We may update this Privacy Policy periodically to reflect enhancements in our atelier procedures, technological capabilities, or evolving statutory mandates. Material changes will be highlighted via a prominent banner on our website and notified to registered patrons via email. The "Effective Date" at the top reflects the latest version.
+          </p>
+        </div>
+      </section>
+
+      <!-- Version History -->
+      <div class="nilaya-version-history">
+        <strong>Document Version History:</strong>
+        <br>
+        &bull; <strong>Version 1.0 (22 November 2026):</strong> Comprehensive statutory privacy policy formulated to harmoniously comply with the IT Act 2000, SPDI Rules 2011, and the Digital Personal Data Protection Act 2023.
+      </div>
+
+      <!-- Legal Counsel Review Reminder -->
+      <div class="nilaya-counsel-advisory">
+        <strong>Statutory Notice:</strong> This document contains specific factual placeholders indicated by dashed boxes. Prior to production publication, the commercial entity name, GSTIN, registered address, and Grievance Officer particulars must be verified by your corporate legal counsel and Chartered Accountant.
+      </div>
+
+      <!-- Footer Cross-Navigation -->
+      <div class="nilaya-legal-footer-nav">
+        <a href="{% url 'campaigns:terms_of_provenance' %}" class="nilaya-cross-link">
+          <span>Read Terms of Provenance</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="{% url 'campaigns:hero' %}" class="nilaya-cross-link">
+          <span aria-hidden="true">&larr;</span>
+          <span>Return to Boutique Home</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

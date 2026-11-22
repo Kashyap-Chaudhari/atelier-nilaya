@@ -21,11 +21,17 @@ from .views import (
     account_profile_view,
     account_change_password_view,
     account_addresses_view,
+    privacy_policy_view,
+    terms_of_provenance_view,
 )
 
 app_name = 'campaigns'
 
 urlpatterns = [
+    # Statutory Legal & Compliance Pages
+    path('privacy-policy/', privacy_policy_view, name='privacy_policy'),
+    path('terms-of-provenance/', terms_of_provenance_view, name='terms_of_provenance'),
+
     # Core Production Authentication Suite
     path('login/', customer_login_view, name='login'),
     path('signup/', customer_signup_view, name='signup'),
