@@ -67,13 +67,13 @@ html.has-curtains .curtains-cover {
   transform: translateX(0);
 }
 
-/* Crisp, luxury entrance: Panels slide apart after 0.4s */
+/* Crisp, luxury entrance: Panels slide apart after center reveal */
 .curtains-cover.is-animating .curtains-panel-left {
-  animation: curtainsSlideLeft 0.7s cubic-bezier(0.77, 0, 0.18, 1) 0.4s forwards;
+  animation: curtainsSlideLeft 0.85s cubic-bezier(0.77, 0, 0.18, 1) 1.6s forwards;
 }
 
 .curtains-cover.is-animating .curtains-panel-right {
-  animation: curtainsSlideRight 0.7s cubic-bezier(0.77, 0, 0.18, 1) 0.4s forwards;
+  animation: curtainsSlideRight 0.85s cubic-bezier(0.77, 0, 0.18, 1) 1.6s forwards;
 }
 
 @keyframes curtainsSlideLeft {
@@ -103,9 +103,9 @@ html.has-curtains .curtains-cover {
   pointer-events: none;
 }
 
-/* 1.75s: Name, gem and tagline fade out */
+/* 1.55s: Name, gem and tagline fade out as curtains part */
 .curtains-cover.is-animating .curtains-center {
-  animation: curtainsCenterFade 0.25s ease-in 1.75s forwards;
+  animation: curtainsCenterFade 0.35s ease-in 1.55s forwards;
 }
 
 @keyframes curtainsCenterFade {
@@ -137,11 +137,11 @@ html.has-curtains .curtains-cover {
   stroke-dashoffset: 100;
 }
 
-/* 0.2s: Draw outline over 1.0s | 1.25s: Gem fills with soft gold shimmer */
+/* 0.1s: Draw outline over 0.8s | 0.9s: Gem fills with soft gold shimmer */
 .curtains-cover.is-animating .curtains-gem path {
   animation: 
-    curtainsGemDraw 1.0s ease-in-out 0.2s forwards,
-    curtainsGemShimmer 0.4s ease-out 1.25s forwards;
+    curtainsGemDraw 0.8s ease-in-out 0.1s forwards,
+    curtainsGemShimmer 0.4s ease-out 0.9s forwards;
 }
 
 @keyframes curtainsGemDraw {
@@ -154,7 +154,7 @@ html.has-curtains .curtains-cover {
   100% { fill-opacity: 0.28; }
 }
 
-/* 0.8s: Shop Name in Cormorant Garamond with letter spacing close up (0.5em to 0.14em) & light sweep */
+/* 0.5s: Shop Name in Cormorant Garamond with letter spacing reveal & light sweep */
 .curtains-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(1.45rem, 5.2vw, 3.4rem);
@@ -173,8 +173,8 @@ html.has-curtains .curtains-cover {
 
 .curtains-cover.is-animating .curtains-title {
   animation: 
-    curtainsTitleReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards,
-    curtainsLightSweep 0.95s ease-in-out 0.8s forwards;
+    curtainsTitleReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards,
+    curtainsLightSweep 0.85s ease-in-out 0.5s forwards;
 }
 
 @keyframes curtainsTitleReveal {
@@ -193,7 +193,7 @@ html.has-curtains .curtains-cover {
   100% { background-position: -60% 0; }
 }
 
-/* 1.3s: Short Tagline fades in below the name */
+/* 0.9s: Short Tagline fades in below the name */
 .curtains-tagline {
   font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: clamp(0.72rem, 1.8vw, 0.82rem);
@@ -206,7 +206,7 @@ html.has-curtains .curtains-cover {
 }
 
 .curtains-cover.is-animating .curtains-tagline {
-  animation: curtainsTaglineFade 0.45s ease-out 1.3s forwards;
+  animation: curtainsTaglineFade 0.45s ease-out 0.9s forwards;
 }
 
 @keyframes curtainsTaglineFade {

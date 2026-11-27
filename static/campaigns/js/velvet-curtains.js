@@ -11,13 +11,9 @@
     if (!cover) return;
 
     var hasHash = window.location.hash && window.location.hash.length > 1;
-    var hasSeen = false;
-    try {
-      hasSeen = !!sessionStorage.getItem('nilaya_curtains_seen');
-    } catch (e) {}
 
-    // Suppress if URL has a deep link hash or curtains were already seen in this session
-    if (hasHash || hasSeen) {
+    // Suppress ONLY if URL has an explicit in-page deep link hash (e.g. #private-appointment)
+    if (hasHash) {
       document.documentElement.classList.remove('has-curtains');
       if (cover.parentNode) {
         cover.parentNode.removeChild(cover);
@@ -31,9 +27,6 @@
     function dismissCover() {
       if (isDismissed) return;
       isDismissed = true;
-      try {
-        sessionStorage.setItem('nilaya_curtains_seen', '1');
-      } catch (e) {}
 
       if (autoEndTimer) {
         clearTimeout(autoEndTimer);
@@ -90,21 +83,21 @@
       return;
     }
 
-    // Start animation sequence swiftly
+    // Start luxury unveiling animation sequence
     function startSequence() {
       if (isDismissed) return;
       cover.classList.add('is-animating');
 
-      // 1.15s total sequence: panels part at 0.4s and finish by 1.1s
+      // 2.5s total sequence: gold gem + shop title reveal, curtains part at 1.6s and finish by 2.45s
       autoEndTimer = setTimeout(function () {
         dismissCover();
-      }, 1150);
+      }, 2500);
     }
 
     if (document.fonts && document.fonts.ready) {
       var fontTimer = setTimeout(function () {
         startSequence();
-      }, 900);
+      }, 350);
 
       document.fonts.ready.then(function () {
         clearTimeout(fontTimer);

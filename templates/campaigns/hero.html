@@ -4,13 +4,12 @@
 {% block title %}The Unveiling Atelier &bull; {{ campaigns.0.title }} &bull; Private Exhibition{% endblock %}
 
 {% block extra_head %}
-  <link rel="stylesheet" href="{% static 'campaigns/css/velvet-curtains.css' %}?v=20261118_v3">
+  <link rel="stylesheet" href="{% static 'campaigns/css/velvet-curtains.css' %}?v=20261127_curtains_v1">
   <script>
     (function () {
       try {
         var hasHash = window.location.hash && window.location.hash.length > 1;
-        var hasSeen = !!sessionStorage.getItem('nilaya_curtains_seen');
-        if (!hasHash && !hasSeen) {
+        if (!hasHash) {
           document.documentElement.classList.add('has-curtains');
         }
       } catch (e) {}
@@ -249,5 +248,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-  <script src="{% static 'campaigns/js/velvet-curtains.js' %}?v=20261118_v3"></script>
+  <script src="{% static 'campaigns/js/velvet-curtains.js' %}?v=20261127_curtains_v1"></script>
 {% endblock %}
