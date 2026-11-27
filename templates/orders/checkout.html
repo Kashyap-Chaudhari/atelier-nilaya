@@ -2008,6 +2008,7 @@
 <!-- ==========================================================================
      CLIENT-SIDE CHECKOUT LOGIC (Plain Vanilla JavaScript)
      ========================================================================== -->
+<script id="checkout-cart-items" type="application/json">{{ items_json|safe }}</script>
 <script>
 (function() {
   'use strict';
@@ -2025,8 +2026,9 @@
     : null;
 
   // 2. State & Data
-  const cartItems = {{ items_json|safe }};
-  const isInitiallyAuthenticated = {% if is_authenticated %}true{% else %}false{% endif %};
+  const cartItemsEl = document.getElementById('checkout-cart-items');
+  const cartItems = cartItemsEl ? JSON.parse(cartItemsEl.textContent || '[]') : [];
+  const isInitiallyAuthenticated = ("{{ is_authenticated|yesno:'true,false' }}" === "true");
 
   let currentStep = isInitiallyAuthenticated ? 2 : 1;
   let selectedShipping = 'standard'; // 'standard' or 'express'
