@@ -67,13 +67,13 @@ html.has-curtains .curtains-cover {
   transform: translateX(0);
 }
 
-/* 2.0s: Panels slide apart over 0.9s */
+/* Crisp, luxury entrance: Panels slide apart after 0.4s */
 .curtains-cover.is-animating .curtains-panel-left {
-  animation: curtainsSlideLeft 0.9s cubic-bezier(0.77, 0, 0.18, 1) 2.0s forwards;
+  animation: curtainsSlideLeft 0.7s cubic-bezier(0.77, 0, 0.18, 1) 0.4s forwards;
 }
 
 .curtains-cover.is-animating .curtains-panel-right {
-  animation: curtainsSlideRight 0.9s cubic-bezier(0.77, 0, 0.18, 1) 2.0s forwards;
+  animation: curtainsSlideRight 0.7s cubic-bezier(0.77, 0, 0.18, 1) 0.4s forwards;
 }
 
 @keyframes curtainsSlideLeft {

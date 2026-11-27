@@ -134,7 +134,10 @@ database_url = os.environ.get('DATABASE_URL') if os.environ.get('USE_LOCAL_DB') 
 if database_url:
     try:
         import dj_database_url
-        # If connecting via Supabase Pooler, port 6543 (transaction mode) is recommended for serverless
+        # Supabase Pooler: Port 6543 (Transaction Mode) is highly optimized for serverless/Vercel
+        if 'pooler.supabase.com:5432' in database_url:
+            database_url = database_url.replace(':5432', ':6543')
+
         # Automatically ensure sslmode=require
         if 'sslmode=' not in database_url:
             separator = '&' if '?' in database_url else '?'
@@ -143,7 +146,7 @@ if database_url:
         DATABASES = {
             'default': dj_database_url.config(
                 default=database_url,
-                conn_max_age=int(os.environ.get('DB_CONN_MAX_AGE', '0')), # 0 prevents dangling sockets on Vercel
+                conn_max_age=int(os.environ.get('DB_CONN_MAX_AGE', '60')), # Keep connection alive across warm serverless requests
                 conn_health_checks=True,
             )
         }
@@ -164,6 +167,18 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+# High-Performance In-Memory Cache (reduces repetitive DB hits on Vercel)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'nilaya-in-memory-cache',
+        'TIMEOUT': 300, # 5 minutes default
+        'OPTIONS': {
+            'MAX_ENTRIES': 2000
+        }
+    }
+}
 
 # Supabase Authentication Configuration
 SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://rkjkxlvlfckdorfqwqic.supabase.co')
@@ -236,6 +251,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # WhiteNoise production static settings for Vercel
 WHITENOISE_USE_FINDERS = True
+WHITENOISE_MAX_AGE = 31536000 # 1 year client and CDN caching for static files
 try:
     import whitenoise
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
@@ -291,6 +307,7 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Lax'
-SESSION_SAVE_EVERY_REQUEST = True
+# Session optimization: Save only when modified (avoids 2 DB writes on every read-only page view)
+SESSION_SAVE_EVERY_REQUEST = False
 
 APPEND_SLASH = True
