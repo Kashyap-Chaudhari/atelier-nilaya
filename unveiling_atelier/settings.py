@@ -134,25 +134,26 @@ database_url = os.environ.get('DATABASE_URL') if os.environ.get('USE_LOCAL_DB') 
 if database_url:
     try:
         import dj_database_url
-        # Supabase Pooler: Port 6543 (Transaction Mode) is highly optimized for serverless/Vercel
-        if 'pooler.supabase.com:5432' in database_url:
-            database_url = database_url.replace(':5432', ':6543')
-
         # Automatically ensure sslmode=require
         if 'sslmode=' not in database_url:
             separator = '&' if '?' in database_url else '?'
             database_url = f"{database_url}{separator}sslmode=require"
 
+        db_config = dj_database_url.parse(database_url)
+
+        # Supabase Pooler: Port 6543 (Transaction Mode) is mandatory for serverless/Vercel
+        # Session mode (5432) has a strict pool limit of 15 connections, leading to EMAXCONNSESSION
+        if 'pooler.supabase.com' in str(db_config.get('HOST', '')):
+            db_config['PORT'] = 6543
+            db_config['DISABLE_SERVER_SIDE_CURSORS'] = True
+            db_config['CONN_MAX_AGE'] = 0  # Release pool connections immediately on serverless
+
+        db_config['OPTIONS'] = db_config.get('OPTIONS', {})
+        db_config['OPTIONS']['connect_timeout'] = 10
+
         DATABASES = {
-            'default': dj_database_url.config(
-                default=database_url,
-                conn_max_age=int(os.environ.get('DB_CONN_MAX_AGE', '60')), # Keep connection alive across warm serverless requests
-                conn_health_checks=True,
-            )
+            'default': db_config
         }
-        # Add connection timeout so it doesn't hang Vercel lambdas
-        DATABASES['default']['OPTIONS'] = DATABASES['default'].get('OPTIONS', {})
-        DATABASES['default']['OPTIONS']['connect_timeout'] = 10
     except ImportError:
         DATABASES = {
             'default': {
