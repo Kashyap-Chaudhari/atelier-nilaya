@@ -247,8 +247,10 @@
         addToBagBtn.textContent = 'Adding to Bag...';
         addToBagBtn.disabled = true;
 
+        const sku = addToBagBtn.getAttribute('data-sku');
         if (window.NilayaBag && typeof window.NilayaBag.addToBag === 'function') {
           window.NilayaBag.addToBag({
+            sku: sku,
             product_id: productId,
             metal: currentMetal,
             quantity: 1

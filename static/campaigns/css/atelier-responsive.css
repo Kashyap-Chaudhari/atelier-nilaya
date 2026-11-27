@@ -182,9 +182,9 @@ html, body {
 
   /* Full viewport mobile stage container */
   .atelier-hero-section {
-    min-height: 100svh;
+    min-height: auto;
     height: auto;
-    padding: var(--header-height) 0 24px 0;
+    padding: 0 0 24px 0;
     justify-content: flex-start;
     background-color: var(--c-ivory);
   }
@@ -202,7 +202,7 @@ html, body {
     order: 1;
     width: 100%;
     height: clamp(280px, 38vh, 360px);
-    margin: 2px 0 6px 0;
+    margin: 8px 0 6px 0;
   }
 
   .sculptural-frame-wrapper {

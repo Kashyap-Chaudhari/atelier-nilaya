@@ -1,0 +1,131 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Homepage Builder &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Homepage Visual Builder</h1>
+    <p class="admin-page-subtitle">Control the hero campaign cinematic, velvet curtains opening cover, and manifesto copy live.</p>
+  </div>
+  <div class="admin-page-actions">
+    <a href="/" target="_blank" class="admin-btn admin-btn-outline">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Preview Live Storefront
+    </a>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+  <!-- Section 1: Velvet Curtains Cover -->
+  <div class="admin-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin: 0;">1. Velvet Curtains Cover</h2>
+      <span class="admin-badge {% if store_settings.velvet_curtains_enabled %}admin-badge-green{% else %}admin-badge-muted{% endif %}">
+        {% if store_settings.velvet_curtains_enabled %}Enabled{% else %}Disabled{% endif %}
+      </span>
+    </div>
+    <p style="font-size: 0.85rem; color: var(--color-muted); line-height: 1.5; margin-bottom: 20px;">
+      When enabled, first-time visitors experience the cinematic burgundy velvet curtains that part smoothly with gold seal stamping.
+    </p>
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="save_curtains">
+      
+      <div style="background: #faf7f2; border: 1px solid var(--color-border); border-radius: 8px; padding: 16px; margin-bottom: 18px;">
+        <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+          <input type="checkbox" name="velvet_curtains_enabled" {% if store_settings.velvet_curtains_enabled %}checked{% endif %} style="width: 20px; height: 20px; accent-color: var(--color-wine);">
+          <div>
+            <div style="font-weight: 600; font-size: 0.95rem;">Enable Velvet Curtains Exhibition Intro</div>
+            <div style="font-size: 0.78rem; color: var(--color-muted);">Displays gold seal emblem and "SKIP" option.</div>
+          </div>
+        </label>
+      </div>
+
+      <button type="submit" class="admin-btn admin-btn-primary">Save Curtains Setting</button>
+    </form>
+  </div>
+
+  <!-- Section 2: 360 Turntable Exhibition Banner -->
+  <div class="admin-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin: 0;">2. 360&deg; Turntable Banner</h2>
+      <span class="admin-badge admin-badge-gold">Interactive Stage</span>
+    </div>
+    <p style="font-size: 0.85rem; color: var(--color-muted); line-height: 1.5; margin-bottom: 16px;">
+      The 36-frame interactive rotating jewellery showcase beneath the hero section.
+    </p>
+    <div style="background: #faf7f2; border: 1px solid var(--color-border); border-radius: 8px; padding: 14px; font-size: 0.82rem; line-height: 1.5;">
+      <strong>Asset Location:</strong><br>
+      <code style="color: var(--color-wine);">static/campaigns/img/interactive_360/the-empress-cushion-solitaire-2-2ct/frame_001.webp &hellip; frame_036.webp</code><br>
+      <span style="color: var(--color-muted); font-size: 0.75rem; margin-top: 4px; display: block;">Drag-to-rotate gesture with gyro momentum is active on both desktop and mobile.</span>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Hero Cinematic Campaign -->
+{% if campaign %}
+<div class="admin-card mt-4">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+      <h2 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 600; margin: 0;">3. Primary Hero Exhibition Stage</h2>
+      <p style="font-size: 0.85rem; color: var(--color-muted); margin: 4px 0 0 0;">Control headlines, provenance badge, video loop, and high-resolution posters.</p>
+    </div>
+    <span class="admin-badge admin-badge-wine">Active Campaign</span>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="save_hero">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div class="admin-form-group">
+        <label class="admin-label">Campaign Eyebrow</label>
+        <input type="text" name="eyebrow" value="{{ campaign.eyebrow }}" class="admin-input" placeholder="ATELIER NILAYA &bull; SURAT &bull; EST. 1954">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Provenance Badge Text</label>
+        <input type="text" name="provenance_tag" value="{{ campaign.provenance_tag }}" class="admin-input" placeholder="ARCHIVAL PIECE NO. 042 &bull; 22K ANTIQUE GOLD">
+      </div>
+    </div>
+
+    <div class="admin-form-group">
+      <label class="admin-label">Main Exhibition Title *</label>
+      <input type="text" name="title" value="{{ campaign.title }}" required class="admin-input" placeholder="The Royal Bridal Edit">
+    </div>
+
+    <div class="admin-form-group">
+      <label class="admin-label">Secondary Subheading</label>
+      <input type="text" name="headline_sub" value="{{ campaign.headline_sub }}" class="admin-input" placeholder="Handcrafted with uncut diamonds, Zambian emeralds, and 22-karat royal hallmarked gold.">
+    </div>
+
+    <div class="admin-form-group">
+      <label class="admin-label">Exhibition Description</label>
+      <textarea name="description" rows="3" class="admin-input">{{ campaign.description }}</textarea>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div class="admin-form-group">
+        <label class="admin-label">Call to Action Button Label</label>
+        <input type="text" name="cta_text" value="{{ campaign.cta_text|default:'ACQUIRE HEIRLOOM' }}" class="admin-input">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Button Target URL</label>
+        <input type="text" name="cta_url" value="{{ campaign.cta_url|default:'/vault/' }}" class="admin-input">
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+      <button type="submit" class="admin-btn admin-btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save Hero Campaign
+      </button>
+    </div>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

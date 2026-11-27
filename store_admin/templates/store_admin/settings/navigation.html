@@ -1,0 +1,95 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Header & Footer Menus &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Storefront Navigation Menus</h1>
+    <p class="admin-page-subtitle">Configure header links, category navigation, and multi-column footer lists dynamically.</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+  <!-- Header Menus -->
+  <div class="admin-card">
+    <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Header Menu Items ({{ menus.count }})</h2>
+    
+    <table class="admin-table" style="margin-bottom: 20px;">
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Label</th>
+          <th>Target Link</th>
+          <th style="text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in menus %}
+        <tr>
+          <td>{{ m.display_order }}</td>
+          <td><strong>{{ m.title }}</strong></td>
+          <td><code style="font-size: 0.8rem; color: var(--color-wine);">{{ m.url }}</code></td>
+          <td style="text-align: right;">
+            <form method="POST" style="display: inline;" onsubmit="return confirm('Remove {{ m.title }}?');">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="delete_menu_item">
+              <input type="hidden" name="item_id" value="{{ m.id }}">
+              <button type="submit" class="admin-btn admin-btn-outline" style="padding: 2px 8px; color: #b91c1c; font-size: 0.75rem;">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" style="text-align: center; color: var(--color-muted);">No header menu items found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Add Item Form -->
+    <div style="background: #faf7f2; border: 1px solid var(--color-border); border-radius: 8px; padding: 16px;">
+      <h3 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 12px;">Add Navigation Item</h3>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_menu_item">
+
+        <div class="admin-form-group">
+          <label class="admin-label">Menu Item Title *</label>
+          <input type="text" name="title" required class="admin-input" placeholder="e.g. Bridal Chokers">
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Destination URL *</label>
+          <input type="text" name="url" required class="admin-input" placeholder="e.g. /vault/ or /category/necklaces/">
+        </div>
+
+        <button type="submit" class="admin-btn admin-btn-primary" style="width: 100%; justify-content: center;">
+          Add to Header Menu
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer Columns -->
+  <div class="admin-card">
+    <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Footer Columns ({{ footer_cols.count }})</h2>
+    
+    {% for col in footer_cols %}
+    <div style="background: #faf7f2; border: 1px solid var(--color-border); border-radius: 8px; padding: 14px; margin-bottom: 12px;">
+      <div style="font-weight: 600; font-size: 0.95rem; margin-bottom: 6px;">{{ col.title }}</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        {% for lnk in col.links.all %}
+        <span style="background: #fff; border: 1px solid var(--color-border); padding: 2px 8px; border-radius: 4px; font-size: 0.78rem;">
+          {{ lnk.title }} &rarr; <code style="color: var(--color-wine);">{{ lnk.url }}</code>
+        </span>
+        {% endfor %}
+      </div>
+    </div>
+    {% empty %}
+    <div style="color: var(--color-muted); font-size: 0.85rem;">No footer columns configured. Default columns active.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

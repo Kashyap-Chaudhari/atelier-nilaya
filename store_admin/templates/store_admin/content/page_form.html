@@ -1,0 +1,73 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Edit {{ page.title }} &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div class="admin-page-header">
+    <div class="admin-page-header-text">
+      <div style="font-size: 0.85rem; margin-bottom: 4px;">
+        <a href="{% url 'store_admin:pages_list' %}" style="color: var(--color-muted); text-decoration: none;">&larr; Back to All Pages</a>
+      </div>
+      <h1 class="admin-page-title">Edit Page: {{ page.title }}</h1>
+      <p class="admin-page-subtitle">URL Slug: <code style="color: var(--color-wine);">/{{ page.slug }}/</code></p>
+    </div>
+    <div class="admin-page-actions">
+      <button type="submit" class="admin-btn admin-btn-primary">Save Page Changes</button>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+    <!-- Content Editor -->
+    <div class="admin-card">
+      <div class="admin-form-group">
+        <label class="admin-label">Page Title *</label>
+        <input type="text" name="title" value="{{ page.title }}" required class="admin-input">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="admin-form-group">
+          <label class="admin-label">Eyebrow / Header Tag</label>
+          <input type="text" name="eyebrow" value="{{ page.eyebrow }}" class="admin-input">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-label">Subtitle</label>
+          <input type="text" name="subtitle" value="{{ page.subtitle }}" class="admin-input">
+        </div>
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Body Content (HTML & Text) *</label>
+        <textarea name="body_html" rows="16" class="admin-input" style="font-family: monospace; font-size: 0.85rem; line-height: 1.5;">{{ page.body_html }}</textarea>
+        <p style="font-size: 0.75rem; color: var(--color-muted); margin-top: 4px;">Supports standard HTML tags, headings, lists, and paragraphs.</p>
+      </div>
+    </div>
+
+    <!-- SEO & Visibility -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="admin-card">
+        <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Publishing State</h3>
+        <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px; cursor: pointer;">
+          <input type="checkbox" name="is_published" {% if page.is_published %}checked{% endif %} style="width: 18px; height: 18px; accent-color: var(--color-wine);">
+          <span style="font-size: 0.9rem; font-weight: 500;">Page is Live on Store</span>
+        </label>
+        <button type="submit" class="admin-btn admin-btn-primary" style="width: 100%; justify-content: center;">Save & Publish</button>
+      </div>
+
+      <div class="admin-card">
+        <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">SEO & Social Metadata</h3>
+        <div class="admin-form-group">
+          <label class="admin-label">Meta Page Title</label>
+          <input type="text" name="meta_title" value="{{ page.meta_title }}" class="admin-input" placeholder="e.g. Heritage & Craft &bull; Atelier Nilaya">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-label">Meta Description</label>
+          <textarea name="meta_description" rows="3" class="admin-input">{{ page.meta_description }}</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

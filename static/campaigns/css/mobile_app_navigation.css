@@ -1,23 +1,40 @@
 /* ==========================================================================
    ATELIER NILAYA / AARANYA — MOBILE-ONLY NAVIGATION UPGRADE
-   Strictly scoped to screens 767px wide and below.
-   ZERO IMPACT on desktop or tablet (768px and wider).
-   Palette: Cream (#f4efe6), Dark Brown (#2b1a1f), Maroon (#1c0b13), Gold (#d9b56b)
-   Font: Manrope, 6px corners
+   Strictly scoped to screens 768px wide and below.
+   ZERO IMPACT on desktop (screens wider than 768px).
    ========================================================================== */
 
-/* 1. Desktop & Tablet Invariant: Completely hidden on screens >= 768px */
-@media (min-width: 768px) {
+/* --------------------------------------------------------------------------
+   CSS VARIABLES (Scoped for Floating Bottom Navigation)
+   -------------------------------------------------------------------------- */
+:root {
+  --mobile-nav-bg: #ffffff;
+  --mobile-nav-text-color: #4a4a4a;
+  --mobile-nav-text-active: #1a1a1a;
+  --mobile-nav-icon-color: #4a4a4a;
+  --mobile-nav-icon-active: #1a1a1a;
+  --mobile-nav-gold: #b8893b;
+  --mobile-nav-wine-badge: #6b2e3c;
+  --mobile-nav-badge-text: #ffffff;
+  --mobile-nav-font: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mobile-nav-radius: 26px;
+  --mobile-nav-shadow: 0 10px 30px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.08);
+  --mobile-nav-height: 64px;
+}
+
+/* 1. Desktop Invariant: Completely hidden on screens > 768px */
+@media (min-width: 769px) {
   .nilaya-mobile-top-bar,
+  .mobile-bottom-nav,
   .nilaya-mobile-bottom-bar {
     display: none !important;
   }
 }
 
-/* 2. Mobile Screens Only (<= 767px) */
-@media (max-width: 767px) {
+/* 2. Mobile Screens Only (<= 768px) */
+@media (max-width: 768px) {
   
-  /* Hide the old desktop header rows cleanly on mobile */
+  /* Hide desktop header on mobile */
   .atelier-header.aaranya-header {
     display: none !important;
   }
@@ -53,12 +70,108 @@
     transform: translateY(-100%);
   }
 
-  /* Reduced motion preference */
-  @media (prefers-reduced-motion: reduce) {
-    .nilaya-mobile-top-bar {
-      transition: none !important;
-      transform: none !important;
-    }
+  .nilaya-mobile-top-bar-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Dedicated In-Bar Search Overlay (Replaces side drawer opening) */
+  .nilaya-mobile-search-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f4efe6;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    padding-top: env(safe-area-inset-top, 0px);
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 650;
+  }
+
+  .nilaya-mobile-search-overlay.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .nilaya-mobile-search-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    background: #FFFFFF;
+    border: 1px solid rgba(104, 45, 60, 0.22);
+    border-radius: 20px;
+    padding: 0 4px 0 12px;
+    box-shadow: 0 2px 10px rgba(43, 26, 31, 0.08);
+  }
+
+  .nilaya-mobile-search-icon {
+    display: inline-flex;
+    align-items: center;
+    color: #b8893b;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .nilaya-mobile-search-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    color: #2b1a1f;
+    outline: none;
+    padding: 0;
+  }
+
+  .nilaya-mobile-search-input::placeholder {
+    color: #8C7D75;
+    font-size: 0.78rem;
+  }
+
+  .nilaya-mobile-search-submit {
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 15px;
+    background: #682D3C;
+    border: none;
+    color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+
+  .nilaya-mobile-search-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #2b1a1f;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
   }
 
   /* Left button container */
@@ -109,7 +222,7 @@
     flex: 0 0 88px;
   }
 
-  /* Shared Icon Buttons */
+  /* Shared Top Icon Buttons */
   .nilaya-mobile-top-btn {
     display: inline-flex;
     align-items: center;
@@ -132,155 +245,246 @@
   }
 
   /* ------------------------------------------------------------------------
-     PART 2: MOBILE BOTTOM APP BAR (Fixed 6-Item Maroon Bar)
+     PART 2: FLOATING MOBILE BOTTOM NAVIGATION BAR
+     Design: White bar, 26px rounded corners, floats 14px above edges.
+     5 Equal Tabs: Home, Shop, Track order, Bag, Account.
+     Active Tab: darker icon (#1a1a1a) lifted 2px, 18px x 3px gold underline.
+     Badge: Wine (#6b2e3c) count badge with pop animation.
      ------------------------------------------------------------------------ */
-  .nilaya-mobile-bottom-bar {
+  .mobile-bottom-nav {
     display: block !important;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
+    left: 14px;
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 28px);
+    max-width: 460px;
+    height: var(--mobile-nav-height);
+    margin: 0 auto;
+    background-color: var(--mobile-nav-bg);
+    border-radius: var(--mobile-nav-radius);
+    box-shadow: var(--mobile-nav-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     z-index: 600;
-    background-color: #1c0b13;
-    border-top: 1px solid rgba(217, 181, 107, 0.35);
-    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.25);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
     box-sizing: border-box;
-    transition: transform 0.25s ease, opacity 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    transform: translateY(0);
+    will-change: transform;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  /* Hide bottom bar when keyboard is open or on checkout */
-  body.is-keyboard-open .nilaya-mobile-bottom-bar,
-  body.page-checkout .nilaya-mobile-bottom-bar,
-  body.page-payment .nilaya-mobile-bottom-bar {
-    transform: translateY(100%);
-    pointer-events: none;
+  /* Scroll Hide & Show State */
+  .mobile-bottom-nav.is-hidden {
+    transform: translateY(calc(100% + 28px + env(safe-area-inset-bottom, 0px)));
     opacity: 0;
+    pointer-events: none;
   }
 
-  .nilaya-bottom-bar-inner {
+  /* Hide on checkout and payment pages */
+  body.page-checkout .mobile-bottom-nav,
+  body.page-payment .mobile-bottom-nav,
+  body.is-keyboard-open .mobile-bottom-nav {
+    transform: translateY(calc(100% + 28px + env(safe-area-inset-bottom, 0px)));
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Container for 5 equal tabs */
+  .mobile-nav-inner {
     display: flex;
     align-items: stretch;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
-    height: 56px;
+    height: 100%;
     margin: 0;
-    padding: 0;
+    padding: 0 2px;
+    box-sizing: border-box;
   }
 
-  /* Individual Tab Button / Link */
-  .nilaya-bottom-btn {
+  /* Individual Tab Link */
+  .mobile-nav-tab {
     flex: 1 1 0;
     min-width: 0;
-    min-height: 56px;
+    height: 100%;
+    min-height: 44px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 6px 2px;
+    padding: 6px 1px 8px 1px;
     background: transparent;
     border: none;
-    border-top: 2px solid transparent;
-    color: #a89877;
     text-decoration: none;
+    position: relative;
     cursor: pointer;
     outline: none;
     box-sizing: border-box;
-    position: relative;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
-    transition: color 0.2s, border-color 0.2s;
+    transition: background-color 0.18s ease;
   }
 
-  .nilaya-bottom-btn:hover {
-    color: #f1d89a;
+  /* Accessible Focus Outline */
+  .mobile-nav-tab:focus-visible {
+    outline: 2px solid var(--mobile-nav-gold);
+    outline-offset: -2px;
+    border-radius: 18px;
   }
 
-  /* Active Tab State */
-  .nilaya-bottom-btn.active,
-  .nilaya-bottom-btn[aria-current="page"] {
-    color: #f1d89a;
-    border-top: 2px solid #d9b56b;
-  }
-
-  .nilaya-bottom-btn.active .nilaya-bottom-icon,
-  .nilaya-bottom-btn[aria-current="page"] .nilaya-bottom-icon {
-    color: #f1d89a;
-  }
-
-  .nilaya-bottom-icon {
-    display: flex;
+  /* Icon Wrapper (26px height) */
+  .mobile-nav-icon-wrap {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 22px;
-    margin-bottom: 3px;
-    color: inherit;
-    transition: transform 0.18s ease;
-  }
-
-  .nilaya-bottom-btn:active .nilaya-bottom-icon {
-    transform: scale(0.92);
-  }
-
-  .nilaya-bottom-label {
-    font-family: var(--font-sans, 'Manrope', sans-serif);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-    padding: 0 1px;
-    color: inherit;
-  }
-
-  /* Bag Badge Counter */
-  .nilaya-bottom-bag-wrap {
+    width: 26px;
+    height: 26px;
+    color: var(--mobile-nav-icon-color);
     position: relative;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+    flex-shrink: 0;
   }
 
-  .nilaya-bottom-bag-badge {
+  /* Icon SVG: 26px, 1.4px stroke */
+  .mobile-nav-icon {
+    width: 26px;
+    height: 26px;
+    stroke-width: 1.4;
+    stroke: currentColor;
+    display: block;
+  }
+
+  /* Label: 10.5px, Montserrat, letter-spacing 0.06em, color #4a4a4a */
+  .mobile-nav-label {
+    font-family: var(--mobile-nav-font);
+    font-size: 10.2px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--mobile-nav-text-color);
+    line-height: 1.15;
+    margin-top: 3px;
+    white-space: nowrap;
+    text-align: center;
+    transition: color 0.2s ease, font-weight 0.2s ease;
+  }
+
+  /* ------------------------------------------------------------------------
+     ACTIVE TAB STATE
+     - Darker icon (#1a1a1a) lifted 2px
+     - Small 18px x 3px gold (#b8893b) underline
+     ------------------------------------------------------------------------ */
+  .mobile-nav-tab.is-active .mobile-nav-icon-wrap,
+  .mobile-nav-tab[aria-current="page"] .mobile-nav-icon-wrap {
+    color: var(--mobile-nav-icon-active);
+    transform: translateY(-2px);
+  }
+
+  .mobile-nav-tab.is-active .mobile-nav-label,
+  .mobile-nav-tab[aria-current="page"] .mobile-nav-label {
+    color: var(--mobile-nav-text-active);
+    font-weight: 600;
+  }
+
+  /* 18px x 3px Gold Underline */
+  .mobile-nav-underline {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    width: 18px;
+    height: 3px;
+    background-color: var(--mobile-nav-gold);
+    border-radius: 2px;
+    transform: translateX(-50%) scaleX(0.4);
+    opacity: 0;
+    transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .mobile-nav-tab.is-active .mobile-nav-underline,
+  .mobile-nav-tab[aria-current="page"] .mobile-nav-underline {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+  }
+
+  /* ------------------------------------------------------------------------
+     BAG COUNT BADGE (Wine #6b2e3c, White Text, Pop Animation)
+     ------------------------------------------------------------------------ */
+  .mobile-nav-badge {
     position: absolute;
     top: -4px;
     right: -8px;
-    min-width: 16px;
-    height: 16px;
+    min-width: 17px;
+    height: 17px;
     padding: 0 4px;
-    border-radius: 8px;
-    background: #d9b56b;
-    color: #1c0b13;
-    font-family: var(--font-sans, 'Manrope', sans-serif);
-    font-size: 9px;
-    font-weight: 800;
-    line-height: 16px;
+    border-radius: 9999px;
+    background-color: var(--mobile-nav-wine-badge);
+    color: var(--mobile-nav-badge-text);
+    font-family: var(--mobile-nav-font);
+    font-size: 9.5px;
+    font-weight: 700;
+    line-height: 17px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(107, 46, 60, 0.35);
   }
 
-  /* Page Body Clearance so content & footer buttons are never covered */
+  /* Quick Pop Keyframe Animation */
+  @keyframes badge-pop {
+    0% {
+      transform: scale(0.6);
+    }
+    50% {
+      transform: scale(1.35);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .mobile-nav-badge.is-popping {
+    animation: badge-pop 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  /* ------------------------------------------------------------------------
+     PAGE BODY & MAIN CLEARANCE
+     Never covers content; respects safe-area-inset-bottom
+     ------------------------------------------------------------------------ */
   body {
-    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 16px) !important;
+    padding-bottom: calc(var(--mobile-nav-height) + 14px + env(safe-area-inset-bottom, 0px) + 16px) !important;
   }
 
-  /* Main content top clearance for 56px mobile top bar */
-  main#atelier-main-content,
+  main#atelier-main-content {
+    padding-top: calc(56px + env(safe-area-inset-top, 0px)) !important;
+  }
+
   .nilaya-account-stage,
   .nilaya-login-stage,
   .nilaya-auth-stage {
     padding-top: calc(56px + env(safe-area-inset-top, 0px) + 16px) !important;
   }
 
-  /* Elevate floating WhatsApp concierge button above the bottom bar */
+  /* Elevate floating WhatsApp concierge button above the floating nav */
   .atelier-whatsapp-float,
   .whatsapp-chat-button,
   .whatsapp-floating-btn,
   .wa-float-btn,
   [data-wa-float] {
-    bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 12px) !important;
+    bottom: calc(var(--mobile-nav-height) + 14px + env(safe-area-inset-bottom, 0px) + 12px) !important;
+  }
+
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .nilaya-mobile-top-bar,
+    .mobile-bottom-nav,
+    .mobile-nav-icon-wrap,
+    .mobile-nav-underline {
+      transition: none !important;
+      transform: none !important;
+    }
+    .mobile-nav-badge.is-popping {
+      animation: none !important;
+    }
   }
 }

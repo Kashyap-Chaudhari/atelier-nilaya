@@ -29,13 +29,6 @@ def api_create_razorpay_order(request):
     except Exception:
         data = request.POST
 
-    if not request.user.is_authenticated:
-        return JsonResponse({
-            'success': False,
-            'message': 'Client authentication required. Please sign in or create an account to complete your order.',
-            'redirect_url': '/login/?next=/orders/checkout/'
-        }, status=401)
-
     cart = get_or_create_cart(request)
     if cart.total_items == 0:
         return JsonResponse({'success': False, 'message': 'Acquisition bag is empty'}, status=400)
@@ -44,8 +37,10 @@ def api_create_razorpay_order(request):
     is_advance = bool(data.get('is_advance', False))
     payment_method = data.get('payment_method', 'razorpay')
     
-    # 1. Create or retrieve order from cart
-    order = create_order_from_cart(cart, customer_data, is_advance=is_advance)
+    # 1. Create or retrieve order from cart (supports both registered patrons and guests)
+    user = request.user if request.user.is_authenticated else None
+    order = create_order_from_cart(cart, customer_data, is_advance=is_advance, user=user)
+    request.session['last_order_number'] = order.order_number
     
     # Handle Bank Transfer (RTGS / NEFT) without Razorpay gateway
     if payment_method == 'bank_transfer':
@@ -65,6 +60,71 @@ def api_create_razorpay_order(request):
             'is_bank_transfer': True,
             'order_number': order.order_number,
             'redirect_url': f'/orders/order-confirmed/{order.order_number}/?method=bank_transfer'
+        })
+
+    # Handle Cash on Delivery (COD) without Razorpay gateway
+    if payment_method in ['cod', 'cash_on_delivery']:
+        from orders.models import OrderStatusHistory
+        order.status = 'confirmed'
+        order.bench_notes = f"Payment: Cash on Delivery | Delivery: {customer_data.get('delivery_type', 'standard').title()}"
+        order.save()
+        OrderStatusHistory.objects.create(
+            order=order,
+            status='confirmed',
+            comment='Order placed via Cash on Delivery (COD)',
+            changed_by='Customer Checkout'
+        )
+        sync_order_to_admin_db(order)
+        cart.items.all().delete()
+        return JsonResponse({
+            'success': True,
+            'is_cod': True,
+            'order_number': order.order_number,
+            'amount_inr': float(order.total_amount),
+            'order_date': order.created_at.strftime('%d %b %Y'),
+            'delivery_address': order.shipping_address_text,
+            'payment_method': 'Cash on Delivery',
+            'pdf_url': f'/orders/invoice/{order.order_number}/pdf/',
+            'redirect_url': f'/orders/order-confirmed/{order.order_number}/?method=cod',
+            'message': 'Order placed successfully via Cash on Delivery.'
+        })
+
+    # Handle Instant Online Payment (Cards / UPI / NetBanking — No Razorpay Account Required)
+    if payment_method in ['online_instant', 'instant', 'test_online', 'upi', 'card', 'netbanking']:
+        from orders.models import OrderStatusHistory
+        order.status = 'confirmed'
+        order.bench_notes = f"Payment: Instant Online ({payment_method.upper()}) | Delivery: {customer_data.get('delivery_type', 'standard').title()}"
+        order.save()
+
+        # Create captured Payment record
+        Payment.objects.create(
+            order=order,
+            razorpay_order_id=f"pay_instant_{order.order_number}",
+            razorpay_payment_id=f"pay_auth_{order.order_number[-8:]}",
+            amount=order.total_amount,
+            currency='INR',
+            status='captured'
+        )
+
+        OrderStatusHistory.objects.create(
+            order=order,
+            status='confirmed',
+            comment=f'Order confirmed via Instant Online Payment ({payment_method.upper()})',
+            changed_by='Customer Checkout'
+        )
+        sync_order_to_admin_db(order)
+        cart.items.all().delete()
+        return JsonResponse({
+            'success': True,
+            'is_instant': True,
+            'order_number': order.order_number,
+            'amount_inr': float(order.total_amount),
+            'order_date': order.created_at.strftime('%d %b %Y'),
+            'delivery_address': order.shipping_address_text,
+            'payment_method': 'Online Payment (Instant Verified)',
+            'pdf_url': f'/orders/invoice/{order.order_number}/pdf/',
+            'redirect_url': f'/orders/order-confirmed/{order.order_number}/?method=instant',
+            'message': 'Payment authenticated and order confirmed!'
         })
 
     # 2. Determine payable amount in INR

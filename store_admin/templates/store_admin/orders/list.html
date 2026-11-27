@@ -1,0 +1,145 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Orders &bull; Atelier Nilaya Admin{% endblock %}
+
+{% block content %}
+
+<div class="admin-page-header">
+  <div>
+    <h1 class="admin-page-title">Acquisition Orders</h1>
+    <p class="admin-page-sub">Manage client acquisitions, karigar bench status, and armored transit.</p>
+  </div>
+</div>
+
+<!-- Status Filter Tabs -->
+<div style="display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--adm-border); padding-bottom: 12px; overflow-x: auto;">
+  <a href="?status=all" style="padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; {% if status_tab == 'all' %}background: var(--adm-wine); color: #FFFFFF;{% else %}background: #FFFFFF; color: var(--adm-text); border: 1px solid var(--adm-border);{% endif %}">
+    All ({{ counts.all }})
+  </a>
+  <a href="?status=pending" style="padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; {% if status_tab == 'pending' %}background: var(--adm-wine); color: #FFFFFF;{% else %}background: #FFFFFF; color: var(--adm-text); border: 1px solid var(--adm-border);{% endif %}">
+    Pending ({{ counts.pending }})
+  </a>
+  <a href="?status=confirmed" style="padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; {% if status_tab == 'confirmed' %}background: var(--adm-wine); color: #FFFFFF;{% else %}background: #FFFFFF; color: var(--adm-text); border: 1px solid var(--adm-border);{% endif %}">
+    Confirmed ({{ counts.confirmed }})
+  </a>
+  <a href="?status=in_making" style="padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; {% if status_tab == 'in_making' %}background: var(--adm-wine); color: #FFFFFF;{% else %}background: #FFFFFF; color: var(--adm-text); border: 1px solid var(--adm-border);{% endif %}">
+    In Making ({{ counts.in_making }})
+  </a>
+  <a href="?status=shipped" style="padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; {% if status_tab == 'shipped' %}background: var(--adm-wine); color: #FFFFFF;{% else %}background: #FFFFFF; color: var(--adm-text); border: 1px solid var(--adm-border);{% endif %}">
+    Shipped ({{ counts.shipped }})
+  </a>
+  <a href="?status=delivered" style="padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; {% if status_tab == 'delivered' %}background: var(--adm-wine); color: #FFFFFF;{% else %}background: #FFFFFF; color: var(--adm-text); border: 1px solid var(--adm-border);{% endif %}">
+    Delivered ({{ counts.delivered }})
+  </a>
+  <a href="?status=cancelled" style="padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; {% if status_tab == 'cancelled' %}background: var(--adm-wine); color: #FFFFFF;{% else %}background: #FFFFFF; color: var(--adm-text); border: 1px solid var(--adm-border);{% endif %}">
+    Cancelled ({{ counts.cancelled }})
+  </a>
+</div>
+
+<!-- Search & Filter Controls -->
+<div class="admin-card" style="padding: 16px 20px; margin-bottom: 20px;">
+  <form method="get" action="" style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+    <input type="hidden" name="status" value="{{ status_tab }}">
+    
+    <div style="flex: 1; min-width: 240px;">
+      <input type="text" name="q" value="{{ search_q }}" placeholder="Search by order number, patron name, phone, or email..." class="form-control">
+    </div>
+
+    <div style="width: 180px;">
+      <select name="date" class="form-control" onchange="this.form.submit()">
+        <option value="" {% if not date_filter %}selected{% endif %}>All Time</option>
+        <option value="today" {% if date_filter == 'today' %}selected{% endif %}>Placed Today</option>
+        <option value="week" {% if date_filter == 'week' %}selected{% endif %}>Past 7 Days</option>
+        <option value="month" {% if date_filter == 'month' %}selected{% endif %}>Past 30 Days</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-primary" style="padding: 9px 18px;">Search</button>
+    {% if search_q or date_filter %}
+    <a href="?status={{ status_tab }}" class="btn-secondary" style="padding: 9px 16px;">Clear</a>
+    {% endif %}
+  </form>
+</div>
+
+<!-- Orders Table -->
+<div class="admin-card">
+  <div class="admin-table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Order Number</th>
+          <th>Patron</th>
+          <th>Destination</th>
+          <th>Items</th>
+          <th>Total (₹)</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th style="text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>
+            <a href="{% url 'store_admin:order_detail' order.order_number %}" style="font-weight: 700; color: var(--adm-wine); text-decoration: none;">
+              #{{ order.order_number }}
+            </a>
+          </td>
+          <td>
+            <div style="font-weight: 600;">{{ order.customer_name }}</div>
+            <div style="font-size: 0.74rem; color: var(--adm-text-muted);">{{ order.customer_phone }}</div>
+          </td>
+          <td style="font-size: 0.78rem;">
+            {% if order.shipping_address %}
+              {{ order.shipping_address.city }}, {{ order.shipping_address.pincode }}
+            {% else %}
+              Direct Delivery
+            {% endif %}
+          </td>
+          <td>
+            {{ order.items.count }} piece{{ order.items.count|pluralize }}
+          </td>
+          <td style="font-weight: 700;">
+            ₹{{ order.total_amount|floatformat:0 }}
+          </td>
+          <td>
+            <span class="badge badge-{{ order.status }}">{{ order.get_status_display }}</span>
+          </td>
+          <td style="font-size: 0.78rem; color: var(--adm-text-muted);">
+            {{ order.created_at|date:"d M Y, H:i" }}
+          </td>
+          <td style="text-align: right;">
+            <a href="{% url 'store_admin:order_detail' order.order_number %}" class="btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">
+              Manage &rarr;
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" style="text-align: center; padding: 48px; color: var(--adm-text-muted);">
+            No orders found matching the selected filter criteria.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Pagination -->
+{% if orders.has_other_pages %}
+<div style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
+  {% if orders.has_previous %}
+  <a href="?page={{ orders.previous_page_number }}&status={{ status_tab }}&q={{ search_q }}&date={{ date_filter }}" class="btn-secondary">&larr; Previous</a>
+  {% endif %}
+  <span style="display: inline-flex; align-items: center; padding: 0 14px; font-size: 0.82rem; font-weight: 600;">
+    Page {{ orders.number }} of {{ orders.paginator.num_pages }}
+  </span>
+  {% if orders.has_next %}
+  <a href="?page={{ orders.next_page_number }}&status={{ status_tab }}&q={{ search_q }}&date={{ date_filter }}" class="btn-secondary">Next &rarr;</a>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

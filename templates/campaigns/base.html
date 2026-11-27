@@ -13,7 +13,7 @@
   <!-- Preconnect to Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=La+Belle+Aurore&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Atelier Stylesheets (Cache-Busted) -->
   <link rel="stylesheet" href="{% static 'campaigns/css/atelier-design-system.css' %}?v=20261118_v3">
@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="{% static 'campaigns/css/navigation.css' %}?v=20261118_v3">
   <link rel="stylesheet" href="{% static 'campaigns/css/velvet-tray.css' %}?v=20261118_v3">
   <link rel="stylesheet" href="{% static 'cart/css/bag_drawer.css' %}?v=20261120_v2">
-  <link rel="stylesheet" href="{% static 'campaigns/css/mobile_app_navigation.css' %}?v=20261121_v1">
+  <link rel="stylesheet" href="{% static 'campaigns/css/mobile_app_navigation.css' %}?v=20261126_v4">
 
   {% block extra_head %}{% endblock %}
 </head>
@@ -55,14 +55,23 @@
   <!-- Mobile Bottom App Bar (<= 767px) -->
   {% include 'campaigns/partials/mobile_bottom_bar.html' %}
 
+  {% if is_store_admin %}
+  <!-- Floating Sovereign Admin Quick Access Bar -->
+  <div id="atelier-admin-floating-pill" style="position: fixed; top: 12px; right: 16px; z-index: 99999; display: flex; align-items: center; gap: 8px; background: rgba(26, 26, 26, 0.94); backdrop-filter: blur(8px); color: #fff; padding: 6px 14px; border-radius: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; font-weight: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.25); border: 1px solid rgba(184, 137, 59, 0.4);">
+    <span style="color: #b8893b; font-size: 14px;">✦</span>
+    <span style="letter-spacing: 0.5px;">ADMIN MODE</span>
+    <a href="/admin/" style="color: #fff; text-decoration: underline; margin-left: 4px; font-weight: 600;">Open Console &rarr;</a>
+  </div>
+  {% endif %}
+
   <!-- Client-side Scripts -->
   <script src="{% static 'campaigns/js/atelier-state.js' %}"></script>
   <script src="{% static 'campaigns/js/atelier-transition.js' %}"></script>
   <script src="{% static 'campaigns/js/atelier-hero.js' %}"></script>
   <script src="{% static 'campaigns/js/navigation.js' %}"></script>
   <script src="{% static 'campaigns/js/velvet-tray.js' %}"></script>
-  <script src="{% static 'cart/js/bag_drawer.js' %}?v=20261120_v2"></script>
-  <script src="{% static 'campaigns/js/mobile_app_navigation.js' %}?v=20261121_v1"></script>
+  <script src="{% static 'cart/js/bag_drawer.js' %}?v=20261126_v3"></script>
+  <script src="{% static 'campaigns/js/mobile_app_navigation.js' %}?v=20261126_v4"></script>
   
   <script>
   // Customer Dropdown & Wishlist Authentication Handler

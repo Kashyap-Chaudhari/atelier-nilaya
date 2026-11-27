@@ -273,7 +273,7 @@
 
       {% if error %}
         <div class="nilaya-auth-alert nilaya-alert-error" role="alert">
-          {{ error }}
+          {{ error|safe }}
         </div>
       {% endif %}
 

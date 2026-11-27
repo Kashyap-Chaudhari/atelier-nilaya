@@ -1,0 +1,70 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Patrons & Clients &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Patrons & Private Clients</h1>
+    <p class="admin-page-subtitle">Folio profiles, acquisition histories, verified contact details, and client statuses.</p>
+  </div>
+</div>
+
+<div class="admin-card mb-4" style="padding: 16px 20px;">
+  <form method="GET" action="{% url 'store_admin:customer_list' %}" style="display: flex; gap: 12px; align-items: center;">
+    <div style="flex: 1; position: relative;">
+      <input type="text" name="q" value="{{ search_q }}" placeholder="Search by name, email, or username..." class="admin-input" style="padding-left: 36px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 12px; top: 12px; color: var(--color-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+    <button type="submit" class="admin-btn admin-btn-secondary">Search</button>
+    {% if search_q %}
+    <a href="{% url 'store_admin:customer_list' %}" class="admin-btn admin-btn-outline" style="color: var(--color-muted);">Clear</a>
+    {% endif %}
+  </form>
+</div>
+
+<div class="admin-card" style="padding: 0; overflow: hidden;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Patron</th>
+        <th>Email Address</th>
+        <th>Date Joined</th>
+        <th>Account Status</th>
+        <th style="text-align: right;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in customers %}
+      <tr>
+        <td>
+          <div style="font-weight: 600; color: var(--color-text);">{{ c.get_full_name|default:c.username }}</div>
+          <div style="font-size: 0.78rem; color: var(--color-muted);">@{{ c.username }}</div>
+        </td>
+        <td>
+          <a href="mailto:{{ c.email }}" style="color: var(--color-wine); text-decoration: none;">{{ c.email|default:"No email registered" }}</a>
+        </td>
+        <td style="font-size: 0.82rem; color: var(--color-muted);">
+          {{ c.date_joined|date:"d M Y" }}
+        </td>
+        <td>
+          {% if c.is_active %}
+          <span class="admin-badge admin-badge-green">Active Folio</span>
+          {% else %}
+          <span class="admin-badge admin-badge-red">Suspended</span>
+          {% endif %}
+        </td>
+        <td style="text-align: right;">
+          <a href="{% url 'store_admin:customer_detail' user_id=c.id %}" class="admin-btn admin-btn-secondary" style="padding: 4px 12px; font-size: 0.8rem;">View Folio</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 40px; color: var(--color-muted);">No patron folios found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

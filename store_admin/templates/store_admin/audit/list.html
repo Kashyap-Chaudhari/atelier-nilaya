@@ -1,0 +1,62 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Audit Trail &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Sovereign Audit Trail</h1>
+    <p class="admin-page-subtitle">Immutable chronological log of all administrator actions, price adjustments, and catalog updates.</p>
+  </div>
+  <div class="admin-page-actions">
+    <a href="/admin/trash/" class="admin-btn admin-btn-outline">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      30-Day Trash Bin
+    </a>
+  </div>
+</div>
+
+<div class="admin-card" style="padding: 0; overflow: hidden;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Curator</th>
+        <th>Action</th>
+        <th>Entity</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for l in logs %}
+      <tr>
+        <td style="font-size: 0.82rem; color: var(--color-muted); white-space: nowrap;">
+          {{ l.created_at|date:"d M Y, h:i A" }}
+        </td>
+        <td>
+          <strong>{{ l.user.username|default:"System" }}</strong>
+          <div style="font-size: 0.75rem; color: var(--color-muted);">{{ l.ip_address|default:"127.0.0.1" }}</div>
+        </td>
+        <td>
+          <span class="admin-badge {% if l.action == 'create' %}admin-badge-green{% elif l.action == 'delete' %}admin-badge-red{% else %}admin-badge-gold{% endif %}" style="text-transform: uppercase;">
+            {{ l.action }}
+          </span>
+        </td>
+        <td>
+          <div style="font-weight: 500;">{{ l.object_repr }}</div>
+          <div style="font-size: 0.75rem; color: var(--color-muted);">Model: {{ l.model_name }} (#{{ l.object_id }})</div>
+        </td>
+        <td style="font-size: 0.85rem; color: var(--color-text);">
+          {{ l.changes_summary }}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 40px; color: var(--color-muted);">No audit events recorded yet.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

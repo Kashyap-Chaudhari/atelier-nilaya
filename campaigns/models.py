@@ -164,6 +164,8 @@ class JewelleryCategory(models.Model):
 
 class JewelleryProduct(models.Model):
     category = models.ForeignKey(JewelleryCategory, on_delete=models.CASCADE, related_name='products')
+    subcategory = models.CharField(max_length=120, blank=True, default='', db_index=True, help_text="Subcategory (e.g. 'Antique Bangles', 'Choker Sets')")
+    tags = models.TextField(blank=True, default='', help_text="Semicolon-separated tags, occasions, and menu collections")
     name = models.CharField(max_length=200, help_text="Product title")
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     sku = models.CharField(max_length=50, unique=True, blank=True)

@@ -1,0 +1,126 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Brand & Identity &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="admin-page-header">
+    <div class="admin-page-header-text">
+      <h1 class="admin-page-title">Brand Identity & Concierge</h1>
+      <p class="admin-page-subtitle">Configure your maison name, provenance insignia, phone numbers, WhatsApp, and physical showroom address.</p>
+    </div>
+    <div class="admin-page-actions">
+      <button type="submit" class="admin-btn admin-btn-primary">Save Brand Settings</button>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+    <!-- Left Column: Core Identity & Contact -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="admin-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Maison Name & Storyline</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Store Brand Name *</label>
+            <input type="text" name="store_name" value="{{ settings.store_name }}" required class="admin-input">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Brand Subtitle / Descriptor</label>
+            <input type="text" name="brand_subname" value="{{ settings.brand_subname }}" class="admin-input" placeholder="Haute Joaillerie">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Heritage Tagline</label>
+            <input type="text" name="tagline" value="{{ settings.tagline }}" class="admin-input" placeholder="Timeless Gold & Diamond Heirlooms">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Provenance City & Year</label>
+            <input type="text" name="provenance_city" value="{{ settings.provenance_city }}" class="admin-input" placeholder="Surat &bull; Est. 1954">
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Monogram / Seal Symbol</label>
+          <input type="text" name="monogram_text" value="{{ settings.monogram_text|default:'✦' }}" class="admin-input" placeholder="✦ or AN">
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Concierge Contact & Showroom</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Concierge Phone *</label>
+            <input type="text" name="contact_phone" value="{{ settings.contact_phone }}" class="admin-input" placeholder="+91 98251 00000">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Concierge Email *</label>
+            <input type="email" name="contact_email" value="{{ settings.contact_email }}" class="admin-input" placeholder="curator@ateliernilaya.com">
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">VIP WhatsApp Number (With Country Code)</label>
+          <input type="text" name="whatsapp_number" value="{{ settings.whatsapp_number }}" class="admin-input" placeholder="919825100000">
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Showroom Physical Address</label>
+          <textarea name="address" rows="3" class="admin-input">{{ settings.address }}</textarea>
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Salon Working Hours</label>
+          <input type="text" name="working_hours" value="{{ settings.working_hours }}" class="admin-input" placeholder="Mon - Sat: 11:00 AM - 8:00 PM (By Private Appointment)">
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Logos & Emblems -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="admin-card">
+        <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Logos & Favicon</h3>
+        
+        <div class="admin-form-group">
+          <label class="admin-label">Light Background Logo</label>
+          {% if settings.logo_light %}
+          <div style="margin-bottom: 8px; padding: 12px; background: #fff; border: 1px solid var(--color-border); border-radius: 6px; text-align: center;">
+            <img src="{{ settings.logo_light.url }}" alt="Logo Light" style="max-height: 44px; max-width: 100%;">
+          </div>
+          {% endif %}
+          <input type="file" name="logo_light" class="admin-input" accept="image/*">
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Dark Background Logo</label>
+          {% if settings.logo_dark %}
+          <div style="margin-bottom: 8px; padding: 12px; background: #1a1a1a; border: 1px solid var(--color-border); border-radius: 6px; text-align: center;">
+            <img src="{{ settings.logo_dark.url }}" alt="Logo Dark" style="max-height: 44px; max-width: 100%;">
+          </div>
+          {% endif %}
+          <input type="file" name="logo_dark" class="admin-input" accept="image/*">
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Browser Favicon</label>
+          {% if settings.favicon %}
+          <div style="margin-bottom: 8px;">
+            <img src="{{ settings.favicon.url }}" alt="Favicon" style="width: 28px; height: 28px;">
+          </div>
+          {% endif %}
+          <input type="file" name="favicon" class="admin-input" accept="image/*">
+        </div>
+
+        <button type="submit" class="admin-btn admin-btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+          Save All Brand Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

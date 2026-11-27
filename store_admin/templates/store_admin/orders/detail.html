@@ -1,0 +1,176 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Order #{{ order.order_number }} &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <div style="font-size: 0.85rem; margin-bottom: 4px;">
+      <a href="{% url 'store_admin:order_list' %}" style="color: var(--color-muted); text-decoration: none;">&larr; Back to All Orders</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <h1 class="admin-page-title" style="margin-bottom: 0;">Order #{{ order.order_number }}</h1>
+      <span class="admin-badge admin-badge-wine" style="font-size: 0.82rem; text-transform: uppercase;">{{ order.status }}</span>
+    </div>
+    <p class="admin-page-subtitle">Placed on {{ order.created_at|date:"d M Y, h:i A" }} &bull; Method: {{ order.payment_method|upper }}</p>
+  </div>
+  <div class="admin-page-actions">
+    <a href="{% url 'store_admin:order_invoice' order_number=order.order_number %}" target="_blank" class="admin-btn admin-btn-outline">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Print Tax Invoice
+    </a>
+    <a href="{% url 'store_admin:order_packing_slip' order_number=order.order_number %}" target="_blank" class="admin-btn admin-btn-outline">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      Armored Packing Slip
+    </a>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+  <!-- Left Column: Line Items, Bullion Breakdown & Timeline -->
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <!-- Items Card -->
+    <div class="admin-card" style="padding: 0; overflow: hidden;">
+      <div style="padding: 16px 20px; border-bottom: 1px solid var(--color-border);">
+        <h2 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; margin: 0;">Acquired Jewellery Pieces</h2>
+      </div>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th style="width: 70px;">Piece</th>
+            <th>Item Details</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th style="text-align: right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for itm in items %}
+          <tr>
+            <td>
+              <div style="width: 52px; height: 52px; border-radius: 8px; overflow: hidden; background: #f0eae1; border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center;">
+                {% if itm.product and itm.product.image %}
+                <img src="{{ itm.product.image.url }}" alt="{{ itm.product_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% elif itm.product and itm.product.front_image_url %}
+                <img src="{{ itm.product.front_image_url }}" alt="{{ itm.product_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--color-muted);"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                {% endif %}
+              </div>
+            </td>
+            <td>
+              <div style="font-weight: 600; color: var(--color-text);">{{ itm.product_name }}</div>
+              <div style="font-size: 0.8rem; color: var(--color-muted);">SKU: {{ itm.product_sku|default:"NIL-ACQ" }} &bull; Variant: {{ itm.variant_title|default:"Standard" }}</div>
+              {% if itm.certificate_number %}
+              <div style="font-size: 0.75rem; color: var(--color-gold); font-family: monospace;">Certificate: {{ itm.certificate_number }}</div>
+              {% endif %}
+            </td>
+            <td>{{ itm.quantity }}</td>
+            <td>₹{{ itm.unit_price|floatformat:0 }}</td>
+            <td style="text-align: right; font-weight: 600;">₹{{ itm.line_total|floatformat:0 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Order Summary Totals -->
+      <div style="padding: 16px 20px; background: #faf7f2; border-top: 1px solid var(--color-border); display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+        <div style="display: flex; justify-content: space-between; width: 280px; font-size: 0.88rem;">
+          <span style="color: var(--color-muted);">Subtotal:</span>
+          <span>₹{{ order.subtotal|floatformat:0 }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; width: 280px; font-size: 0.88rem;">
+          <span style="color: var(--color-muted);">GST (3% Bullion / Jewellery):</span>
+          <span>₹{{ order.tax_amount|floatformat:0 }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; width: 280px; font-size: 0.88rem;">
+          <span style="color: var(--color-muted);">Insured Armored Transit:</span>
+          <span>{% if order.shipping_fee > 0 %}₹{{ order.shipping_fee|floatformat:0 }}{% else %}Complimentary{% endif %}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; width: 280px; font-size: 1.15rem; font-family: var(--font-heading); font-weight: 600; color: var(--color-wine); border-top: 1px solid var(--color-border); padding-top: 8px; margin-top: 4px;">
+          <span>Grand Total:</span>
+          <span>₹{{ order.grand_total|floatformat:0 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline & Audit History -->
+    <div class="admin-card">
+      <h2 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; margin-bottom: 16px;">Milestone Timeline</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px; position: relative; padding-left: 20px; border-left: 2px solid var(--color-border);">
+        {% for hist in history %}
+        <div style="position: relative;">
+          <div style="position: absolute; left: -27px; top: 3px; width: 12px; height: 12px; border-radius: 50%; background: var(--color-wine); border: 2px solid #fff;"></div>
+          <div style="font-weight: 600; font-size: 0.9rem; text-transform: uppercase; color: var(--color-text);">{{ hist.status }}</div>
+          <div style="font-size: 0.82rem; color: var(--color-muted); margin-top: 2px;">{{ hist.comment }}</div>
+          <div style="font-size: 0.75rem; color: var(--color-muted); margin-top: 4px;">{{ hist.created_at|date:"d M Y, h:i A" }} &bull; By: {{ hist.changed_by }}</div>
+        </div>
+        {% empty %}
+        <div style="font-size: 0.85rem; color: var(--color-muted);">No timeline logs recorded yet.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Status Transition & Patron Info -->
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <!-- Status Transition Card -->
+    <div class="admin-card">
+      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Update Order Milestone</h3>
+      <form method="POST" action="{% url 'store_admin:order_status_update' order_number=order.order_number %}">
+        {% csrf_token %}
+        <div class="admin-form-group">
+          <label class="admin-label">Transition To *</label>
+          <select name="status" class="admin-input" required>
+            {% for st_val, st_lbl in status_options %}
+            <option value="{{ st_val }}" {% if order.status == st_val %}selected{% endif %}>{{ st_lbl }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Karigar / Courier Tracking Reference</label>
+          <input type="text" name="tracking_number" class="admin-input" placeholder="e.g. BVC-ARMORED-98124">
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Karigar Bench Note</label>
+          <textarea name="comment" rows="3" class="admin-input" placeholder="Notes on hallmark stamping, certificate pairing, or armored dispatch..."></textarea>
+        </div>
+
+        <button type="submit" class="admin-btn admin-btn-primary" style="width: 100%; justify-content: center;">
+          Update Milestone
+        </button>
+      </form>
+    </div>
+
+    <!-- Patron Folio Card -->
+    <div class="admin-card">
+      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Patron Information</h3>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem;">
+        <div>
+          <span style="color: var(--color-muted); display: block; font-size: 0.75rem;">NAME</span>
+          <strong>{{ order.customer_name }}</strong>
+        </div>
+        <div>
+          <span style="color: var(--color-muted); display: block; font-size: 0.75rem;">PHONE</span>
+          <a href="tel:{{ order.customer_phone }}" style="color: var(--color-wine); text-decoration: none;">{{ order.customer_phone }}</a>
+        </div>
+        <div>
+          <span style="color: var(--color-muted); display: block; font-size: 0.75rem;">EMAIL</span>
+          <a href="mailto:{{ order.customer_email }}" style="color: var(--color-wine); text-decoration: none;">{{ order.customer_email }}</a>
+        </div>
+        <div style="border-top: 1px solid var(--color-border); padding-top: 10px;">
+          <span style="color: var(--color-muted); display: block; font-size: 0.75rem;">ARMORED TRANSIT DESTINATION</span>
+          <div style="line-height: 1.4; margin-top: 4px;">
+            {{ order.shipping_address_line1 }}<br>
+            {% if order.shipping_address_line2 %}{{ order.shipping_address_line2 }}<br>{% endif %}
+            {{ order.shipping_city }}, {{ order.shipping_state }} - {{ order.shipping_pincode }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -286,10 +286,16 @@
       const btn = e.target.closest('[data-add-to-bag]');
       if (!btn) return;
 
+      // If unified BagDrawer controller is available, delegate to BagDrawer for drawer slide-in & cart_v2 sync
+      if (window.NilayaBag && typeof window.NilayaBag.addToBag === 'function') {
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
 
       const tile = btn.closest('.product-tile');
+      const sku = btn.getAttribute('data-sku') || (tile && tile.getAttribute('data-sku'));
       const pid = parseInt(btn.getAttribute('data-product-id') || (tile && tile.getAttribute('data-product-id')), 10);
       const metal = tile ? (tile.getAttribute('data-current-metal') || 'yellow_gold') : 'yellow_gold';
       const productName = tile ? (tile.querySelector('.tile-name')?.textContent?.trim() || 'Piece') : 'Piece';
@@ -301,7 +307,7 @@
       fetch('/api/cart/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: pid, metal: metal, quantity: 1 })
+        body: JSON.stringify({ sku: sku, product_id: pid, metal: metal, quantity: 1 })
       })
       .then(res => res.json().then(data => ({ status: res.status, ok: res.ok, data })))
       .then(({ status, ok, data }) => {

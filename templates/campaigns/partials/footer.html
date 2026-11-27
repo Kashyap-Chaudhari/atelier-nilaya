@@ -1,24 +1,235 @@
 {% load static %}
-<footer class="atelier-footer" role="contentinfo" style="background:#26141A; border-top: 1px solid rgba(100, 45, 59, 0.35); padding: 80px 0 40px 0; color:#F8F5F0;">
-  <div style="max-width: var(--container-max-width); margin: 0 auto; padding: 0 clamp(20px, 3.5vw, 56px);">
+<style>
+  .atelier-footer {
+    background: #26141A;
+    border-top: 1px solid rgba(100, 45, 59, 0.35);
+    padding: 80px 0 40px 0;
+    color: #F8F5F0;
+  }
+
+  .atelier-footer-inner {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 clamp(20px, 3.5vw, 56px);
+  }
+
+  .atelier-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 48px;
+    margin-bottom: 60px;
+  }
+
+  .atelier-footer-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .atelier-footer-brand-name {
+    font-family: var(--font-serif-display);
+    font-size: 1.15rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--c-white);
+  }
+
+  .atelier-footer-maison-copy {
+    font-size: 0.86rem;
+    color: rgba(248, 245, 240, 0.72);
+    line-height: 1.8;
+    max-width: 320px;
+    margin: 0;
+  }
+
+  .atelier-footer-heading {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--c-blush);
+    margin: 0 0 20px 0;
+  }
+
+  .atelier-footer-accordion-btn {
+    display: none;
+  }
+
+  .atelier-footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: rgba(248, 245, 240, 0.72);
+    line-height: 2.2;
+  }
+
+  .atelier-footer-consult-copy {
+    font-size: 0.85rem;
+    color: rgba(248, 245, 240, 0.72);
+    line-height: 1.65;
+    margin: 0 0 16px 0;
+  }
+
+  .atelier-footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(248, 245, 240, 0.1);
+    font-size: 0.75rem;
+    color: rgba(248, 245, 240, 0.45);
+    letter-spacing: 0.15em;
+  }
+
+  .atelier-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  @media (max-width: 767px) {
+    .atelier-footer {
+      padding: 28px 0 76px 0;
+    }
+
+    .atelier-footer-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin-bottom: 16px;
+    }
+
+    .atelier-footer-maison {
+      padding-bottom: 14px;
+    }
+
+    .atelier-footer-brand-row {
+      margin-bottom: 8px;
+    }
+
+    .atelier-footer-brand-name {
+      font-size: 0.98rem;
+      letter-spacing: 0.18em;
+    }
+
+    .atelier-footer-maison-copy {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      max-width: none;
+    }
+
+    .atelier-footer-col--collapsible {
+      border-top: 1px solid rgba(248, 245, 240, 0.12);
+    }
+
+    .atelier-footer-col--collapsible .atelier-footer-heading {
+      margin: 0;
+    }
+
+    .atelier-footer-title-desktop {
+      display: none;
+    }
+
+    .atelier-footer-accordion-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 12px 0;
+      background: transparent;
+      border: none;
+      color: var(--c-blush);
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .atelier-footer-accordion-btn:focus-visible {
+      outline: 2px solid var(--c-blush);
+      outline-offset: 2px;
+    }
+
+    .atelier-footer-accordion-icon {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .atelier-footer-col--collapsible:not(.is-open) .atelier-footer-list {
+      display: none;
+    }
+
+    .atelier-footer-col--collapsible.is-open .atelier-footer-list {
+      display: block;
+      padding-bottom: 12px;
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+
+    .atelier-footer-consult {
+      border-top: 1px solid rgba(248, 245, 240, 0.12);
+      padding-top: 14px;
+    }
+
+    .atelier-footer-consult .atelier-footer-heading {
+      margin-bottom: 6px;
+    }
+
+    .atelier-footer-consult-copy {
+      font-size: 0.8rem;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .atelier-footer-bottom {
+      padding-top: 16px;
+      gap: 10px;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+    }
+
+    .atelier-footer-links {
+      gap: 8px 12px;
+      width: 100%;
+    }
+  }
+</style>
+
+<footer class="atelier-footer" role="contentinfo">
+  <div class="atelier-footer-inner">
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 48px; margin-bottom: 60px;">
+    <div class="atelier-footer-grid">
       
       <!-- Maison Col -->
-      <div>
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom: 20px;">
-          <span style="color:var(--c-blush); font-size:1.4rem;">✦</span>
-          <span style="font-family:var(--font-serif-display); font-size:1.15rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--c-white);">THE UNVEILING ATELIER</span>
+      <div class="atelier-footer-maison">
+        <div class="atelier-footer-brand-row">
+          <span style="color:var(--c-blush); font-size:1.3rem;">✦</span>
+          <span class="atelier-footer-brand-name">THE UNVEILING ATELIER</span>
         </div>
-        <p style="font-size:0.86rem; color:rgba(248, 245, 240, 0.72); line-height:1.8; max-width:320px;">
+        <p class="atelier-footer-maison-copy">
           A fine jewellery house of haute joaillerie. Curating rare gems, 24K imperial gold, and ancestral nakashi craftsmanship for discerning collectors globally.
         </p>
       </div>
 
       <!-- Flagship Showrooms Col -->
-      <div>
-        <h4 style="font-family:var(--font-sans); font-size:0.75rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--c-blush); margin-bottom: 20px;">FLAGSHIP SHOWROOMS</h4>
-        <ul style="list-style:none; font-size:0.85rem; color:rgba(248, 245, 240, 0.72); line-height:2.2;">
+      <div class="atelier-footer-col--collapsible">
+        <h4 class="atelier-footer-heading">
+          <span class="atelier-footer-title-desktop">FLAGSHIP SHOWROOMS</span>
+          <button type="button" class="atelier-footer-accordion-btn" aria-expanded="false" aria-controls="footer-panel-showrooms">
+            <span>FLAGSHIP SHOWROOMS</span>
+            <span class="atelier-footer-accordion-icon" aria-hidden="true">+</span>
+          </button>
+        </h4>
+        <ul id="footer-panel-showrooms" class="atelier-footer-list">
           <li><strong style="color:var(--c-white);">SURAT:</strong> Mugalisara Jewellers Guild, 395003</li>
           <li><strong style="color:var(--c-white);">MUMBAI:</strong> Altamount Heritage Pavilion, 400026</li>
           <li><strong style="color:var(--c-white);">NEW YORK:</strong> 740 Madison Avenue, 10065</li>
@@ -27,9 +238,15 @@
       </div>
 
       <!-- Provenance Col -->
-      <div>
-        <h4 style="font-family:var(--font-sans); font-size:0.75rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--c-blush); margin-bottom: 20px;">ACCREDITATIONS</h4>
-        <ul style="list-style:none; font-size:0.85rem; color:rgba(248, 245, 240, 0.72); line-height:2.2;">
+      <div class="atelier-footer-col--collapsible">
+        <h4 class="atelier-footer-heading">
+          <span class="atelier-footer-title-desktop">ACCREDITATIONS</span>
+          <button type="button" class="atelier-footer-accordion-btn" aria-expanded="false" aria-controls="footer-panel-accreditations">
+            <span>ACCREDITATIONS</span>
+            <span class="atelier-footer-accordion-icon" aria-hidden="true">+</span>
+          </button>
+        </h4>
+        <ul id="footer-panel-accreditations" class="atelier-footer-list">
           <li>✦ GIA Certified Natural Gemstones</li>
           <li>✦ Responsible Jewellery Council (RJC) Certified</li>
           <li>✦ Bureau of Indian Standards (BIS 916 / 999)</li>
@@ -38,9 +255,9 @@
       </div>
 
       <!-- Private Inquiries Col -->
-      <div>
-        <h4 style="font-family:var(--font-sans); font-size:0.75rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--c-blush); margin-bottom: 20px;">PRIVATE CONSULTATION</h4>
-        <p style="font-size:0.85rem; color:rgba(248, 245, 240, 0.72); margin-bottom: 16px;">
+      <div class="atelier-footer-consult">
+        <h4 class="atelier-footer-heading">PRIVATE CONSULTATION</h4>
+        <p class="atelier-footer-consult-copy">
           Connect with our head curator for bespoke commissions and confidential acquisition appointments.
         </p>
         <a href="#private-appointment" data-open-appointment class="atelier-cta" style="font-size:0.72rem; color:var(--c-white);">
@@ -52,10 +269,10 @@
     </div>
 
     <!-- Bottom Bar -->
-    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:20px; padding-top:32px; border-top: 1px solid rgba(248, 245, 240, 0.1); font-size:0.75rem; color:rgba(248, 245, 240, 0.45); letter-spacing:0.15em;">
+    <div class="atelier-footer-bottom">
       <div>&copy; 2026 THE UNVEILING ATELIER. ALL RIGHTS RESERVED. HAUTE JOAILLERIE.</div>
-      <div style="display:flex; gap:24px;">
-        <a href="/admin/" style="color:var(--c-blush);">STORE CMS LOGIN</a>
+      <div class="atelier-footer-links">
+        <a href="{% url 'campaigns:about' %}" style="color:var(--c-blush);">ABOUT</a>
         <span>&bull;</span>
         <a href="{% url 'campaigns:privacy_policy' %}">PRIVACY POLICY</a>
         <span>&bull;</span>
@@ -65,3 +282,20 @@
 
   </div>
 </footer>
+
+<script>
+(function () {
+  var footerButtons = document.querySelectorAll('.atelier-footer-accordion-btn');
+  footerButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var col = btn.closest('.atelier-footer-col--collapsible');
+      if (!col) return;
+      var willOpen = !col.classList.contains('is-open');
+      col.classList.toggle('is-open', willOpen);
+      btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      var icon = btn.querySelector('.atelier-footer-accordion-icon');
+      if (icon) icon.textContent = willOpen ? '\u2212' : '+';
+    });
+  });
+})();
+</script>

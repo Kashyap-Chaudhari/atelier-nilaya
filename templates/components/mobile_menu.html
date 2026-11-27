@@ -51,6 +51,22 @@
         </a>
       </li>
 
+      <!-- About Navigation Link -->
+      <li class="aaranya-accordion-item" style="border-bottom: 1px solid rgba(48,37,34,0.08);">
+        <a href="{% url 'campaigns:about' %}" class="aaranya-accordion-trigger" style="text-decoration: none; font-weight: 600; color: var(--aaranya-burgundy, #682D3C);" {% if request.resolver_match.url_name == 'about' or request.resolver_match.url_name == 'about_noslash' %}aria-current="page"{% endif %}>
+          <span>About Us (Our Story)</span>
+          <span style="font-size: 15px;">&rarr;</span>
+        </a>
+      </li>
+
+      <!-- Track Your Order Link -->
+      <li class="aaranya-accordion-item" style="border-bottom: 1px solid rgba(48,37,34,0.08);">
+        <a href="{% url 'orders:track' %}" class="aaranya-accordion-trigger" style="text-decoration: none; font-weight: 600; color: var(--aaranya-burgundy, #682D3C);" {% if request.resolver_match.url_name == 'track' %}aria-current="page"{% endif %}>
+          <span>Track Your Order</span>
+          <span style="font-size: 15px;">&rarr;</span>
+        </a>
+      </li>
+
       <!-- Accordion 1: New & Featured -->
       <li class="aaranya-accordion-item">
         <button type="button" class="aaranya-accordion-trigger" aria-expanded="false">

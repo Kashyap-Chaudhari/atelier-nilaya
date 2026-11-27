@@ -1,0 +1,322 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Your Wishlist Folio &bull; Atelier Nilaya &bull; Surat{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<style>
+  .wishlist-page-stage {
+    min-height: 80vh;
+    padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + 24px);
+    padding-bottom: 90px;
+    background: #FFFFFF;
+  }
+
+  @media (max-width: 768px) {
+    .wishlist-page-stage {
+      padding-top: calc(56px + env(safe-area-inset-top, 0px) + 16px);
+      padding-bottom: 100px;
+    }
+  }
+
+  .wishlist-intro {
+    max-width: 840px;
+    margin: 0 auto 32px;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  .wishlist-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #682D3C;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .wishlist-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 500;
+    color: #2b1a1f;
+    margin: 0 0 10px;
+  }
+
+  .wishlist-sub {
+    font-size: 0.94rem;
+    color: #6b5c56;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* Empty State Card */
+  .wishlist-empty-card {
+    max-width: 580px;
+    margin: 40px auto 60px;
+    text-align: center;
+    padding: 48px 24px;
+    background: #FAF7F2;
+    border: 1px solid rgba(104, 45, 60, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(43, 26, 31, 0.04);
+  }
+
+  .wishlist-empty-icon {
+    font-size: 2.2rem;
+    color: #b8893b;
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+
+  .wishlist-empty-heading {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #2b1a1f;
+    margin: 0 0 10px;
+  }
+
+  .wishlist-empty-desc {
+    font-size: 0.92rem;
+    color: #6b5c56;
+    line-height: 1.6;
+    margin: 0 auto 24px;
+    max-width: 440px;
+  }
+
+  .wishlist-vault-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: #682D3C;
+    color: #FFFFFF !important;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+
+  .wishlist-vault-btn:hover {
+    background: #7D3749;
+    transform: translateY(-1px);
+  }
+
+  .wishlist-category-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .wishlist-cat-chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #FFFFFF;
+    border: 1px solid rgba(43, 26, 31, 0.14);
+    color: #2b1a1f;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .wishlist-cat-chip:hover {
+    border-color: #b8893b;
+    color: #682D3C;
+    background: #FAF7F2;
+  }
+
+  /* Wishlist Piece Card overrides */
+  .tile-wishlist-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid rgba(104, 45, 60, 0.16);
+    color: #682D3C;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+
+  .tile-wishlist-remove:hover {
+    background: #682D3C;
+    color: #FFFFFF;
+    transform: scale(1.05);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wishlist-page-stage">
+  
+  <!-- Header / Intro -->
+  <header class="wishlist-intro">
+    <span class="wishlist-eyebrow">ATELIER NILAYA &bull; PRIVATE CLIENT FOLIO</span>
+    <h1 class="wishlist-title">Your Heirloom Wishlist</h1>
+    <p class="wishlist-sub">
+      A private vault of your saved handcrafted royal suites, certified polki diamonds, and heritage treasures.
+    </p>
+  </header>
+
+  <div class="top-bar-container" style="max-width: 1280px; margin: 0 auto 20px; padding: 0 16px; display: flex; align-items: center; justify-content: space-between;">
+    <div class="piece-count" id="wishlist-count-label">
+      {{ products|length }} {% if products|length == 1 %}piece saved{% else %}pieces saved{% endif %}
+    </div>
+    <a href="{% url 'campaigns:vault' %}" class="btn-continue-shopping" style="font-size: 0.82rem; font-weight: 600; color: #682D3C; text-decoration: none;">
+      Continue Browsing Vault &rarr;
+    </a>
+  </div>
+
+  {% if products and products|length > 0 %}
+  <!-- Grid of Wishlisted Products -->
+  <section class="products-section" style="max-width: 1280px; margin: 0 auto; padding: 0 16px;">
+    <div class="products-grid" id="wishlist-products-grid">
+      {% for product in products %}
+      <article 
+        class="product-tile" 
+        data-product-id="{{ product.id }}" 
+        data-sku="{{ product.sku }}"
+        data-product-slug="{{ product.slug }}"
+        data-base-metal="{{ product.base_metal|default:'yellow_gold' }}"
+        data-current-metal="{{ product.base_metal|default:'yellow_gold' }}"
+      >
+        <div class="tile-stage">
+          <a href="{% url 'campaigns:product_detail' pk=product.id %}" class="tile-stage-link" aria-label="View {{ product.name }}"></a>
+
+          <!-- Remove Button -->
+          <button 
+            type="button" 
+            class="tile-wishlist-remove" 
+            data-remove-wishlist 
+            data-product-id="{{ product.id }}" 
+            aria-label="Remove {{ product.name }} from wishlist" 
+            title="Remove from wishlist"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#682D3C" stroke="#682D3C" stroke-width="1.8">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </button>
+
+          <!-- Product Image -->
+          <img 
+            src="{{ product.image_url_fallback|default:'/static/campaigns/img/categories/cat-necklaces.jpg' }}" 
+            alt="{{ product.name }}" 
+            class="spin-active-img" 
+            loading="lazy"
+          >
+        </div>
+
+        <div class="tile-meta-block">
+          <div class="tile-category-tag">{{ product.category.name|default:'Haute Joaillerie' }}</div>
+          <a href="{% url 'campaigns:product_detail' pk=product.id %}" class="tile-name-link">
+            <h2 class="tile-name">{{ product.name }}</h2>
+          </a>
+          <div class="tile-materials">{{ product.metal_purity|default:'22K Gold' }} &bull; {{ product.stone_type|default:'Certified Syndicate' }}</div>
+          
+          <div class="tile-price-row">
+            <span class="tile-current-price">₹{{ product.display_price|default:product.price }}</span>
+          </div>
+
+          <button 
+            type="button" 
+            class="tile-add-to-bag-btn" 
+            data-add-to-bag 
+            data-sku="{{ product.sku }}"
+            data-product-id="{{ product.id }}"
+            aria-label="Add {{ product.name }} to bag"
+          >
+            Add to Bag
+          </button>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% else %}
+  <!-- Empty State -->
+  <div class="wishlist-empty-card">
+    <div class="wishlist-empty-icon">&#10022;</div>
+    <h2 class="wishlist-empty-heading">Your Wishlist is Empty</h2>
+    <p class="wishlist-empty-desc">
+      You have not saved any heirloom jewels yet. Explore our Royal Vault and tap the heart icon on any piece to preserve it here for your personal curation.
+    </p>
+    <a href="{% url 'campaigns:vault' %}" class="wishlist-vault-btn">
+      EXPLORE THE VAULT &rarr;
+    </a>
+
+    <div class="wishlist-category-chips">
+      {% for cat in all_categories %}
+      <a href="{% url 'campaigns:category_products' slug=cat.slug %}" class="wishlist-cat-chip">
+        {{ cat.name }}
+      </a>
+      {% empty %}
+      <a href="{% url 'campaigns:vault' %}?cat=necklaces" class="wishlist-cat-chip">Necklaces</a>
+      <a href="{% url 'campaigns:vault' %}?cat=earrings" class="wishlist-cat-chip">Earrings</a>
+      <a href="{% url 'campaigns:vault' %}?cat=rings" class="wishlist-cat-chip">Rings</a>
+      <a href="{% url 'campaigns:vault' %}?cat=bangles" class="wishlist-cat-chip">Bangles</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle removal from wishlist page
+  document.querySelectorAll('[data-remove-wishlist]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const pid = this.dataset.productId;
+      const tile = this.closest('.product-tile');
+      
+      fetch('/api/wishlist/toggle/?product_id=' + pid, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': (document.cookie.match(/csrftoken=([^;]+)/) || [])[1] || '',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (tile) {
+          tile.style.opacity = '0';
+          setTimeout(() => {
+            tile.remove();
+            const remaining = document.querySelectorAll('.product-tile').length;
+            const label = document.getElementById('wishlist-count-label');
+            if (label) label.textContent = remaining + (remaining === 1 ? ' piece saved' : ' pieces saved');
+            if (remaining === 0) location.reload();
+          }, 250);
+        }
+      })
+      .catch(() => {
+        // Fallback reload
+        location.reload();
+      });
+    });
+  });
+});
+</script>
+{% endblock %}

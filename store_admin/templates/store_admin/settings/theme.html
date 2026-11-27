@@ -1,0 +1,117 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Theme & Visual Tokens &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div class="admin-page-header">
+    <div class="admin-page-header-text">
+      <h1 class="admin-page-title">Theme Tokens & Design System</h1>
+      <p class="admin-page-subtitle">Configure the quiet luxury color palette, bespoke fonts, and border radii. Storefront updates live.</p>
+    </div>
+    <div class="admin-page-actions">
+      <button type="submit" class="admin-btn admin-btn-primary">Save Theme Palette</button>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+    <!-- Color Palette -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="admin-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Core Palette Variables</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Primary Brand Color (Deep Wine)</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="color" name="primary_color_picker" value="{{ theme.primary_color }}" style="width: 44px; height: 38px; border: none; padding: 0; cursor: pointer;" onchange="document.getElementById('prim-input').value = this.value">
+              <input type="text" id="prim-input" name="primary_color" value="{{ theme.primary_color }}" class="admin-input" style="flex:1;">
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Gold Accent Color</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="color" name="gold_color_picker" value="{{ theme.accent_gold }}" style="width: 44px; height: 38px; border: none; padding: 0; cursor: pointer;" onchange="document.getElementById('gold-input').value = this.value">
+              <input type="text" id="gold-input" name="accent_gold" value="{{ theme.accent_gold }}" class="admin-input" style="flex:1;">
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Canvas Background (Warm Ivory)</label>
+            <input type="text" name="bg_canvas" value="{{ theme.bg_canvas }}" class="admin-input" placeholder="#FAF7F2">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Card / Surface Color</label>
+            <input type="text" name="surface_card" value="{{ theme.surface_card }}" class="admin-input" placeholder="#FFFFFF">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Primary Body Text Color</label>
+            <input type="text" name="text_primary" value="{{ theme.text_primary }}" class="admin-input" placeholder="#1A1A1A">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Muted / Secondary Text</label>
+            <input type="text" name="text_muted" value="{{ theme.text_muted }}" class="admin-input" placeholder="#666666">
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Typography & Shapes</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Heading Font Family</label>
+            <input type="text" name="heading_font" value="{{ theme.heading_font }}" class="admin-input" placeholder="'Cormorant Garamond', Georgia, serif">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Body Font Family</label>
+            <input type="text" name="body_font" value="{{ theme.body_font }}" class="admin-input" placeholder="'Montserrat', sans-serif">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Button Corner Radius</label>
+            <input type="text" name="button_radius" value="{{ theme.button_radius }}" class="admin-input" placeholder="4px">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Card Corner Radius</label>
+            <input type="text" name="card_radius" value="{{ theme.card_radius }}" class="admin-input" placeholder="12px">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Preview Card -->
+    <div class="admin-card">
+      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Color Swatches Preview</h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="height: 50px; border-radius: 8px; background: {{ theme.primary_color }}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.85rem; font-weight: 600;">
+          Primary Brand ({{ theme.primary_color }})
+        </div>
+        <div style="height: 50px; border-radius: 8px; background: {{ theme.accent_gold }}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.85rem; font-weight: 600;">
+          Accent Gold ({{ theme.accent_gold }})
+        </div>
+        <div style="height: 50px; border-radius: 8px; background: {{ theme.bg_canvas }}; border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; color: {{ theme.text_primary }}; font-size: 0.85rem; font-weight: 600;">
+          Ivory Canvas ({{ theme.bg_canvas }})
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button type="submit" class="admin-btn admin-btn-primary" style="width: 100%; justify-content: center;">
+          Apply & Save Tokens
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

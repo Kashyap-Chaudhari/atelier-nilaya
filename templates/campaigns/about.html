@@ -1,0 +1,1504 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}About Atelier Nilaya | Surat{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="Founded in Surat in 1954, Atelier Nilaya handcrafts BIS 916 hallmarked gold, bridal polki suites, South Indian temple jewellery, and IGI/GIA-certified diamond heirlooms.">
+<link rel="canonical" href="https://ateliernilaya.com/about/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="About Atelier Nilaya | Surat">
+<meta property="og:description" content="Three generations of Surat goldsmiths crafting hallmarked 22K gold, bridal suites, temple jewellery, and certified diamond heirlooms since 1954.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ateliernilaya.com/about/">
+<meta property="og:image" content="{% static 'images/about/hero-1.jpg' %}">
+
+<!-- LocalBusiness (JewelryStore) Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JewelryStore",
+  "name": "Atelier Nilaya",
+  "url": "https://ateliernilaya.com/about/",
+  "foundingDate": "1954",
+  "telephone": "+91-98250-11954",
+  "email": "concierge@ateliernilaya.com",
+  "image": "{% static 'images/about/showroom.jpg' %}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Nanpura Main Road, Near Mugalisara Jewellers Guild",
+    "addressLocality": "Surat",
+    "addressRegion": "Gujarat",
+    "postalCode": "395001",
+    "addressCountry": "IN"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "11:00",
+      "closes": "19:30"
+    }
+  ]
+}
+</script>
+
+<style>
+/* ==========================================================================
+   ATELIER NILAYA — ABOUT PAGE
+   Strictly uses existing site CSS variables & colors:
+   - Light Ivory Canvas: var(--c-ivory, #F8F5F0), var(--c-white, #FFFFFF), var(--c-ivory-surface, #E9DFD5)
+   - Dark Luxury Plum/Wine: #240F17, #26141A
+   - Accent Burgundy: var(--c-burgundy, #642D3B) / hover var(--aaranya-burgundy-dark, #4F1F2C)
+   - Gold Accent Lines: var(--c-gold-subtle, #AD9161) / #D7C19A
+   - Text Hierarchy: var(--c-text-primary, #351F27), var(--c-text-secondary, #583C44)
+   - Fonts: Cormorant Garamond (serif headings) & Manrope (clean sans body)
+   ========================================================================== */
+
+.about-page {
+  background-color: var(--c-ivory, #F8F5F0);
+  color: var(--c-text-primary, #351F27);
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+}
+
+.about-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+.about-eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-gold-subtle, #AD9161);
+  margin-bottom: 14px;
+}
+
+.about-eyebrow--dark {
+  color: #D7C19A;
+}
+
+.about-heading-serif {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-weight: 500;
+  line-height: 1.12;
+  color: var(--c-text-primary, #351F27);
+  margin: 0 0 18px;
+}
+
+.about-gold-rule {
+  width: 56px;
+  height: 1px;
+  background-color: var(--c-gold-subtle, #AD9161);
+  margin: 0 0 24px;
+  border: 0;
+}
+
+.about-gold-rule--center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-body-text {
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--c-text-secondary, #583C44);
+  margin: 0 0 16px;
+}
+
+/* Shared Accessible Focus Ring */
+.about-page a:focus-visible,
+.about-page button:focus-visible {
+  outline: 2px solid var(--c-burgundy, #642D3B);
+  outline-offset: 3px;
+}
+
+.about-dark-band a:focus-visible,
+.about-dark-band button:focus-visible {
+  outline: 2px solid #D7C19A;
+  outline-offset: 3px;
+}
+
+/* Site-Matched Solid & Outline Buttons */
+.about-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.about-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background-color: var(--c-burgundy, #642D3B);
+  color: var(--c-white, #FFFFFF);
+  border: 1px solid var(--c-burgundy, #642D3B);
+  border-radius: 3px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.about-btn-primary:hover {
+  background-color: var(--aaranya-burgundy-dark, #4F1F2C);
+  border-color: var(--aaranya-burgundy-dark, #4F1F2C);
+}
+
+.about-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background-color: transparent;
+  color: var(--c-burgundy, #642D3B);
+  border: 1px solid var(--c-burgundy, #642D3B);
+  border-radius: 3px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.about-btn-outline:hover {
+  background-color: var(--c-burgundy, #642D3B);
+  color: var(--c-white, #FFFFFF);
+}
+
+.about-btn-gold-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background-color: transparent;
+  color: #D7C19A;
+  border: 1px solid #D7C19A;
+  border-radius: 3px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.about-btn-gold-outline:hover {
+  background-color: #D7C19A;
+  color: #240F17;
+}
+
+/* Plain Grey Photo Frame & Placeholder System */
+.about-photo-box {
+  position: relative;
+  background-color: #D8D6D2;
+  overflow: hidden;
+  border: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+}
+
+.about-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-hero-img-primary img,
+.about-founder-photo img,
+.about-gallery-item[data-file="images/gallery/04.jpg"] img {
+  object-position: center 18%;
+}
+
+.about-page img[hidden],
+.about-lightbox img[hidden] {
+  display: none !important;
+}
+
+.about-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #D8D6D2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  color: #524B48;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+.about-photo-placeholder[hidden] {
+  display: none !important;
+}
+
+.about-photo-placeholder-path {
+  font-family: monospace;
+  font-size: 0.72rem;
+  color: #351F27;
+  margin-top: 6px;
+  word-break: break-all;
+}
+
+/* 1. HERO SECTION (Light Ivory Canvas matching site top header) */
+.about-hero {
+  background-color: var(--c-ivory, #F8F5F0);
+  padding-top: calc(var(--aaranya-header-h-top, 56px) + var(--aaranya-header-h-nav, 44px) + clamp(42px, 5vw, 72px));
+  padding-bottom: clamp(64px, 7vw, 100px);
+  border-bottom: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+}
+
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(36px, 5vw, 72px);
+  align-items: center;
+}
+
+.about-hero-title {
+  font-size: clamp(2.5rem, 4.2vw, 3.8rem);
+}
+
+.about-hero-visuals {
+  position: relative;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-hero-img-primary {
+  width: 72%;
+  aspect-ratio: 4 / 5;
+  margin-left: auto;
+  border: 1px solid var(--c-gold-subtle, #AD9161);
+  outline: 1px solid rgba(173, 145, 97, 0.45);
+  outline-offset: 10px;
+}
+
+.about-hero-img-primary .about-photo-placeholder {
+  padding-left: clamp(54px, 8vw, 96px);
+}
+
+.about-hero-img-overlap {
+  position: absolute;
+  left: 0;
+  bottom: 16px;
+  width: 50%;
+  aspect-ratio: 4 / 4.5;
+  border: 4px solid var(--c-ivory, #F8F5F0);
+  outline: 1px solid var(--c-burgundy, #642D3B);
+  z-index: 2;
+}
+
+/* 2. ONE-LINE PROMISE QUOTE (Dark Plum #240F17) */
+.about-dark-band {
+  background-color: #240F17;
+  color: var(--c-white, #FFFFFF);
+}
+
+.about-quote-band {
+  padding: clamp(56px, 6vw, 84px) 0;
+  text-align: center;
+  border-top: 1px solid rgba(215, 193, 154, 0.25);
+  border-bottom: 1px solid rgba(215, 193, 154, 0.25);
+}
+
+.about-quote-text {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(1.65rem, 2.8vw, 2.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #F8F5F0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 3. FOUNDER STORY SECTION (White / Linen Contrast) */
+.about-founder-section {
+  background-color: var(--c-white, #FFFFFF);
+  padding: clamp(68px, 7vw, 108px) 0;
+}
+
+.about-founder-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: clamp(36px, 5vw, 72px);
+  align-items: center;
+}
+
+.about-founder-photo-wrap {
+  position: relative;
+  padding: 14px 0 0 14px;
+}
+
+.about-founder-offset-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 18px;
+  bottom: 18px;
+  border: 1px solid var(--c-gold-subtle, #AD9161);
+  pointer-events: none;
+}
+
+.about-founder-photo {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+.about-founder-signature {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: 1.45rem;
+  font-style: italic;
+  color: var(--c-burgundy, #642D3B);
+}
+
+.about-founder-role {
+  display: block;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-text-muted, rgba(53, 31, 39, 0.72));
+  margin-top: 4px;
+}
+
+/* 4. NUMBERS BAND (Dark #26141A matching footer tone) */
+.about-numbers-band {
+  background-color: #26141A;
+  color: var(--c-ivory, #F8F5F0);
+  padding: clamp(52px, 5.5vw, 78px) 0;
+  border-top: 1px solid rgba(215, 193, 154, 0.25);
+  border-bottom: 1px solid rgba(215, 193, 154, 0.25);
+}
+
+.about-numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  text-align: center;
+}
+
+.about-number-item {
+  padding: 16px 12px;
+  border-right: 1px solid rgba(215, 193, 154, 0.22);
+}
+
+.about-number-item:last-child {
+  border-right: none;
+}
+
+.about-number-val {
+  display: block;
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(2.1rem, 3.2vw, 2.9rem);
+  font-weight: 500;
+  color: #D7C19A;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.about-number-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(248, 245, 240, 0.85);
+}
+
+/* 5. THE CRAFT (3 Numbered Steps with Photos on Warm Ivory) */
+.about-craft-section {
+  background-color: var(--c-ivory, #F8F5F0);
+  padding: clamp(68px, 7vw, 108px) 0;
+}
+
+.about-section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 48px;
+}
+
+.about-section-title {
+  font-size: clamp(2.1rem, 3.4vw, 3rem);
+}
+
+.about-craft-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.about-craft-card {
+  background-color: var(--c-white, #FFFFFF);
+  border: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+  display: flex;
+  flex-direction: column;
+}
+
+.about-craft-img-wrap {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-bottom: 1px solid rgba(173, 145, 97, 0.35);
+}
+
+.about-craft-body {
+  padding: 24px 24px 28px;
+}
+
+.about-step-num {
+  display: block;
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--c-gold-subtle, #AD9161);
+  margin-bottom: 6px;
+}
+
+.about-craft-title {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: var(--c-text-primary, #351F27);
+  margin: 0 0 10px;
+}
+
+/* 6. OUR PROMISE (4 Cards on Soft Linen Surface) */
+.about-promise-section {
+  background-color: var(--c-ivory-surface, #E9DFD5);
+  padding: clamp(64px, 6.5vw, 96px) 0;
+  border-top: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+  border-bottom: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+}
+
+.about-promise-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.about-promise-card {
+  background-color: var(--c-white, #FFFFFF);
+  border: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+  border-top: 3px solid var(--c-gold-subtle, #AD9161);
+  padding: 28px 24px;
+}
+
+.about-promise-kicker {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-burgundy, #642D3B);
+  margin-bottom: 8px;
+}
+
+.about-promise-title {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--c-text-primary, #351F27);
+  margin: 0 0 10px;
+}
+
+/* 7. GALLERY WITH FILTERS & ACCESSIBLE LIGHTBOX */
+.about-gallery-section {
+  background-color: var(--c-white, #FFFFFF);
+  padding: clamp(68px, 7vw, 108px) 0;
+}
+
+.about-gallery-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.about-filter-btn {
+  background-color: transparent;
+  color: var(--c-text-primary, #351F27);
+  border: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+  padding: 9px 20px;
+  border-radius: 3px;
+  font-family: var(--font-sans, 'Manrope', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.about-filter-btn:hover {
+  border-color: var(--c-burgundy, #642D3B);
+  color: var(--c-burgundy, #642D3B);
+}
+
+.about-filter-btn.is-active {
+  background-color: var(--c-burgundy, #642D3B);
+  border-color: var(--c-burgundy, #642D3B);
+  color: var(--c-white, #FFFFFF);
+}
+
+.about-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.about-gallery-grid.is-filtered {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.about-gallery-item {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+  background-color: #D8D6D2;
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+}
+
+.about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(1),
+.about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(6) {
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: auto;
+  min-height: 280px;
+}
+
+.about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(11),
+.about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(12) {
+  grid-column: span 2;
+  grid-row: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.about-gallery-grid.is-filtered .about-gallery-item {
+  grid-column: auto;
+  grid-row: auto;
+  aspect-ratio: 4 / 3;
+  min-height: 0;
+}
+
+.about-gallery-item[hidden] {
+  display: none !important;
+}
+
+.about-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(36, 15, 23, 0.92);
+  color: #F8F5F0;
+  padding: 12px 14px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  opacity: 0;
+}
+
+.about-gallery-item:hover .about-gallery-caption,
+.about-gallery-item:focus-visible .about-gallery-caption {
+  opacity: 1;
+}
+
+/* Lightbox Modal */
+.about-lightbox {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 8, 12, 0.94);
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.about-lightbox[hidden] {
+  display: none !important;
+}
+
+.about-lightbox-dialog {
+  position: relative;
+  max-width: 920px;
+  width: 100%;
+  background-color: #240F17;
+  border: 1px solid rgba(215, 193, 154, 0.45);
+  padding: 20px;
+  color: #F8F5F0;
+}
+
+.about-lightbox-media {
+  width: 100%;
+  max-height: 68vh;
+  aspect-ratio: 16 / 10;
+  background-color: #16090E;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-lightbox-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.about-lightbox-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(215, 193, 154, 0.25);
+}
+
+.about-lightbox-caption {
+  font-size: 0.9rem;
+  color: #F8F5F0;
+  margin: 0;
+}
+
+.about-lightbox-controls {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.about-lb-btn {
+  background-color: transparent;
+  color: #D7C19A;
+  border: 1px solid #D7C19A;
+  padding: 7px 14px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.about-lb-btn:hover {
+  background-color: #D7C19A;
+  color: #240F17;
+}
+
+/* 8. CUSTOMER REVIEWS */
+.about-reviews-section {
+  background-color: var(--c-ivory, #F8F5F0);
+  padding: clamp(64px, 6.5vw, 96px) 0;
+  border-top: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+}
+
+.about-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.about-review-card {
+  background-color: var(--c-white, #FFFFFF);
+  border: 1px solid var(--border-burgundy-hairline, rgba(100, 45, 59, 0.22));
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.about-review-quote {
+  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--c-text-primary, #351F27);
+  margin: 0 0 20px;
+}
+
+.about-review-meta {
+  padding-top: 14px;
+  border-top: 1px solid rgba(173, 145, 97, 0.35);
+  font-size: 0.8rem;
+  color: var(--c-text-secondary, #583C44);
+}
+
+.about-review-author {
+  font-weight: 700;
+  color: var(--c-burgundy, #642D3B);
+}
+
+/* 9. VISIT US SHOWROOM BAND */
+.about-visit-section {
+  background-color: #240F17;
+  color: #F8F5F0;
+  padding: clamp(68px, 7vw, 100px) 0;
+  border-top: 1px solid rgba(215, 193, 154, 0.25);
+}
+
+.about-visit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+
+.about-visit-details {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 28px;
+}
+
+.about-visit-details li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(215, 193, 154, 0.18);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(248, 245, 240, 0.88);
+}
+
+.about-visit-details strong {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #D7C19A;
+  margin-bottom: 3px;
+}
+
+.about-visit-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 1px solid rgba(215, 193, 154, 0.45);
+}
+
+/* 10. CLOSING CALL-TO-ACTION */
+.about-closing-cta {
+  background-color: var(--c-ivory-surface, #E9DFD5);
+  padding: clamp(64px, 6.5vw, 96px) 0;
+  text-align: center;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .about-hero-grid,
+  .about-founder-grid,
+  .about-visit-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-craft-grid,
+  .about-promise-grid,
+  .about-reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-numbers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-number-item:nth-child(2n) {
+    border-right: none;
+  }
+  .about-gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
+  .about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(1),
+  .about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(7) {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: auto;
+    min-height: 240px;
+  }
+  .about-founder-photo-wrap {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-hero {
+    padding-top: 18px;
+  }
+  .about-hero-visuals {
+    min-height: 320px;
+  }
+  .about-craft-grid,
+  .about-promise-grid,
+  .about-reviews-grid,
+  .about-numbers-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-number-item {
+    border-right: none;
+    border-bottom: 1px solid rgba(215, 193, 154, 0.18);
+  }
+  .about-number-item:last-child {
+    border-bottom: none;
+  }
+  .about-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-gallery-grid.is-filtered {
+    grid-template-columns: 1fr;
+  }
+  .about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
+  .about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(1),
+  .about-gallery-grid:not(.is-filtered) .about-gallery-item:nth-child(6) {
+    grid-column: span 2;
+    grid-row: auto;
+    aspect-ratio: 16 / 10;
+    min-height: 200px;
+  }
+  .about-gallery-caption {
+    opacity: 1;
+  }
+  .about-closing-cta {
+    padding-bottom: 110px;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-page">
+
+  <!-- 1. HERO -->
+  <section class="about-hero" aria-labelledby="about-hero-title">
+    <div class="about-container">
+      <div class="about-hero-grid">
+        <div>
+          <span class="about-eyebrow">Our story</span>
+          <h1 id="about-hero-title" class="about-heading-serif about-hero-title">
+            Atelier Nilaya &mdash; Sculpting Heirlooms in Surat Since 1954
+          </h1>
+          <hr class="about-gold-rule">
+          <p class="about-body-text">
+            For over seven decades on Surat's historic goldsmith benches, our family house has forged certified 22K and 24K temple jewellery, bridal polki suites, and natural solitaire diamond pieces designed to pass from generation to generation.
+          </p>
+          <div class="about-btn-row">
+            <a href="{% url 'campaigns:vault' %}" class="about-btn-primary">Explore collection</a>
+            <a href="#gallery" class="about-btn-outline">View gallery</a>
+          </div>
+        </div>
+
+        <div class="about-hero-visuals">
+          <div class="about-photo-box about-hero-img-primary">
+            <img
+              src="{% static 'images/about/hero-1.jpg' %}"
+              alt="Handcrafted 22K gold and uncut polki bridal choker worn in natural daylight at Atelier Nilaya"
+              onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+            >
+            <div class="about-photo-placeholder" hidden>
+              <span>Hero Photo 1</span>
+              <span class="about-photo-placeholder-path">images/about/hero-1.jpg</span>
+            </div>
+          </div>
+
+          <div class="about-photo-box about-hero-img-overlap">
+            <img
+              src="{% static 'images/about/hero-2.jpg' %}"
+              alt="Master karigar hands setting a 22K gold bezel on the workshop bench peg"
+              onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+            >
+            <div class="about-photo-placeholder" hidden>
+              <span>Hero Photo 2</span>
+              <span class="about-photo-placeholder-path">images/about/hero-2.jpg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ONE-LINE PROMISE QUOTE -->
+  <section class="about-dark-band about-quote-band" aria-label="Atelier Promise Quote">
+    <div class="about-container">
+      <blockquote class="about-quote-text">
+        &ldquo;We built our first bench in Surat with a handful of tools and the belief that gold should outlive us all.&rdquo;
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 3. FOUNDER STORY -->
+  <section class="about-founder-section" aria-labelledby="about-founder-title">
+    <div class="about-container">
+      <div class="about-founder-grid">
+        <div class="about-founder-photo-wrap">
+          <div class="about-founder-offset-frame" aria-hidden="true"></div>
+          <div class="about-photo-box about-founder-photo">
+            <img
+              src="{% static 'images/about/owner.jpg' %}"
+              alt="Portrait of [Founder Name], Founder of Atelier Nilaya in Surat"
+              onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+            >
+            <div class="about-photo-placeholder" hidden>
+              <span>Owner Portrait</span>
+              <span class="about-photo-placeholder-path">images/about/owner.jpg</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span class="about-eyebrow">Heritage &amp; Origins</span>
+          <h2 id="about-founder-title" class="about-heading-serif about-section-title">
+            A Family Bench Begun in 1954
+          </h2>
+          <hr class="about-gold-rule">
+          <!-- TODO: Customize these 3 paragraphs with the real owner story -->
+          <p class="about-body-text">
+            Atelier Nilaya began with a single wooden karigar workbench near Mugalisara in Surat, Gujarat. At a time when families trusted a goldsmith's word above paper receipts, our founder set a simple rule: weigh every gram honestly, purify every alloy thoroughly, and never rush a hand-set stone.
+          </p>
+          <p class="about-body-text">
+            As bridal traditions evolved from ancestral Gujarati families to patrons across Ahmedabad, Mumbai, and beyond, the workshop grew while keeping its core unchanged. Every necklace clasp, temple kadas hinge, and solitaire claw prong is still shaped and finished under the direct eye of our master craftsmen.
+          </p>
+          <p class="about-body-text">
+            Today, whether crafting a heavy bridal trousseau, South Indian nakashi temple jewellery, or a contemporary GIA-certified diamond ring, we honour the same standard forged in 1954 &mdash; timeless beauty backed by verifiable certification.
+          </p>
+
+          <div class="about-founder-signature">
+            &mdash; [Founder Name] <!-- TODO: Replace with founder full name -->
+            <span class="about-founder-role">Founder &amp; Master Goldsmith &bull; Est. 1954</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. NUMBERS BAND -->
+  <section class="about-dark-band about-numbers-band" aria-label="Atelier Key Figures">
+    <div class="about-container">
+      <div class="about-numbers-grid">
+        <div class="about-number-item">
+          <span class="about-number-val">72 Years</span>
+          <span class="about-number-label">Crafting in Surat Since 1954</span>
+        </div>
+        <div class="about-number-item">
+          <span class="about-number-val">{{ design_count }}</span>
+          <span class="about-number-label">Active Curated Designs</span>
+        </div>
+        <div class="about-number-item">
+          <!-- TODO: Replace with verified total customers served figure -->
+          <span class="about-number-val">[X,000+]</span>
+          <span class="about-number-label">Families Served Across India</span>
+        </div>
+        <div class="about-number-item">
+          <span class="about-number-val">100% HUID</span>
+          <span class="about-number-label">BIS Hallmarked &amp; Certified</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. THE CRAFT (3 Numbered Steps) -->
+  <section class="about-craft-section" aria-labelledby="about-craft-title">
+    <div class="about-container">
+      <div class="about-section-header">
+        <span class="about-eyebrow">The Craft</span>
+        <h2 id="about-craft-title" class="about-heading-serif about-section-title">
+          From Sketch to Hallmarked Heirloom
+        </h2>
+        <hr class="about-gold-rule about-gold-rule--center">
+        <p class="about-body-text">
+          Every piece in our Surat atelier moves through three deliberate stages before it reaches your velvet box.
+        </p>
+      </div>
+
+      <div class="about-craft-grid">
+        <article class="about-craft-card">
+          <div class="about-photo-box about-craft-img-wrap">
+            <img
+              src="{% static 'images/about/process-1.jpg' %}"
+              alt="Hand-drawn jewellery design sketches and gemstone layout"
+              onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+            >
+            <div class="about-photo-placeholder" hidden>
+              <span>Process Step 1</span>
+              <span class="about-photo-placeholder-path">images/about/process-1.jpg</span>
+            </div>
+          </div>
+          <div class="about-craft-body">
+            <span class="about-step-num">01</span>
+            <h3 class="about-craft-title">Design</h3>
+            <p class="about-body-text">
+              Each piece starts on paper. Our designers balance collarbone drape, ring ergonomics, and natural gemstone proportions before cutting a single gram of gold.
+            </p>
+          </div>
+        </article>
+
+        <article class="about-craft-card">
+          <div class="about-photo-box about-craft-img-wrap">
+            <img
+              src="{% static 'images/about/process-2.jpg' %}"
+              alt="Surat goldsmith forging and hand-setting gemstones at the bench"
+              onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+            >
+            <div class="about-photo-placeholder" hidden>
+              <span>Process Step 2</span>
+              <span class="about-photo-placeholder-path">images/about/process-2.jpg</span>
+            </div>
+          </div>
+          <div class="about-craft-body">
+            <span class="about-step-num">02</span>
+            <h3 class="about-craft-title">Crafting</h3>
+            <p class="about-body-text">
+              Master karigars forge, carve temple repoussé motifs, and hand-set syndicate polki or natural diamonds under magnification for secure, lifelong wear.
+            </p>
+          </div>
+        </article>
+
+        <article class="about-craft-card">
+          <div class="about-photo-box about-craft-img-wrap">
+            <img
+              src="{% static 'images/about/process-3.jpg' %}"
+              alt="BIS 916 hallmarking, 6-digit HUID laser stamp, and purity check"
+              onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+            >
+            <div class="about-photo-placeholder" hidden>
+              <span>Process Step 3</span>
+              <span class="about-photo-placeholder-path">images/about/process-3.jpg</span>
+            </div>
+          </div>
+          <div class="about-craft-body">
+            <span class="about-step-num">03</span>
+            <h3 class="about-craft-title">Hallmark and check</h3>
+            <p class="about-body-text">
+              Completed jewellery is assay-tested for BIS 916 / 750 purity, stamped with a unique 6-digit HUID number, and checked under ultrasonic inspection.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. OUR PROMISE (4 Cards) -->
+  <section class="about-promise-section" aria-labelledby="about-promise-title">
+    <div class="about-container">
+      <div class="about-section-header">
+        <span class="about-eyebrow">Quality &amp; Trust</span>
+        <h2 id="about-promise-title" class="about-heading-serif about-section-title">
+          Our Four Guarantees
+        </h2>
+        <hr class="about-gold-rule about-gold-rule--center">
+      </div>
+
+      <div class="about-promise-grid">
+        <div class="about-promise-card">
+          <span class="about-promise-kicker">BIS 916 &amp; 750</span>
+          <h3 class="about-promise-title">Hallmarked Gold</h3>
+          <p class="about-body-text">
+            Every gold piece carries official BIS hallmarking with a laser-etched 6-digit HUID code verifiable on the BIS Care portal.
+          </p>
+        </div>
+
+        <div class="about-promise-card">
+          <span class="about-promise-kicker">GIA &bull; IGI &bull; SGL</span>
+          <h3 class="about-promise-title">Certified Diamonds</h3>
+          <p class="about-body-text">
+            100% natural, ethically sourced diamonds accompanied by original independent laboratory grading certificates detailing cut, clarity, and carat.
+          </p>
+        </div>
+
+        <div class="about-promise-card">
+          <span class="about-promise-kicker">No Hidden Markup</span>
+          <h3 class="about-promise-title">Clear Pricing</h3>
+          <p class="about-body-text">
+            Every invoice separates net gold weight &times; Surat daily rate, making percentage, stone cost, and 3% GST cleanly line by line.
+          </p>
+        </div>
+
+        <div class="about-promise-card">
+          <span class="about-promise-kicker">15-Day Privilege</span>
+          <h3 class="about-promise-title">Exchange &amp; Returns</h3>
+          <p class="about-body-text">
+            Enjoy a 15-day exchange privilege, insured transit across India, transparent lifetime buyback value, and free annual polishing.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. GALLERY (12 Photos + Filter Buttons + Accessible Lightbox) -->
+  <section class="about-gallery-section" id="gallery" aria-labelledby="about-gallery-title">
+    <div class="about-container">
+      <div class="about-section-header">
+        <span class="about-eyebrow">Visual Chronicle</span>
+        <h2 id="about-gallery-title" class="about-heading-serif about-section-title">
+          Inside Atelier Nilaya
+        </h2>
+        <hr class="about-gold-rule about-gold-rule--center">
+      </div>
+
+      <div class="about-gallery-filters" role="group" aria-label="Filter gallery photos">
+        <button type="button" class="about-filter-btn is-active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="about-filter-btn" data-filter="showroom" aria-pressed="false">Showroom</button>
+        <button type="button" class="about-filter-btn" data-filter="workshop" aria-pressed="false">Workshop</button>
+        <button type="button" class="about-filter-btn" data-filter="jewellery" aria-pressed="false">Our jewellery</button>
+        <button type="button" class="about-filter-btn" data-filter="customers" aria-pressed="false">Customers</button>
+      </div>
+
+      <div class="about-gallery-grid" id="about-gallery-grid">
+        {% for item in gallery_items %}
+        <button
+          type="button"
+          class="about-gallery-item"
+          data-category="{{ item.category }}"
+          data-index="{{ forloop.counter0 }}"
+          data-src="{% static 'images/gallery/' %}{{ item.file }}"
+          data-alt="{{ item.alt }}"
+          data-caption="{{ item.caption }}"
+          data-file="images/gallery/{{ item.file }}"
+          aria-label="Open photo: {{ item.caption }}"
+        >
+          <img
+            src="{% static 'images/gallery/' %}{{ item.file }}"
+            alt="{{ item.alt }}"
+            loading="lazy"
+            onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+          >
+          <div class="about-photo-placeholder" hidden>
+            <span>{{ item.label }}</span>
+            <span class="about-photo-placeholder-path">images/gallery/{{ item.file }}</span>
+          </div>
+          <span class="about-gallery-caption">{{ item.caption }}</span>
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div
+    class="about-lightbox"
+    id="about-lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Gallery photo preview"
+    hidden
+  >
+    <div class="about-lightbox-dialog">
+      <div class="about-lightbox-media" id="about-lb-media">
+        <img
+          id="about-lb-img"
+          alt=""
+          hidden
+        >
+        <div class="about-photo-placeholder" id="about-lb-placeholder" hidden>
+          <span id="about-lb-placeholder-label">Photo preview</span>
+          <span class="about-photo-placeholder-path" id="about-lb-placeholder-path"></span>
+        </div>
+      </div>
+      <div class="about-lightbox-bar">
+        <p class="about-lightbox-caption" id="about-lb-caption"></p>
+        <div class="about-lightbox-controls">
+          <button type="button" class="about-lb-btn" id="about-lb-prev" aria-label="Previous photo">&larr; Prev</button>
+          <button type="button" class="about-lb-btn" id="about-lb-next" aria-label="Next photo">Next &rarr;</button>
+          <button type="button" class="about-lb-btn" id="about-lb-close" aria-label="Close gallery viewer">Close (Esc)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. CUSTOMER REVIEWS -->
+  <section class="about-reviews-section" aria-labelledby="about-reviews-title">
+    <div class="about-container">
+      <div class="about-section-header">
+        <span class="about-eyebrow">Patron Stories</span>
+        <h2 id="about-reviews-title" class="about-heading-serif about-section-title">
+          Trusted by Generations
+        </h2>
+        <hr class="about-gold-rule about-gold-rule--center">
+      </div>
+
+      <div class="about-reviews-grid">
+        {% for r in reviews %}
+        <article class="about-review-card">
+          <blockquote class="about-review-quote">
+            &ldquo;{{ r.quote }}&rdquo;
+          </blockquote>
+          <div class="about-review-meta">
+            <span class="about-review-author">{{ r.client_name }}</span> &mdash; {{ r.city }}
+            {% if r.piece_name %}<br><span>{{ r.piece_name }}</span>{% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. VISIT US -->
+  <section class="about-dark-band about-visit-section" id="visit-us" aria-labelledby="about-visit-title">
+    <div class="about-container">
+      <div class="about-visit-grid">
+        <div>
+          <span class="about-eyebrow about-eyebrow--dark">Visit Our Flagship Atelier</span>
+          <h2 id="about-visit-title" class="about-heading-serif about-section-title" style="color: #F8F5F0;">
+            Atelier Nilaya &mdash; Surat
+          </h2>
+          <hr class="about-gold-rule" style="background-color: #D7C19A;">
+          <p class="about-body-text" style="color: rgba(248, 245, 240, 0.8);">
+            Experience our jewellery in natural daylight with our senior gemmologists and design bench team. Walk-ins welcome during showroom hours or schedule a private consultation.
+          </p>
+
+          <ul class="about-visit-details">
+            <li>
+              <strong>Showroom Address</strong>
+              Atelier Nilaya, Nanpura Main Road, Near Mugalisara Jewellers Guild, Surat, Gujarat 395001
+            </li>
+            <li>
+              <strong>Opening Hours</strong>
+              Monday &ndash; Saturday: 11:00 AM &ndash; 7:30 PM &bull; Sunday: Private Appointment
+            </li>
+            <li>
+              <strong>Telephone &amp; WhatsApp</strong>
+              <a href="tel:+919825011954" style="color: #F8F5F0; text-decoration: none;">+91 98250 11954</a>
+            </li>
+            <li>
+              <strong>Email Concierge</strong>
+              <a href="mailto:concierge@ateliernilaya.com" style="color: #F8F5F0; text-decoration: none;">concierge@ateliernilaya.com</a>
+            </li>
+          </ul>
+
+          <div class="about-btn-row">
+            <a
+              href="https://wa.me/919825011954"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="about-btn-primary"
+            >WhatsApp Us</a>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Nanpura+Main+Road+Surat+Gujarat+395001"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="about-btn-gold-outline"
+            >Get Directions</a>
+          </div>
+        </div>
+
+        <div class="about-photo-box about-visit-photo">
+          <img
+            src="{% static 'images/about/showroom.jpg' %}"
+            alt="Atelier Nilaya Flagship Showroom exterior and consultation lounge in Nanpura, Surat"
+            onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+          >
+          <div class="about-photo-placeholder" hidden>
+            <span>Showroom Photo</span>
+            <span class="about-photo-placeholder-path">images/about/showroom.jpg</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. CLOSING CALL-TO-ACTION -->
+  <section class="about-closing-cta" aria-label="Explore Jewellery Vault">
+    <div class="about-container">
+      <span class="about-eyebrow">Begin Your Heirloom</span>
+      <h2 class="about-heading-serif about-section-title" style="max-width: 640px; margin: 0 auto 14px;">
+        Discover Handcrafted Gold, Temple &amp; Certified Diamond Treasures
+      </h2>
+      <div class="about-btn-row" style="justify-content: center;">
+        <a href="{% url 'campaigns:vault' %}" class="about-btn-primary">Shop All Collections</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  var filterButtons = document.querySelectorAll('.about-filter-btn');
+  var galleryGrid = document.getElementById('about-gallery-grid');
+  var galleryItems = Array.from(document.querySelectorAll('.about-gallery-item'));
+  var lightbox = document.getElementById('about-lightbox');
+  var lbImg = document.getElementById('about-lb-img');
+  var lbPlaceholder = document.getElementById('about-lb-placeholder');
+  var lbPlaceholderLabel = document.getElementById('about-lb-placeholder-label');
+  var lbPlaceholderPath = document.getElementById('about-lb-placeholder-path');
+  var lbCaption = document.getElementById('about-lb-caption');
+  var lbPrev = document.getElementById('about-lb-prev');
+  var lbNext = document.getElementById('about-lb-next');
+  var lbClose = document.getElementById('about-lb-close');
+
+  var currentVisible = galleryItems.slice();
+  var activeIndex = 0;
+  var lastTriggerEl = null;
+  var failedSrcs = {};
+
+  // Ensure any image that already failed before script execution shows its placeholder cleanly
+  document.querySelectorAll('.about-photo-box img, .about-gallery-item img').forEach(function (img) {
+    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) {
+      failedSrcs[img.getAttribute('src')] = true;
+      img.hidden = true;
+      if (img.nextElementSibling) {
+        img.nextElementSibling.hidden = false;
+      }
+    }
+    img.addEventListener('error', function () {
+      var s = img.getAttribute('src');
+      if (s) failedSrcs[s] = true;
+      img.hidden = true;
+      if (img.nextElementSibling) {
+        img.nextElementSibling.hidden = false;
+      }
+    });
+  });
+
+  // Gallery Filter Controls
+  filterButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var filter = btn.getAttribute('data-filter');
+      filterButtons.forEach(function (b) {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      if (galleryGrid) {
+        galleryGrid.classList.toggle('is-filtered', filter !== 'all');
+      }
+
+      currentVisible = [];
+      galleryItems.forEach(function (item) {
+        var cat = item.getAttribute('data-category');
+        var show = (filter === 'all' || cat === filter);
+        item.hidden = !show;
+        if (show) {
+          currentVisible.push(item);
+        }
+      });
+    });
+  });
+
+  lbImg.addEventListener('error', function () {
+    var s = lbImg.getAttribute('src');
+    if (s) failedSrcs[s] = true;
+    lbImg.hidden = true;
+    lbPlaceholder.hidden = false;
+  });
+
+  function showSlide(idx) {
+    if (!currentVisible.length) return;
+    activeIndex = (idx + currentVisible.length) % currentVisible.length;
+    var item = currentVisible[activeIndex];
+    var src = item.getAttribute('data-src');
+    var alt = item.getAttribute('data-alt');
+    var caption = item.getAttribute('data-caption');
+    var filePath = item.getAttribute('data-file');
+    var thumbImg = item.querySelector('img');
+    var alreadyMissing = Boolean(failedSrcs[src] || (thumbImg && thumbImg.hidden));
+
+    lbCaption.textContent = caption;
+    lbPlaceholderLabel.textContent = alt;
+    lbPlaceholderPath.textContent = filePath;
+
+    if (alreadyMissing) {
+      lbImg.hidden = true;
+      lbImg.removeAttribute('src');
+      lbPlaceholder.hidden = false;
+    } else {
+      lbPlaceholder.hidden = true;
+      lbImg.hidden = false;
+      lbImg.alt = alt;
+      lbImg.src = src;
+    }
+  }
+
+  function openLightbox(item) {
+    lastTriggerEl = item;
+    var idx = currentVisible.indexOf(item);
+    showSlide(idx >= 0 ? idx : 0);
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+
+  function closeLightbox() {
+    lightbox.hidden = true;
+    document.body.style.overflow = '';
+    if (lastTriggerEl) {
+      lastTriggerEl.focus();
+    }
+  }
+
+  galleryItems.forEach(function (item) {
+    item.addEventListener('click', function () {
+      openLightbox(item);
+    });
+  });
+
+  lbPrev.addEventListener('click', function () {
+    showSlide(activeIndex - 1);
+  });
+
+  lbNext.addEventListener('click', function () {
+    showSlide(activeIndex + 1);
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (lightbox.hidden) return;
+    if (e.key === 'Escape') {
+      closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+      showSlide(activeIndex - 1);
+    } else if (e.key === 'ArrowRight') {
+      showSlide(activeIndex + 1);
+    }
+  });
+})();
+</script>
+{% endblock %}

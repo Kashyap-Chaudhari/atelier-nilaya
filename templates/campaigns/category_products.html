@@ -169,6 +169,7 @@
       <article 
         class="product-tile" 
         data-product-id="{{ product.id }}" 
+        data-sku="{{ product.sku }}"
         data-product-slug="{{ product.slug }}"
         data-base-metal="{{ product.base_metal|default:'yellow_gold' }}"
         data-current-metal="{{ product.base_metal|default:'yellow_gold' }}"
@@ -319,7 +320,9 @@
               type="button" 
               class="tile-add-to-bag-btn is-one-of-a-kind" 
               data-add-to-bag 
+              data-sku="{{ product.sku }}"
               data-product-id="{{ product.id }}"
+              data-product-slug="{{ product.slug }}"
               aria-label="Add {{ product.name }} to bag - Only 1 available"
             >
               <span class="btn-text-desktop">Only 1 Available</span>
@@ -339,7 +342,9 @@
               type="button" 
               class="tile-add-to-bag-btn" 
               data-add-to-bag 
+              data-sku="{{ product.sku }}"
               data-product-id="{{ product.id }}"
+              data-product-slug="{{ product.slug }}"
               aria-label="Add {{ product.name }} to bag"
             >
               <span class="btn-text-desktop">Add to Bag</span>

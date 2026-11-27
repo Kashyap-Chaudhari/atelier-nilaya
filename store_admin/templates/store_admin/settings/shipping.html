@@ -1,0 +1,66 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Shipping & Armored Transit &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="action" value="save_rules">
+
+  <div class="admin-page-header">
+    <div class="admin-page-header-text">
+      <h1 class="admin-page-title">Insured Transit & Logistics</h1>
+      <p class="admin-page-subtitle">Configure white-glove armored transit tiers, transit fees, delivery timelines, and complimentary thresholds.</p>
+    </div>
+    <div class="admin-page-actions">
+      <button type="submit" class="admin-btn admin-btn-primary">Save Logistics Rules</button>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+    <!-- Shipping Rules -->
+    <div class="admin-card">
+      <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Active Transit Options</h2>
+      
+      {% for r in rules %}
+      <div style="background: #faf7f2; border: 1px solid var(--color-border); border-radius: 8px; padding: 18px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div style="font-weight: 600; font-size: 1.05rem;">{{ r.name }}</div>
+          <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" name="active_{{ r.id }}" {% if r.is_active %}checked{% endif %} style="accent-color: var(--color-wine);">
+            <span style="font-size: 0.85rem;">Active</span>
+          </label>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Transit Charge (₹ INR)</label>
+            <input type="number" step="1" name="price_{{ r.id }}" value="{{ r.price|floatformat:0 }}" class="admin-input">
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Delivery Timeline Display</label>
+            <input type="text" name="time_{{ r.id }}" value="{{ r.delivery_time_text }}" class="admin-input">
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Free Shipping Threshold -->
+    <div class="admin-card">
+      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Complimentary Transit Policy</h3>
+      
+      <div class="admin-form-group">
+        <label class="admin-label">Free Armored Shipping Threshold (₹)</label>
+        <input type="number" step="1" name="free_shipping_threshold" value="{{ settings.free_shipping_threshold|floatformat:0 }}" class="admin-input">
+        <p style="font-size: 0.75rem; color: var(--color-muted); margin-top: 6px;">Orders equal to or above this value qualify for complimentary fully insured transit.</p>
+      </div>
+
+      <button type="submit" class="admin-btn admin-btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">
+        Save Changes
+      </button>
+    </div>
+  </div>
+</form>
+{% endblock %}

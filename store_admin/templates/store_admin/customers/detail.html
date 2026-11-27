@@ -1,0 +1,78 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Patron Folio: {{ customer.get_full_name|default:customer.username }} &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <div style="font-size: 0.85rem; margin-bottom: 4px;">
+      <a href="{% url 'store_admin:customer_list' %}" style="color: var(--color-muted); text-decoration: none;">&larr; Back to All Patrons</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <h1 class="admin-page-title" style="margin-bottom: 0;">{{ customer.get_full_name|default:customer.username }}</h1>
+      <span class="admin-badge {% if customer.is_active %}admin-badge-green{% else %}admin-badge-red{% endif %}">
+        {% if customer.is_active %}Active Client{% else %}Blocked{% endif %}
+      </span>
+    </div>
+    <p class="admin-page-subtitle">Patron Member since {{ customer.date_joined|date:"d M Y" }} &bull; {{ customer.email }}</p>
+  </div>
+  <div class="admin-page-actions">
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="toggle_status">
+      <button type="submit" class="admin-btn admin-btn-outline" style="{% if customer.is_active %}color: #b91c1c;{% else %}color: #166534;{% endif %}" onclick="return confirm('Change access state for this patron?');">
+        {% if customer.is_active %}Block Access{% else %}Restore Access{% endif %}
+      </button>
+    </form>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+  <!-- Left Column: Acquisition Orders -->
+  <div class="admin-card" style="padding: 0; overflow: hidden;">
+    <div style="padding: 16px 20px; border-bottom: 1px solid var(--color-border);">
+      <h2 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; margin: 0;">Acquisitions History ({{ orders.count }})</h2>
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Order #</th>
+          <th>Date</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th style="text-align: right;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for o in orders %}
+        <tr>
+          <td><strong>#{{ o.order_number }}</strong></td>
+          <td style="font-size: 0.82rem; color: var(--color-muted);">{{ o.created_at|date:"d M Y" }}</td>
+          <td style="font-weight: 600;">₹{{ o.grand_total|floatformat:0 }}</td>
+          <td><span class="admin-badge admin-badge-wine">{{ o.status }}</span></td>
+          <td style="text-align: right;">
+            <a href="{% url 'store_admin:order_detail' order_number=o.order_number %}" class="admin-btn admin-btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;">Manage</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 30px; color: var(--color-muted);">No acquisitions placed yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Right Column: Folio Summary -->
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <div class="admin-card">
+      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Lifetime Acquisition Folio</h3>
+      <div style="font-size: 0.78rem; color: var(--color-muted); text-transform: uppercase;">Total Spent</div>
+      <div style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 600; color: var(--color-wine); margin-top: 4px;">{{ total_spent_inr }}</div>
+      <div style="font-size: 0.85rem; color: var(--color-muted); margin-top: 4px;">Across {{ orders.count }} verified acquisitions</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

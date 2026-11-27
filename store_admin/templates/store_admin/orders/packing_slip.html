@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Armored Transit Slip #{{ order.order_number }} &bull; {{ store_settings.store_name }}</title>
+  <style>
+    body { font-family: monospace, sans-serif; padding: 30px; font-size: 13px; color: #111; }
+    .box { max-width: 650px; margin: auto; border: 2px dashed #333; padding: 25px; }
+    .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
+    .title { font-size: 20px; font-weight: bold; letter-spacing: 2px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td { padding: 8px; text-align: left; border-bottom: 1px dotted #ccc; }
+    .barcode { font-size: 28px; letter-spacing: 6px; text-align: center; margin: 20px 0; font-family: 'Courier New', Courier, monospace; }
+  </style>
+</head>
+<body>
+  <div style="text-align: right; max-width: 650px; margin: 0 auto 10px auto;">
+    <button onclick="window.print()" style="padding: 6px 14px; cursor: pointer;">Print Transit Slip</button>
+  </div>
+  <div class="box">
+    <div class="header">
+      <div class="title">{{ store_settings.store_name|upper }}</div>
+      <div>SECURE ARMORED LOGISTICS & TRANSIT MANIFEST</div>
+      <div style="margin-top: 5px;">DESTINATION: {{ order.shipping_city|upper }} ({{ order.shipping_pincode }})</div>
+    </div>
+
+    <div class="barcode">*{{ order.order_number }}*</div>
+
+    <div style="margin-bottom: 15px;">
+      <strong>RECIPIENT PATRON:</strong><br>
+      {{ order.customer_name }}<br>
+      {{ order.customer_phone }}<br>
+      {{ order.shipping_address_line1 }}<br>
+      {% if order.shipping_address_line2 %}{{ order.shipping_address_line2 }}<br>{% endif %}
+      {{ order.shipping_city }}, {{ order.shipping_state }} - {{ order.shipping_pincode }}
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>PIECE DESCRIPTION</th>
+          <th>QTY</th>
+          <th>SECURITY SEAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for itm in items %}
+        <tr>
+          <td>{{ itm.product_name }} ({{ itm.variant_title|default:"22K Gold" }})</td>
+          <td>{{ itm.quantity }}</td>
+          <td>TAMPER-EVIDENT POUCH SEALED</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div style="margin-top: 25px; font-size: 11px; border-top: 1px solid #333; padding-top: 10px;">
+      DISPATCH KARIGAR SIGN: ______________________ &nbsp;&nbsp;&nbsp;&nbsp; ARMORED AGENT SIGN: ______________________
+    </div>
+  </div>
+</body>
+</html>

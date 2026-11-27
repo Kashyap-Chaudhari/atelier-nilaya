@@ -309,12 +309,79 @@
       </p>
     </div>
 
-    <div class="confirmed-actions-row">
-      <a href="{% url 'campaigns:vault' %}" class="btn-confirmed-primary">Return to The Vault</a>
-      <a href="https://wa.me/919825100000?text=Hello%20Atelier%20Nilaya,%20inquiring%20about%20Order%20{{ order.order_number }}" target="_blank" rel="noopener" class="btn-confirmed-secondary">
-        Concierge Assistance on WhatsApp &rarr;
+    {% if not request.user.is_authenticated %}
+    <!-- Optional Post-Order Account Creation Card -->
+    <div class="confirmed-details-card" style="background: rgba(217, 181, 107, 0.08); border: 1px solid rgba(217, 181, 107, 0.3); text-align: center; padding: 24px;">
+      <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.45rem; color: #302522; margin: 0 0 8px;">
+        Track Your Piece with a Private Client Folio
+      </h3>
+      <p style="font-family: var(--font-sans, 'Manrope', sans-serif); font-size: 0.88rem; color: #705953; margin: 0 auto 16px; max-width: 540px; line-height: 1.6;">
+        Create an account using <strong>{{ order.customer_email }}</strong> to track your shipment in real time, view master craftsman progress notes, and access lifetime hallmark certificates.
+      </p>
+      <a href="{% url 'campaigns:signup' %}?email={{ order.customer_email|urlencode }}&name={{ order.customer_name|urlencode }}&next=/orders/track/?order={{ order.order_number }}" class="btn-confirmed-primary" style="background: #682D3C; color: #FFFFFF; border-color: #4F1F2C; display: inline-flex; align-items: center; gap: 8px;">
+        <span>Create Account to Track This Order</span>
+        <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
+    {% endif %}
+
+    <div class="confirmed-actions-row">
+      <a href="{% url 'orders:track' %}?order={{ order.order_number }}" class="btn-confirmed-primary">
+        Track Order Live &rarr;
+      </a>
+      
+      <button type="button" id="resend-email-btn" class="btn-confirmed-secondary" style="cursor: pointer; background: #FFFFFF;">
+        Resend Confirmation Email
+      </button>
+
+      <a href="https://wa.me/919825100000?text=Hello%20Atelier%20Nilaya,%20I%20have%20placed%20Order%20{{ order.order_number }}%20(Total:%20{{ order.formatted_total|urlencode }}).%20Please%20confirm%20my%20dispatch%20timeline." target="_blank" rel="noopener" class="btn-confirmed-secondary" style="background: #25D366; color: #FFFFFF; border-color: #20BA5A;">
+        WhatsApp Order Confirmation &rarr;
+      </a>
+
+      <a href="{% url 'campaigns:vault' %}" class="btn-confirmed-secondary">Return to Vault</a>
+    </div>
+
+    <div id="resend-status-msg" style="display: none; text-align: center; margin-top: 14px; font-size: 0.88rem; font-weight: 600;"></div>
+
+    <script>
+      (function() {
+        var btn = document.getElementById('resend-email-btn');
+        var msg = document.getElementById('resend-status-msg');
+        if (btn) {
+          btn.addEventListener('click', function() {
+            btn.disabled = true;
+            btn.textContent = 'Sending Email...';
+            fetch("{% url 'orders:api_resend_confirmation' order_number=order.order_number %}", {
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              btn.disabled = false;
+              btn.textContent = 'Resend Confirmation Email';
+              msg.style.display = 'block';
+              if (data.success) {
+                msg.style.color = '#15803d';
+                msg.textContent = '✓ ' + (data.message || 'Confirmation email resent successfully.');
+              } else {
+                msg.style.color = '#b91c1c';
+                msg.textContent = '✕ ' + (data.message || 'Failed to resend confirmation email.');
+              }
+            })
+            .catch(function(err) {
+              btn.disabled = false;
+              btn.textContent = 'Resend Confirmation Email';
+              msg.style.display = 'block';
+              msg.style.color = '#b91c1c';
+              msg.textContent = '✕ Error sending email. Please try again.';
+            });
+          });
+        }
+      })();
+    </script>
 
   </div>
 </section>

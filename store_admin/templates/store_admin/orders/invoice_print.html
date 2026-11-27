@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tax Invoice #{{ order.order_number }} &bull; {{ store_settings.store_name }}</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      color: #1a1a1a;
+      background: #fff;
+      font-size: 13px;
+    }
+    .invoice-box {
+      max-width: 800px;
+      margin: auto;
+      border: 1px solid #e5e5e5;
+      padding: 30px;
+    }
+    .header-table {
+      width: 100%;
+      border-bottom: 2px solid #642D3B;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+    .title {
+      font-family: Georgia, serif;
+      font-size: 24px;
+      color: #642D3B;
+      letter-spacing: 2px;
+      margin: 0;
+    }
+    .subtitle {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: #888;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .meta-table {
+      width: 100%;
+      margin-bottom: 25px;
+    }
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+    .items-table th {
+      background: #FAF7F2;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 8px;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .items-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #eee;
+    }
+    .totals-table {
+      width: 300px;
+      margin-left: auto;
+      margin-bottom: 30px;
+    }
+    .totals-table td {
+      padding: 5px 0;
+    }
+    .total-due {
+      font-size: 16px;
+      font-weight: bold;
+      color: #642D3B;
+      border-top: 1px solid #ddd;
+      padding-top: 8px;
+    }
+    .footer-note {
+      font-size: 10px;
+      color: #777;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+      text-align: center;
+      line-height: 1.5;
+    }
+    @media print {
+      body { padding: 0; }
+      .invoice-box { border: none; padding: 0; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print" style="max-width: 800px; margin: 0 auto 15px auto; text-align: right;">
+    <button onclick="window.print()" style="background: #642D3B; color: #fff; border: none; padding: 8px 18px; border-radius: 4px; cursor: pointer; font-size: 13px;">Print / Save as PDF</button>
+  </div>
+
+  <div class="invoice-box">
+    <table class="header-table">
+      <tr>
+        <td>
+          <h1 class="title">{{ store_settings.store_name|upper }}</h1>
+          <div class="subtitle">HAUTE JOAILLERIE &bull; SURAT &bull; EST. 1954</div>
+          <div style="font-size: 11px; color: #555; margin-top: 6px;">
+            {{ store_settings.showroom_address }}<br>
+            GSTIN: <strong>24AAACA1234F1Z5</strong> &bull; BIS Hallmark Lic: <strong>HM-9821004</strong>
+          </div>
+        </td>
+        <td style="text-align: right; vertical-align: top;">
+          <h2 style="font-size: 18px; margin: 0; color: #1a1a1a;">TAX INVOICE</h2>
+          <div style="font-size: 12px; color: #666; margin-top: 4px;">Invoice #: <strong>INV-{{ order.order_number }}</strong></div>
+          <div style="font-size: 12px; color: #666;">Date: <strong>{{ order.created_at|date:"d M Y" }}</strong></div>
+          <div style="font-size: 12px; color: #666;">Payment: <strong>{{ order.payment_method|upper }}</strong></div>
+        </td>
+      </tr>
+    </table>
+
+    <table class="meta-table">
+      <tr>
+        <td style="width: 50%; vertical-align: top;">
+          <strong style="font-size: 11px; text-transform: uppercase; color: #888;">Billed To / Patron:</strong><br>
+          <div style="font-size: 14px; font-weight: bold; margin-top: 4px;">{{ order.customer_name }}</div>
+          <div>{{ order.customer_phone }} &bull; {{ order.customer_email }}</div>
+        </td>
+        <td style="width: 50%; vertical-align: top;">
+          <strong style="font-size: 11px; text-transform: uppercase; color: #888;">Insured Transit Destination:</strong><br>
+          <div style="margin-top: 4px;">
+            {{ order.shipping_address_line1 }}<br>
+            {% if order.shipping_address_line2 %}{{ order.shipping_address_line2 }}<br>{% endif %}
+            {{ order.shipping_city }}, {{ order.shipping_state }} - {{ order.shipping_pincode }}
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Sl.</th>
+          <th>Description of Artwork</th>
+          <th>HSN</th>
+          <th>Qty</th>
+          <th>Unit Rate</th>
+          <th style="text-align: right;">Amount (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for itm in items %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>
+            <strong>{{ itm.product_name }}</strong>
+            <div style="font-size: 11px; color: #666;">Variant: {{ itm.variant_title|default:"22K Gold" }} &bull; SKU: {{ itm.product_sku }}</div>
+            {% if itm.certificate_number %}<div style="font-size: 10px; color: #999;">BIS Certificate: {{ itm.certificate_number }}</div>{% endif %}
+          </td>
+          <td>711319</td>
+          <td>{{ itm.quantity }}</td>
+          <td>₹{{ itm.unit_price|floatformat:2 }}</td>
+          <td style="text-align: right;">₹{{ itm.line_total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <table class="totals-table">
+      <tr>
+        <td>Subtotal:</td>
+        <td style="text-align: right;">₹{{ order.subtotal|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td>CGST (1.5%):</td>
+        <td style="text-align: right;">₹{{ order.tax_amount|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td>SGST (1.5%):</td>
+        <td style="text-align: right;">₹{{ order.tax_amount|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td>Armored Transit & Insurance:</td>
+        <td style="text-align: right;">{% if order.shipping_fee > 0 %}₹{{ order.shipping_fee|floatformat:2 }}{% else %}Complimentary{% endif %}</td>
+      </tr>
+      <tr class="total-due">
+        <td>Total Invoice Value:</td>
+        <td style="text-align: right;">₹{{ order.grand_total|floatformat:2 }}</td>
+      </tr>
+    </table>
+
+    <div class="footer-note">
+      This is a computer-generated luxury tax invoice verified with digital BIS Hallmark Registry.<br>
+      All acquisitions are sealed in tamper-proof armored transit sleeves and covered by comprehensive vault transit insurance.<br>
+      Thank you for patronizing {{ store_settings.store_name }}.
+    </div>
+  </div>
+</body>
+</html>

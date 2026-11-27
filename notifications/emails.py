@@ -271,3 +271,89 @@ Atelier Nilaya Haute Joaillerie, Surat
         return True
     except Exception as e:
         return False
+
+
+def send_order_confirmation_email(order, request=None) -> bool:
+    """Dispatches a comprehensive, luxury order confirmation receipt with live tracking link."""
+    try:
+        domain = request.get_host() if request else "127.0.0.1:8000"
+        scheme = "https" if request and request.is_secure() else "http"
+        track_url = f"{scheme}://{domain}/orders/track/?order={order.order_number}"
+
+        headline = f"Acquisition Confirmed &bull; {order.order_number}"
+        salutation = f"Esteemed Patron {order.customer_name},"
+        
+        items_summary = "".join([
+            f"<li><strong>{item.quantity}x {item.product_name}</strong> ({item.metal}) &mdash; ₹{item.total_price:,.2f}</li>"
+            for item in order.items.all()
+        ]) or f"<li>Jewellery Heirloom Pieces &mdash; {order.formatted_total}</li>"
+
+        body = f"""
+        <p style="margin-top: 0;">{salutation}</p>
+        <p>Your acquisition has been recorded in our Surat atelier. Our master karigars have received your bench specifications, and your hallmarked presentation box is being prepared for insured transit.</p>
+        
+        <table role="presentation" border="0" cellpadding="8" cellspacing="0" width="100%" style="margin: 20px 0; background: rgba(255,255,255,0.04); border: 1px solid rgba(217, 181, 107, 0.25); border-radius: 6px; font-size: 14px;">
+            <tr>
+                <td style="color: #d9b56b; font-weight: 700;">Order Reference:</td>
+                <td style="color: #ffffff; font-family: monospace; font-size: 15px;">{order.order_number}</td>
+            </tr>
+            <tr>
+                <td style="color: #d9b56b; font-weight: 700;">Total Amount:</td>
+                <td style="color: #ffffff; font-weight: 700;">{order.formatted_total}</td>
+            </tr>
+            <tr>
+                <td style="color: #d9b56b; font-weight: 700;">Status:</td>
+                <td style="color: #ffffff; text-transform: uppercase;">{order.get_status_display()}</td>
+            </tr>
+        </table>
+
+        <div style="margin: 16px 0;">
+            <p style="color: #d9b56b; font-weight: 700; margin-bottom: 6px;">Acquired Items:</p>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                {items_summary}
+            </ul>
+        </div>
+
+        <p style="margin-top: 20px;">You can track bench craftsmanship milestones, hallmarking progress, and white-glove armored transit live using the link below.</p>
+        """
+
+        html_content = get_base_email_html(headline, body, cta_text="Track My Order", cta_url=track_url)
+        plain_text = f"""{headline}
+{salutation}
+
+Your order {order.order_number} for {order.formatted_total} has been confirmed.
+Track your order live: {track_url}
+
+Atelier Nilaya Haute Joaillerie, Surat
+"""
+
+        msg = EmailMultiAlternatives(
+            subject=f"Acquisition Confirmed: {order.order_number} • Atelier Nilaya",
+            body=plain_text,
+            from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', 'Atelier Nilaya <concierge@ateliernilaya.com>'),
+            to=[order.customer_email]
+        )
+        msg.attach_alternative(html_content, "text/html")
+        msg.send(fail_silently=True)
+
+        NotificationLog.objects.create(
+            channel='email',
+            template_name='order_confirmation',
+            recipient=order.customer_email,
+            status='sent',
+            message_payload=f"Order confirmation sent for {order.order_number}",
+            sent_at=timezone.now()
+        )
+        return True
+    except Exception as e:
+        try:
+            NotificationLog.objects.create(
+                channel='email',
+                template_name='order_confirmation',
+                recipient=order.customer_email,
+                status='failed',
+                error_message=str(e)
+            )
+        except Exception:
+            pass
+        return False

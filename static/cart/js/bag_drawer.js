@@ -26,6 +26,60 @@
     return cookieValue || '';
   }
 
+  const GUEST_CART_KEY = 'cart_v2';
+
+  function isUserAuthenticated() {
+    const drawer = document.getElementById('nilaya-bag-drawer');
+    if (drawer && drawer.dataset.authenticated === 'true') return true;
+    return false;
+  }
+
+  /**
+   * Unified cart reader and writer function.
+   * When logged in: uses server-backed cart state.
+   * When guest: uses browser localStorage for immediate persistence across page refreshes.
+   */
+  function accessCart(action, cartData) {
+    if (action === 'read') {
+      if (isUserAuthenticated()) {
+        return BagDrawer.state || null;
+      }
+      try {
+        const stored = localStorage.getItem(GUEST_CART_KEY);
+        if (!stored) return BagDrawer.state || null;
+        const parsed = JSON.parse(stored);
+        if (parsed && Array.isArray(parsed.items)) {
+          // Filter out broken or missing SKUs/IDs safely without crashing
+          parsed.items = parsed.items.filter(item => item && (item.sku || item.product_id || item.id));
+        }
+        return parsed || BagDrawer.state || null;
+      } catch (e) {
+        console.warn('[Cart Storage Read Warning]', e);
+        return BagDrawer.state || null;
+      }
+    } else if (action === 'write') {
+      BagDrawer.state = cartData;
+      if (!isUserAuthenticated()) {
+        try {
+          if (cartData && cartData.items && cartData.items.length > 0) {
+            // Keep valid items only
+            cartData.items = cartData.items.filter(item => item && (item.sku || item.product_id || item.id));
+            localStorage.setItem(GUEST_CART_KEY, JSON.stringify(cartData));
+          } else {
+            localStorage.removeItem(GUEST_CART_KEY);
+          }
+        } catch (e) {
+          console.warn('[Cart Storage Write Error]', e);
+        }
+      } else {
+        try {
+          localStorage.removeItem(GUEST_CART_KEY);
+        } catch (e) {}
+      }
+      return cartData;
+    }
+  }
+
   const BagDrawer = {
     drawer: null,
     scrim: null,
@@ -42,6 +96,12 @@
       this.itemsList = document.getElementById('bag-items-list');
       this.emptyState = document.getElementById('bag-empty-state');
       this.footer = document.getElementById('bag-drawer-footer');
+
+      // Pre-render immediately from localStorage for guests so bag count and items never blink
+      const cached = accessCart('read');
+      if (cached && !isUserAuthenticated()) {
+        this.render(cached);
+      }
 
       this.bindEvents();
       this.fetchState();
@@ -80,11 +140,13 @@
 
         const card = addBtn.closest('.product-tile') || addBtn.closest('.luxury-piece-card') || addBtn.closest('article') || addBtn.closest('.product-detail-container') || addBtn.closest('.product-stage-container');
 
-        let pid = addBtn.dataset.productId || (card ? card.dataset.productId : null);
-        let slug = addBtn.dataset.productSlug || (card ? card.dataset.productSlug : null);
+        // Read unique SKU first from the clicked button itself, then card fallback
+        const sku = addBtn.getAttribute('data-sku') || addBtn.dataset.sku || (card ? (card.getAttribute('data-sku') || card.dataset.sku) : null);
+        const pid = addBtn.getAttribute('data-product-id') || addBtn.dataset.productId || (card ? (card.getAttribute('data-product-id') || card.dataset.productId) : null);
+        let slug = addBtn.getAttribute('data-product-slug') || addBtn.dataset.productSlug || (card ? (card.getAttribute('data-product-slug') || card.dataset.productSlug) : null);
 
         // If on product detail page and not in dataset, parse from URL
-        if (!slug && !pid) {
+        if (!sku && !slug && !pid) {
           const parts = window.location.pathname.split('/').filter(Boolean);
           if (parts.length > 0) {
             slug = parts[parts.length - 1];
@@ -109,6 +171,7 @@
         addBtn.textContent = 'Adding...';
 
         this.addToBag({
+          sku: sku,
           product_id: pid,
           slug: slug,
           metal: metal,
@@ -160,15 +223,54 @@
     },
 
     fetchState: function () {
+      // If user is authenticated, check if there is an unmerged guest cart in localStorage
+      if (isUserAuthenticated()) {
+        try {
+          const guestCartRaw = localStorage.getItem(GUEST_CART_KEY);
+          if (guestCartRaw) {
+            const guestCart = JSON.parse(guestCartRaw);
+            if (guestCart && guestCart.items && guestCart.items.length > 0) {
+              fetch('/cart/api/merge/', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': getCsrfToken()
+                },
+                body: JSON.stringify({ items: guestCart.items })
+              })
+                .then(res => res.json())
+                .then(data => {
+                  try { localStorage.removeItem(GUEST_CART_KEY); } catch (e) {}
+                  if (data.success && data.cart) {
+                    accessCart('write', data.cart);
+                    this.render(data.cart);
+                  }
+                })
+                .catch(() => {
+                  this.requestServerState();
+                });
+              return;
+            }
+          }
+        } catch (e) {}
+      }
+
+      this.requestServerState();
+    },
+
+    requestServerState: function () {
       fetch('/cart/api/state/')
         .then(res => res.json())
         .then(data => {
           if (data.success && data.cart) {
+            accessCart('write', data.cart);
             this.render(data.cart);
           }
         })
         .catch(err => {
           console.error('[Cart State Error]', err);
+          const fallback = accessCart('read');
+          if (fallback) this.render(fallback);
         });
     },
 
@@ -184,6 +286,7 @@
       .then(res => res.json())
       .then(data => {
         if (data.success && data.cart) {
+          accessCart('write', data.cart);
           this.render(data.cart);
           this.open();
           if (callback) callback();
@@ -210,6 +313,7 @@
       .then(res => res.json())
       .then(data => {
         if (data.success && data.cart) {
+          accessCart('write', data.cart);
           this.render(data.cart);
         }
       });
@@ -227,6 +331,7 @@
       .then(res => res.json())
       .then(data => {
         if (data.success && data.cart) {
+          accessCart('write', data.cart);
           this.render(data.cart);
         }
       });
@@ -255,11 +360,25 @@
         headerCount.style.display = cart.total_items > 0 ? 'inline-flex' : 'none';
       }
 
+      const navbarCount = document.getElementById('navbar-bag-count');
+      if (navbarCount) {
+        navbarCount.textContent = cart.total_items;
+        navbarCount.style.display = cart.total_items > 0 ? 'inline-flex' : 'none';
+      }
+
       const footerCount = document.getElementById('footer-bag-count');
       if (footerCount) footerCount.textContent = cart.total_items;
 
       const mobileCount = document.getElementById('mobile-bag-count');
       if (mobileCount) mobileCount.textContent = cart.total_items;
+
+      const mobileNavCount = document.getElementById('mobile-nav-bag-count');
+      if (mobileNavCount) mobileNavCount.textContent = cart.total_items;
+
+      // Update and pop mobile floating nav badge
+      if (typeof window.updateMobileNavBagBadge === 'function') {
+        window.updateMobileNavBagBadge(cart.total_items);
+      }
 
       if (!cart.items || cart.items.length === 0) {
         if (this.emptyState) this.emptyState.style.display = 'block';
@@ -339,4 +458,13 @@
   }
 
   window.NilayaBag = BagDrawer;
+  window.openBagDrawer = function () { BagDrawer.open(); };
+  window.closeBagDrawer = function () { BagDrawer.close(); };
+  window.NilayaBag.accessCart = accessCart;
+  window.NilayaBag.clearGuestCart = function () {
+    try {
+      localStorage.removeItem(GUEST_CART_KEY);
+    } catch (e) {}
+    accessCart('write', null);
+  };
 })();

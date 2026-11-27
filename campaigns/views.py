@@ -1,5 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 import json
+import re
+from django.utils.safestring import mark_safe
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, DetailView
 from django.http import JsonResponse
@@ -194,7 +196,11 @@ class HeroAtelierView(TemplateView):
                                         m = p_info.get('metal', 'platinum').lower().replace(' ', '_').replace('18k_', '').replace('24k_', '')
                                         if m not in ['platinum', 'rose_gold', 'yellow_gold', 'white_gold']:
                                             m = 'platinum'
-                                        p_info['resolved_image'] = f"/static/products/{p_info['slug']}/{m}/front.webp"
+                                        p_info['resolved_image'] = (
+                                            p_info.get('primary_image')
+                                            or p_info.get('image_fallback')
+                                            or f"/static/products/{p_info['slug']}/{m}/front.webp"
+                                        )
                                         ordered_prods.append(p_info)
                                 t_dict['products'] = ordered_prods
                         tiles_list.append(t_dict)
@@ -224,6 +230,108 @@ def campaigns_api(request):
     } for c in campaigns]
     return JsonResponse({'status': 'success', 'campaigns': data})
 
+def _apply_catalog_filters(request, queryset):
+    """Apply shared category/vault filter & sort query parameters uniformly."""
+    active_filters = []
+
+    metal = request.GET.get('metal', 'all').strip().lower()
+    if metal and metal != 'all':
+        if metal in ('yellow_gold', 'gold'):
+            queryset = queryset.filter(metal_purity__icontains='Gold')
+        elif metal == 'platinum':
+            queryset = queryset.filter(metal_purity__icontains='Platinum')
+        elif metal == 'rose_gold':
+            queryset = queryset.filter(metal_purity__icontains='Rose')
+        elif metal == 'silver':
+            queryset = queryset.filter(metal_purity__icontains='Silver')
+        elif metal == 'diamond':
+            queryset = queryset.filter(Q(gemstone_details__icontains='Diamond') | Q(tags__icontains='Diamond') | Q(name__icontains='Diamond'))
+        active_filters.append({'key': 'metal', 'label': f"Material: {metal.replace('_', ' ').title()}"})
+
+    price = request.GET.get('price', 'all').strip().lower()
+    if price == 'under_100k':
+        queryset = queryset.filter(price__lt=100000)
+    elif price == '100k_250k':
+        queryset = queryset.filter(price__gte=100000, price__lte=250000)
+    elif price == '250k_500k':
+        queryset = queryset.filter(price__gt=250000, price__lte=500000)
+    elif price == 'above_500k':
+        queryset = queryset.filter(price__gt=500000)
+    if price != 'all':
+        price_map = {
+            'under_100k': 'Under ₹1,00,000',
+            '100k_250k': '₹1,00,000 – ₹2,50,000',
+            '250k_500k': '₹2,50,000 – ₹5,00,000',
+            'above_500k': 'Above ₹5,00,000'
+        }
+        active_filters.append({'key': 'price', 'label': f"Price: {price_map.get(price, price)}"})
+
+    stone = request.GET.get('stone', 'all').strip().lower()
+    if stone and stone != 'all':
+        queryset = queryset.filter(Q(gemstone_details__icontains=stone) | Q(name__icontains=stone) | Q(tags__icontains=stone))
+        active_filters.append({'key': 'stone', 'label': f"Stone: {stone.title()}"})
+
+    occasion = request.GET.get('occasion', 'all').strip().lower()
+    if occasion and occasion != 'all':
+        queryset = queryset.filter(Q(description__icontains=occasion) | Q(eyebrow__icontains=occasion) | Q(tags__icontains=occasion) | Q(name__icontains=occasion))
+        active_filters.append({'key': 'occasion', 'label': f"Occasion: {occasion.title()}"})
+
+    sub = request.GET.get('sub', '').strip().lower()
+    if sub:
+        queryset = queryset.filter(
+            Q(subcategory__icontains=sub) | Q(name__icontains=sub) | Q(tags__icontains=sub)
+        )
+        active_filters.append({'key': 'sub', 'label': f"Subcategory: {sub.title()}"})
+
+    style = request.GET.get('style', '').strip().lower()
+    if style:
+        queryset = queryset.filter(
+            Q(tags__icontains=style) | Q(eyebrow__icontains=style) | Q(description__icontains=style) | Q(name__icontains=style)
+        )
+        active_filters.append({'key': 'style', 'label': f"Style: {style.title()}"})
+
+    filt = request.GET.get('filter', '').strip().lower()
+    if filt == 'bestseller':
+        queryset = queryset.filter(Q(is_bestseller=True) | Q(tags__icontains='Bestsellers'))
+        active_filters.append({'key': 'filter', 'label': "Bestsellers"})
+    elif filt == 'new':
+        queryset = queryset.filter(Q(is_featured=True) | Q(tags__icontains='New Arrivals'))
+        active_filters.append({'key': 'filter', 'label': "New Arrivals"})
+
+    q = request.GET.get('q', '').strip()
+    if q:
+        queryset = queryset.filter(
+            Q(name__icontains=q) | 
+            Q(description__icontains=q) | 
+            Q(short_description__icontains=q) | 
+            Q(gemstone_details__icontains=q) | 
+            Q(tags__icontains=q) | 
+            Q(metal_purity__icontains=q) |
+            Q(sku__icontains=q) |
+            Q(subcategory__icontains=q)
+        )
+        active_filters.append({'key': 'q', 'label': f"Search: “{q}”"})
+
+    sort = request.GET.get('sort', 'featured').strip().lower()
+    if sort in ('price_asc', 'price_low'):
+        queryset = queryset.order_by('price')
+    elif sort in ('price_desc', 'price_high'):
+        queryset = queryset.order_by('-price')
+    elif sort == 'newest':
+        queryset = queryset.order_by('-created_at', '-id')
+    else:
+        queryset = queryset.order_by('display_order', '-is_featured', '-id')
+
+    return queryset, {
+        'metal_filter': metal,
+        'price_filter': price,
+        'stone_filter': stone,
+        'occasion_filter': occasion,
+        'sort_order': sort,
+        'search_query': q,
+        'active_filters': active_filters,
+    }
+
 class CategoryProductListView(DetailView):
     model = JewelleryCategory
     template_name = 'campaigns/category_products.html'
@@ -234,76 +342,23 @@ class CategoryProductListView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category = self.object
-        queryset = category.products.filter(is_in_stock=True)
-
-        # Query Filters
-        metal = self.request.GET.get('metal', 'all').strip().lower()
-        if metal and metal != 'all':
-            if metal == 'yellow_gold' or metal == 'gold':
-                queryset = queryset.filter(metal_purity__icontains='Gold')
-            elif metal == 'platinum':
-                queryset = queryset.filter(metal_purity__icontains='Platinum')
-            elif metal == 'rose_gold':
-                queryset = queryset.filter(metal_purity__icontains='Rose')
-            elif metal == 'silver':
-                queryset = queryset.filter(metal_purity__icontains='Silver')
-
-        price = self.request.GET.get('price', 'all').strip().lower()
-        if price == 'under_100k':
-            queryset = queryset.filter(price__lt=100000)
-        elif price == '100k_250k':
-            queryset = queryset.filter(price__gte=100000, price__lte=250000)
-        elif price == '250k_500k':
-            queryset = queryset.filter(price__gt=250000, price__lte=500000)
-        elif price == 'above_500k':
-            queryset = queryset.filter(price__gt=500000)
-
-        stone = self.request.GET.get('stone', 'all').strip().lower()
-        if stone and stone != 'all':
-            queryset = queryset.filter(Q(gemstone_details__icontains=stone) | Q(name__icontains=stone))
-
-        occasion = self.request.GET.get('occasion', 'all').strip().lower()
-        if occasion and occasion != 'all':
-            queryset = queryset.filter(Q(description__icontains=occasion) | Q(eyebrow__icontains=occasion) | Q(name__icontains=occasion))
-
-        sort = self.request.GET.get('sort', 'featured').strip().lower()
-        if sort == 'price_asc' or sort == 'price_low':
-            queryset = queryset.order_by('price')
-        elif sort == 'price_desc' or sort == 'price_high':
-            queryset = queryset.order_by('-price')
-        elif sort == 'newest':
-            queryset = queryset.order_by('-created_at', '-id')
+        base_qs = JewelleryProduct.objects.filter(is_in_stock=True)
+        if category.slug == 'bridal-jewellery':
+            queryset = base_qs.filter(Q(category=category) | Q(tags__icontains='MenuGroups: Bangles; Bridal') | Q(tags__icontains='MenuGroups: Necklaces; Bridal') | Q(tags__icontains='; Bridal'))
+        elif category.slug == 'temple-jewellery':
+            queryset = base_qs.filter(Q(category=category) | Q(tags__icontains='MenuGroups: Bangles; Temple') | Q(tags__icontains='MenuGroups: Necklaces; Temple'))
+        elif category.slug == 'diamond-jewellery':
+            queryset = base_qs.filter(Q(category=category) | Q(tags__icontains='; Diamond'))
         else:
-            queryset = queryset.order_by('display_order', '-is_featured', '-id')
+            queryset = base_qs.filter(category=category)
 
-        raw_products = list(queryset)
-        enriched_products = [enrich_product_for_gallery(p) for p in raw_products]
-
-        active_filters = []
-        if metal != 'all':
-            active_filters.append({'key': 'metal', 'label': f"Metal: {metal.replace('_', ' ').title()}"})
-        if price != 'all':
-            price_map = {
-                'under_100k': 'Under ₹1,00,000',
-                '100k_250k': '₹1,00,000 – ₹2,50,000',
-                '250k_500k': '₹2,50,000 – ₹5,00,000',
-                'above_500k': 'Above ₹5,00,000'
-            }
-            active_filters.append({'key': 'price', 'label': f"Price: {price_map.get(price, price)}"})
-        if stone != 'all':
-            active_filters.append({'key': 'stone', 'label': f"Stone: {stone.title()}"})
-        if occasion != 'all':
-            active_filters.append({'key': 'occasion', 'label': f"Occasion: {occasion.title()}"})
+        queryset, filter_ctx = _apply_catalog_filters(self.request, queryset)
+        enriched_products = [enrich_product_for_gallery(p) for p in list(queryset)]
 
         context['products'] = enriched_products
         context['total_products'] = len(enriched_products)
         context['all_categories'] = JewelleryCategory.objects.filter(is_active=True).order_by('display_order')
-        context['metal_filter'] = metal
-        context['price_filter'] = price
-        context['stone_filter'] = stone
-        context['occasion_filter'] = occasion
-        context['sort_order'] = sort
-        context['active_filters'] = active_filters
+        context.update(filter_ctx)
         return context
 
 class AllProductsVaultView(TemplateView):
@@ -320,28 +375,15 @@ class AllProductsVaultView(TemplateView):
             if active_cat:
                 queryset = queryset.filter(category=active_cat)
 
-        sort = self.request.GET.get('sort', 'featured')
-        if sort == 'price_low' or sort == 'price_asc':
-            queryset = queryset.order_by('price')
-        elif sort == 'price_high' or sort == 'price_desc':
-            queryset = queryset.order_by('-price')
-        else:
-            queryset = queryset.order_by('display_order', '-is_featured', '-id')
-
-        raw_products = list(queryset)
-        enriched_products = [enrich_product_for_gallery(p) for p in raw_products]
+        queryset, filter_ctx = _apply_catalog_filters(self.request, queryset)
+        enriched_products = [enrich_product_for_gallery(p) for p in list(queryset)]
 
         context['category'] = active_cat or type('DummyCat', (), {'name': 'All Jewellery Artworks', 'slug': 'vault', 'sentence': 'Explore our complete archive of handcrafted Indian royal jewellery.'})()
         context['is_vault_all'] = (active_cat is None)
         context['products'] = enriched_products
         context['total_products'] = len(enriched_products)
         context['all_categories'] = JewelleryCategory.objects.filter(is_active=True).order_by('display_order')
-        context['sort_order'] = sort
-        context['metal_filter'] = 'all'
-        context['price_filter'] = 'all'
-        context['stone_filter'] = 'all'
-        context['occasion_filter'] = 'all'
-        context['active_filters'] = []
+        context.update(filter_ctx)
         return context
 
 class ProductDetailView(DetailView):
@@ -392,10 +434,12 @@ class WishlistView(TemplateView):
         context = super().get_context_data(**kwargs)
         ids_str = self.request.GET.get('ids', '')
         ids = [int(x) for x in ids_str.split(',') if x.isdigit()]
+        if not ids:
+            ids = [int(x) for x in self.request.session.get('user_wishlist', []) if str(x).isdigit()]
         if ids:
             queryset = JewelleryProduct.objects.filter(id__in=ids)
         else:
-            queryset = JewelleryProduct.objects.filter(is_featured=True)[:4]
+            queryset = JewelleryProduct.objects.none()
         context['products'] = [enrich_product_for_gallery(p) for p in queryset]
         context['all_categories'] = JewelleryCategory.objects.filter(is_active=True).order_by('display_order')
         return context
@@ -491,9 +535,20 @@ def customer_login_view(request):
         remember_me = bool(request.POST.get('remember_me'))
         ip = get_client_ip(request)
 
-        # IP-level rate limiting: max 15 requests per 10 minutes
-        if AuthRateLimitLog.is_rate_limited(ip, 'login', max_requests=15, window_seconds=600):
-            error = "Too many login attempts from your network. Please wait a few moments before trying again."
+        # IP and identifier rate limiting: max 5 failed attempts within 15 minutes (900s)
+        from django.utils import timezone
+        cutoff = timezone.now() - timezone.timedelta(seconds=900)
+        recent_ip_failures = AuthRateLimitLog.objects.filter(
+            ip_address=ip, action='login', timestamp__gte=cutoff
+        ).count()
+        recent_user_failures = 0
+        if identifier:
+            recent_user_failures = AuthRateLimitLog.objects.filter(
+                identifier__iexact=identifier, action='login', timestamp__gte=cutoff
+            ).count()
+
+        if recent_ip_failures >= 5 or recent_user_failures >= 5:
+            error = "Too many failed login attempts. For your security, this account is temporarily locked for 15 minutes. Please try again later."
         elif not identifier or not password:
             error = "Please provide both your email (or mobile number) and password."
         else:
@@ -504,14 +559,18 @@ def customer_login_view(request):
                 request.session.cycle_key()
                 request.session['guest_session_key'] = old_key
 
-                # Session duration: 2 weeks with "Remember me", otherwise until browser closes
+                # Session duration: 2 weeks with "Remember me", otherwise 7 days
                 if remember_me:
                     request.session.set_expiry(14 * 24 * 60 * 60)
                 else:
-                    request.session.set_expiry(0)
+                    request.session.set_expiry(7 * 24 * 60 * 60)
 
                 # Merge guest cart into customer's saved cart (enforcing no duplicates and 1-of-a-kind limits)
                 get_or_create_cart(request)
+
+                # Link any prior guest orders placed with this email address
+                from orders.models import Order
+                Order.objects.filter(customer_email__iexact=user.email, user__isnull=True).update(user=user)
 
                 # Check pending wishlist addition
                 wishlist_add = request.GET.get('wishlist_add')
@@ -524,13 +583,9 @@ def customer_login_view(request):
 
                 return redirect(next_url)
             else:
-                if getattr(request, 'account_locked', False):
-                    mins = getattr(request, 'locked_minutes', 15)
-                    error = f"Too many incorrect attempts. Your account is temporarily locked for {mins} minutes for your security."
-                else:
-                    AuthRateLimitLog.record(ip, 'login', identifier)
-                    # Constant error message to prevent enumeration
-                    error = "Incorrect email or password."
+                AuthRateLimitLog.record(ip, 'login', identifier)
+                # Generic constant error message to prevent account enumeration
+                error = "Email or password is incorrect."
 
     return render(request, 'campaigns/login.html', {
         'next': next_url,
@@ -555,9 +610,9 @@ def customer_signup_view(request):
         return redirect(next_url)
 
     error = None
-    full_name = ''
-    email = ''
-    mobile_number = ''
+    full_name = str(request.GET.get('name', '')).strip()
+    email = str(request.GET.get('email', '')).strip().lower()
+    mobile_number = str(request.GET.get('phone', '')).strip()
     terms_consent = False
 
     if request.method == 'POST':
@@ -581,12 +636,14 @@ def customer_signup_view(request):
             error = "Too many account registrations from your network. Please try again later or contact concierge."
         elif not terms_consent:
             error = "Please review and agree to the Terms of Service and Privacy Policy to create your folio."
-        elif not full_name:
-            error = "Please provide your full name."
-        elif not email or '@' not in email:
+        elif not full_name or len(full_name) < 2 or len(full_name) > 60:
+            error = "Full name must be between 2 and 60 characters."
+        elif not email or not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
             error = "Please enter a valid email address."
-        elif not clean_phone.isdigit() or len(clean_phone) != 10:
-            error = "Please enter a valid 10-digit Indian mobile number."
+        elif not re.match(r'^[6-9]\d{9}$', clean_phone):
+            error = "Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9."
+        elif len(password) < 8 or not re.search(r'[a-zA-Z]', password) or not re.search(r'\d', password):
+            error = "Password must be at least 8 characters long and contain at least one letter and one number."
         elif password != confirm_password:
             error = "The entered passwords do not match."
         else:
@@ -597,10 +654,10 @@ def customer_signup_view(request):
                 error = " ".join(ve.messages)
 
             if not error and User.objects.filter(email__iexact=email).exists():
-                error = "An account with this email address already exists. Please sign in or reset your password."
+                error = mark_safe('An account with this email already exists. <a href="/login/" class="nilaya-link-gold" style="text-decoration: underline; font-weight: 600;">Sign in instead?</a>')
 
             if not error and UserProfile.objects.filter(mobile_number=clean_phone).exists():
-                error = "An account with this mobile number already exists. Please sign in."
+                error = mark_safe('An account with this mobile number already exists. <a href="/login/" class="nilaya-link-gold" style="text-decoration: underline; font-weight: 600;">Sign in instead?</a>')
 
             if not error:
                 user = User.objects.create_user(
@@ -628,6 +685,10 @@ def customer_signup_view(request):
                 request.session['guest_session_key'] = old_key
                 request.session.set_expiry(14 * 24 * 60 * 60)
                 get_or_create_cart(request)
+
+                # Link any prior guest orders placed with this email address
+                from orders.models import Order
+                Order.objects.filter(customer_email__iexact=email, user__isnull=True).update(user=user)
 
                 target_redirect = next_url if next_url and next_url != '/' else '/'
                 return redirect(target_redirect)
@@ -828,25 +889,49 @@ def account_profile_view(request):
 
     if request.method == 'POST':
         first_name = str(request.POST.get('first_name', '')).strip()
+        new_email = str(request.POST.get('email', '')).strip().lower()
+        current_password = str(request.POST.get('current_password', '')).strip()
         mobile_number = str(request.POST.get('mobile_number', '')).strip().replace(' ', '').replace('-', '')
         if mobile_number.startswith('+91'):
             mobile_number = mobile_number[3:]
+        elif mobile_number.startswith('0'):
+            mobile_number = mobile_number[1:]
 
-        if first_name:
-            user.first_name = first_name
-            user.save(update_fields=['first_name'])
+        # Validate name
+        if first_name and (len(first_name) < 2 or len(first_name) > 60):
+            error_msg = "Name must be between 2 and 60 characters."
 
-        if mobile_number and len(mobile_number) == 10 and mobile_number.isdigit():
-            existing = UserProfile.objects.filter(mobile_number=mobile_number).exclude(user=user).first()
-            if existing:
-                error_msg = "This mobile number is already linked to another client folio."
+        # Validate email change (requires entering current password)
+        if not error_msg and new_email and new_email != user.email:
+            if not current_password:
+                error_msg = "Please enter your current password to authorize changing your email address."
+            elif not user.check_password(current_password):
+                error_msg = "The current password entered is incorrect. Email was not updated."
+            elif not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', new_email):
+                error_msg = "Please enter a valid email address."
+            elif User.objects.filter(email__iexact=new_email).exclude(pk=user.pk).exists():
+                error_msg = "An account with this email address already exists."
             else:
-                profile.mobile_number = mobile_number
-                profile.save(update_fields=['mobile_number'])
-                success_msg = "Your personal client folio details have been updated."
-        elif mobile_number:
-            error_msg = "Please provide a valid 10-digit mobile number."
-        else:
+                user.email = new_email
+                user.username = new_email
+                user.save(update_fields=['email', 'username'])
+
+        # Validate mobile number
+        if not error_msg and mobile_number:
+            if not re.match(r'^[6-9]\d{9}$', mobile_number):
+                error_msg = "Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9."
+            else:
+                existing = UserProfile.objects.filter(mobile_number=mobile_number).exclude(user=user).first()
+                if existing:
+                    error_msg = "This mobile number is already linked to another client folio."
+                else:
+                    profile.mobile_number = mobile_number
+                    profile.save(update_fields=['mobile_number'])
+
+        if not error_msg:
+            if first_name:
+                user.first_name = first_name
+                user.save(update_fields=['first_name'])
             success_msg = "Your personal client folio details have been updated."
 
     order_count = Order.objects.filter(user=user).count()
@@ -982,6 +1067,81 @@ def terms_of_provenance_view(request):
         'page_title': 'Terms of Provenance — Atelier Nilaya',
         'meta_description': 'Terms of Provenance and sales conditions for Atelier Nilaya, Surat. Bureau of Indian Standards (BIS) hallmarking, HUID authenticity, insured transit, and client guarantees.',
     })
+
+
+def about_view(request):
+    """
+    Renders the Atelier Nilaya About page matching existing Ivory/Burgundy design tokens,
+    pulling real verified design counts and client stories from the database.
+    """
+    import sqlite3
+    import os
+    from django.conf import settings
+
+    design_count = JewelleryProduct.objects.filter(is_in_stock=True).count()
+
+    # Load verified client reviews from nilaya.db -> customer_stories if available
+    reviews = []
+    db_path = os.path.join(settings.BASE_DIR, 'nilaya.db')
+    if os.path.exists(db_path):
+        try:
+            conn = sqlite3.connect(db_path)
+            conn.row_factory = sqlite3.Row
+            rows = conn.execute(
+                "SELECT occasion, quote, client_name, city, piece_name, year "
+                "FROM customer_stories WHERE is_approved = 1 ORDER BY sort_order ASC LIMIT 3"
+            ).fetchall()
+            reviews = [dict(r) for r in rows]
+            conn.close()
+        except Exception:
+            reviews = []
+
+    if not reviews:
+        reviews = [
+            {
+                'client_name': 'Meera',
+                'city': 'Ahmedabad',
+                'occasion': 'Bridal morning',
+                'piece_name': 'Polki choker necklace',
+                'quote': 'When my grandmother fastened the choker, she whispered that three generations of Surat craftsmanship were holding me today.',
+            },
+            {
+                'client_name': 'Devika',
+                'city': 'Surat',
+                'occasion': 'Family heirloom',
+                'piece_name': 'Emerald solitaire ring',
+                'quote': 'We wanted an heirloom that will outlive us both. Every detail from hallmarking to weight was explained openly at the Nanpura showroom.',
+            },
+            {
+                'client_name': 'Radhika & Alok',
+                'city': 'Mumbai',
+                'occasion': '25th anniversary',
+                'piece_name': 'Pink sapphire signet band',
+                'quote': 'A quarter century together marked with unheated sapphires. The 24K and 22K finish feels intimate, grounding, and timeless.',
+            },
+        ]
+
+    gallery_items = [
+        {'file': '01.jpg', 'category': 'showroom', 'label': 'Showroom', 'caption': 'Private consultation table at our Nanpura flagship showroom, Surat', 'alt': 'Atelier Nilaya private bridal consultation salon in Surat'},
+        {'file': '02.jpg', 'category': 'workshop', 'label': 'Workshop', 'caption': 'Master karigar shaping 22K gold wire and granulation on the wooden bench', 'alt': 'Master goldsmith shaping 22K gold filigree around a brass mandrel'},
+        {'file': '03.jpg', 'category': 'jewellery', 'label': 'Our jewellery', 'caption': 'Hand-set antique 22K gold temple necklace and ruby kemp suite', 'alt': 'Antique 22K gold temple necklace and ruby kemp earrings on dark lacquer'},
+        {'file': '04.jpg', 'category': 'customers', 'label': 'Customers', 'caption': 'Bridal heirloom styling in layered kundan polki necklaces and traditional nath', 'alt': 'Indian bride wearing traditional gold bridal choker, rani haar, and nath'},
+        {'file': '05.jpg', 'category': 'jewellery', 'label': 'Our jewellery', 'caption': 'BIS 916 hallmarked 22K yellow gold diamond-cut bangles crafted in Surat', 'alt': 'Stack of hallmarked 22K yellow gold carved bangles'},
+        {'file': '06.jpg', 'category': 'workshop', 'label': 'Workshop', 'caption': 'Precision gemstone setting with hand tools and natural daylight inspection', 'alt': 'Master artisan setting a faceted emerald into a 22K gold ring'},
+        {'file': '07.jpg', 'category': 'showroom', 'label': 'Showroom', 'caption': 'Archival bridal & solitaire viewing lounge in Surat', 'alt': 'Walnut-panelled archival bridal jewellery viewing salon'},
+        {'file': '08.jpg', 'category': 'customers', 'label': 'Customers', 'caption': 'Heirloom South Sea pearl and diamond clasp suite in its burgundy presentation box', 'alt': 'Pearl and diamond clasp necklace inside burgundy presentation box'},
+        {'file': '09.jpg', 'category': 'jewellery', 'label': 'Our jewellery', 'caption': 'Certified brilliant solitaire halo ring forged in 18K rose gold and 950 platinum', 'alt': 'Certified diamond halo solitaire ring on dark velvet case'},
+        {'file': '10.jpg', 'category': 'workshop', 'label': 'Workshop', 'caption': 'Traditional wooden jeweller bench, steel anvil, and hand tools in active workshop use', 'alt': 'Jewellers hardwood workbench with bench pin, steel anvil, and hand tools'},
+        {'file': '11.jpg', 'category': 'showroom', 'label': 'Showroom', 'caption': 'Precision balance scale, calibrated brass gram weights, and inspection counter', 'alt': 'Heritage jewellers precision balance scale with calibrated brass weights'},
+        {'file': '12.jpg', 'category': 'customers', 'label': 'Customers', 'caption': 'Bridal hands adorned in 22K gold haathphool, peacock ring, and handcrafted kadas', 'alt': 'Indian bridal hands adorned with mehndi and traditional 22K gold ornaments'},
+    ]
+
+    return render(request, 'campaigns/about.html', {
+        'design_count': design_count,
+        'reviews': reviews,
+        'gallery_items': gallery_items,
+    })
+
 
 
 

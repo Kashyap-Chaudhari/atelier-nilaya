@@ -12,6 +12,12 @@
           Home
         </a>
       </li>
+      <!-- 1. About Us Link -->
+      <li class="aaranya-nav-item" role="none">
+        <a href="{% url 'campaigns:about' %}" class="aaranya-nav-btn {% if request.resolver_match.url_name == 'about' or request.resolver_match.url_name == 'about_noslash' %}is-active{% endif %}" role="menuitem" {% if request.resolver_match.url_name == 'about' or request.resolver_match.url_name == 'about_noslash' %}aria-current="page"{% endif %}>
+          About
+        </a>
+      </li>
       <li class="aaranya-nav-item" role="none">
         <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="new-and-featured">
           New &amp; Featured
@@ -61,6 +67,11 @@
         <button type="button" class="aaranya-nav-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="gifts">
           Gifts
         </button>
+      </li>
+      <li class="aaranya-nav-item" role="none">
+        <a href="{% url 'orders:track' %}" class="aaranya-nav-btn {% if request.resolver_match.url_name == 'track' %}is-active{% endif %}" role="menuitem" {% if request.resolver_match.url_name == 'track' %}aria-current="page"{% endif %}>
+          Track Your Order
+        </a>
       </li>
       <li class="aaranya-nav-item" role="none">
         <button type="button" class="aaranya-nav-btn aaranya-nav-more" role="menuitem" aria-haspopup="true" aria-expanded="false" data-category="more">

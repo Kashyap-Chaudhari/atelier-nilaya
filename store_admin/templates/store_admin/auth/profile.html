@@ -1,0 +1,81 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Curator Profile &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Curator Profile & Security</h1>
+    <p class="admin-page-subtitle">Manage personal administrative folio, role permissions, and access credentials.</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+  <!-- Profile Info -->
+  <div class="admin-card">
+    <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Curator Folio Details</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="update_info">
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="admin-form-group">
+          <label class="admin-label">First Name</label>
+          <input type="text" name="first_name" value="{{ user.first_name }}" class="admin-input">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-label">Last Name</label>
+          <input type="text" name="last_name" value="{{ user.last_name }}" class="admin-input">
+        </div>
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Email Address *</label>
+        <input type="email" name="email" value="{{ user.email }}" required class="admin-input">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="admin-form-group">
+          <label class="admin-label">Curator Title</label>
+          <input type="text" name="display_title" value="{{ profile.display_title|default:'Principal Curator' }}" class="admin-input">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-label">Contact Phone</label>
+          <input type="text" name="phone" value="{{ profile.phone|default:'' }}" class="admin-input" placeholder="9825100000">
+        </div>
+      </div>
+
+      <button type="submit" class="admin-btn admin-btn-primary">Update Profile</button>
+    </form>
+  </div>
+
+  <!-- Password Change -->
+  <div class="admin-card">
+    <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Change Security Password</h2>
+    
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="change_password">
+
+      <div class="admin-form-group">
+        <label class="admin-label">Current Password *</label>
+        <input type="password" name="old_password" required class="admin-input">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">New Password (Min 8 chars) *</label>
+        <input type="password" name="new_password" required class="admin-input">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Confirm New Password *</label>
+        <input type="password" name="confirm_password" required class="admin-input">
+      </div>
+
+      <button type="submit" class="admin-btn admin-btn-secondary">Update Password</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

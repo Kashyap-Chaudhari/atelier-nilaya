@@ -1,0 +1,81 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Tax & Bullion Invoicing &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div class="admin-page-header">
+    <div class="admin-page-header-text">
+      <h1 class="admin-page-title">Statutory Taxes & Legal Invoicing</h1>
+      <p class="admin-page-subtitle">Configure GST percentages, company GSTIN, legal registration, and the transparent bullion locking notice.</p>
+    </div>
+    <div class="admin-page-actions">
+      <button type="submit" class="admin-btn admin-btn-primary">Save Tax Settings</button>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+    <!-- Tax & Company Info -->
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="admin-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Taxation & Bullion Rates</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">GST Rate Percent (%) *</label>
+            <input type="number" step="0.1" name="gst_rate_percent" value="{{ settings.gst_rate_percent }}" required class="admin-input" placeholder="3.0">
+            <p style="font-size: 0.75rem; color: var(--color-muted); margin-top: 4px;">Standard Indian bullion/jewellery GST is 3% (1.5% CGST + 1.5% SGST).</p>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Tax Invoice Prefix</label>
+            <input type="text" name="invoice_prefix" value="{{ settings.invoice_prefix|default:'INV-NIL-' }}" class="admin-input">
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-label">Transparent Bullion Benchmark Notice Text</label>
+          <textarea name="bullion_notice_text" rows="3" class="admin-input">{{ settings.bullion_notice_text }}</textarea>
+          <p style="font-size: 0.75rem; color: var(--color-muted); margin-top: 4px;">Displayed transparently on the product and bag drawer stages.</p>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Company Legal Registration</h2>
+        
+        <div class="admin-form-group">
+          <label class="admin-label">Company Legal Entity Name *</label>
+          <input type="text" name="company_legal_name" value="{{ settings.company_legal_name }}" required class="admin-input" placeholder="Atelier Nilaya Private Limited">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="admin-form-group">
+            <label class="admin-label">GSTIN Identification Number</label>
+            <input type="text" name="gstin_number" value="{{ settings.gstin_number }}" class="admin-input" placeholder="24AAACA1234F1Z5">
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">PAN Card Number</label>
+            <input type="text" name="pan_number" value="{{ settings.pan_number }}" class="admin-input" placeholder="AAACA1234F">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Status Card -->
+    <div class="admin-card">
+      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">GST Invoicing Status</h3>
+      <div style="background: #faf7f2; border: 1px solid var(--color-border); border-radius: 8px; padding: 14px; font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px;">
+        <div style="color: #166534; font-weight: 600; margin-bottom: 4px;">✓ Invoicing Active</div>
+        Every customer acquisition generates a printable luxury tax invoice compliant with Indian bullion laws.
+      </div>
+
+      <button type="submit" class="admin-btn admin-btn-primary" style="width: 100%; justify-content: center;">
+        Save Tax Settings
+      </button>
+    </div>
+  </div>
+</form>
+{% endblock %}

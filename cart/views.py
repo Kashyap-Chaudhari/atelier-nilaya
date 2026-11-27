@@ -80,9 +80,13 @@ def api_add_to_cart(request):
 
     product_id = data.get('product_id')
     slug = data.get('slug')
+    sku = data.get('sku')
     product = None
 
-    if product_id:
+    if sku:
+        product = JewelleryProduct.objects.filter(sku=str(sku).strip()).first()
+
+    if not product and product_id:
         try:
             product = JewelleryProduct.objects.filter(id=int(product_id)).first()
         except (ValueError, TypeError):
@@ -90,10 +94,6 @@ def api_add_to_cart(request):
 
     if not product and slug:
         product = JewelleryProduct.objects.filter(slug=slug).first()
-
-    if not product:
-        # Fallback to first active product so add to cart never fails silently
-        product = JewelleryProduct.objects.first()
 
     if not product:
         return JsonResponse({'success': False, 'error': 'Product not found'}, status=404)
@@ -167,6 +167,7 @@ def api_update_cart_item(request):
 
     return JsonResponse({'success': True, 'count': cart.total_items, 'cart_count': cart.total_items, 'cart': cart_state_payload(cart)})
 
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_remove_cart_item(request):
@@ -181,3 +182,76 @@ def api_remove_cart_item(request):
     item.delete()
 
     return JsonResponse({'success': True, 'count': cart.total_items, 'cart_count': cart.total_items, 'cart': cart_state_payload(cart)})
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_merge_guest_cart(request):
+    """
+    Explicitly merges client-side localStorage guest cart items into the authenticated user's cart.
+    Ensures zero lost items across browser storage and backend database upon patron sign-in.
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'success': False, 'message': 'Authentication required for merge'}, status=401)
+
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except Exception:
+        data = request.POST
+
+    items = data.get('items', [])
+    cart = get_or_create_cart(request)
+
+    for item in items:
+        pid = item.get('product_id')
+        slug = item.get('slug')
+        metal = (item.get('metal') or 'yellow_gold').lower().replace(' ', '_')
+        size = item.get('size') or 'Standard'
+        engraving = item.get('engraving_text') or ''
+        qty = int(item.get('quantity', 1))
+
+        product = None
+        if pid:
+            product = JewelleryProduct.objects.filter(id=pid, is_active=True).first()
+        if not product and slug:
+            product = JewelleryProduct.objects.filter(slug=slug, is_active=True).first()
+
+        if not product:
+            continue
+
+        existing = cart.items.filter(
+            product=product,
+            metal=metal,
+            size=size,
+            engraving_text=engraving
+        ).first()
+
+        is_ooak = getattr(product, 'is_one_of_a_kind', False) or getattr(product, 'is_solitaire', False)
+
+        if existing:
+            if not is_ooak:
+                existing.quantity += qty
+                existing.save()
+        else:
+            pricing = calculate_item_bench_pricing(product, metal)
+            CartItem.objects.create(
+                cart=cart,
+                product=product,
+                metal=metal,
+                size=size,
+                engraving_text=engraving,
+                quantity=1 if is_ooak else qty,
+                locked_price=pricing['unit_price'],
+                gold_value=pricing['gold_value'],
+                making_charge=pricing['making_charge'],
+                stone_value=pricing['stone_value'],
+                gst_amount=pricing['gst_amount'],
+            )
+
+    return JsonResponse({
+        'success': True,
+        'count': cart.total_items,
+        'cart_count': cart.total_items,
+        'cart': cart_state_payload(cart)
+    })
+

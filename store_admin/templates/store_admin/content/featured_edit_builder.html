@@ -1,0 +1,100 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Featured Edit Builder &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Featured Curatorial Edit Builder</h1>
+    <p class="admin-page-subtitle">Configure editorial blocks, triple hexagon craft photography, narrative copy, and showcase tiles.</p>
+  </div>
+  <div class="admin-page-actions">
+    <a href="/#featured-edit" target="_blank" class="admin-btn admin-btn-outline">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      Preview on Storefront
+    </a>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+  <!-- Left Column: Master Block Settings -->
+  <div class="admin-card">
+    <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: 16px;">Editorial Master Block</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="save_main_block">
+
+      <div class="admin-form-group">
+        <label class="admin-label">Kicker / Edition Tag</label>
+        <input type="text" name="kicker" value="{{ block.kicker }}" class="admin-input" placeholder="CURATORIAL EDIT &bull; AUTUMN 2026">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Editorial Headline *</label>
+        <input type="text" name="title" value="{{ block.title }}" required class="admin-input" placeholder="The Lapidary Benches">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Narrative Body</label>
+        <textarea name="body" rows="4" class="admin-input">{{ block.body }}</textarea>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="admin-form-group">
+          <label class="admin-label">Button Label</label>
+          <input type="text" name="button_text" value="{{ block.button_text }}" class="admin-input">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-label">Button Destination URL</label>
+          <input type="text" name="button_link" value="{{ block.button_link }}" class="admin-input">
+        </div>
+      </div>
+
+      <label style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; cursor: pointer;">
+        <input type="checkbox" name="is_active" {% if block.is_active %}checked{% endif %} style="width: 18px; height: 18px; accent-color: var(--color-wine);">
+        <span style="font-size: 0.9rem; font-weight: 500;">Active on Storefront Homepage</span>
+      </label>
+
+      <button type="submit" class="admin-btn admin-btn-primary">Save Editorial Block</button>
+    </form>
+  </div>
+
+  <!-- Right Column: Editorial Tiles -->
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <div class="admin-card">
+      <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 14px;">Curated Showcase Tiles ({{ tiles.count }})</h3>
+      
+      {% for t in tiles %}
+      <div style="padding: 12px; background: #faf7f2; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 10px;">
+        <div style="font-weight: 600; font-size: 0.9rem;">{{ t.title }}</div>
+        <div style="font-size: 0.75rem; color: var(--color-muted);">{{ t.subtitle }} &bull; Type: {{ t.tile_type }}</div>
+      </div>
+      {% empty %}
+      <div style="font-size: 0.85rem; color: var(--color-muted); margin-bottom: 12px;">No custom tiles created yet. Default pieces are loaded automatically.</div>
+      {% endfor %}
+
+      <div style="border-top: 1px solid var(--color-border); padding-top: 14px;">
+        <h4 style="font-size: 0.9rem; font-weight: 600; margin-bottom: 10px;">Add New Showcase Tile</h4>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="add_tile">
+
+          <div class="admin-form-group">
+            <label class="admin-label">Tile Title *</label>
+            <input type="text" name="tile_title" required class="admin-input" placeholder="e.g. Polki Necklaces">
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Subtitle / Subheading</label>
+            <input type="text" name="tile_subtitle" class="admin-input" placeholder="Uncut Diamonds in 22K Gold">
+          </div>
+
+          <button type="submit" class="admin-btn admin-btn-secondary" style="width: 100%; justify-content: center;">Add Tile</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -5,7 +5,7 @@
      ======================================================================== -->
 <div class="nilaya-bag-scrim" id="nilaya-bag-scrim" aria-hidden="true"></div>
 
-<aside class="nilaya-bag-drawer" id="nilaya-bag-drawer" role="dialog" aria-modal="true" aria-label="Acquisition Bag" aria-hidden="true">
+<aside class="nilaya-bag-drawer" id="nilaya-bag-drawer" data-authenticated="{% if user.is_authenticated %}true{% else %}false{% endif %}" role="dialog" aria-modal="true" aria-label="Acquisition Bag" aria-hidden="true">
   
   <!-- Header -->
   <header class="bag-drawer-header">
@@ -85,19 +85,12 @@
     <!-- Item Unavailable Notice Area -->
     <div id="bag-unavailable-notice" style="display:none; background: rgba(104,45,60,0.25); border: 1px solid #682D3C; color: #fca5a5; padding: 10px 14px; border-radius: 4px; font-size: 0.82rem; margin-bottom: 14px; line-height: 1.4;"></div>
 
-    <!-- Checkout Action -->
+    <!-- Checkout Action (Unrestricted Guest & Patron Checkout) -->
     <div class="bag-cta-group">
-      {% if user.is_authenticated %}
       <a href="{% url 'orders:checkout' %}" class="btn-bag-checkout" id="btn-proceed-checkout">
         <span>Proceed to checkout</span>
         <span class="checkout-arrow">&rarr;</span>
       </a>
-      {% else %}
-      <a href="/login/?next=/checkout/" class="btn-bag-checkout" id="btn-proceed-checkout">
-        <span>Proceed to checkout</span>
-        <span class="checkout-arrow">&rarr;</span>
-      </a>
-      {% endif %}
       
       <a href="https://wa.me/[add number]" class="bag-whatsapp-assist" target="_blank" rel="noopener">
         <span>Questions about sizing or purity? Chat on WhatsApp [add number]</span>

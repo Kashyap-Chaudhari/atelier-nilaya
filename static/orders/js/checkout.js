@@ -398,8 +398,9 @@
           return;
         }
 
-        if (phone.trim().length < 10) {
-          alert('Please enter a valid 10-digit mobile number.');
+        const phoneClean = phone.replace(/[^0-9]/g, '');
+        if (phoneClean.length !== 10) {
+          alert('Please enter a valid 10-digit Indian mobile number.');
           const phoneEl = document.getElementById('checkout-phone');
           if (phoneEl) {
             phoneEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -408,8 +409,19 @@
           return;
         }
 
-        if (!pincode.trim() || pincode.trim().length !== 6) {
-          alert('Please enter a 6-digit delivery pincode.');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.trim() || !emailRegex.test(email.trim())) {
+          alert('Please enter a valid email address for your order confirmation and invoice.');
+          const emailEl = document.getElementById('checkout-email');
+          if (emailEl) {
+            emailEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            emailEl.focus();
+          }
+          return;
+        }
+
+        if (!pincode.trim() || pincode.trim().length !== 6 || !/^[1-9][0-9]{5}$/.test(pincode.trim())) {
+          alert('Please enter a valid 6-digit Indian delivery pincode.');
           const pinEl = document.getElementById('checkout-pincode');
           if (pinEl) {
             pinEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -475,6 +487,9 @@
 
             // If bank transfer selected: redirect directly to confirmation page holding piece
             if (orderData.is_bank_transfer || payload.payment_method === 'bank_transfer') {
+              if (window.NilayaBag && window.NilayaBag.clearGuestCart) {
+                window.NilayaBag.clearGuestCart();
+              }
               window.location.href = orderData.redirect_url || `/orders/order-confirmed/${orderData.order_number}/?method=bank_transfer`;
               return;
             }
@@ -519,6 +534,9 @@
                   .then(res => res.json())
                   .then(verifyData => {
                     if (verifyData.success) {
+                      if (window.NilayaBag && window.NilayaBag.clearGuestCart) {
+                        window.NilayaBag.clearGuestCart();
+                      }
                       window.location.href = `/orders/order-confirmed/${orderData.order_number}/`;
                     } else {
                       alert(verifyData.message || 'Payment signature verification failed.');
@@ -526,6 +544,9 @@
                     }
                   })
                   .catch(() => {
+                    if (window.NilayaBag && window.NilayaBag.clearGuestCart) {
+                      window.NilayaBag.clearGuestCart();
+                    }
                     window.location.href = `/orders/order-confirmed/${orderData.order_number}/`;
                   });
               },

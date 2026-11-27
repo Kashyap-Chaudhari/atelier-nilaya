@@ -1,0 +1,57 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Email & WhatsApp Templates &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Notification Templates</h1>
+    <p class="admin-page-subtitle">Configure automated dispatch notices and messages for order confirmation, bench crafting, and armored delivery.</p>
+  </div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px;">
+  {% for t in templates %}
+  <div class="admin-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div>
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin: 0;">{{ t.name }}</h2>
+        <span style="font-size: 0.78rem; color: var(--color-muted); font-family: monospace;">Event Trigger: {{ t.event_trigger }}</span>
+      </div>
+      <span class="admin-badge {% if t.is_active %}admin-badge-green{% else %}admin-badge-muted{% endif %}">
+        {% if t.is_active %}Active{% else %}Inactive{% endif %}
+      </span>
+    </div>
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="template_id" value="{{ t.id }}">
+
+      <div class="admin-form-group">
+        <label class="admin-label">Subject Line *</label>
+        <input type="text" name="subject" value="{{ t.subject }}" required class="admin-input">
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-label">Notification Body *</label>
+        <textarea name="body_text" rows="5" required class="admin-input" style="font-family: monospace; font-size: 0.85rem; line-height: 1.5;">{{ t.body_text }}</textarea>
+        <p style="font-size: 0.75rem; color: var(--color-muted); margin-top: 4px;">Variables available: <code style="color: var(--color-wine);">{customer_name}</code>, <code style="color: var(--color-wine);">{order_number}</code>, <code style="color: var(--color-wine);">{total}</code>, <code style="color: var(--color-wine);">{tracking_number}</code>.</p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-border); padding-top: 14px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" name="is_active" {% if t.is_active %}checked{% endif %} style="accent-color: var(--color-wine);">
+          <span style="font-size: 0.88rem;">Template is Enabled</span>
+        </label>
+        <button type="submit" class="admin-btn admin-btn-primary">Update Template</button>
+      </div>
+    </form>
+  </div>
+  {% empty %}
+  <div class="admin-card" style="text-align: center; padding: 40px; color: var(--color-muted);">
+    No notification templates found.
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

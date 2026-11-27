@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>{% block title %}Sovereign Console &bull; Atelier Nilaya Admin{% endblock %}</title>
+
+  <!-- Google Fonts: Cormorant Garamond & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Admin Design System -->
+  <link rel="stylesheet" href="{% static 'store_admin/css/admin.css' %}?v=20261126_v1">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ========================================================================
+       SIDEBAR NAVIGATION
+       ======================================================================== -->
+  <aside class="admin-sidebar" role="navigation" aria-label="Admin Navigation">
+    <div class="admin-sidebar-header">
+      <a href="{% url 'store_admin:dashboard' %}" class="admin-brand-link">
+        <span class="admin-brand-monogram">✦</span>
+        <div>
+          <span class="admin-brand-name">ATELIER NILAYA</span>
+          <span class="admin-brand-role">Sovereign Store Control</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="admin-sidebar-nav">
+      
+      <!-- Core Operations -->
+      <a href="{% url 'store_admin:dashboard' %}" class="admin-nav-item {% if active_nav == 'dashboard' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="{% url 'store_admin:order_list' %}" class="admin-nav-item {% if active_nav == 'orders' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        <span>Orders & Sales</span>
+      </a>
+
+      <a href="{% url 'store_admin:product_list' %}" class="admin-nav-item {% if active_nav == 'products' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        <span>Products & Vault</span>
+      </a>
+
+      <a href="{% url 'store_admin:customer_list' %}" class="admin-nav-item {% if active_nav == 'customers' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Patrons & Clients</span>
+      </a>
+
+      <!-- Content Management -->
+      <div class="admin-nav-group-title">Storefront Content</div>
+
+      <a href="{% url 'store_admin:homepage_builder' %}" class="admin-nav-item {% if active_nav == 'content' and active_subnav == 'homepage' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Homepage Builder</span>
+      </a>
+
+      <a href="{% url 'store_admin:featured_edit_builder' %}" class="admin-nav-item {% if active_nav == 'content' and active_subnav == 'featured_edit' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 19 8.5 19 15.5 12 22 5 15.5 5 8.5 12 2"></polygon></svg>
+        <span>Featured Edit</span>
+      </a>
+
+      <a href="{% url 'store_admin:pages_list' %}" class="admin-nav-item {% if active_nav == 'content' and active_subnav == 'pages' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span>Pages & Policies</span>
+      </a>
+
+      <!-- Store Configuration -->
+      <div class="admin-nav-group-title">Store Configuration</div>
+
+      <a href="{% url 'store_admin:settings_brand' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'brand' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Brand & Identity</span>
+      </a>
+
+      <a href="{% url 'store_admin:settings_theme' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'theme' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a7 7 0 0 0 0 14v6a10 10 0 0 0 0-20z"></path></svg>
+        <span>Theme & Colors</span>
+      </a>
+
+      <a href="{% url 'store_admin:settings_navigation' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'navigation' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        <span>Header & Menus</span>
+      </a>
+
+      <a href="{% url 'store_admin:settings_shipping' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'shipping' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        <span>Shipping & Transit</span>
+      </a>
+
+      <a href="{% url 'store_admin:settings_taxes' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'taxes' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        <span>Tax & Invoices</span>
+      </a>
+
+      <a href="{% url 'store_admin:settings_emails' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'emails' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <span>Emails & WhatsApp</span>
+      </a>
+
+      <a href="{% url 'store_admin:audit_log' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'audit' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <span>Audit Trail</span>
+      </a>
+
+      <a href="{% url 'store_admin:trash_bin' %}" class="admin-nav-item {% if active_nav == 'settings' and active_subnav == 'trash' %}is-active{% endif %}">
+        <svg class="admin-nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        <span>30-Day Trash</span>
+      </a>
+
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="admin-sidebar-footer">
+      <a href="{% url 'store_admin:profile' %}" class="admin-user-pill">
+        <div class="admin-user-avatar">
+          {{ request.user.username|slice:":1"|upper }}
+        </div>
+        <div>
+          <span class="admin-user-info-name">{{ request.user.first_name|default:request.user.username }}</span>
+          <span class="admin-user-info-role">Master Curator</span>
+        </div>
+      </a>
+      <a href="{% url 'store_admin:logout' %}" class="admin-btn-logout" title="Sign Out">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       MAIN APP STAGE
+       ======================================================================== -->
+  <div class="admin-main">
+    
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <button type="button" id="admin-sidebar-toggle" style="background:none; border:none; cursor:pointer; display:none;" aria-label="Toggle Navigation">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <!-- Global Search Trigger (Ctrl+K) -->
+        <div class="admin-search-trigger" id="admin-search-trigger" role="button" tabindex="0">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span>Search heirlooms, orders, patrons...</span>
+          <span class="admin-search-shortcut">⌘K</span>
+        </div>
+      </div>
+
+      <div class="admin-topbar-right">
+        <!-- View on Store Link -->
+        <a href="/" target="_blank" class="btn-view-store">
+          <span>View Live Store</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% if messages %}
+    <div style="padding: 16px 36px 0;">
+      {% for message in messages %}
+      <div style="padding: 12px 18px; border-radius: 6px; margin-bottom: 12px; font-size: 0.86rem; display: flex; align-items: center; justify-content: space-between; {% if message.tags == 'success' %}background: var(--adm-success-bg); color: var(--adm-success); border: 1px solid rgba(30, 107, 71, 0.2);{% elif message.tags == 'error' %}background: var(--adm-danger-bg); color: var(--adm-danger); border: 1px solid rgba(158, 42, 43, 0.2);{% else %}background: var(--adm-warning-bg); color: var(--adm-warning); border: 1px solid rgba(179, 107, 0, 0.2);{% endif %}">
+        <span>{{ message }}</span>
+        <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; cursor:pointer; font-size: 1.1rem; color:inherit;">&times;</button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Body Container -->
+    <main class="admin-body">
+      {% block content %}{% endblock %}
+    </main>
+
+  </div>
+
+  <!-- ========================================================================
+       GLOBAL SEARCH MODAL DIALOG (CTRL+K)
+       ======================================================================== -->
+  <div class="admin-modal-backdrop" id="admin-search-modal" role="dialog" aria-modal="true" aria-label="Global Search">
+    <div class="admin-search-dialog">
+      <div class="admin-search-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--adm-wine)" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="admin-search-input" class="admin-search-dialog-input" placeholder="Search products, orders, patrons, settings..." autocomplete="off">
+        <button type="button" onclick="document.getElementById('admin-search-modal').classList.remove('is-open')" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color:var(--adm-text-muted);">&times;</button>
+      </div>
+      <div class="admin-search-results-list" id="admin-search-results">
+        <!-- Populated via admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{% static 'store_admin/js/admin.js' %}?v=20261126_v1"></script>
+  {% block extra_scripts %}{% endblock %}
+
+</body>
+</html>

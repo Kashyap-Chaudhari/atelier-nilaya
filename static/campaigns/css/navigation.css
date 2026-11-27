@@ -299,9 +299,20 @@
 
 .aaranya-nav-btn:hover,
 .aaranya-nav-btn:focus-visible,
-.aaranya-nav-btn.is-active {
+.aaranya-nav-btn.is-active,
+.aaranya-nav-btn[aria-current="page"] {
   color: var(--aaranya-burgundy);
   font-weight: 600;
+}
+
+.aaranya-nav-btn[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--aaranya-burgundy);
 }
 
 .aaranya-nav-btn:focus-visible {

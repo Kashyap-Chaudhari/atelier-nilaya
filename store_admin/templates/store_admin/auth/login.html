@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Sign In &bull; Atelier Nilaya Sovereign Console</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="{% static 'store_admin/css/admin.css' %}?v=20261126_v1">
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 20%, #FAF7F2 0%, #EDE5D8 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .admin-login-box {
+      width: 100%;
+      max-width: 440px;
+      background: #FFFFFF;
+      border: 1px solid var(--adm-border);
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(43, 26, 31, 0.08);
+      padding: 44px 36px 36px;
+      text-align: center;
+    }
+    .login-brand-monogram {
+      font-size: 2.2rem;
+      color: var(--adm-gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .login-brand-title {
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      color: var(--adm-text);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .login-brand-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--adm-wine);
+      font-weight: 700;
+      margin-bottom: 28px;
+      display: block;
+    }
+    .login-flash-msg {
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-login-box">
+    <div class="login-brand-monogram">✦</div>
+    <h1 class="login-brand-title">Atelier Nilaya</h1>
+    <span class="login-brand-sub">Sovereign Store Control</span>
+
+    {% if messages %}
+      {% for message in messages %}
+      <div class="login-flash-msg {% if message.tags == 'error' %}badge-cancelled{% else %}badge-confirmed{% endif %}">
+        {{ message }}
+      </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" action="{% url 'store_admin:login' %}?next={{ next_url }}" style="text-align: left;">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label class="form-label" for="login-username">Administrator Username / Email</label>
+        <input 
+          type="text" 
+          id="login-username" 
+          name="username" 
+          class="form-control" 
+          placeholder="e.g. curator or admin@ateliernilaya.com" 
+          required 
+          autofocus
+        >
+      </div>
+
+      <div class="form-group" style="margin-bottom: 24px;">
+        <label class="form-label" for="login-password">Password</label>
+        <input 
+          type="password" 
+          id="login-password" 
+          name="password" 
+          class="form-control" 
+          placeholder="Enter sovereign password" 
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; font-size: 0.85rem;">
+        Authenticate & Enter Console &rarr;
+      </button>
+
+      <div style="margin-top: 24px; text-align: center;">
+        <a href="/" style="font-size: 0.76rem; color: var(--adm-text-muted); text-decoration: none;">
+          &larr; Return to Public Exhibition Storefront
+        </a>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -4,395 +4,525 @@
      Brand Monogram Bar + Horizontal Category Bar + Full-Width Mega Menu
      ======================================================================== -->
 <style>
-/* ==========================================================================
+  /* ==========================================================================
    ATELIER NILAYA — BESPOKE PATRON FOLIO ACCOUNT PILL & LUXURY DROPDOWN
    ========================================================================== */
-.customer-header-menu-wrap {
-  position: relative;
-  display: inline-block;
-}
-
-/* 1. Bespoke Patron Folio Action Pill */
-.patron-folio-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 242, 233, 0.92) 100%);
-  border: 1px solid rgba(173, 145, 97, 0.45);
-  border-radius: 24px;
-  padding: 4px 12px 4px 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 8px rgba(48, 37, 34, 0.05);
-  user-select: none;
-}
-
-.patron-folio-btn:hover {
-  background: #FFFFFF;
-  border-color: #c5a059;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(104, 45, 60, 0.12), 0 0 10px rgba(217, 181, 107, 0.2);
-}
-
-.patron-folio-btn.is-active,
-.patron-folio-btn[aria-expanded="true"] {
-  border-color: #682D3C;
-  background: #FFFFFF;
-  box-shadow: 0 4px 16px rgba(104, 45, 60, 0.15);
-}
-
-/* Patron Avatar Badge Circle */
-.patron-avatar-badge {
-  position: relative;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #4F1F2C 0%, #200B13 100%);
-  border: 1px solid #d9b56b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #F8F5F0;
-  flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.patron-avatar-initial {
-  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #d9b56b;
-  line-height: 1;
-}
-
-.patron-avatar-sparkle {
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  font-size: 7px;
-  color: #d9b56b;
-  line-height: 1;
-}
-
-/* Patron Pill Text Block */
-.patron-btn-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  line-height: 1.15;
-}
-
-.patron-greeting-label {
-  font-size: 0.52rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #9c7b44;
-}
-
-.patron-client-name {
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: #302522;
-  white-space: nowrap;
-  max-width: 160px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Chevron */
-.patron-chevron-icon {
-  color: #682D3C;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-left: 1px;
-}
-
-.patron-folio-btn.is-active .patron-chevron-icon,
-.patron-folio-btn[aria-expanded="true"] .patron-chevron-icon {
-  transform: rotate(180deg);
-}
-
-/* Logged out Login Link Enhancement */
-.aaranya-login-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #682D3C;
-  text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(104, 45, 60, 0.25);
-  background: rgba(104, 45, 60, 0.04);
-  transition: all 0.25s ease;
-}
-
-.aaranya-login-pill:hover {
-  background: rgba(104, 45, 60, 0.09);
-  border-color: #682D3C;
-  transform: translateY(-1px);
-}
-
-/* 2. Bespoke Luxury Patron Dropdown Panel (Website Ivory/Burgundy Theme) */
-.customer-menu-dropdown.patron-folio-dropdown {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 285px;
-  background: #FFFFFF;
-  border: 1px solid rgba(104, 45, 60, 0.16);
-  border-top: 2px solid #d9b56b;
-  border-radius: 8px;
-  box-shadow: 0 18px 42px -4px rgba(48, 37, 34, 0.15), 0 2px 8px rgba(104, 45, 60, 0.06);
-  padding: 0;
-  z-index: 1000;
-  overflow: hidden;
-  transform-origin: top right;
-  animation: patronDropdownFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.customer-menu-dropdown.patron-folio-dropdown.is-open {
-  display: block;
-}
-
-@keyframes patronDropdownFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.97);
+  .customer-header-menu-wrap {
+    position: relative;
+    display: inline-block;
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+
+  /* 1. Bespoke Patron Folio Action Pill */
+  .patron-folio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 242, 233, 0.92) 100%);
+    border: 1px solid rgba(173, 145, 97, 0.45);
+    border-radius: 24px;
+    padding: 4px 12px 4px 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(48, 37, 34, 0.05);
+    user-select: none;
   }
-}
 
-/* Patron Header Card in Dropdown */
-.patron-dropdown-header {
-  padding: 16px 18px 14px;
-  background: linear-gradient(135deg, #FAF6F0 0%, #F5EFEB 100%);
-  border-bottom: 1px solid rgba(104, 45, 60, 0.12);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+  .patron-folio-btn:hover {
+    background: #FFFFFF;
+    border-color: #c5a059;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(104, 45, 60, 0.12), 0 0 10px rgba(217, 181, 107, 0.2);
+  }
 
-.patron-header-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #682D3C 0%, #3B121D 100%);
-  border: 1.5px solid #d9b56b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 3px 10px rgba(104, 45, 60, 0.25);
-}
+  .patron-folio-btn.is-active,
+  .patron-folio-btn[aria-expanded="true"] {
+    border-color: #682D3C;
+    background: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(104, 45, 60, 0.15);
+  }
 
-.patron-header-initial {
-  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #d9b56b;
-}
+  /* Patron Avatar Badge Circle */
+  .patron-avatar-badge {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4F1F2C 0%, #200B13 100%);
+    border: 1px solid #d9b56b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F8F5F0;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
 
-.patron-header-details {
-  flex: 1;
-  min-width: 0;
-}
+  .patron-avatar-initial {
+    font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #d9b56b;
+    line-height: 1;
+  }
 
-.patron-header-name {
-  font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #302522;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .patron-avatar-sparkle {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    font-size: 7px;
+    color: #d9b56b;
+    line-height: 1;
+  }
 
-.patron-header-email {
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.70rem;
-  color: #705953;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: 2px;
-}
+  /* Patron Pill Text Block */
+  .patron-btn-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    line-height: 1.15;
+  }
 
-.patron-header-tier {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #682D3C;
-  text-transform: uppercase;
-  margin-top: 5px;
-  background: rgba(104, 45, 60, 0.08);
-  padding: 2px 7px;
-  border-radius: 12px;
-  border: 1px solid rgba(104, 45, 60, 0.18);
-}
+  .patron-greeting-label {
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9c7b44;
+  }
 
-.patron-tier-star {
-  font-size: 7px;
-  color: #c5a059;
-}
-
-/* Menu Navigation List */
-.patron-dropdown-nav {
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  background: #FFFFFF;
-}
-
-.patron-nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 9px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: all 0.22s ease;
-  background: transparent;
-}
-
-.patron-nav-item:hover {
-  background: rgba(104, 45, 60, 0.05);
-  transform: translateX(2px);
-}
-
-.patron-item-icon-box {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: rgba(104, 45, 60, 0.06);
-  border: 1px solid rgba(104, 45, 60, 0.16);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #682D3C;
-  flex-shrink: 0;
-  transition: all 0.22s ease;
-}
-
-.patron-nav-item:hover .patron-item-icon-box {
-  background: #682D3C;
-  color: #FFFFFF;
-  border-color: #682D3C;
-  transform: scale(1.06);
-}
-
-.patron-item-text {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 0;
-}
-
-.patron-item-title {
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #302522;
-  line-height: 1.2;
-}
-
-.patron-nav-item:hover .patron-item-title {
-  color: #682D3C;
-}
-
-.patron-item-subtitle {
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.65rem;
-  color: #7a6660;
-  margin-top: 1px;
-}
-
-.patron-item-arrow {
-  font-size: 0.85rem;
-  color: rgba(104, 45, 60, 0.35);
-  transition: all 0.22s ease;
-}
-
-.patron-nav-item:hover .patron-item-arrow {
-  color: #682D3C;
-  transform: translateX(3px);
-}
-
-/* Footer / Logout Row */
-.patron-dropdown-footer {
-  padding: 8px 10px 10px;
-  border-top: 1px solid rgba(104, 45, 60, 0.1);
-  background: #FAF6F0;
-}
-
-.patron-logout-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-family: var(--font-sans, 'Manrope', sans-serif);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #8c3b4d;
-  background: rgba(140, 59, 77, 0.06);
-  border: 1px solid rgba(140, 59, 77, 0.2);
-  transition: all 0.22s ease;
-}
-
-.patron-logout-item:hover {
-  background: #8c3b4d;
-  border-color: #8c3b4d;
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-.patron-logout-icon {
-  display: flex;
-  align-items: center;
-}
-
-@media (max-width: 600px) {
   .patron-client-name {
-    max-width: 75px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #302522;
+    white-space: nowrap;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
+  /* Chevron */
+  .patron-chevron-icon {
+    color: #682D3C;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-left: 1px;
+  }
+
+  .patron-folio-btn.is-active .patron-chevron-icon,
+  .patron-folio-btn[aria-expanded="true"] .patron-chevron-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Logged out Login Link Enhancement */
+  .aaranya-login-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #682D3C;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(104, 45, 60, 0.25);
+    background: rgba(104, 45, 60, 0.04);
+    transition: all 0.25s ease;
+  }
+
+  .aaranya-login-pill:hover {
+    background: rgba(104, 45, 60, 0.09);
+    border-color: #682D3C;
+    transform: translateY(-1px);
+  }
+
+  /* 2. Bespoke Luxury Patron Dropdown Panel (Website Ivory/Burgundy Theme) */
   .customer-menu-dropdown.patron-folio-dropdown {
-    right: -20px;
-    width: 260px;
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 285px;
+    background: #FFFFFF;
+    border: 1px solid rgba(104, 45, 60, 0.16);
+    border-top: 2px solid #d9b56b;
+    border-radius: 8px;
+    box-shadow: 0 18px 42px -4px rgba(48, 37, 34, 0.15), 0 2px 8px rgba(104, 45, 60, 0.06);
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+    transform-origin: top right;
+    animation: patronDropdownFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-}
+
+  .customer-menu-dropdown.patron-folio-dropdown.is-open {
+    display: block;
+  }
+
+  @keyframes patronDropdownFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.97);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Patron Header Card in Dropdown */
+  .patron-dropdown-header {
+    padding: 16px 18px 14px;
+    background: linear-gradient(135deg, #FAF6F0 0%, #F5EFEB 100%);
+    border-bottom: 1px solid rgba(104, 45, 60, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .patron-header-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #682D3C 0%, #3B121D 100%);
+    border: 1.5px solid #d9b56b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(104, 45, 60, 0.25);
+  }
+
+  .patron-header-initial {
+    font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #d9b56b;
+  }
+
+  .patron-header-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .patron-header-name {
+    font-family: var(--font-serif-display, 'Cormorant Garamond', Georgia, serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #302522;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .patron-header-email {
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 0.70rem;
+    color: #705953;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+  }
+
+  .patron-header-tier {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #682D3C;
+    text-transform: uppercase;
+    margin-top: 5px;
+    background: rgba(104, 45, 60, 0.08);
+    padding: 2px 7px;
+    border-radius: 12px;
+    border: 1px solid rgba(104, 45, 60, 0.18);
+  }
+
+  .patron-tier-star {
+    font-size: 7px;
+    color: #c5a059;
+  }
+
+  /* Menu Navigation List */
+  .patron-dropdown-nav {
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: #FFFFFF;
+  }
+
+  .patron-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.22s ease;
+    background: transparent;
+  }
+
+  .patron-nav-item:hover {
+    background: rgba(104, 45, 60, 0.05);
+    transform: translateX(2px);
+  }
+
+  .patron-item-icon-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(104, 45, 60, 0.06);
+    border: 1px solid rgba(104, 45, 60, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #682D3C;
+    flex-shrink: 0;
+    transition: all 0.22s ease;
+  }
+
+  .patron-nav-item:hover .patron-item-icon-box {
+    background: #682D3C;
+    color: #FFFFFF;
+    border-color: #682D3C;
+    transform: scale(1.06);
+  }
+
+  .patron-item-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .patron-item-title {
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #302522;
+    line-height: 1.2;
+  }
+
+  .patron-nav-item:hover .patron-item-title {
+    color: #682D3C;
+  }
+
+  .patron-item-subtitle {
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 0.65rem;
+    color: #7a6660;
+    margin-top: 1px;
+  }
+
+  .patron-item-arrow {
+    font-size: 0.85rem;
+    color: rgba(104, 45, 60, 0.35);
+    transition: all 0.22s ease;
+  }
+
+  .patron-nav-item:hover .patron-item-arrow {
+    color: #682D3C;
+    transform: translateX(3px);
+  }
+
+  /* Footer / Logout Row */
+  .patron-dropdown-footer {
+    padding: 8px 10px 10px;
+    border-top: 1px solid rgba(104, 45, 60, 0.1);
+    background: #FAF6F0;
+  }
+
+  .patron-logout-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: var(--font-sans, 'Manrope', sans-serif);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8c3b4d;
+    background: rgba(140, 59, 77, 0.06);
+    border: 1px solid rgba(140, 59, 77, 0.2);
+    transition: all 0.22s ease;
+  }
+
+  .patron-logout-item:hover {
+    background: #8c3b4d;
+    border-color: #8c3b4d;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .patron-logout-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 600px) {
+    .patron-client-name {
+      max-width: 75px;
+    }
+
+    .customer-menu-dropdown.patron-folio-dropdown {
+      right: -20px;
+      width: 260px;
+    }
+  }
+
+  /* ==========================================================================
+   ATELIER NILAYA — CENTER LUXURY SEARCH BAR
+   ========================================================================== */
+  .aaranya-header-center-search {
+    flex: 1 1 auto;
+    max-width: 480px;
+    min-width: 220px;
+    margin: 0 clamp(16px, 2.5vw, 36px);
+    display: flex;
+    justify-content: center;
+  }
+
+  .aaranya-search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(250, 246, 239, 0.92) 100%);
+    border: 1px solid rgba(173, 145, 97, 0.42);
+    border-radius: 9999px;
+    padding: 3px 5px 3px 16px;
+    box-shadow: 0 2px 10px rgba(48, 37, 34, 0.04), inset 0 1px 2px rgba(255, 255, 255, 0.85);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .aaranya-search-form:hover {
+    border-color: #AD9161;
+    background: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(104, 45, 60, 0.08), 0 0 12px rgba(215, 193, 154, 0.22);
+    transform: translateY(-1px);
+  }
+
+  .aaranya-search-form:focus-within {
+    border-color: #682D3C;
+    background: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(104, 45, 60, 0.12), 0 0 0 2px rgba(173, 145, 97, 0.25);
+    transform: translateY(-1px);
+  }
+
+  .aaranya-header-search-icon {
+    position: static;
+    color: #AD9161;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+
+  .aaranya-header-search-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .aaranya-search-form:focus-within .aaranya-header-search-icon {
+    color: #682D3C;
+  }
+
+  .aaranya-search-input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-sans, 'Manrope', -apple-system, sans-serif);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: #302522;
+    padding: 0 8px 0 2px;
+  }
+
+  .aaranya-search-input::placeholder {
+    color: #8C7D75;
+    font-weight: 400;
+    font-size: 0.80rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .aaranya-search-form:focus-within .aaranya-search-input::placeholder {
+    opacity: 0.6;
+  }
+
+  .aaranya-search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 32px;
+    padding: 0 15px;
+    background: linear-gradient(135deg, #682D3C 0%, #4A1A26 100%);
+    color: #F8F5F0;
+    border: 1px solid rgba(215, 193, 154, 0.35);
+    border-radius: 9999px;
+    font-family: var(--font-sans, 'Manrope', -apple-system, sans-serif);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(104, 45, 60, 0.25);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .aaranya-search-btn:hover {
+    background: linear-gradient(135deg, #7D3749 0%, #5B2130 100%);
+    border-color: #D7C19A;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(104, 45, 60, 0.35);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 1024px) {
+    .aaranya-header-center-search {
+      max-width: 300px;
+      margin: 0 14px;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .aaranya-header-center-search {
+      display: none;
+    }
+  }
 </style>
 
 <header class="atelier-header aaranya-header" role="banner">
-  
-  <!-- Tier 1: Brand Identity & Atelier Salon Actions -->
+
+  <!-- Tier 1: Brand Identity, Center Search & Atelier Salon Actions -->
   <div class="aaranya-header-top">
     <div class="aaranya-brand">
-      <a href="{% url 'campaigns:hero' %}" class="aaranya-brand-link" aria-label="AARANYA Home &mdash; The Art of Becoming Heirloom">
+      <a href="{% url 'campaigns:hero' %}" class="aaranya-brand-link"
+        aria-label="AARANYA Home &mdash; The Art of Becoming Heirloom">
         <div class="aaranya-brand-monogram" aria-hidden="true">✦</div>
         <div class="aaranya-brand-text">
           <span class="aaranya-brand-name">AARANYA</span>
@@ -401,139 +531,176 @@
       </a>
     </div>
 
+    <!-- Center Luxury Search Bar -->
+    <div class="aaranya-header-center-search">
+      <form action="{% url 'campaigns:vault' %}" method="get" class="aaranya-search-form" role="search">
+        <span class="aaranya-header-search-icon" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input type="search" name="q" value="{{ search_query|default:'' }}"
+          placeholder="Search diamonds, 24K gold, bridal suites..." class="aaranya-search-input" autocomplete="off"
+          aria-label="Search jewellery collections">
+        <button type="submit" class="aaranya-search-btn" aria-label="Submit search">
+          <span class="aaranya-search-btn-text">SEARCH</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </form>
+    </div>
+
     <div class="aaranya-header-actions">
       {% if user.is_authenticated %}
-        <div class="customer-header-menu-wrap">
-          <button type="button" class="patron-folio-btn customer-menu-toggle" id="customerMenuToggle" aria-expanded="false" aria-haspopup="true" aria-label="Client Folio Account Menu">
-            <span class="patron-avatar-badge" aria-hidden="true">
-              <span class="patron-avatar-initial">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
-              <span class="patron-avatar-sparkle">✦</span>
-            </span>
-            <span class="patron-btn-text">
-              <span class="patron-greeting-label">PATRON</span>
-              <span class="patron-client-name">{{ user.first_name|default:user.username|capfirst }}</span>
-            </span>
-            <svg class="patron-chevron-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-              <path d="M2.5 3.75L5 6.25L7.5 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+      <div class="customer-header-menu-wrap">
+        <button type="button" class="patron-folio-btn customer-menu-toggle" id="customerMenuToggle"
+          aria-expanded="false" aria-haspopup="true" aria-label="Client Folio Account Menu">
+          <span class="patron-avatar-badge" aria-hidden="true">
+            <span class="patron-avatar-initial">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+            <span class="patron-avatar-sparkle">✦</span>
+          </span>
+          <span class="patron-btn-text">
+            <span class="patron-greeting-label">PATRON</span>
+            <span class="patron-client-name">{{ user.first_name|default:user.username|capfirst }}</span>
+          </span>
+          <svg class="patron-chevron-icon" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <path d="M2.5 3.75L5 6.25L7.5 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
 
-          <!-- Bespoke Patron Dropdown Layout -->
-          <div class="customer-menu-dropdown patron-folio-dropdown" id="customerMenuDropdown" role="menu" aria-label="Patron Folio Menu">
-            
-            <!-- Patron Header Card -->
-            <div class="patron-dropdown-header">
-              <div class="patron-header-avatar">
-                <span class="patron-header-initial">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+        <!-- Bespoke Patron Dropdown Layout -->
+        <div class="customer-menu-dropdown patron-folio-dropdown" id="customerMenuDropdown" role="menu"
+          aria-label="Patron Folio Menu">
+
+          <!-- Patron Header Card -->
+          <div class="patron-dropdown-header">
+            <div class="patron-header-avatar">
+              <span class="patron-header-initial">{{ user.first_name|default:user.username|slice:":1"|upper }}</span>
+            </div>
+            <div class="patron-header-details">
+              <div class="patron-header-name">{{ user.get_full_name|default:user.first_name|default:user.username }}
               </div>
-              <div class="patron-header-details">
-                <div class="patron-header-name">{{ user.get_full_name|default:user.first_name|default:user.username }}</div>
-                <div class="patron-header-email">{{ user.email|default:"Registered Patron" }}</div>
-                <div class="patron-header-tier">
-                  <span class="patron-tier-star">✦</span>
-                  <span>CONNOISSEUR MEMBER</span>
-                </div>
+              <div class="patron-header-email">{{ user.email|default:"Registered Patron" }}</div>
+              <div class="patron-header-tier">
+                <span class="patron-tier-star">✦</span>
+                <span>CONNOISSEUR MEMBER</span>
               </div>
             </div>
+          </div>
 
-            <!-- Main Menu Items with Luxury SVGs -->
-            <div class="patron-dropdown-nav">
-              
-              <a href="{% url 'orders:history' %}" class="patron-nav-item" role="menuitem">
-                <span class="patron-item-icon-box" aria-hidden="true">
-                  <!-- Vault Bag / Order SVG -->
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                  </svg>
-                </span>
-                <div class="patron-item-text">
-                  <span class="patron-item-title">My Orders</span>
-                  <span class="patron-item-subtitle">Acquisitions &amp; tracking timeline</span>
-                </div>
-                <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
-              </a>
+          <!-- Main Menu Items with Luxury SVGs -->
+          <div class="patron-dropdown-nav">
 
-              <a href="{% url 'campaigns:account_addresses' %}" class="patron-nav-item" role="menuitem">
-                <span class="patron-item-icon-box" aria-hidden="true">
-                  <!-- Location / Armored Transit SVG -->
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                </span>
-                <div class="patron-item-text">
-                  <span class="patron-item-title">Saved Addresses</span>
-                  <span class="patron-item-subtitle">Insured delivery destinations</span>
-                </div>
-                <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
-              </a>
+            <a href="{% url 'orders:history' %}" class="patron-nav-item" role="menuitem">
+              <span class="patron-item-icon-box" aria-hidden="true">
+                <!-- Vault Bag / Order SVG -->
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              </span>
+              <div class="patron-item-text">
+                <span class="patron-item-title">My Orders</span>
+                <span class="patron-item-subtitle">Acquisitions &amp; tracking timeline</span>
+              </div>
+              <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
+            </a>
 
-              <a href="{% url 'campaigns:wishlist' %}" class="patron-nav-item" role="menuitem">
-                <span class="patron-item-icon-box" aria-hidden="true">
-                  <!-- Heart / Vault Wishlist SVG -->
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-                </span>
-                <div class="patron-item-text">
-                  <span class="patron-item-title">Heirloom Wishlist</span>
-                  <span class="patron-item-subtitle">Saved curations &amp; treasures</span>
-                </div>
-                <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
-              </a>
+            <a href="{% url 'campaigns:account_addresses' %}" class="patron-nav-item" role="menuitem">
+              <span class="patron-item-icon-box" aria-hidden="true">
+                <!-- Location / Armored Transit SVG -->
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </span>
+              <div class="patron-item-text">
+                <span class="patron-item-title">Saved Addresses</span>
+                <span class="patron-item-subtitle">Insured delivery destinations</span>
+              </div>
+              <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
+            </a>
 
-              <a href="{% url 'campaigns:account_profile' %}" class="patron-nav-item" role="menuitem">
-                <span class="patron-item-icon-box" aria-hidden="true">
-                  <!-- User / Shield SVG -->
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                </span>
-                <div class="patron-item-text">
-                  <span class="patron-item-title">Profile &amp; Security</span>
-                  <span class="patron-item-subtitle">Personal details &amp; credentials</span>
-                </div>
-                <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
-              </a>
+            <a href="{% url 'campaigns:wishlist' %}" class="patron-nav-item" role="menuitem">
+              <span class="patron-item-icon-box" aria-hidden="true">
+                <!-- Heart / Vault Wishlist SVG -->
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                  </path>
+                </svg>
+              </span>
+              <div class="patron-item-text">
+                <span class="patron-item-title">Heirloom Wishlist</span>
+                <span class="patron-item-subtitle">Saved curations &amp; treasures</span>
+              </div>
+              <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
+            </a>
 
-            </div>
-
-            <!-- Log Out Action -->
-            <div class="patron-dropdown-footer">
-              <a href="{% url 'campaigns:logout' %}" class="patron-logout-item" role="menuitem">
-                <span class="patron-logout-icon" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                  </svg>
-                </span>
-                <span>Sign Out of Atelier Folio</span>
-              </a>
-            </div>
+            <a href="{% url 'campaigns:account_profile' %}" class="patron-nav-item" role="menuitem">
+              <span class="patron-item-icon-box" aria-hidden="true">
+                <!-- User / Shield SVG -->
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </span>
+              <div class="patron-item-text">
+                <span class="patron-item-title">Profile &amp; Security</span>
+                <span class="patron-item-subtitle">Personal details &amp; credentials</span>
+              </div>
+              <span class="patron-item-arrow" aria-hidden="true">&rarr;</span>
+            </a>
 
           </div>
+
+          <!-- Log Out Action -->
+          <div class="patron-dropdown-footer">
+            <a href="{% url 'campaigns:logout' %}" class="patron-logout-item" role="menuitem">
+              <span class="patron-logout-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+              </span>
+              <span>Sign Out of Atelier Folio</span>
+            </a>
+          </div>
+
         </div>
+      </div>
       {% else %}
-        <a href="{% url 'campaigns:login' %}" class="aaranya-login-pill" title="Client Authentication">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          <span>SIGN IN</span>
-        </a>
+      <a href="{% url 'campaigns:login' %}" class="aaranya-login-pill" title="Client Authentication">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span>SIGN IN</span>
+      </a>
       {% endif %}
-      <button type="button" class="aaranya-appointment-pill" data-open-appointment title="Book a Private Jewellery Viewing">
+      <button type="button" class="aaranya-appointment-pill" data-open-appointment
+        title="Book a Private Jewellery Viewing">
         BOOK APPOINTMENT
       </button>
-      
+
       <!-- Atelier Velvet Bag Button -->
       <button type="button" class="aaranya-bag-pill" id="header-bag-btn" data-open-bag aria-label="Open Shopping Bag">
         <span class="aaranya-bag-icon" aria-hidden="true">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -544,7 +711,8 @@
       </button>
 
       <!-- Mobile Hamburger Button -->
-      <button type="button" class="aaranya-mobile-toggle" id="aaranya-mobile-menu-btn" aria-label="Open Navigation Menu" aria-controls="aaranya-mobile-drawer">
+      <button type="button" class="aaranya-mobile-toggle" id="aaranya-mobile-menu-btn" aria-label="Open Navigation Menu"
+        aria-controls="aaranya-mobile-drawer">
         <span class="aaranya-hamburger-line"></span>
         <span class="aaranya-hamburger-line"></span>
         <span class="aaranya-hamburger-line"></span>

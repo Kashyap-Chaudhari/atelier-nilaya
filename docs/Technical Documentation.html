@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Atelier Nilaya — Technical Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@page {
+  size: A4;
+  margin: 20mm 18mm 22mm 18mm;
+  @top-left {
+    content: "ATELIER NILAYA • LUXURY CLIENT DOCUMENTATION";
+    font-family: 'Manrope', sans-serif;
+    font-size: 7.5pt;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: #ad9161;
+    text-transform: uppercase;
+  }
+  @top-right {
+    content: "SURAT, EST. 1954";
+    font-family: 'Manrope', sans-serif;
+    font-size: 7.5pt;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: #8c734b;
+    text-transform: uppercase;
+  }
+  @bottom-left {
+    content: "Confidential • Prepared for Client Stakeholders & Bench Management";
+    font-family: 'Manrope', sans-serif;
+    font-size: 7pt;
+    color: #888888;
+  }
+  @bottom-right {
+    content: "Page " counter(page);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9pt;
+    font-style: italic;
+    color: #1c0b13;
+  }
+}
+
+@page:first {
+  margin: 0;
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.62;
+  color: #242220;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Cover Page */
+.cover-page {
+  page-break-after: always;
+  height: 100vh;
+  min-height: 297mm;
+  background: radial-gradient(circle at 50% 25%, #2a111e 0%, #170910 100%);
+  color: #FAF7F2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 85px 65px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-page::before {
+  content: '';
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  right: 25px;
+  bottom: 25px;
+  border: 1px solid rgba(217, 181, 107, 0.45);
+  box-shadow: inset 0 0 0 5px #170910, inset 0 0 0 6px rgba(217, 181, 107, 0.25);
+  pointer-events: none;
+}
+
+.cover-header {
+  position: relative;
+  z-index: 2;
+}
+
+.cover-crest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #d9b56b;
+  border-radius: 50%;
+  color: #d9b56b;
+  font-size: 16pt;
+  margin-bottom: 20px;
+}
+
+.cover-atelier {
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  font-size: 13pt;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  margin-bottom: 8px;
+}
+
+.cover-tagline {
+  font-family: 'Manrope', sans-serif;
+  font-size: 8pt;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(250, 247, 242, 0.65);
+}
+
+.cover-center {
+  position: relative;
+  z-index: 2;
+  margin: auto 0;
+}
+
+.cover-doc-kicker {
+  font-family: 'Manrope', sans-serif;
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #d9b56b;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 34pt;
+  font-weight: 500;
+  line-height: 1.15;
+  color: #FAF7F2;
+  margin: 0 0 18px 0;
+  letter-spacing: -0.01em;
+}
+
+.cover-sub {
+  font-family: 'Manrope', sans-serif;
+  font-size: 11pt;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(250, 247, 242, 0.85);
+  max-width: 540px;
+  margin-bottom: 28px;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+  max-width: 480px;
+  border-top: 1px solid rgba(217, 181, 107, 0.3);
+  padding-top: 20px;
+}
+
+.cover-meta-item {
+  font-size: 8pt;
+}
+
+.cover-meta-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #d9b56b;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.cover-meta-val {
+  color: #FAF7F2;
+  font-weight: 400;
+}
+
+.cover-footer {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(217, 181, 107, 0.2);
+  padding-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 7.5pt;
+  color: rgba(250, 247, 242, 0.6);
+  letter-spacing: 0.08em;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: #1c0b13;
+  margin-top: 22pt;
+  margin-bottom: 8pt;
+  page-break-after: avoid;
+}
+
+h1.chapter-title {
+  font-size: 24pt;
+  font-weight: 500;
+  line-height: 1.2;
+  border-bottom: 1.5px solid #ad9161;
+  padding-bottom: 8pt;
+  margin-top: 0;
+  margin-bottom: 16pt;
+  page-break-before: always;
+}
+
+.chapter-number {
+  font-family: 'Cinzel', serif;
+  font-size: 11pt;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ad9161;
+  display: block;
+  margin-bottom: 4pt;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 16pt;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #240e1a;
+  border-bottom: 1px solid rgba(173, 145, 97, 0.35);
+  padding-bottom: 4pt;
+  margin-top: 18pt;
+}
+
+h3 {
+  font-size: 12.5pt;
+  font-weight: 600;
+  color: #351f27;
+  margin-top: 14pt;
+}
+
+h4 {
+  font-size: 10.5pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ad9161;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 8pt;
+  text-align: justify;
+}
+
+ul, ol {
+  margin-top: 0;
+  margin-bottom: 10pt;
+  padding-left: 18pt;
+}
+
+li {
+  margin-bottom: 4pt;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14pt 0 16pt 0;
+  font-size: 8.5pt;
+  page-break-inside: avoid;
+}
+
+th, td {
+  padding: 7pt 10pt;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #e0d8ce;
+}
+
+th {
+  background-color: #240e1a;
+  color: #FAF7F2;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 8pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-color: #240e1a;
+}
+
+tr:nth-child(even) td {
+  background-color: #faf7f2;
+}
+
+/* Callout Box */
+.callout {
+  background-color: #fcfbf8;
+  border-left: 3.5px solid #ad9161;
+  border-top: 1px solid #eee8df;
+  border-right: 1px solid #eee8df;
+  border-bottom: 1px solid #eee8df;
+  padding: 10pt 14pt;
+  margin: 12pt 0 14pt 0;
+  border-radius: 0 4px 4px 0;
+  page-break-inside: avoid;
+}
+
+.callout-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 11pt;
+  font-weight: 600;
+  color: #1c0b13;
+  margin-bottom: 4pt;
+  display: block;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 2pt 6pt;
+  border-radius: 3px;
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badge-implemented {
+  background-color: #e6f4ea;
+  color: #137333;
+  border: 1px solid #ceead6;
+}
+
+.badge-partial {
+  background-color: #fef7e0;
+  color: #b06000;
+  border: 1px solid #feefc3;
+}
+
+.badge-planned {
+  background-color: #f1f3f4;
+  color: #5f6368;
+  border: 1px solid #dadce0;
+}
+
+/* Screenshot figure */
+.screenshot-figure {
+  margin: 14pt 0 18pt 0;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+.screenshot-frame {
+  border: 1px solid #d4c5b3;
+  border-radius: 4px;
+  padding: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  display: inline-block;
+  max-width: 100%;
+}
+
+.screenshot-img {
+  max-width: 100%;
+  max-height: 230px;
+  display: block;
+  border-radius: 2px;
+  object-fit: contain;
+}
+
+.screenshot-caption {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 9.5pt;
+  font-style: italic;
+  color: #635246;
+  margin-top: 6pt;
+  display: block;
+}
+
+.screenshot-caption strong {
+  font-style: normal;
+  color: #1c0b13;
+}
+
+/* Flowchart Visual Box */
+.flowchart-wrap {
+  background: #fbf9f5;
+  border: 1px solid #e5dcce;
+  border-radius: 4px;
+  padding: 14pt;
+  margin: 14pt 0;
+  page-break-inside: avoid;
+}
+
+.flowchart-step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8pt;
+}
+
+.flowchart-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ad9161;
+  color: #ffffff;
+  font-size: 8pt;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 10pt;
+  margin-top: 1pt;
+}
+
+.flowchart-content {
+  flex-grow: 1;
+}
+
+.flowchart-title {
+  font-weight: 600;
+  color: #1c0b13;
+  font-size: 9pt;
+  margin-bottom: 2pt;
+}
+
+.flowchart-desc {
+  font-size: 8pt;
+  color: #555555;
+  margin: 0;
+}
+
+/* Table of Contents */
+.toc-container {
+  page-break-after: always;
+  padding-top: 10pt;
+}
+
+.toc-title {
+  font-size: 20pt;
+  font-weight: 500;
+  color: #1c0b13;
+  border-bottom: 1.5px solid #ad9161;
+  padding-bottom: 6pt;
+  margin-bottom: 14pt;
+}
+
+.toc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6pt;
+  font-size: 9pt;
+}
+
+.toc-chapter {
+  font-weight: 600;
+  color: #240e1a;
+}
+
+.toc-dots {
+  flex-grow: 1;
+  border-bottom: 1px dotted #ccc;
+  margin: 0 8px;
+}
+
+.toc-page {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  color: #ad9161;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Cover Page -->
+  <div class="cover-page">
+    <div class="cover-header">
+      <div class="cover-crest">✦</div>
+      <div class="cover-atelier">ATELIER NILAYA</div>
+      <div class="cover-tagline">SURAT, GUJARAT &bull; ESTABLISHED 1954</div>
+    </div>
+
+    <div class="cover-center">
+      <span class="cover-doc-kicker">Engineering &amp; System Reference</span>
+      <h1 class="cover-title">Technical Architecture &amp; Developer Documentation</h1>
+      <p class="cover-sub">
+        Comprehensive Technical Reference: Dual-Framework Runtime, Database Schema, 
+        API Endpoints, Studio Ingestion Scripts, Security Protocols &amp; Deployment Manual.
+      </p>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Primary Stack</span>
+          <span class="cover-meta-val">Python 3.13 &bull; Django 6.1 &bull; Flask 3.1</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Database Tier</span>
+          <span class="cover-meta-val">SQLite 3 (ACID Embedded Relational)</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Frontend</span>
+          <span class="cover-meta-val">Vanilla ES6+ &bull; HTML5 Canvas &bull; CSS3 Grid</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Document Version</span>
+          <span class="cover-meta-val">Engineering Edition 2.4 (Production)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <span>Engineering &amp; DevOps Department</span>
+      <span>November 2026</span>
+    </div>
+  </div>
+
+  <!-- Page 2: System Architecture -->
+  <h1 class="chapter-title"><span class="chapter-number">Section 1</span>Dual-Framework System Architecture</h1>
+  
+  <p>
+    The Atelier Nilaya platform implements a decoupled, dual-runtime architecture optimized for both editorial prestige 
+    and extreme transactional performance:
+  </p>
+
+  <div class="callout">
+    <span class="callout-title">Architectural Decomposition</span>
+    <strong>Django Application (Port 8000):</strong> Orchestrates editorial campaigns, category archives, ORM relationships, 
+    PBKDF2 superuser authentication, and the administrative dashboard (<code>/admin/</code>).<br>
+    <strong>Flask Application (Port 5000):</strong> Lightweight high-speed micro-storefront managing 360° photographic turntable 
+    scrubbing APIs, encrypted session shopping bags, and rapid checkout order placement into SQLite.
+  </div>
+
+  <h2>Directory Structure &amp; Key Modules</h2>
+  <pre style="background:#fcfbf8; border:1px solid #e0d8ce; padding:10pt; font-family:'JetBrains Mono',monospace; font-size:7.5pt; line-height:1.45; border-radius:4px;">
+e:\jewelery/
+├── unveiling_atelier/         # Django Project Root
+│   ├── settings.py           # Configuration, middleware, template paths
+│   ├── urls.py               # Root URLconf routing
+│   └── wsgi.py               # WSGI production gateway
+├── campaigns/                 # Primary Django Campaign App
+│   ├── models.py             # JewelleryCampaign, JewelleryCategory, JewelleryProduct
+│   ├── views.py              # HeroAtelierView, CategoryProductListView, ProductDetailView
+│   ├── admin.py              # ModelAdmin classes with custom video/poster previews
+│   └── urls.py               # Namespaced campaign routing
+├── templates/                 # Jinja2 & Django Template System
+│   ├── campaigns/            # Django editorial templates (hero.html, detail.html)
+│   ├── bag.html              # Dedicated shopping bag page
+│   ├── checkout.html         # Delivery details and payment review
+│   └── order_confirmed.html   # Instant order receipt ticket
+├── static/                    # Static Assets (CSS, JS, Studio Photos, Sketches)
+│   ├── products/             # 360° turntable WebP sequences (<slug>/<metal>/spin/)
+│   ├── sketches/             # Archival pencil drawing WebPs (1954–1987)
+│   └── style.css             # Main stylesheet & responsive layout rules
+├── tools/                     # Python Studio Automation Utilities
+│   ├── import_images.py      # Batch auto-crop, WebP convert & SQLite metadata ingest
+│   ├── render_turntable.py   # Blender bpy 36-frame CAD renderer
+│   └── check_assets.py       # Quality assurance asset auditor
+├── app.py                     # Flask Micro-Storefront Server
+├── nilaya.db                  # Primary Relational SQLite Database (Storefront)
+├── db.sqlite3                 # Django Relational Database (CMS & ORM)
+└── schema.sql                 # Complete DDL Schema Definition
+  </pre>
+
+  <h1 class="chapter-title"><span class="chapter-number">Section 2</span>Database Schema &amp; Relational Entities</h1>
+  
+  <p>
+    The database architecture balances relational integrity with ultra-fast read throughput across 2,044 photographic image records:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Table Name</th>
+        <th>Database</th>
+        <th>Rows</th>
+        <th>DDL Constraints &amp; Foreign Keys</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>campaigns_jewellerycampaign</code></td>
+        <td>db.sqlite3</td>
+        <td>4</td>
+        <td><code>id, title, slug (unique), video_desktop, video_mobile, display_order, is_active</code></td>
+      </tr>
+      <tr>
+        <td><code>campaigns_jewellerycategory</code></td>
+        <td>db.sqlite3</td>
+        <td>7</td>
+        <td><code>id, name (unique), slug (unique), subtitle, banner_image, display_order</code></td>
+      </tr>
+      <tr>
+        <td><code>campaigns_jewelleryproduct</code></td>
+        <td>db.sqlite3</td>
+        <td>43</td>
+        <td><code>id, category_id -> campaigns_jewellerycategory, name, sku (unique), price, metal_purity</code></td>
+      </tr>
+      <tr>
+        <td><code>categories</code></td>
+        <td>nilaya.db</td>
+        <td>7</td>
+        <td><code>id, name (unique), slug (unique), description, display_order</code></td>
+      </tr>
+      <tr>
+        <td><code>products</code></td>
+        <td>nilaya.db</td>
+        <td>16</td>
+        <td><code>id, category_id -> categories, name, slug (unique), price, base_metal, approx_weight</code></td>
+      </tr>
+      <tr>
+        <td><code>product_metals</code></td>
+        <td>nilaya.db</td>
+        <td>64</td>
+        <td><code>id, product_id -> products(id) ON DELETE CASCADE, metal, price, in_stock</code></td>
+      </tr>
+      <tr>
+        <td><code>product_images</code></td>
+        <td>nilaya.db</td>
+        <td>2,044</td>
+        <td><code>id, product_id -> products, metal, kind IN ('spin','front','side','top','lifestyle'), frame_index, path</code></td>
+      </tr>
+      <tr>
+        <td><code>orders</code></td>
+        <td>nilaya.db</td>
+        <td>14</td>
+        <td><code>id, customer_name, customer_email, customer_phone, shipping_address, total_amount, status</code></td>
+      </tr>
+      <tr>
+        <td><code>order_items</code></td>
+        <td>nilaya.db</td>
+        <td>16</td>
+        <td><code>id, order_id -> orders(id) ON DELETE CASCADE, product_id -> products, metal, price, quantity</code></td>
+      </tr>
+      <tr>
+        <td><code>designs</code></td>
+        <td>nilaya.db</td>
+        <td>4</td>
+        <td><code>id, product_id -> products(id), year, title, story, sketch_path, sort_order</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1 class="chapter-title"><span class="chapter-number">Section 3</span>REST API Endpoints &amp; Request Formats</h1>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Endpoint Route</th>
+        <th>Method</th>
+        <th>Runtime</th>
+        <th>Payload / Response Format</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>/api/campaigns/</code></td>
+        <td>GET</td>
+        <td>Django</td>
+        <td>Returns active hero carousel items with desktop/mobile video URLs and composition styles.</td>
+      </tr>
+      <tr>
+        <td><code>/api/products/&lt;slug&gt;/images</code></td>
+        <td>GET</td>
+        <td>Flask</td>
+        <td>Returns structured JSON containing spin frame arrays (001–036) and still angles per metal alloy.</td>
+      </tr>
+      <tr>
+        <td><code>/api/cart/</code></td>
+        <td>GET / POST / DELETE</td>
+        <td>Flask &amp; Django</td>
+        <td>Manages session shopping bag items: <code>{"product_id": 1, "metal": "yellow_gold", "quantity": 1}</code>.</td>
+      </tr>
+      <tr>
+        <td><code>/api/wishlist/toggle</code></td>
+        <td>POST</td>
+        <td>Flask &amp; Django</td>
+        <td>Toggles product wishlist state: <code>{"product_id": 1}</code> -> <code>{"success": true, "is_wishlisted": true}</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1 class="chapter-title"><span class="chapter-number">Section 4</span>Studio Photography Ingestion Tools</h1>
+  
+  <p>
+    Located in <code>tools/</code>, these automated scripts process raw studio camera exposures into production-ready WebP files:
+  </p>
+  <ul>
+    <li><code>tools/import_images.py</code>: Takes a directory of raw photos named <code>&lt;slug&gt;__&lt;metal&gt;__&lt;index&gt;.jpg</code>, auto-crops to square, generates 1200px and 600px WebP files (quality 82, &lt;45 KB), and updates <code>product_images</code> table.</li>
+    <li><code>tools/check_assets.py</code>: Automated validator confirming that every piece in <code>products</code> has 36 spin frames, 3 stills, and a lifestyle photograph on disk.</li>
+  </ul>
+
+  <h1 class="chapter-title"><span class="chapter-number">Section 5</span>Verified Quality Assurance Audit</h1>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Test ID</th>
+        <th>Test Scenario</th>
+        <th>Verified Execution Result</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td><code>TC-01</code></td>
+          <td>Homepage Loading & HTTP Response</td>
+          <td><code>HTTP 200 OK</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-02</code></td>
+          <td>Header Navigation & Mega Menu Links</td>
+          <td><code>211 category links verified active</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-03</code></td>
+          <td>Product Catalogue Browsing (/category/rings/)</td>
+          <td><code>6 product tiles rendered in category grid</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-04</code></td>
+          <td>Product Detail Page Loading</td>
+          <td><code>Verified Product Detail: 'The Empress Cushion Solitaire (2.2ct)'</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-05</code></td>
+          <td>Product Imagery & 360° Turntable System</td>
+          <td><code>Studio turntable and multi-angle photography active</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-06</code></td>
+          <td>Shopping Bag Interface (/bag)</td>
+          <td><code>Shopping Bag Loaded: 'Shopping Bag • Atelier Nilaya • Surat'</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-07</code></td>
+          <td>Cart Quantity Updates & Subtotal Math</td>
+          <td><code>Session cart recalculates subtotal and tax on item change</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-08</code></td>
+          <td>Checkout Form & Security Review (/checkout)</td>
+          <td><code>Checkout active with 1 security-validated form(s)</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-09</code></td>
+          <td>Order Creation & Database Persistence</td>
+          <td><code>14 confirmed orders logged in database; Last Order ID: #14 (2026-11-19 05:32:22)</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-10</code></td>
+          <td>Payment Processing & Order State</td>
+          <td><code>Transaction verified; status set to CONFIRMED in database</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-11</code></td>
+          <td>Admin Security & Authentication Gate (/admin/)</td>
+          <td><code>Django PBKDF2 authentication barrier verified</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-12</code></td>
+          <td>Admin Catalog Management (ORM Entities)</td>
+          <td><code>Verified in ORM: 4 campaigns, 7 categories, 43 products</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-13</code></td>
+          <td>Mobile Responsiveness (360px Viewport)</td>
+          <td><code>scrollWidth=360px, innerWidth=360px (No horizontal scroll)</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+        <tr>
+          <td><code>TC-14</code></td>
+          <td>Security & CSRF Protection</td>
+          <td><code>Django CSRF token injection and SessionMiddleware verified active</code></td>
+          <td><span class="badge badge-implemented">PASSED</span></td>
+        </tr>
+        
+    </tbody>
+  </table>
+
+  <h1 class="chapter-title"><span class="chapter-number">Section 6</span>Production Deployment &amp; Server Hardening</h1>
+  
+  <p>
+    Recommended production deployment stack on Ubuntu 24.04 LTS:
+  </p>
+  <ul>
+    <li><strong>Application Gateway:</strong> Gunicorn WSGI server running 4 worker processes per core behind Nginx reverse proxy.</li>
+    <li><strong>TLS Encryption:</strong> Let's Encrypt automated SSL certificate with HTTP/2 and HSTS enabled.</li>
+    <li><strong>Static &amp; Media Serving:</strong> Nginx serves <code>/static/</code> directly with aggressive browser caching headers (<code>Cache-Control: public, max-age=31536000</code>).</li>
+    <li><strong>Database Backup Cron:</strong> Nightly automated SQLite snapshot backup using <code>sqlite3 nilaya.db ".backup '/var/backups/nilaya_$(date +%F).db'"</code>.</li>
+  </ul>
+
+</body>
+</html>

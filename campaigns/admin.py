@@ -139,10 +139,10 @@ class JewelleryCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(JewelleryProduct)
 class JewelleryProductAdmin(admin.ModelAdmin):
-    list_display = ('image_thumb', 'name', 'category', 'sku', 'formatted_price', 'metal_purity', 'is_featured', 'is_in_stock')
+    list_display = ('image_thumb', 'name', 'category', 'subcategory', 'sku', 'formatted_price', 'metal_purity', 'is_featured', 'is_in_stock')
     list_display_links = ('name',)
-    list_filter = ('category', 'metal_purity', 'is_featured', 'is_bestseller', 'is_in_stock')
-    search_fields = ('name', 'sku', 'eyebrow', 'description', 'gemstone_details')
+    list_filter = ('category', 'subcategory', 'metal_purity', 'is_featured', 'is_bestseller', 'is_in_stock')
+    search_fields = ('name', 'sku', 'subcategory', 'tags', 'eyebrow', 'description', 'gemstone_details')
     list_editable = ('is_featured', 'is_in_stock')
     prepopulated_fields = {'slug': ('name',)}
 

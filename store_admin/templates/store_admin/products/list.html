@@ -1,0 +1,170 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Vault Catalog & Products &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <h1 class="admin-page-title">Vault Products & Inventory</h1>
+    <p class="admin-page-subtitle">Manage handcrafted jewellery pieces, metal purities, pricing, stock, and photography.</p>
+  </div>
+  <div class="admin-page-actions">
+    <a href="{% url 'store_admin:product_export_csv' %}" class="admin-btn admin-btn-outline" title="Export vault catalog to CSV">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </a>
+    <a href="{% url 'store_admin:product_create' %}" class="admin-btn admin-btn-primary">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Vault Piece
+    </a>
+  </div>
+</div>
+
+<!-- Filters Bar -->
+<div class="admin-card mb-4" style="padding: 16px 20px;">
+  <form method="GET" action="{% url 'store_admin:product_list' %}" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+    <div style="flex: 1; min-width: 240px; position: relative;">
+      <input type="text" name="q" value="{{ search_q }}" placeholder="Search by name, SKU, metal purity..." class="admin-input" style="padding-left: 36px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 12px; top: 12px; color: var(--color-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+
+    <select name="category" class="admin-input" style="width: auto; min-width: 160px;">
+      <option value="">All Categories</option>
+      {% for cat in categories %}
+      <option value="{{ cat.slug }}" {% if selected_cat == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="stock" class="admin-input" style="width: auto; min-width: 140px;">
+      <option value="">All Stock Levels</option>
+      <option value="in_stock" {% if selected_stock == 'in_stock' %}selected{% endif %}>In Stock</option>
+      <option value="low_stock" {% if selected_stock == 'low_stock' %}selected{% endif %}>Low Stock (&le; 3)</option>
+      <option value="out_of_stock" {% if selected_stock == 'out_of_stock' %}selected{% endif %}>Out of Stock</option>
+    </select>
+
+    <select name="sort" class="admin-input" style="width: auto; min-width: 140px;">
+      <option value="order" {% if selected_sort == 'order' %}selected{% endif %}>Default Order</option>
+      <option value="price_high" {% if selected_sort == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+      <option value="price_low" {% if selected_sort == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+      <option value="name" {% if selected_sort == 'name' %}selected{% endif %}>Name (A-Z)</option>
+    </select>
+
+    <button type="submit" class="admin-btn admin-btn-secondary">Filter</button>
+    {% if search_q or selected_cat or selected_stock or selected_sort != 'order' %}
+    <a href="{% url 'store_admin:product_list' %}" class="admin-btn admin-btn-outline" style="color: var(--color-muted);">Clear</a>
+    {% endif %}
+  </form>
+</div>
+
+<!-- Products Table -->
+<div class="admin-card" style="padding: 0; overflow: hidden;">
+  <div style="overflow-x: auto;">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th style="width: 70px;">Piece</th>
+          <th>Name & SKU</th>
+          <th>Category</th>
+          <th>Metal & Weight</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th style="text-align: right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+        <tr>
+          <td>
+            <div style="width: 52px; height: 52px; border-radius: 8px; overflow: hidden; background: #f0eae1; border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center;">
+              {% if p.image %}
+              <img src="{{ p.image.url }}" alt="{{ p.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+              {% elif p.front_image_url %}
+              <img src="{{ p.front_image_url }}" alt="{{ p.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+              {% else %}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--color-muted);"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              {% endif %}
+            </div>
+          </td>
+          <td>
+            <div style="font-weight: 600; color: var(--color-text);">{{ p.name }}</div>
+            <div style="font-size: 0.78rem; color: var(--color-muted); font-family: monospace;">SKU: {{ p.sku|default:"N/A" }}</div>
+            {% if p.is_featured %}<span class="admin-badge admin-badge-gold" style="font-size: 0.7rem; padding: 1px 6px;">Featured</span>{% endif %}
+            {% if p.is_bestseller %}<span class="admin-badge admin-badge-wine" style="font-size: 0.7rem; padding: 1px 6px;">Bestseller</span>{% endif %}
+          </td>
+          <td>
+            <span style="font-size: 0.85rem; color: var(--color-text);">{{ p.category.name|default:"Unassigned" }}</span>
+          </td>
+          <td>
+            <div style="font-size: 0.82rem; font-weight: 500;">{{ p.metal_purity|default:"22K Gold" }}</div>
+            <div style="font-size: 0.75rem; color: var(--color-muted);">{{ p.gold_weight_grams|default:"-" }} g</div>
+          </td>
+          <td>
+            <div style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 600; color: var(--color-text);">₹{{ p.price|floatformat:0 }}</div>
+            {% if p.discount_percent %}
+            <div style="font-size: 0.72rem; color: #166534;">-{{ p.discount_percent }}% OFF</div>
+            {% endif %}
+          </td>
+          <td>
+            {% if p.stock_quantity <= 0 or not p.is_in_stock %}
+            <span class="admin-badge admin-badge-red">Out of Stock</span>
+            {% elif p.stock_quantity <= 3 %}
+            <span class="admin-badge admin-badge-amber">Low ({{ p.stock_quantity }})</span>
+            {% else %}
+            <span class="admin-badge admin-badge-green">{{ p.stock_quantity }} Available</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if p.is_in_stock %}
+            <span class="admin-badge admin-badge-green">Active</span>
+            {% else %}
+            <span class="admin-badge admin-badge-muted">Draft</span>
+            {% endif %}
+          </td>
+          <td style="text-align: right;">
+            <div style="display: inline-flex; gap: 6px;">
+              <a href="{% url 'campaigns:product_detail_slug' slug=p.slug %}" target="_blank" class="admin-btn admin-btn-outline" style="padding: 4px 8px; font-size: 0.78rem;" title="View on storefront">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+              <a href="{% url 'store_admin:product_edit' product_id=p.id %}" class="admin-btn admin-btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;">Edit</a>
+              <a href="{% url 'store_admin:product_duplicate' product_id=p.id %}" class="admin-btn admin-btn-outline" style="padding: 4px 8px; font-size: 0.78rem;" title="Duplicate Piece">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </a>
+              <form method="POST" action="{% url 'store_admin:product_delete' product_id=p.id %}" style="display:inline;" onsubmit="return confirm('Move {{ p.name }} to 30-day trash?');">
+                {% csrf_token %}
+                <button type="submit" class="admin-btn admin-btn-outline" style="padding: 4px 8px; font-size: 0.78rem; color: #b91c1c;" title="Move to Trash">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" style="text-align: center; padding: 48px 16px; color: var(--color-muted);">
+            <div style="font-size: 1.1rem; font-weight: 500; margin-bottom: 6px;">No vault pieces match your criteria</div>
+            <div style="font-size: 0.85rem;">Try adjusting your search query or category filters.</div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if products.has_other_pages %}
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-top: 1px solid var(--color-border); font-size: 0.85rem;">
+    <span style="color: var(--color-muted);">Showing page {{ products.number }} of {{ products.paginator.num_pages }} ({{ total_count }} total pieces)</span>
+    <div style="display: flex; gap: 6px;">
+      {% if products.has_previous %}
+      <a href="?page={{ products.previous_page_number }}{% if search_q %}&q={{ search_q }}{% endif %}{% if selected_cat %}&category={{ selected_cat }}{% endif %}{% if selected_stock %}&stock={{ selected_stock }}{% endif %}{% if selected_sort %}&sort={{ selected_sort }}{% endif %}" class="admin-btn admin-btn-outline" style="padding: 4px 10px;">&larr; Previous</a>
+      {% endif %}
+      {% if products.has_next %}
+      <a href="?page={{ products.next_page_number }}{% if search_q %}&q={{ search_q }}{% endif %}{% if selected_cat %}&category={{ selected_cat }}{% endif %}{% if selected_stock %}&stock={{ selected_stock }}{% endif %}{% if selected_sort %}&sort={{ selected_sort }}{% endif %}" class="admin-btn admin-btn-outline" style="padding: 4px 10px;">Next &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

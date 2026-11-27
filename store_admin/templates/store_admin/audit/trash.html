@@ -1,0 +1,58 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}30-Day Trash Bin &bull; {{ store_settings.store_name }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-text">
+    <div style="font-size: 0.85rem; margin-bottom: 4px;">
+      <a href="{% url 'store_admin:audit_log' %}" style="color: var(--color-muted); text-decoration: none;">&larr; Back to Audit Trail</a>
+    </div>
+    <h1 class="admin-page-title">30-Day Trash Retention Bin</h1>
+    <p class="admin-page-subtitle">Safely restore accidentally removed products or purge them permanently.</p>
+  </div>
+</div>
+
+<div class="admin-card" style="padding: 0; overflow: hidden;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Original Type</th>
+        <th>Deleted Date</th>
+        <th>Auto Purge Date</th>
+        <th style="text-align: right;">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for itm in items %}
+      <tr>
+        <td><strong>{{ itm.object_repr }}</strong></td>
+        <td><span style="font-size: 0.82rem; color: var(--color-muted);">{{ itm.model_name }}</span></td>
+        <td style="font-size: 0.82rem; color: var(--color-muted);">{{ itm.deleted_at|date:"d M Y, h:i A" }}</td>
+        <td style="font-size: 0.82rem; color: #b91c1c;">{{ itm.purge_at|date:"d M Y" }}</td>
+        <td style="text-align: right;">
+          <form method="POST" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="restore">
+            <input type="hidden" name="trash_id" value="{{ itm.id }}">
+            <button type="submit" class="admin-btn admin-btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;">Restore</button>
+          </form>
+          <form method="POST" style="display: inline;" onsubmit="return confirm('Permanently purge {{ itm.object_repr }}? This cannot be undone.');">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="purge">
+            <input type="hidden" name="trash_id" value="{{ itm.id }}">
+            <button type="submit" class="admin-btn admin-btn-outline" style="padding: 4px 10px; font-size: 0.78rem; color: #b91c1c;">Purge</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 40px; color: var(--color-muted);">Trash bin is currently empty. No pending deletions.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,268 @@
+{% extends 'store_admin/base.html' %}
+{% load static %}
+
+{% block title %}Executive Overview &bull; Atelier Nilaya Admin{% endblock %}
+
+{% block content %}
+
+<!-- Page Title & Quick Actions -->
+<div class="admin-page-header">
+  <div>
+    <h1 class="admin-page-title">Executive Curation Overview</h1>
+    <p class="admin-page-sub">Live pulse of acquisitions, revenue metrics, Karigar bench orders, and vault inventory.</p>
+  </div>
+  <div style="display: flex; gap: 10px;">
+    <a href="{% url 'store_admin:product_create' %}" class="btn-primary">
+      <span>+ Add Vault Piece</span>
+    </a>
+  </div>
+</div>
+
+<!-- ========================================================================
+     1. GUIDED SETUP CHECKLIST (First Login / Store Completion)
+     ======================================================================== -->
+{% if checklist_progress < 100 %}
+<div class="admin-card" style="border-left: 4px solid var(--adm-gold); margin-bottom: 24px; padding: 20px 24px;">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+    <div>
+      <h3 style="font-size: 1rem; font-weight: 600; color: var(--adm-text);">Guided Store Readiness &bull; {{ checklist_progress }}% Completed</h3>
+      <p style="font-size: 0.78rem; color: var(--adm-text-muted);">Complete these steps to finish setting up your sovereign store controls.</p>
+    </div>
+    <span style="font-size: 0.78rem; font-weight: 700; color: var(--adm-wine);">{{ checklist_progress }}% READY</span>
+  </div>
+  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+    {% for item in setup_checklist %}
+    <a href="{{ item.url }}" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-decoration: none; border: 1px solid var(--adm-border); {% if item.done %}background: var(--adm-success-bg); color: var(--adm-success); border-color: rgba(30,107,71,0.2);{% else %}background: #FFFFFF; color: var(--adm-text);{% endif %}">
+      <span>{% if item.done %}✓{% else %}○{% endif %}</span>
+      <span>{{ item.title }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- ========================================================================
+     2. PRIMARY METRICS (TOTAL SALES, TODAY'S SALES, ORDERS, IN-STOCK)
+     ======================================================================== -->
+<div class="admin-stats-grid">
+  <!-- 1. Total Revenue -->
+  <div class="admin-stat-card">
+    <div class="admin-stat-header">
+      <span class="admin-stat-label">Total Revenue</span>
+      <div class="admin-stat-icon">₹</div>
+    </div>
+    <div class="admin-stat-value">{{ total_sales_inr }}</div>
+    <div class="admin-stat-note">Lifetime verified sales across India</div>
+  </div>
+
+  <!-- 2. Today's Revenue -->
+  <div class="admin-stat-card">
+    <div class="admin-stat-header">
+      <span class="admin-stat-label">Today's Sales</span>
+      <div class="admin-stat-icon">★</div>
+    </div>
+    <div class="admin-stat-value">{{ today_sales_inr }}</div>
+    <div class="admin-stat-note">Bookings confirmed today</div>
+  </div>
+
+  <!-- 3. Total Orders -->
+  <div class="admin-stat-card">
+    <div class="admin-stat-header">
+      <span class="admin-stat-label">Total Orders</span>
+      <div class="admin-stat-icon">📦</div>
+    </div>
+    <div class="admin-stat-value">{{ total_orders_count }}</div>
+    <div class="admin-stat-note">
+      <span style="color: var(--adm-warning); font-weight: 600;">{{ pending_orders_count }} pending</span> &bull; 
+      <span style="color: var(--adm-success); font-weight: 600;">{{ delivered_orders_count }} delivered</span>
+    </div>
+  </div>
+
+  <!-- 4. Vault Products -->
+  <div class="admin-stat-card">
+    <div class="admin-stat-header">
+      <span class="admin-stat-label">Vault Pieces</span>
+      <div class="admin-stat-icon">💎</div>
+    </div>
+    <div class="admin-stat-value">{{ in_stock_products }} <span style="font-size: 1rem; color: var(--adm-text-muted); font-weight: 400;">/ {{ total_products }}</span></div>
+    <div class="admin-stat-note">
+      {% if low_stock_count > 0 %}
+        <span style="color: var(--adm-danger); font-weight: 600;">⚠️ {{ low_stock_count }} pieces in low stock</span>
+      {% else %}
+        <span style="color: var(--adm-success);">All vault inventory healthy</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================
+     3. REVENUE TREND CHART (LAST 7 DAYS)
+     ======================================================================== -->
+<div class="admin-card">
+  <div class="admin-card-header">
+    <div>
+      <h2 class="admin-card-title">Acquisition Revenue Trend (Last 7 Days)</h2>
+      <p style="font-size: 0.78rem; color: var(--adm-text-muted); margin-top: 2px;">Daily gross booking volumes in Indian Rupees (₹).</p>
+    </div>
+  </div>
+  <div style="padding: 24px;">
+    <canvas id="revenueChart" style="width: 100%; height: 220px;"></canvas>
+  </div>
+</div>
+
+<!-- ========================================================================
+     4. RECENT ORDERS & RECENT AUDIT TRAIL
+     ======================================================================== -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;" class="admin-dual-grid">
+  
+  <!-- Left: Recent Orders -->
+  <div class="admin-card" style="margin-bottom: 0;">
+    <div class="admin-card-header">
+      <h2 class="admin-card-title">Recent Acquisitions</h2>
+      <a href="{% url 'store_admin:order_list' %}" style="font-size: 0.78rem; font-weight: 600; color: var(--adm-wine); text-decoration: none;">View All Orders &rarr;</a>
+    </div>
+    <div class="admin-table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Order Ref</th>
+            <th>Patron</th>
+            <th>Status</th>
+            <th>Total Amount</th>
+            <th>Placed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in recent_orders %}
+          <tr>
+            <td>
+              <a href="{% url 'store_admin:order_detail' order.order_number %}" style="font-weight: 600; color: var(--adm-wine); text-decoration: none;">
+                {{ order.order_number }}
+              </a>
+            </td>
+            <td>
+              <div style="font-weight: 600;">{{ order.customer_name }}</div>
+              <div style="font-size: 0.74rem; color: var(--adm-text-muted);">{{ order.customer_phone }}</div>
+            </td>
+            <td>
+              <span class="badge badge-{{ order.status }}">{{ order.get_status_display }}</span>
+            </td>
+            <td style="font-weight: 600;">
+              ₹{{ order.total_amount|floatformat:0 }}
+            </td>
+            <td style="font-size: 0.78rem; color: var(--adm-text-muted);">
+              {{ order.created_at|date:"d M, H:i" }}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 36px; color: var(--adm-text-muted);">
+              No customer acquisitions recorded yet. New store orders will appear here automatically.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Right: Recent Audit Activity -->
+  <div class="admin-card" style="margin-bottom: 0;">
+    <div class="admin-card-header">
+      <h2 class="admin-card-title">System Audit Log</h2>
+      <a href="{% url 'store_admin:audit_log' %}" style="font-size: 0.78rem; font-weight: 600; color: var(--adm-wine); text-decoration: none;">Full Audit &rarr;</a>
+    </div>
+    <div style="padding: 16px 20px;">
+      {% for log in recent_audit %}
+      <div style="padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--adm-border);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
+          <strong style="font-size: 0.82rem; color: var(--adm-text);">{{ log.object_repr|truncatechars:24 }}</strong>
+          <span style="font-size: 0.68rem; color: var(--adm-text-muted);">{{ log.created_at|timesince }} ago</span>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--adm-text-muted);">{{ log.changes_summary|default:log.get_action_display }}</div>
+        <div style="font-size: 0.68rem; color: var(--adm-wine); font-weight: 600;">{{ log.user_email }}</div>
+      </div>
+      {% empty %}
+      <p style="text-align: center; padding: 24px; color: var(--adm-text-muted); font-size: 0.82rem;">No system changes recorded yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Lightweight Revenue Trend Chart using HTML5 Canvas (Zero External Dependencies)
+document.addEventListener('DOMContentLoaded', function() {
+  const canvas = document.getElementById('revenueChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  // Set real pixel resolution
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * window.devicePixelRatio;
+  canvas.height = 220 * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+  const labels = {{ chart_labels_json|safe }};
+  const data = {{ chart_revenue_json|safe }};
+
+  const w = rect.width;
+  const h = 220;
+  const padLeft = 40;
+  const padRight = 20;
+  const padTop = 20;
+  const padBottom = 35;
+
+  const maxVal = Math.max(...data, 100000);
+  const chartW = w - padLeft - padRight;
+  const chartH = h - padTop - padBottom;
+
+  // Grid lines
+  ctx.strokeStyle = '#F0EAE1';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padTop + (chartH / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(padLeft, y);
+    ctx.lineTo(w - padRight, y);
+    ctx.stroke();
+  }
+
+  // Draw Line
+  const step = chartW / (data.length - 1 || 1);
+  ctx.beginPath();
+  ctx.strokeStyle = '#642D3B';
+  ctx.lineWidth = 3;
+  ctx.lineJoin = 'round';
+
+  data.forEach((val, idx) => {
+    const x = padLeft + idx * step;
+    const y = padTop + chartH - (val / maxVal) * chartH;
+    if (idx === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Draw Points & Labels
+  data.forEach((val, idx) => {
+    const x = padLeft + idx * step;
+    const y = padTop + chartH - (val / maxVal) * chartH;
+    
+    // Dot
+    ctx.fillStyle = '#B8893B';
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Text Label X
+    ctx.fillStyle = '#705953';
+    ctx.font = '10px Montserrat, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(labels[idx], x, h - 10);
+  });
+});
+</script>
+{% endblock %}
