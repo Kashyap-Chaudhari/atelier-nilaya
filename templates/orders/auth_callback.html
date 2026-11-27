@@ -1,0 +1,127 @@
+{% extends 'campaigns/base.html' %}
+{% load static %}
+
+{% block title %}Authenticating Sovereign Patron &bull; Atelier Nilaya{% endblock %}
+
+{% block content %}
+<div class="auth-callback-wrapper" style="min-height: 75vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; background: #FAF7F2;">
+  <div class="auth-callback-card" style="max-width: 480px; width: 100%; background: #FFFFFF; border: 1px solid rgba(100, 45, 59, 0.16); border-radius: 12px; padding: 40px 32px; text-align: center; box-shadow: 0 12px 40px rgba(100, 45, 59, 0.08);">
+    
+    <!-- Animated Jewel Monogram -->
+    <div class="callback-gem-spinner" style="width: 56px; height: 56px; margin: 0 auto 24px; border: 2px solid rgba(184, 137, 59, 0.25); border-top-color: #642D3B; border-radius: 50%; animation: spinGem 0.9s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;"></div>
+    
+    <span style="display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #B8893B; margin-bottom: 8px;">SOVEREIGN PATRON PORTAL</span>
+    <h1 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.85rem; font-weight: 500; color: #351F27; margin: 0 0 12px;" id="callback-status-title">Securing Patron Authorization</h1>
+    <p style="font-size: 0.9rem; color: #6B555D; line-height: 1.6; margin: 0 0 24px;" id="callback-status-desc">Synchronizing your verified identity with the Atelier Nilaya vault registry...</p>
+
+    <div id="callback-error-box" style="display: none; background: #FEF2F2; border: 1px solid rgba(185, 28, 28, 0.2); border-radius: 8px; padding: 14px 18px; color: #B91C1C; font-size: 0.86rem; text-align: left; margin-bottom: 20px;">
+      <strong style="display: block; margin-bottom: 4px;">Authentication Notice:</strong>
+      <span id="callback-error-text">Unable to exchange authorization code.</span>
+    </div>
+
+    <a href="/checkout/" id="btn-return-checkout" style="display: none; display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 20px; background: #642D3B; color: #FFFFFF; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.88rem; letter-spacing: 0.04em;">
+      Return to Checkout
+    </a>
+  </div>
+</div>
+
+<style>
+@keyframes spinGem {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+<!-- Supabase JS Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+  const supabaseUrl = "{{ supabase_url|default:'https://rkjkxlvlfckdorfqwqic.supabase.co' }}";
+  const supabaseAnonKey = "{{ supabase_anon_key|default:'' }}";
+  const targetNext = "{{ next_url|default:'/checkout/?step=2' }}";
+
+  const statusTitle = document.getElementById('callback-status-title');
+  const statusDesc = document.getElementById('callback-status-desc');
+  const errorBox = document.getElementById('callback-error-box');
+  const errorText = document.getElementById('callback-error-text');
+  const returnBtn = document.getElementById('btn-return-checkout');
+
+  function showError(msg) {
+    statusTitle.textContent = "Authorization Notice";
+    statusDesc.textContent = "Please review the authentication response below:";
+    errorText.textContent = msg || "An unexpected error occurred during identity exchange.";
+    errorBox.style.display = 'block';
+    returnBtn.style.display = 'inline-flex';
+  }
+
+  async function syncSessionWithDjango(email, name, supabaseId) {
+    try {
+      const res = await fetch('/orders/api/auth/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'supabase_sync',
+          email: email,
+          name: name,
+          supabase_id: supabaseId
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = targetNext;
+      } else {
+        showError(data.message || "Could not synchronize user session.");
+      }
+    } catch (e) {
+      // In case of network glitch, proceed to checkout
+      window.location.href = targetNext;
+    }
+  }
+
+  async function handleCallback() {
+    if (!supabaseAnonKey) {
+      // If anon key not set in environment yet, fallback cleanly
+      window.location.href = targetNext;
+      return;
+    }
+
+    try {
+      const client = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+      
+      // 1. Check if hash or query code contains session
+      const { data: { session }, error } = await client.auth.getSession();
+
+      if (error) {
+        showError(error.message);
+        return;
+      }
+
+      if (session && session.user) {
+        const u = session.user;
+        const metaName = u.user_metadata?.full_name || u.user_metadata?.name || '';
+        await syncSessionWithDjango(u.email, metaName, u.id);
+      } else {
+        // Listen to auth state change if session is still processing PKCE exchange
+        const { data: authListener } = client.auth.onAuthStateChange(async (event, session) => {
+          if (session && session.user) {
+            authListener.subscription.unsubscribe();
+            const u = session.user;
+            const metaName = u.user_metadata?.full_name || u.user_metadata?.name || '';
+            await syncSessionWithDjango(u.email, metaName, u.id);
+          }
+        });
+
+        // Safety timeout
+        setTimeout(() => {
+          window.location.href = targetNext;
+        }, 3500);
+      }
+    } catch (err) {
+      showError(err.message || "Failed to initialize security handshake.");
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', handleCallback);
+})();
+</script>
+{% endblock %}

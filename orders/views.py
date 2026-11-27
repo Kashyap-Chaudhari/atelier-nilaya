@@ -209,14 +209,29 @@ def checkout_view(request):
         'is_authenticated': request.user.is_authenticated,
         'user_name': (request.user.get_full_name() or request.user.username) if request.user.is_authenticated else '',
         'user_email': request.user.email if request.user.is_authenticated else '',
+        'supabase_url': getattr(settings, 'SUPABASE_URL', 'https://rkjkxlvlfckdorfqwqic.supabase.co'),
+        'supabase_anon_key': getattr(settings, 'SUPABASE_ANON_KEY', ''),
     }
     return render(request, 'orders/checkout.html', context)
+
+
+def auth_callback_view(request):
+    """
+    Exchanges Supabase OAuth code or session tokens for an authenticated session,
+    syncs with the Django session, and redirects straight to the delivery step.
+    """
+    context = {
+        'supabase_url': getattr(settings, 'SUPABASE_URL', 'https://rkjkxlvlfckdorfqwqic.supabase.co'),
+        'supabase_anon_key': getattr(settings, 'SUPABASE_ANON_KEY', ''),
+        'next_url': request.GET.get('next', '/checkout/?step=2'),
+    }
+    return render(request, 'orders/auth_callback.html', context)
 
 
 @csrf_exempt
 @require_http_methods(["POST"])
 def api_checkout_auth(request):
-    """Handles in-flow Sign in, Create Account, or Guest identification for Checkout Step 1."""
+    """Handles in-flow Sign in, Create Account, Supabase Session Sync, or Guest identification for Checkout."""
     try:
         data = json.loads(request.body.decode('utf-8'))
     except Exception:
@@ -226,7 +241,54 @@ def api_checkout_auth(request):
     from django.contrib.auth import authenticate, login
     from django.contrib.auth.models import User
 
-    if action == 'login':
+    if action == 'supabase_sync':
+        email = data.get('email', '').strip()
+        name = data.get('name', '').strip()
+        if not email:
+            return JsonResponse({'success': False, 'message': 'Email is required for session synchronization.'}, status=400)
+        
+        user = User.objects.filter(Q(username__iexact=email) | Q(email__iexact=email)).first()
+        if not user:
+            parts = name.split(None, 1) if name else ['', '']
+            first_name = parts[0]
+            last_name = parts[1] if len(parts) > 1 else ''
+            user = User.objects.create_user(
+                username=email,
+                email=email,
+                first_name=first_name,
+                last_name=last_name
+            )
+            user.set_unusable_password()
+            user.save()
+        elif name and not user.first_name:
+            parts = name.split(None, 1)
+            user.first_name = parts[0]
+            user.last_name = parts[1] if len(parts) > 1 else ''
+            user.save(update_fields=['first_name', 'last_name'])
+
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return JsonResponse({
+            'success': True,
+            'user': {
+                'name': user.get_full_name() or user.username,
+                'email': user.email,
+                'is_authenticated': True
+            }
+        })
+
+    elif action == 'check_auth_provider':
+        email = data.get('email', '').strip()
+        user_obj = User.objects.filter(Q(username__iexact=email) | Q(email__iexact=email)).first()
+        is_google_only = False
+        if user_obj and not user_obj.has_usable_password():
+            is_google_only = True
+        return JsonResponse({
+            'success': True,
+            'exists': bool(user_obj),
+            'is_google_only': is_google_only
+        })
+
+    elif action == 'login':
         email = data.get('email', '').strip()
         password = data.get('password', '').strip()
         if not email or not password:

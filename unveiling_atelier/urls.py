@@ -7,7 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponseServerError
 
-from orders.views import checkout_view
+from orders.views import checkout_view, auth_callback_view
 
 from django.views.generic import RedirectView
 
@@ -27,6 +27,7 @@ else:
         path('admin/', include('store_admin.urls', namespace='store_admin')),
         path('django-admin/', admin.site.urls),
         path('checkout/', checkout_view, name='checkout_direct'),
+        path('auth/callback/', auth_callback_view, name='auth_callback_direct'),
         path('cart/', include('cart.urls', namespace='cart')),
         path('orders/', include('orders.urls', namespace='orders')),
         path('payments/', include('payments.urls', namespace='payments')),

@@ -12,12 +12,14 @@ from .views import (
     order_invoice_pdf_view,
     api_resend_order_email,
     api_checkout_auth,
+    auth_callback_view,
 )
 
 app_name = 'orders'
 
 urlpatterns = [
     path('checkout/', checkout_view, name='checkout'),
+    path('auth/callback/', auth_callback_view, name='auth_callback'),
     path('api/auth/', api_checkout_auth, name='api_checkout_auth'),
     path('confirmation/<str:order_number>/', order_confirmation_view, name='confirmation'),
     path('order-confirmed/<str:order_number>/', order_confirmation_view, name='order_confirmed_alias'),

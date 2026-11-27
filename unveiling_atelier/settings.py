@@ -130,7 +130,7 @@ WSGI_APPLICATION = 'unveiling_atelier.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 # Database: Supabase PostgreSQL in production (via DATABASE_URL) or local SQLite fallback
-database_url = os.environ.get('DATABASE_URL')
+database_url = os.environ.get('DATABASE_URL') if os.environ.get('USE_LOCAL_DB') != 'true' else None
 if database_url:
     try:
         import dj_database_url
@@ -164,6 +164,10 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+# Supabase Authentication Configuration
+SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://rkjkxlvlfckdorfqwqic.supabase.co')
+SUPABASE_ANON_KEY = os.environ.get('SUPABASE_ANON_KEY', '')
 
 LOGGING = {
     'version': 1,
