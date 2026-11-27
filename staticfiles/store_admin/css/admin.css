@@ -669,32 +669,290 @@ body {
 }
 
 /* ==========================================================================
-   MOBILE & TABLET RESPONSIVENESS
+   MOBILE & TABLET RESPONSIVENESS & DOCK
    ========================================================================== */
+.admin-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 20, 24, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1040;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.admin-sidebar-backdrop.is-open {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+}
+body.admin-sidebar-locked {
+  overflow: hidden;
+}
+
+.admin-sidebar-toggle-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #FFFFFF;
+  border: 1px solid var(--adm-border);
+  border-radius: 6px;
+  color: var(--adm-wine);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+}
+.admin-sidebar-toggle-btn:hover {
+  background: var(--adm-wine-light);
+  border-color: var(--adm-gold);
+}
+
+.admin-sidebar-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.admin-sidebar-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Sovereign Admin Mobile Dock (Bottom Bar) */
+.admin-mobile-dock {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 62px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--adm-border);
+  box-shadow: 0 -4px 18px rgba(100, 45, 59, 0.08);
+  z-index: 1020;
+  padding: 0 8px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  align-items: center;
+  justify-content: space-around;
+}
+
+.admin-dock-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--adm-text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: none;
+  border: none;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+.admin-dock-item svg {
+  stroke: var(--adm-text-muted);
+  transition: stroke 0.2s, transform 0.2s;
+}
+
+.admin-dock-item.is-active,
+.admin-dock-item:hover {
+  color: var(--adm-wine);
+}
+
+.admin-dock-item.is-active svg {
+  stroke: var(--adm-wine);
+  transform: translateY(-1px);
+}
+
 @media (max-width: 1024px) {
   .admin-sidebar {
-    width: 220px;
+    width: 240px;
+  }
+}
+
+@media (max-width: 992px) {
+  .admin-sidebar-toggle-btn {
+    display: inline-flex;
+  }
+  .admin-sidebar-close-btn {
+    display: inline-flex;
+  }
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 86vw;
+    height: 100vh;
+    z-index: 1050;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: none;
+  }
+  .admin-sidebar.is-open {
+    transform: translateX(0);
+    box-shadow: 10px 0 32px rgba(44, 42, 41, 0.35);
+  }
+  .admin-main {
+    margin-left: 0;
+    width: 100%;
   }
 }
 
 @media (max-width: 768px) {
   body {
-    flex-direction: column;
+    padding-bottom: 70px; /* Clearance for mobile bottom dock */
   }
-  .admin-sidebar {
-    position: fixed;
-    left: -260px;
-    transition: left 0.3s ease;
-    height: 100vh;
-  }
-  .admin-sidebar.is-open {
-    left: 0;
+  .admin-mobile-dock {
+    display: flex;
   }
   .admin-topbar {
-    padding: 0 16px;
+    height: 58px;
+    padding: 0 14px;
+    position: sticky;
+    top: 0;
+    z-index: 1010;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .admin-search-trigger {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    max-width: 170px;
+  }
+  .admin-search-placeholder {
+    display: none;
+  }
+  .admin-search-trigger::after {
+    content: "Search...";
+    font-size: 0.8rem;
+    color: var(--adm-text-muted);
+  }
+  .admin-search-shortcut {
+    display: none;
+  }
+  .btn-view-store {
+    padding: 7px 12px;
+    font-size: 0.78rem;
+  }
+  .btn-view-store-text {
+    display: none;
+  }
+  .btn-view-store::after {
+    content: "Live Store";
   }
   .admin-body {
-    padding: 20px 16px 40px;
+    padding: 16px 12px 32px;
+  }
+  
+  /* Page headers on mobile */
+  .admin-page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .admin-page-title {
+    font-size: 1.45rem;
+  }
+  .admin-page-subtitle {
+    font-size: 0.82rem;
+  }
+  .admin-page-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+  .admin-page-actions .admin-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+  }
+
+  /* Stats grid on mobile */
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 20px !important;
+  }
+  .admin-stat-card {
+    padding: 14px !important;
+  }
+  .admin-stat-value {
+    font-size: 1.45rem !important;
+  }
+  .admin-stat-label {
+    font-size: 0.65rem !important;
+  }
+
+  /* Cards & Tables on mobile */
+  .admin-card {
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .admin-card-header {
+    padding: 14px 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .admin-card-title {
+    font-size: 1.15rem;
+  }
+  .admin-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  /* Forms & Inputs on mobile */
+  .admin-input,
+  input[type="text"].admin-input,
+  input[type="number"].admin-input,
+  input[type="email"].admin-input,
+  input[type="password"].admin-input,
+  textarea.admin-input,
+  select.admin-input {
+    font-size: 16px !important; /* Prevents auto-zoom in Safari iOS */
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .admin-search-trigger {
+    max-width: 130px;
   }
 }
 

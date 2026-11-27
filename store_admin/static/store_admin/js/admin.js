@@ -98,20 +98,67 @@
   }
 
   // ==========================================================================
-  // 2. MOBILE SIDEBAR DRAWER
+  // 2. MOBILE SIDEBAR DRAWER & NAVIGATION CONTROLLER
   // ==========================================================================
   function initMobileSidebar() {
     const toggleBtn = document.getElementById('admin-sidebar-toggle');
-    const sidebar = document.querySelector('.admin-sidebar');
-    if (!toggleBtn || !sidebar) return;
+    const dockMenuBtn = document.getElementById('admin-dock-toggle-menu');
+    const closeBtn = document.getElementById('admin-sidebar-close');
+    const backdrop = document.getElementById('admin-sidebar-backdrop');
+    const sidebar = document.getElementById('admin-sidebar') || document.querySelector('.admin-sidebar');
+    
+    if (!sidebar) return;
 
-    toggleBtn.addEventListener('click', function () {
-      sidebar.classList.toggle('is-open');
-    });
+    function openSidebar() {
+      sidebar.classList.add('is-open');
+      if (backdrop) backdrop.classList.add('is-open');
+      document.body.classList.add('admin-sidebar-locked');
+    }
 
-    document.addEventListener('click', function (e) {
-      if (sidebar.classList.contains('is-open') && !sidebar.contains(e.target) && e.target !== toggleBtn) {
-        sidebar.classList.remove('is-open');
+    function closeSidebar() {
+      sidebar.classList.remove('is-open');
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.body.classList.remove('admin-sidebar-locked');
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (sidebar.classList.contains('is-open')) {
+          closeSidebar();
+        } else {
+          openSidebar();
+        }
+      });
+    }
+
+    if (dockMenuBtn) {
+      dockMenuBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (sidebar.classList.contains('is-open')) {
+          closeSidebar();
+        } else {
+          openSidebar();
+        }
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        closeSidebar();
+      });
+    }
+
+    if (backdrop) {
+      backdrop.addEventListener('click', function () {
+        closeSidebar();
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+        closeSidebar();
       }
     });
   }

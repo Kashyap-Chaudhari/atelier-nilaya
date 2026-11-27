@@ -17,10 +17,13 @@
 </head>
 <body>
 
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="admin-sidebar-backdrop" id="admin-sidebar-backdrop" aria-hidden="true"></div>
+
   <!-- ========================================================================
        SIDEBAR NAVIGATION
        ======================================================================== -->
-  <aside class="admin-sidebar" role="navigation" aria-label="Admin Navigation">
+  <aside class="admin-sidebar" id="admin-sidebar" role="navigation" aria-label="Admin Navigation">
     <div class="admin-sidebar-header">
       <a href="{% url 'store_admin:dashboard' %}" class="admin-brand-link">
         <span class="admin-brand-monogram">✦</span>
@@ -29,6 +32,7 @@
           <span class="admin-brand-role">Sovereign Store Control</span>
         </div>
       </a>
+      <button type="button" class="admin-sidebar-close-btn" id="admin-sidebar-close" aria-label="Close navigation">&times;</button>
     </div>
 
     <nav class="admin-sidebar-nav">
@@ -142,14 +146,14 @@
     <!-- Topbar -->
     <header class="admin-topbar">
       <div class="admin-topbar-left">
-        <button type="button" id="admin-sidebar-toggle" style="background:none; border:none; cursor:pointer; display:none;" aria-label="Toggle Navigation">
+        <button type="button" id="admin-sidebar-toggle" class="admin-sidebar-toggle-btn" aria-label="Toggle Navigation">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
 
         <!-- Global Search Trigger (Ctrl+K) -->
         <div class="admin-search-trigger" id="admin-search-trigger" role="button" tabindex="0">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <span>Search heirlooms, orders, patrons...</span>
+          <span class="admin-search-placeholder">Search heirlooms, orders, patrons...</span>
           <span class="admin-search-shortcut">⌘K</span>
         </div>
       </div>
@@ -157,8 +161,8 @@
       <div class="admin-topbar-right">
         <!-- View on Store Link -->
         <a href="/" target="_blank" class="btn-view-store">
-          <span>View Live Store</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <span class="btn-view-store-text">View Live Store</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         </a>
       </div>
     </header>
@@ -181,6 +185,32 @@
     </main>
 
   </div>
+
+  <!-- ========================================================================
+       SOVEREIGN ADMIN MOBILE BOTTOM NAVIGATION DOCK
+       ======================================================================== -->
+  <nav class="admin-mobile-dock" aria-label="Mobile Navigation Dock">
+    <a href="{% url 'store_admin:dashboard' %}" class="admin-dock-item {% if active_nav == 'dashboard' %}is-active{% endif %}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <span>Home</span>
+    </a>
+    <a href="{% url 'store_admin:order_list' %}" class="admin-dock-item {% if active_nav == 'orders' %}is-active{% endif %}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+      <span>Orders</span>
+    </a>
+    <a href="{% url 'store_admin:product_list' %}" class="admin-dock-item {% if active_nav == 'products' %}is-active{% endif %}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+      <span>Vault</span>
+    </a>
+    <a href="{% url 'store_admin:settings_brand' %}" class="admin-dock-item {% if active_nav == 'settings' %}is-active{% endif %}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      <span>Config</span>
+    </a>
+    <button type="button" class="admin-dock-item admin-dock-menu-btn" id="admin-dock-toggle-menu" aria-label="Open Full Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      <span>Menu</span>
+    </button>
+  </nav>
 
   <!-- ========================================================================
        GLOBAL SEARCH MODAL DIALOG (CTRL+K)
