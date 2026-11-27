@@ -134,13 +134,22 @@ database_url = os.environ.get('DATABASE_URL')
 if database_url:
     try:
         import dj_database_url
+        # If connecting via Supabase Pooler, port 6543 (transaction mode) is recommended for serverless
+        # Automatically ensure sslmode=require
+        if 'sslmode=' not in database_url:
+            separator = '&' if '?' in database_url else '?'
+            database_url = f"{database_url}{separator}sslmode=require"
+
         DATABASES = {
             'default': dj_database_url.config(
                 default=database_url,
-                conn_max_age=600,
+                conn_max_age=int(os.environ.get('DB_CONN_MAX_AGE', '0')), # 0 prevents dangling sockets on Vercel
                 conn_health_checks=True,
             )
         }
+        # Add connection timeout so it doesn't hang Vercel lambdas
+        DATABASES['default']['OPTIONS'] = DATABASES['default'].get('OPTIONS', {})
+        DATABASES['default']['OPTIONS']['connect_timeout'] = 10
     except ImportError:
         DATABASES = {
             'default': {
@@ -155,6 +164,32 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
 
 
 # Password validation
