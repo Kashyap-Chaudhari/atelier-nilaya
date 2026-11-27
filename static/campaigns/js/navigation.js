@@ -200,7 +200,7 @@
   }
 
   function initMobileNavigation() {
-    const toggleBtn = document.getElementById('aaranya-mobile-menu-btn');
+    const toggleBtn = document.getElementById('aaranya-mobile-menu-btn') || document.getElementById('nilaya-mobile-top-menu-btn');
     const closeBtn = document.getElementById('aaranya-mobile-close-btn');
     const drawer = document.getElementById('aaranya-mobile-drawer');
     const backdrop = document.getElementById('aaranya-mobile-backdrop');
@@ -234,15 +234,24 @@
     if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
     if (backdrop) backdrop.addEventListener('click', closeDrawer);
 
-    // Accordion expand/collapse
+    // Auto-close drawer when clicking any destination link inside the drawer
+    drawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeDrawer();
+      });
+    });
+
+    // Accordion expand/collapse (buttons only, leaving links untouched)
     triggers.forEach(trigger => {
-      trigger.addEventListener('click', () => {
+      if (trigger.tagName.toLowerCase() !== 'button') return;
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
         const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
         const content = trigger.nextElementSibling;
 
-        // Optional: close other open accordions for clean accordion behavior
+        // Close other open accordions for clean accordion behavior
         triggers.forEach(otherTrigger => {
-          if (otherTrigger !== trigger) {
+          if (otherTrigger !== trigger && otherTrigger.tagName.toLowerCase() === 'button') {
             otherTrigger.setAttribute('aria-expanded', 'false');
             if (otherTrigger.nextElementSibling) {
               otherTrigger.nextElementSibling.hidden = true;

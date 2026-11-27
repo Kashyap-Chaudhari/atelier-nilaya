@@ -272,9 +272,18 @@
             if (data.success) {
               addToBagBtn.textContent = 'Added to Bag ✓';
               const headerCount = document.getElementById('header-bag-count');
+              const newCount = data.count || data.cart_count || 1;
               if (headerCount) {
-                headerCount.textContent = data.count || data.cart_count || 1;
+                headerCount.textContent = newCount;
                 headerCount.style.display = 'inline-flex';
+              }
+              if (typeof window.updateMobileNavBagBadge === 'function') {
+                window.updateMobileNavBagBadge(newCount);
+              }
+              const mobileCount = document.getElementById('mobile-bottom-bag-count');
+              if (mobileCount) {
+                mobileCount.textContent = newCount;
+                mobileCount.style.display = 'inline-flex';
               }
               if (window.NilayaBag && typeof window.NilayaBag.open === 'function') {
                 window.NilayaBag.render(data.cart);

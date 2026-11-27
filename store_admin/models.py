@@ -124,8 +124,11 @@ class StoreSettings(models.Model):
 
     @classmethod
     def get_settings(cls):
-        obj, _ = cls.objects.get_or_create(singleton_id=1)
-        return obj
+        try:
+            obj, _ = cls.objects.get_or_create(singleton_id=1)
+            return obj
+        except Exception:
+            return cls(singleton_id=1, store_name='Atelier Nilaya', tagline='Haute Joaillerie & High Art')
 
 
 class ThemeSettings(models.Model):
@@ -159,8 +162,11 @@ class ThemeSettings(models.Model):
 
     @classmethod
     def get_theme(cls):
-        obj, _ = cls.objects.get_or_create(singleton_id=1)
-        return obj
+        try:
+            obj, _ = cls.objects.get_or_create(singleton_id=1)
+            return obj
+        except Exception:
+            return cls(singleton_id=1)
 
 
 # ==============================================================================

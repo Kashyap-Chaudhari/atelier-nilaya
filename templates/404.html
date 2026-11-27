@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Page Not Found — Atelier Nilaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --c-burgundy: #642D3B;
+      --c-burgundy-dark: #4A1E29;
+      --c-gold: #B8893B;
+      --c-gold-light: #DFBF7A;
+      --c-cream: #FAF7F2;
+      --c-charcoal: #2C2A29;
+      --c-muted: #7E7770;
+      --c-border: #E5DCCF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--c-cream);
+      color: var(--c-charcoal);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .error-card {
+      max-width: 540px;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      box-shadow: 0 10px 30px rgba(100, 45, 59, 0.06);
+    }
+    .brand-mark {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .error-code {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--c-burgundy);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .error-title {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--c-charcoal);
+      margin-bottom: 0.75rem;
+    }
+    .error-desc {
+      font-size: 0.925rem;
+      line-height: 1.6;
+      color: var(--c-muted);
+      margin-bottom: 2rem;
+    }
+    .actions-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+    .btn-primary {
+      background-color: var(--c-burgundy);
+      color: #FFFFFF;
+      border: 1px solid var(--c-burgundy);
+    }
+    .btn-primary:hover {
+      background-color: var(--c-burgundy-dark);
+      border-color: var(--c-burgundy-dark);
+    }
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--c-burgundy);
+      border: 1px solid var(--c-border);
+    }
+    .btn-secondary:hover {
+      background-color: var(--c-cream);
+      border-color: var(--c-gold);
+      color: var(--c-gold);
+    }
+    .portal-hint {
+      margin-top: 1.75rem;
+      font-size: 0.8rem;
+      color: var(--c-muted);
+    }
+    .portal-hint a {
+      color: var(--c-gold);
+      text-decoration: underline;
+    }
+    @media (min-width: 480px) {
+      .actions-grid {
+        flex-direction: row;
+        justify-content: center;
+      }
+      .btn-action {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="error-card">
+    <span class="brand-mark">Atelier Nilaya</span>
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page Not Found</h1>
+    <p class="error-desc">
+      The page or administrative link you are looking for has been moved, completed, or the URL is missing a trailing slash.
+    </p>
+    <div class="actions-grid">
+      <a href="/" class="btn-action btn-primary">Return to Boutique</a>
+      <a href="/admin/" class="btn-action btn-secondary">Admin Console</a>
+    </div>
+    <div class="portal-hint">
+      Looking for Sovereign Admin? Access it at <strong>/admin/</strong> or sign in at <strong>/admin/login/</strong>.
+    </div>
+  </div>
+</body>
+</html>

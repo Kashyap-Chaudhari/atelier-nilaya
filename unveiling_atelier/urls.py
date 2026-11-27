@@ -16,6 +16,7 @@ site_mode = os.environ.get('SITE_MODE', 'store').lower()
 if site_mode == 'admin':
     # Dedicated Standalone Admin Portal Deployment
     urlpatterns = [
+        path('admin', RedirectView.as_view(url='/', permanent=False)),
         path('admin/', RedirectView.as_view(url='/', permanent=False)),
         path('admin/<path:subpath>', RedirectView.as_view(url='/%(subpath)s', permanent=False)),
         path('', include('store_admin.urls', namespace='store_admin')),
@@ -24,6 +25,7 @@ if site_mode == 'admin':
 else:
     # Storefront (and Unified) Deployment
     urlpatterns = [
+        path('admin', RedirectView.as_view(url='/admin/', permanent=False)),
         path('admin/', include('store_admin.urls', namespace='store_admin')),
         path('django-admin/', admin.site.urls),
         path('checkout/', checkout_view, name='checkout_direct'),
@@ -79,4 +81,19 @@ pre {{ background: #2D2426; color: #F5EFEB; padding: 1rem; border-radius: 6px; o
 </html>"""
     return HttpResponseServerError(html)
 
+from django.shortcuts import render
+
+def custom_404(request, exception=None):
+    """Luxury 404 handler with fallback to avoid any template or context engine failures."""
+    try:
+        return render(request, '404.html', status=404)
+    except Exception:
+        from django.http import HttpResponseNotFound
+        return HttpResponseNotFound("""<!DOCTYPE html>
+<html>
+<head><title>Page Not Found (404) — Atelier Nilaya</title>
+<style>body{font-family:sans-serif;background:#FAF7F2;padding:2rem;text-align:center;}a{color:#642D3B;}</style>
+</head><body><h1>404 &mdash; Page Not Found</h1><p><a href="/">Return to Boutique</a> | <a href="/admin/">Admin Console</a></p></body></html>""")
+
+handler404 = custom_404
 handler500 = custom_500

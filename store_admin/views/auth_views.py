@@ -15,7 +15,10 @@ def admin_login_view(request):
     if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser or hasattr(request.user, 'admin_profile')):
         return redirect(dashboard_url)
 
-    store_settings = StoreSettings.get_settings()
+    try:
+        store_settings = StoreSettings.get_settings()
+    except Exception:
+        store_settings = None
     next_url = request.GET.get('next') or dashboard_url
 
     if request.method == 'POST':
