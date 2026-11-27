@@ -2249,7 +2249,22 @@
   // Google OAuth Handlers (on both tabs)
   async function triggerGoogleOAuth() {
     if (!supabase) {
-      alert("Supabase credentials not configured in environment.");
+      const isRegisterTab = formRegister && formRegister.style.display !== 'none';
+      const targetBanner = isRegisterTab 
+        ? document.getElementById('general-reg-error')
+        : document.getElementById('general-signin-error');
+      const targetText = isRegisterTab
+        ? document.getElementById('general-reg-error-text')
+        : document.getElementById('general-signin-error-text');
+      
+      const msg = "Google OAuth requires SUPABASE_ANON_KEY to be configured in your Vercel Project Settings > Environment Variables. In the meantime, you can sign in with your email or proceed as Guest below.";
+      if (targetBanner && targetText) {
+        targetText.textContent = msg;
+        targetBanner.style.display = 'flex';
+        targetBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        alert(msg);
+      }
       return;
     }
     const redirectTarget = window.location.origin + '/auth/callback/?next=' + encodeURIComponent('/checkout/?step=2');
@@ -2260,11 +2275,16 @@
       }
     });
     if (error) {
-      const genErr = document.getElementById('general-signin-error');
-      const genErrText = document.getElementById('general-signin-error-text');
-      if (genErr && genErrText) {
-        genErrText.textContent = error.message;
-        genErr.style.display = 'flex';
+      const isRegisterTab = formRegister && formRegister.style.display !== 'none';
+      const targetBanner = isRegisterTab 
+        ? document.getElementById('general-reg-error')
+        : document.getElementById('general-signin-error');
+      const targetText = isRegisterTab
+        ? document.getElementById('general-reg-error-text')
+        : document.getElementById('general-signin-error-text');
+      if (targetBanner && targetText) {
+        targetText.textContent = error.message;
+        targetBanner.style.display = 'flex';
       }
     }
   }
