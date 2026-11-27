@@ -1,0 +1,257 @@
+/* ==========================================================================
+   THE UNVEILING ATELIER — LUXURY DESIGN SYSTEM
+   Palette: Ivory × Deep Burgundy
+   Typography System: Cormorant Garamond (Serif) + Manrope (Sans-serif)
+   
+   RECOMMENDED FONT SETTINGS:
+   - Hero heading: Cormorant Garamond, 72–100px, weight 500
+   - Section heading: Cormorant Garamond, 48–64px, weight 500
+   - Product title: Cormorant Garamond, 26–32px, weight 500
+   - Italic highlights: Cormorant Garamond, weight 400, italic
+   - Body text: Manrope, 14–16px, weight 400/500
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Primary Ivory × Burgundy Luxury Palette */
+  --c-ivory: #F8F5F0;             /* Base Warm Ivory Canvas */
+  --c-ivory-surface: #E9DFD5;     /* Soft Linen Elevated Surface */
+  --c-white: #FFFFFF;             /* Pure High-Contrast White */
+  --c-white-translucent: rgba(255, 255, 255, 0.85);
+
+  --c-burgundy: #642D3B;          /* Primary Accent — Regal Deep Burgundy */
+  --c-burgundy-light: #843C4F;    /* Luminous Burgundy */
+  --c-burgundy-dark: #351F27;     /* Dark Wine / Charcoal Base Tone */
+  --c-burgundy-faint: rgba(100, 45, 59, 0.08);
+  --c-burgundy-glow: rgba(100, 45, 59, 0.25);
+
+  --c-blush: #D4B2B9;             /* Secondary Accent — Muted Blush */
+  --c-blush-soft: #F4EBEF;        /* Pale Blush Wash */
+  --c-blush-muted: rgba(212, 178, 185, 0.5);
+
+  --c-gold-subtle: #AD9161;       /* Heritage Gold Accent Touch */
+
+  /* Text Typography Hierarchy */
+  --c-text-primary: #351F27;      /* Dark Wine / Charcoal */
+  --c-text-secondary: #583C44;    /* Muted Wine */
+  --c-text-muted: rgba(53, 31, 39, 0.72);
+  --c-text-faint: rgba(53, 31, 39, 0.42);
+
+  /* Borders & Hairlines */
+  --border-burgundy-hairline: 1px solid rgba(100, 45, 59, 0.22);
+  --border-burgundy-strong: 1px solid rgba(100, 45, 59, 0.45);
+  --border-ivory-hairline: 1px solid rgba(233, 223, 213, 0.8);
+  --border-glass: 1px solid rgba(100, 45, 59, 0.12);
+
+  /* Typography System Tokens: Cormorant Garamond + Manrope */
+  --font-serif-display: 'Cormorant Garamond', Georgia, serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Manrope', sans-serif;
+
+  /* Typography Scale */
+  --fs-hero: clamp(4.5rem, 5.5vw, 6.25rem);    /* 72px – 100px */
+  --fs-section: clamp(3rem, 4vw, 4rem);         /* 48px – 64px */
+  --fs-product: clamp(1.625rem, 2vw, 2rem);     /* 26px – 32px */
+  --fs-body: 15px;                              /* 14px – 16px */
+  --fs-body-sm: 14px;
+  --fs-body-lg: 16px;
+
+  /* Easing Curves */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-unveil: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-transition: 1000ms;
+
+  /* Layout */
+  --header-height: 84px;
+  --container-max-width: 1720px;
+}
+
+/* Document Reset & Base Aesthetics */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--c-ivory);
+  color: var(--c-text-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  background-color: var(--c-ivory);
+  color: var(--c-text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.65;
+  position: relative;
+}
+
+/* Subtle Atelier Paper Texture Grain Overlay */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Selection */
+::selection {
+  background: var(--c-burgundy);
+  color: var(--c-white);
+}
+
+/* Typography Hierarchy Classes */
+.text-serif {
+  font-family: var(--font-editorial);
+}
+
+.text-display {
+  font-family: var(--font-serif-display);
+}
+
+.text-sans {
+  font-family: var(--font-sans);
+}
+
+.hero-heading {
+  font-family: var(--font-serif-display);
+  font-size: var(--fs-hero);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: var(--c-text-primary);
+}
+
+.section-heading {
+  font-family: var(--font-serif-display);
+  font-size: var(--fs-section);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--c-text-primary);
+}
+
+.product-title {
+  font-family: var(--font-serif-display);
+  font-size: var(--fs-product);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--c-text-primary);
+}
+
+.italic-highlight {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.body-text {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--c-text-secondary);
+}
+
+.eyebrow-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--c-burgundy);
+}
+
+.provenance-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-burgundy);
+  padding: 4px 10px;
+  background: rgba(100, 45, 59, 0.06);
+  border: var(--border-burgundy-hairline);
+  border-radius: 2px;
+}
+
+/* Links & CTAs */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s var(--ease-soft);
+}
+
+.atelier-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-text-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  padding: 10px 0;
+  transition: all 0.4s var(--ease-editorial);
+}
+
+.atelier-cta::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 32px;
+  height: 1px;
+  background: var(--c-burgundy);
+  transition: width 0.4s var(--ease-editorial), background-color 0.4s;
+}
+
+.atelier-cta:hover::before {
+  width: 100%;
+  background: var(--c-burgundy-light);
+}
+
+.atelier-cta .cta-arrow {
+  display: inline-block;
+  transform: translateX(0);
+  transition: transform 0.4s var(--ease-editorial);
+  color: var(--c-burgundy);
+}
+
+.atelier-cta:hover .cta-arrow {
+  transform: translateX(6px);
+  color: var(--c-burgundy-light);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
