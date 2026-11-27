@@ -280,11 +280,14 @@
           Add to Bag
         </button>
         
-        <!-- Book a viewing button: opens /#visit with piece and metal preselected -->
+        <!-- Book a viewing button: opens private appointment modal with piece preselected -->
         <a 
-          href="/#visit?piece={{ product.slug }}&metal={{ selected_metal }}" 
+          href="#private-appointment" 
           class="btn-secondary" 
           id="book-viewing-btn"
+          data-open-appointment
+          data-piece-name="{{ product.name }}"
+          data-piece-slug="{{ product.slug }}"
         >
           Book a Viewing
         </a>

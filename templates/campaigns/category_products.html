@@ -330,7 +330,10 @@
             </button>
             {% elif product.is_made_to_order %}
             <a 
-              href="/#contact?piece={{ product.slug }}" 
+              href="#private-appointment" 
+              data-open-appointment
+              data-piece-slug="{{ product.slug }}"
+              data-piece-name="{{ product.name }}"
               class="tile-add-to-bag-btn is-made-to-order" 
               aria-label="Enquire for custom bespoke creation {{ product.name }}"
             >

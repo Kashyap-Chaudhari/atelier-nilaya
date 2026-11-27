@@ -378,7 +378,12 @@
       if (trigger) {
         e.preventDefault();
         openAppointmentModal();
-        if (trigger.hasAttribute('data-custom-design')) {
+        if (trigger.hasAttribute('data-piece-name')) {
+          const notes = document.getElementById('app-client-notes');
+          if (notes) {
+            notes.value = "Inquiry & Private Viewing: " + trigger.getAttribute('data-piece-name');
+          }
+        } else if (trigger.hasAttribute('data-custom-design')) {
           const notes = document.getElementById('app-client-notes');
           if (notes) {
             notes.value = "Custom Bespoke Design Inquiry: The Empress Cushion Solitaire (Archival 1987 Design)";

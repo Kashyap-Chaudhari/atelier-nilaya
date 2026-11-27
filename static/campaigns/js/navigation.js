@@ -200,7 +200,7 @@
   }
 
   function initMobileNavigation() {
-    const toggleBtn = document.getElementById('aaranya-mobile-menu-btn') || document.getElementById('nilaya-mobile-top-menu-btn');
+    const toggleBtn = document.getElementById('aaranya-mobile-menu-btn');
     const closeBtn = document.getElementById('aaranya-mobile-close-btn');
     const drawer = document.getElementById('aaranya-mobile-drawer');
     const backdrop = document.getElementById('aaranya-mobile-backdrop');
@@ -230,18 +230,13 @@
       if (toggleBtn) toggleBtn.focus();
     }
 
+    const topMenuBtn = document.getElementById('nilaya-mobile-top-menu-btn');
     if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+    if (topMenuBtn) topMenuBtn.addEventListener('click', openDrawer);
     if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
     if (backdrop) backdrop.addEventListener('click', closeDrawer);
 
-    // Auto-close drawer when clicking any destination link inside the drawer
-    drawer.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        closeDrawer();
-      });
-    });
-
-    // Accordion expand/collapse (buttons only, leaving links untouched)
+    // Accordion expand/collapse (applies only to expandable button triggers, allowing direct links to navigate)
     triggers.forEach(trigger => {
       if (trigger.tagName.toLowerCase() !== 'button') return;
       trigger.addEventListener('click', (e) => {
@@ -249,7 +244,7 @@
         const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
         const content = trigger.nextElementSibling;
 
-        // Close other open accordions for clean accordion behavior
+        // Optional: close other open accordions for clean accordion behavior
         triggers.forEach(otherTrigger => {
           if (otherTrigger !== trigger && otherTrigger.tagName.toLowerCase() === 'button') {
             otherTrigger.setAttribute('aria-expanded', 'false');
