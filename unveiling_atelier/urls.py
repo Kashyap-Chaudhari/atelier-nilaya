@@ -9,11 +9,15 @@ from django.http import HttpResponseServerError
 
 from orders.views import checkout_view
 
+from django.views.generic import RedirectView
+
 site_mode = os.environ.get('SITE_MODE', 'store').lower()
 
 if site_mode == 'admin':
     # Dedicated Standalone Admin Portal Deployment
     urlpatterns = [
+        path('admin/', RedirectView.as_view(url='/', permanent=False)),
+        path('admin/<path:subpath>', RedirectView.as_view(url='/%(subpath)s', permanent=False)),
         path('', include('store_admin.urls', namespace='store_admin')),
         path('django-admin/', admin.site.urls),
     ]

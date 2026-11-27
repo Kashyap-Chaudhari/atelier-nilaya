@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -6,11 +7,16 @@ from store_admin.models import AdminProfile, StoreSettings
 from store_admin.utils import admin_required, log_audit, get_client_ip
 
 def admin_login_view(request):
+    try:
+        dashboard_url = reverse('store_admin:dashboard')
+    except Exception:
+        dashboard_url = '/'
+
     if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser or hasattr(request.user, 'admin_profile')):
-        return redirect('/admin/')
+        return redirect(dashboard_url)
 
     store_settings = StoreSettings.get_settings()
-    next_url = request.GET.get('next') or '/admin/'
+    next_url = request.GET.get('next') or dashboard_url
 
     if request.method == 'POST':
         username_or_email = request.POST.get('username', '').strip()
@@ -62,7 +68,7 @@ def admin_logout_view(request):
         log_audit(request, 'login', 'User', request.user.id, request.user.username, "Staff logged out")
     logout(request)
     messages.info(request, "You have been securely signed out of the Atelier Nilaya admin console.")
-    return redirect('/admin/login/')
+    return redirect('store_admin:login')
 
 @admin_required
 def admin_profile_view(request):

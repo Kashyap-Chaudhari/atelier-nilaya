@@ -36,10 +36,15 @@ def admin_required(view_func):
     @wraps(view_func)
     def _wrapped(request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect(f'/admin/login/?next={request.path}')
+            try:
+                from django.urls import reverse
+                login_url = reverse('store_admin:login')
+            except Exception:
+                login_url = '/login/'
+            return redirect(f'{login_url}?next={request.path}')
         if not (request.user.is_staff or request.user.is_superuser or hasattr(request.user, 'admin_profile')):
             messages.error(request, "Access restricted to authorized Atelier staff.")
-            return redirect('/admin/login/')
+            return redirect('store_admin:login')
         # Ensure AdminProfile exists
         if not hasattr(request.user, 'admin_profile'):
             AdminProfile.objects.create(
@@ -56,7 +61,12 @@ def role_required(allowed_roles):
         @wraps(view_func)
         def _wrapped(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                return redirect(f'/admin/login/?next={request.path}')
+                try:
+                    from django.urls import reverse
+                    login_url = reverse('store_admin:login')
+                except Exception:
+                    login_url = '/login/'
+                return redirect(f'{login_url}?next={request.path}')
             profile = getattr(request.user, 'admin_profile', None)
             if not profile and request.user.is_superuser:
                 profile = AdminProfile.objects.create(
@@ -66,10 +76,10 @@ def role_required(allowed_roles):
                 )
             if not profile or not profile.is_active_staff:
                 messages.error(request, "Your administrative account is inactive or not found.")
-                return redirect('/admin/login/')
+                return redirect('store_admin:login')
             if profile.role != AdminProfile.ROLE_SUPER_ADMIN and profile.role not in allowed_roles:
                 messages.error(request, f"Access denied. Required permission: {', '.join(allowed_roles)}.")
-                return redirect('/admin/')
+                return redirect('store_admin:dashboard')
             return view_func(request, *args, **kwargs)
         return _wrapped
     return decorator
