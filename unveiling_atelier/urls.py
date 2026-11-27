@@ -29,8 +29,15 @@ else:
         path('', include('campaigns.urls', namespace='campaigns')),
     ]
 
+from django.urls import re_path
+from django.views.static import serve
+
+# Route media files (campaign videos, high-res posters, brand assets) in both dev and production
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
 
 def custom_500(request):
