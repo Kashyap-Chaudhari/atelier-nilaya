@@ -390,6 +390,78 @@
     background: rgba(104, 45, 60, 0.05);
     border-color: #682D3C;
   }
+
+  @media (max-width: 768px) {
+    .track-page-stage {
+      padding-top: calc(56px + env(safe-area-inset-top, 0px) + 14px) !important;
+      padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+      min-height: auto !important;
+    }
+    .track-header {
+      margin-bottom: 16px !important;
+    }
+    .track-eyebrow {
+      font-size: 0.65rem !important;
+      margin-bottom: 4px !important;
+    }
+    .track-title {
+      font-size: 1.6rem !important;
+      line-height: 1.2 !important;
+      margin-bottom: 4px !important;
+    }
+    .track-subtitle {
+      display: none !important; /* Hide long paragraph on mobile */
+    }
+    .track-lookup-card {
+      padding: 16px 14px !important;
+      margin-bottom: 16px !important;
+    }
+    .track-lookup-card form {
+      flex-direction: column !important;
+      gap: 10px !important;
+    }
+    .track-lookup-card .track-input-group {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+    .track-submit-btn,
+    .track-lookup-card .btn-track-action {
+      width: 100% !important;
+      text-align: center !important;
+      justify-content: center !important;
+      height: 42px !important;
+    }
+    .track-empty-state {
+      padding: 24px 16px !important;
+      margin: 16px 0 !important;
+    }
+    .track-empty-state h3 {
+      font-size: 1.35rem !important;
+      margin-bottom: 6px !important;
+    }
+    .track-empty-state p {
+      font-size: 0.82rem !important;
+      line-height: 1.4 !important;
+      margin-bottom: 16px !important;
+    }
+    .track-empty-state a {
+      padding: 10px 20px !important;
+      font-size: 0.76rem !important;
+    }
+    .order-tracking-card {
+      padding: 16px 14px !important;
+      margin-bottom: 16px !important;
+    }
+    .order-tracking-header {
+      padding-bottom: 12px !important;
+      margin-bottom: 16px !important;
+    }
+    .order-meta-ref {
+      font-size: 1.3rem !important;
+    }
+  }
 </style>
 {% endblock %}
 

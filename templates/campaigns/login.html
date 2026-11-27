@@ -31,9 +31,57 @@
 }
 
 @media (max-width: 820px) {
+  .nilaya-login-stage {
+    padding-top: calc(56px + env(safe-area-inset-top, 0px) + 14px) !important;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    min-height: auto !important;
+  }
   .nilaya-login-container {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 12px;
+  }
+  /* On mobile: suppress heavy marketing perks & long text to keep form above the fold */
+  .nilaya-login-narrative {
+    display: none !important;
+  }
+  .nilaya-login-card {
+    padding: 20px 16px !important;
+    box-shadow: 0 4px 18px rgba(48, 37, 34, 0.06) !important;
+  }
+  .nilaya-card-title {
+    font-size: 1.55rem !important;
+    margin-bottom: 4px !important;
+  }
+  .nilaya-card-subtitle {
+    font-size: 0.82rem !important;
+    margin-bottom: 16px !important;
+  }
+  .nilaya-form-group {
+    margin-bottom: 12px !important;
+  }
+  .nilaya-form-label {
+    font-size: 0.72rem !important;
+    margin-bottom: 6px !important;
+  }
+  .nilaya-form-input {
+    padding: 11px 14px !important;
+    font-size: 0.90rem !important;
+  }
+  .nilaya-options-row {
+    margin-bottom: 16px !important;
+    font-size: 0.78rem !important;
+  }
+  .nilaya-auth-btn {
+    padding: 12px 18px !important;
+    font-size: 0.80rem !important;
+  }
+  .nilaya-card-footer {
+    margin-top: 16px !important;
+    padding-top: 14px !important;
+    gap: 8px !important;
+    font-size: 0.78rem !important;
   }
 }
 

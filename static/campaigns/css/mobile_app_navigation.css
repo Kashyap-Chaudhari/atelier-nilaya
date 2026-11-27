@@ -466,8 +466,14 @@
 
   .nilaya-account-stage,
   .nilaya-login-stage,
-  .nilaya-auth-stage {
-    padding-top: calc(56px + env(safe-area-inset-top, 0px) + 16px) !important;
+  .nilaya-signup-stage,
+  .nilaya-forgot-stage,
+  .nilaya-reset-stage,
+  .nilaya-auth-stage,
+  .track-page-stage,
+  .nilaya-checkout-stage {
+    padding-top: calc(56px + env(safe-area-inset-top, 0px) + 14px) !important;
+    padding-bottom: calc(var(--mobile-nav-height) + 14px + env(safe-area-inset-bottom, 0px) + 20px) !important;
   }
 
   /* Elevate floating WhatsApp concierge button above the floating nav */

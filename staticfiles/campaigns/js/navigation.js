@@ -230,19 +230,23 @@
       if (toggleBtn) toggleBtn.focus();
     }
 
+    const topMenuBtn = document.getElementById('nilaya-mobile-top-menu-btn');
     if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+    if (topMenuBtn) topMenuBtn.addEventListener('click', openDrawer);
     if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
     if (backdrop) backdrop.addEventListener('click', closeDrawer);
 
-    // Accordion expand/collapse
+    // Accordion expand/collapse (applies only to expandable button triggers, allowing direct links to navigate)
     triggers.forEach(trigger => {
-      trigger.addEventListener('click', () => {
+      if (trigger.tagName.toLowerCase() !== 'button') return;
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
         const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
         const content = trigger.nextElementSibling;
 
         // Optional: close other open accordions for clean accordion behavior
         triggers.forEach(otherTrigger => {
-          if (otherTrigger !== trigger) {
+          if (otherTrigger !== trigger && otherTrigger.tagName.toLowerCase() === 'button') {
             otherTrigger.setAttribute('aria-expanded', 'false');
             if (otherTrigger.nextElementSibling) {
               otherTrigger.nextElementSibling.hidden = true;

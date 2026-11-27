@@ -66,10 +66,28 @@
 
 @media (max-width: 767px) {
   .nilaya-checkout-stage {
-    padding-top: 76px;
-    padding-left: 14px;
-    padding-right: 14px;
-    padding-bottom: 60px;
+    padding-top: calc(56px + env(safe-area-inset-top, 0px) + 14px) !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .checkout-masthead {
+    margin-bottom: 14px !important;
+  }
+  .checkout-masthead-eyebrow {
+    font-size: 0.65rem !important;
+    margin-bottom: 4px !important;
+  }
+  .checkout-masthead-title {
+    font-size: 1.55rem !important;
+    margin-bottom: 4px !important;
+  }
+  .checkout-masthead-subtitle {
+    display: none !important; /* Hide long subtitle on mobile to bring steps above fold */
+  }
+  .checkout-stepper-wrap {
+    margin-bottom: 16px !important;
+    padding: 10px 12px !important;
   }
 }
 

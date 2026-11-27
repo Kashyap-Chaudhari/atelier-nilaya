@@ -376,22 +376,35 @@ html, body {
   }
 
   .atelier-icon-btn {
-    width: 36px;
-    height: 36px;
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
     background: var(--c-white);
     border: var(--border-burgundy-hairline);
     color: var(--c-burgundy);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .slide-pill-dot {
-    width: 16px;
-    height: 3px;
-    background: rgba(100, 45, 59, 0.18);
+    width: 20px;
+    height: 4px;
+    background: rgba(100, 45, 59, 0.22);
+    cursor: pointer;
+    touch-action: manipulation;
+    padding: 8px 2px;
+    background-clip: content-box;
   }
 
   .slide-pill-dot.active {
-    width: 28px;
+    width: 32px;
     background: var(--c-burgundy);
+    background-clip: content-box;
   }
 }
 
