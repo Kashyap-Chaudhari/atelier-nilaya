@@ -167,7 +167,7 @@ else:
 
 # Supabase Authentication Configuration
 SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://rkjkxlvlfckdorfqwqic.supabase.co')
-SUPABASE_ANON_KEY = os.environ.get('SUPABASE_ANON_KEY', '')
+SUPABASE_ANON_KEY = os.environ.get('SUPABASE_ANON_KEY', 'sb_publishable_LEZRyRiJT-_95Dn93Hx-ww_tK42AOya')
 
 LOGGING = {
     'version': 1,

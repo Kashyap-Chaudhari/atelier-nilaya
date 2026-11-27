@@ -2020,7 +2020,7 @@
 
   // Supabase Client Initialization
   const SUPABASE_URL = "{{ supabase_url|default:'https://rkjkxlvlfckdorfqwqic.supabase.co' }}";
-  const SUPABASE_ANON_KEY = "{{ supabase_anon_key|default:'' }}";
+  const SUPABASE_ANON_KEY = "{{ supabase_anon_key|default:'sb_publishable_LEZRyRiJT-_95Dn93Hx-ww_tK42AOya' }}";
   const supabase = (typeof window.supabase !== 'undefined' && SUPABASE_ANON_KEY)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;

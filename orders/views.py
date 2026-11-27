@@ -210,7 +210,7 @@ def checkout_view(request):
         'user_name': (request.user.get_full_name() or request.user.username) if request.user.is_authenticated else '',
         'user_email': request.user.email if request.user.is_authenticated else '',
         'supabase_url': getattr(settings, 'SUPABASE_URL', 'https://rkjkxlvlfckdorfqwqic.supabase.co'),
-        'supabase_anon_key': getattr(settings, 'SUPABASE_ANON_KEY', ''),
+        'supabase_anon_key': getattr(settings, 'SUPABASE_ANON_KEY', 'sb_publishable_LEZRyRiJT-_95Dn93Hx-ww_tK42AOya'),
     }
     return render(request, 'orders/checkout.html', context)
 
@@ -222,7 +222,7 @@ def auth_callback_view(request):
     """
     context = {
         'supabase_url': getattr(settings, 'SUPABASE_URL', 'https://rkjkxlvlfckdorfqwqic.supabase.co'),
-        'supabase_anon_key': getattr(settings, 'SUPABASE_ANON_KEY', ''),
+        'supabase_anon_key': getattr(settings, 'SUPABASE_ANON_KEY', 'sb_publishable_LEZRyRiJT-_95Dn93Hx-ww_tK42AOya'),
         'next_url': request.GET.get('next', '/checkout/?step=2'),
     }
     return render(request, 'orders/auth_callback.html', context)
